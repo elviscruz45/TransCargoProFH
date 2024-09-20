@@ -1,34 +1,337 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from "react";
+import {
+  Pressable,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  Image,
+  View,
+} from "react-native";
+import { Link, Tabs, Redirect } from "expo-router";
+// import { TouchableOpacity, Image, View,  } from "react-native";
+import { useRouter } from "expo-router";
 
-import { TabBarIcon } from '@/components/navigation/TabBarIcon';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+import { Colors } from "@/constants/Colors";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import type { RootState } from "../store";
+import {
+  addDoc,
+  collection,
+  query,
+  doc,
+  updateDoc,
+  where,
+  orderBy,
+  getDocs,
+  getDoc,
+  onSnapshot,
+  arrayUnion,
+  arrayRemove,
+  limit,
+} from "firebase/firestore";
+import {
+  signIn,
+  update_photoURL,
+  updateEmail,
+  updateCargo,
+  updatecompanyName,
+  updateDescripcion,
+  updateDisplayName,
+  updateUserType,
+  updateAssetAssigned,
+  updatecompanyRUC,
+  updateEmailCompany,
+} from "@/slices/auth";
+import { db } from "../../utils/firebase";
+import { getAuth } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setAssetList,
+  setEventList,
+  setAssetList_idFirebaseAsset,
+} from "../../slices/home";
+import { Image as ImageExpo } from "expo-image";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const router = useRouter();
 
+  const colorScheme = useColorScheme();
+  const user = getAuth().currentUser;
+  //global state management for the user_uid
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.userId.isLoading);
+  const session = useSelector((state: RootState) => state.userId.session);
+  const name = useSelector((state: RootState) => state.userId.displayName);
+  const user_email = useSelector((state: RootState) => state.userId.email);
+  const assetList_idFirebaseAsset = useSelector(
+    (state: RootState) => state.home.assetList_idFirebaseAsset
+  );
+
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
+  const companyName = useSelector(
+    (state: RootState) => state.userId.companyName
+  );
+
+  // Mis datos personales
+  useEffect(() => {
+    if (user) {
+      dispatch(update_photoURL(user?.photoURL ?? ""));
+      dispatch(updateDisplayName(user?.displayName ?? ""));
+      dispatch(updateEmail(user?.email ?? ""));
+      dispatch(signIn(user?.uid ?? ""));
+    }
+    async function fetchData() {
+      if (session) {
+        const docRef = doc(db, "users", session);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          dispatch(updateCargo(docSnap.data().cargo ?? ""));
+          // dispatch(updatecompanyName(docSnap.data().companyName ?? ""));
+          dispatch(updateUserType(docSnap.data().userType ?? ""));
+          dispatch(updateDescripcion(docSnap.data().descripcion ?? ""));
+          dispatch(updateAssetAssigned(docSnap.data().assetAssigned ?? ""));
+          // dispatch(updatecompanyRUC(docSnap.data().companyRUC ?? ""));
+          dispatch(
+            updateEmailCompany(docSnap.data().emailCompany ?? emailCompany)
+          );
+        } else {
+          console.log("No such document!");
+        }
+      } else {
+        console.log("Session is undefined or null!");
+      }
+    }
+    fetchData();
+  }, [user]);
+
+  // Equipos
+  useEffect(() => {
+    let unsubscribe: any;
+    let lista: any = [];
+    let lista_idFirebaseAsset: any = [];
+
+    if (user_email) {
+      function fetchData() {
+        let queryRef;
+
+        if (emailCompany === user_email) {
+          queryRef = query(
+            collection(db, "Asset"),
+            where("emailCompany", "==", emailCompany)
+          );
+        } else {
+          queryRef = query(
+            collection(db, "Asset"),
+            where("userAssigned", "array-contains", user_email),
+            where("emailCompany", "==", emailCompany)
+          );
+        }
+
+        unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
+          lista = [];
+          lista_idFirebaseAsset = [];
+          ItemFirebase.forEach((doc) => {
+            lista.push(doc.data());
+            lista_idFirebaseAsset.push(doc.data().idFirebaseAsset);
+          });
+          //order the list by date
+          lista.sort((a: any, b: any) => {
+            return b.LastEventPosted - a.LastEventPosted;
+          });
+          dispatch(setAssetList(lista));
+          dispatch(setAssetList_idFirebaseAsset(lista_idFirebaseAsset));
+
+          // setData(lista.slice(0, 50));
+          // props.updateAITServicesDATA(lista);
+        });
+      }
+      fetchData();
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
+    }
+  }, [user_email]);
+
+  // Events
+  useEffect(() => {
+    let unsubscribe: any;
+    let lista: any = [];
+
+    if (user_email || assetList_idFirebaseAsset) {
+      async function fetchData() {
+        let queryRef;
+
+        if (emailCompany === user_email) {
+          queryRef = query(
+            collection(db, "Events"),
+            limit(40),
+            where("emailCompany", "==", emailCompany),
+            orderBy("createdAt", "desc")
+          );
+        } else {
+          queryRef = query(
+            collection(db, "Events"),
+            limit(30),
+            where("emailCompany", "==", emailCompany),
+            where("idFirebaseAsset", "in", assetList_idFirebaseAsset),
+            orderBy("createdAt", "desc")
+          );
+        }
+
+        unsubscribe = onSnapshot(queryRef, async (ItemFirebase) => {
+          lista = [];
+          ItemFirebase.forEach((doc) => {
+            lista.push(doc.data());
+          });
+          // order the list by date
+          lista.sort((a: any, b: any) => {
+            return b.createdAt - a.createdAt;
+          });
+          dispatch(setEventList(lista));
+          // setPosts(lista);
+          // setCompanyName(companyName);
+          // props.saveTotalEventServiceAITList(lista);
+          // console.log("fetch events");
+        });
+        // setIsLoading(false);
+      }
+
+      fetchData();
+
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
+    }
+  }, [user_email, assetList_idFirebaseAsset]);
+
+  if (isLoading) {
+    return (
+      <SafeAreaView>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
+  if (!session) {
+    // On web, static rendering will stop here as the user is not authenticated
+    // in the headless Node process that the pages are rendered in.
+    return <Redirect href="/" />;
+  }
+  const home_screen = () => {
+    router.push({
+      pathname: "/home",
+      // params: { item: item },
+    });
+  };
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-      }}>
+        // tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        headerShown: true,
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home/index"
         options={{
-          title: 'Home',
+          title: "Home",
+          headerTitle: () => (
+            <TouchableOpacity onPress={() => home_screen()}>
+              <Image
+                source={require("@/assets/pictures/transprologo.png")}
+                style={{ width: 200, height: 30 }}
+              />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "home" : "home-outline"}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="report"
+        options={{
+          title: "Reporte",
+          headerTitle: () => (
+            <TouchableOpacity onPress={() => home_screen()}>
+              <Image
+                source={require("@/assets/pictures/transprologo.png")}
+                style={{ width: 200, height: 30 }}
+              />
+            </TouchableOpacity>
+          ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "bar-chart" : "bar-chart-outline"}
+              color={color}
+            />
           ),
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="publish"
         options={{
-          title: 'Explore',
+          title: "Publicar",
+          headerTitle: () => (
+            <TouchableOpacity onPress={() => home_screen()}>
+              <Image
+                source={require("@/assets/pictures/transprologo.png")}
+                style={{ width: 200, height: 30 }}
+              />
+            </TouchableOpacity>
+          ),
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon
+              name={focused ? "logo-instagram" : "logo-instagram"}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: "Buscar",
+          headerTitle: () => (
+            <TouchableOpacity onPress={() => home_screen()}>
+              <Image
+                source={require("@/assets/pictures/transprologo.png")}
+                style={{ width: 200, height: 30 }}
+              />
+            </TouchableOpacity>
+          ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "car" : "car-outline"} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Perfil",
+          headerTitle: () => (
+            <TouchableOpacity onPress={() => home_screen()}>
+              <Image
+                source={require("@/assets/pictures/transprologo.png")}
+                style={{ width: 200, height: 30 }}
+              />
+            </TouchableOpacity>
+          ),
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon
+              name={focused ? "person" : "person-outline"}
+              color={color}
+            />
           ),
         }}
       />

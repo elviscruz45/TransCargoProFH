@@ -1,0 +1,123 @@
+import { StyleSheet, Dimensions } from "react-native";
+const windowWidth = Dimensions.get("window").width;
+
+export const styles = StyleSheet.create({
+  btnContainer1: {
+    position: "absolute",
+    bottom: 80,
+    right: 10,
+  },
+
+  btnEditDelete: {
+    flexDirection: "row",
+    alignItems: "center",
+    // justifyContent: "flex-end",
+  },
+  restaurant: {
+    flexDirection: "row",
+    margin: 10,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    marginRight: 15,
+  },
+  // editIcon: {
+  //   // flexDirection: "row",
+  //   // alignItems: "center",
+  //   // marginRight: windowWidth * 0.1,
+  //   // marginLeft: windowWidth * 0.1,
+  //   // paddingHorizontal: 15,
+  //   marginTop: 10,
+  //   width: 20,
+  //   height: 20,
+  //   alignSelf: "flex-end",
+  //   // marginRight: 10,
+  //   // marginTop: windowHeight * 0.01,
+  //   zIndex: 1000,
+  //   position: "absolute",
+  // },
+  radioCard: {
+    margin: 3,
+    // fontFamily: "DM Sans",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    padding: 5,
+    paddingLeft: 8,
+    paddingRight: 8,
+    gap: 2,
+    width: windowWidth - 8,
+    backgroundColor: "#FFFFFF",
+    shadowColor: "#384967",
+    shadowOffset: {
+      width: 4,
+      height: 4,
+    },
+    shadowOpacity: 0.05,
+    borderRadius: 16,
+    flex: 0,
+    // order: 2,
+    alignSelf: "stretch",
+    flexGrow: 0,
+  },
+  backgroundImage: {
+    flex: 1,
+    // resizeMode: "cover",
+    // justifyContent: "center",
+    // alignItems: "center",
+    // opacity: 0.4,
+  },
+  postPhoto: {
+    // height: 700,
+    // width: windowWidth,
+    height: windowWidth * 0.45,
+    width: windowWidth * 0.35,
+    marginTop: 0,
+  },
+  avatar: {
+    marginRight: 20,
+    backgroundColor: "#D7DDE9",
+    zIndex: 10,
+  },
+  sectionForms: {
+    flexDirection: "row",
+    margin: 10,
+  },
+  name: {
+    fontWeight: "bold",
+    textAlign: "center",
+    marginRight: 100,
+
+    marginLeft: 10,
+  },
+  info: {
+    color: "#828282",
+    paddingRight: 100,
+    marginTop: 3,
+  },
+  content: {
+    marginHorizontal: 10,
+  },
+  textArea: {
+    width: windowWidth * 0.58,
+    height: windowWidth * 0.3,
+    padding: 0,
+    margin: 0,
+  },
+  btnContainer2: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+  },
+  addInformation: {
+    backgroundColor: "#2A3B76",
+    margin: 20,
+  },
+  roundImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    margin: 5,
+  },
+});
