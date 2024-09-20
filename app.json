@@ -24,7 +24,7 @@
     "web": {
       "bundler": "metro",
       "output": "web-build",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/pictures/logotransp.png"
     },
     "plugins": ["expo-router"],
     "experiments": {
