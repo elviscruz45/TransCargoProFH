@@ -4,7 +4,6 @@ import { Platform, TouchableOpacity, Button } from "react-native";
 import { styles } from "./ProfileDate.styles";
 import { connect } from "react-redux";
 // import { EquipmentListUpper } from "../../../actions/home";
-// import DateTimePicker from "@react-native-community/datetimepicker";
 
 export function ProfileDate(props: any) {
   const [dateStart, setDateStart] = useState(new Date());
@@ -92,14 +91,7 @@ export function ProfileDate(props: any) {
             })}`}
           />
         )}
-        {/* {ios && (
-          <DateTimePicker
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )} */}
+
         <Text>Fin</Text>
 
         {androidDate && (
@@ -113,31 +105,6 @@ export function ProfileDate(props: any) {
             })}`}
           />
         )}
-        {/* {androidDateStart && (
-          <DateTimePicker
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )}
-        {androidDateEnd && (
-          <DateTimePicker
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )}
-
-        {ios && (
-          <DateTimePicker
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )} */}
 
         <Text></Text>
 

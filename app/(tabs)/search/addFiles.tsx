@@ -47,7 +47,6 @@ export default function AddDocs() {
 
   const tipoFileList = files.map((item: any) => item.tipoFile);
 
-
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
   const router = useRouter();
@@ -122,8 +121,6 @@ export default function AddDocs() {
 
   const uploadPdf = async (uri: any, formattedDate: any) => {
     try {
-
-
       const response = await fetch(uri);
       // console.log("response", response);
 
@@ -226,16 +223,17 @@ export default function AddDocs() {
         />
 
         <Input
-          value={tipoFile}
+          value={formik.values.tipoFile}
           // errorMessage={formik.errors.tipoFile}
           label="Tipo de Documento Adjunto"
           multiline={true}
-          editable={false}
+          editable={true}
           rightIcon={{
             type: "material-community",
             name: "arrow-right-circle-outline",
             onPress: () => selectComponent("TipoDocumento"),
           }}
+          onChangeText={(text) => formik.setFieldValue("tipoFile", text)}
         />
         {tipoFile === "Otro" && (
           <Input

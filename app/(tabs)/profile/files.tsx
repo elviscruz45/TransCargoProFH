@@ -30,6 +30,7 @@ import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useNavigation, useLocalSearchParams } from "expo-router";
 import { db } from "../../../utils/firebase";
+import { Platform } from "react-native";
 
 export default function FileScreen() {
   const { item }: any = useLocalSearchParams();
@@ -99,42 +100,63 @@ export default function FileScreen() {
   };
 
   // go to delete screen
-  const goToDeleteDocs = (pdfFileURLFirebase: any) => {
-    Alert.alert(
-      "Eliminar Documento",
-      "Estas Seguro que desear Eliminar el evento?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Aceptar",
-          onPress: async () => {
-            const Ref = doc(db, "users", item);
-            const docSnapshot = await getDoc(Ref);
-            const docList = docSnapshot?.data()?.files;
+  const goToDeleteDocs = async (pdfFileURLFirebase: any) => {
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(
+        "Estas Seguro que desear Eliminar el evento?"
+      );
+      if (confirmed) {
+        const Ref = doc(db, "users", item);
+        const docSnapshot = await getDoc(Ref);
+        const docList = docSnapshot?.data()?.files;
 
-            const filteredList = docList.filter(
-              (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
-            );
-            console.log("docList", filteredList);
+        const filteredList = docList.filter(
+          (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+        );
+        console.log("docList", filteredList);
 
-            const updatedData = {
-              files: filteredList,
-            };
-
-            await updateDoc(Ref, updatedData);
-            Toast.show({
-              type: "success",
-              position: "bottom",
-              text1: "Se ha eliminado correctamente",
-            });
+        const updatedData = {
+          files: filteredList,
+        };
+        await updateDoc(Ref, updatedData);
+      }
+    } else {
+      Alert.alert(
+        "Eliminar Documento",
+        "Estas Seguro que desear Eliminar el evento?",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
           },
-        },
-      ],
-      { cancelable: false }
-    );
+          {
+            text: "Aceptar",
+            onPress: async () => {
+              const Ref = doc(db, "users", item);
+              const docSnapshot = await getDoc(Ref);
+              const docList = docSnapshot?.data()?.files;
+
+              const filteredList = docList.filter(
+                (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+              );
+              console.log("docList", filteredList);
+
+              const updatedData = {
+                files: filteredList,
+              };
+
+              await updateDoc(Ref, updatedData);
+              Toast.show({
+                type: "success",
+                position: "bottom",
+                text1: "Se ha eliminado correctamente",
+              });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   return (

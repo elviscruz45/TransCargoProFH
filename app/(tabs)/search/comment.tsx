@@ -43,6 +43,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { useRouter } from "expo-router";
+import { Platform } from "react-native";
 
 export default function Comment() {
   const [postsComments, setPostsComments] = useState([]);
@@ -168,31 +169,42 @@ export default function Comment() {
 
   //Delete function
   const docDelete = async (idDoc: any) => {
-    Alert.alert(
-      "Eliminar Evento",
-      "Estas Seguro que desear Eliminar el evento?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Aceptar",
-          onPress: async () => {
-            //delete the doc from events collections
-            router.back();
-            await deleteDoc(doc(db, "Events", idDoc));
-
-            Toast.show({
-              type: "success",
-              position: "bottom",
-              text1: "Se ha eliminado correctamente",
-            });
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(
+        "Estas Seguro que desear Eliminar el evento?"
+      );
+      if (confirmed) {
+        //delete the doc from events collections
+        router.back();
+        await deleteDoc(doc(db, "Events", idDoc));
+      }
+    } else {
+      Alert.alert(
+        "Eliminar Evento",
+        "Estas Seguro que desear Eliminar el evento?",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
           },
-        },
-      ],
-      { cancelable: false }
-    );
+          {
+            text: "Aceptar",
+            onPress: async () => {
+              //delete the doc from events collections
+              router.back();
+              await deleteDoc(doc(db, "Events", idDoc));
+
+              Toast.show({
+                type: "success",
+                position: "bottom",
+                text1: "Se ha eliminado correctamente",
+              });
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
 
   if (!post) {

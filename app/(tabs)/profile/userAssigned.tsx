@@ -83,31 +83,31 @@ export default function AssetAssigned() {
     }
   }, [searchText, employees]);
 
-  const userCompanyConfirmation = (
-    uid: any,
-    companyManagerConfimation: any
-  ) => {
-    Alert.alert(
-      "Confirmar",
-      "Estas Seguro de confirmar a este usuario en la empresa?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Aceptar",
-          onPress: async () => {
-            const Ref = doc(db, "users", uid);
-            companyManagerConfimation
-              ? await updateDoc(Ref, { companyManagerConfimation: false })
-              : await updateDoc(Ref, { companyManagerConfimation: true });
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
+  // const userCompanyConfirmation = (
+  //   uid: any,
+  //   companyManagerConfimation: any
+  // ) => {
+  //   Alert.alert(
+  //     "Confirmar",
+  //     "Estas Seguro de confirmar a este usuario en la empresa?",
+  //     [
+  //       {
+  //         text: "Cancelar",
+  //         style: "cancel",
+  //       },
+  //       {
+  //         text: "Aceptar",
+  //         onPress: async () => {
+  //           const Ref = doc(db, "users", uid);
+  //           companyManagerConfimation
+  //             ? await updateDoc(Ref, { companyManagerConfimation: false })
+  //             : await updateDoc(Ref, { companyManagerConfimation: true });
+  //         },
+  //       },
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // };
   useEffect(() => {
     let unsubscribe: any;
     let lista: any = [];

@@ -69,23 +69,32 @@ export const AvatarImg = ({ currentAsset, idAsset }: any) => {
   };
 
   const editPhoto = () => {
-    Alert.alert(
-      "Editar",
-      "Estas Seguro que deseas cambiar de Imagen?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
-        },
-        {
-          text: "Aceptar",
-          onPress: async () => {
-            changeAvatar();
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(
+        "Estas Seguro que deseas cambiar de Imagen?"
+      );
+      if (confirmed) {
+        changeAvatar();
+      }
+    } else {
+      Alert.alert(
+        "Editar",
+        "Estas Seguro que deseas cambiar de Imagen?",
+        [
+          {
+            text: "Cancelar",
+            style: "cancel",
           },
-        },
-      ],
-      { cancelable: false }
-    );
+          {
+            text: "Aceptar",
+            onPress: async () => {
+              changeAvatar();
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
   };
   return (
     <TouchableOpacity

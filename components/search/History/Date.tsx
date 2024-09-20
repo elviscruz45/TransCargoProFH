@@ -4,7 +4,6 @@ import { Platform, TouchableOpacity } from "react-native";
 import { styles } from "./Date.styles";
 import { connect } from "react-redux";
 // import { EquipmentListUpper } from "../../../actions/home";
-// import DateTimePicker from "@react-native-community/datetimepicker";
 
 export function Date(props: any) {
   // const [dateStart, setDateStart] = useState(new Date());
@@ -80,64 +79,10 @@ export function Date(props: any) {
         <Text></Text>
 
         <Text>Inicio</Text>
-        {/* {androidDate && (
-          <Button
-            // onPress={showDatepickerStart}
-            color={"#2A3B76"}
-            // style={{ shadowColor: "black" }}
-            // title={`${dateStart.toLocaleDateString(undefined, {
-            //   year: "numeric",
-            //   month: "2-digit",
-            //   day: "2-digit",
-            // })}`}
-          />
-        )} */}
-        {/* {ios && (
-          <DateTimePicker
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )} */}
+
         <Text>Fin</Text>
 
-        {/* {androidDate && (
-          <Button
-            // onPress={showDatepickerEnd}
-            color={"#2A3B76"}
-            // title={`${dateEnd.toLocaleDateString(undefined, {
-            //   year: "numeric",
-            //   month: "2-digit",
-            //   day: "2-digit",
-            // })}`}
-          />
-        )} */}
-        {/* {androidDateStart && (
-          <DateTimePicker
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )}
-        {androidDateEnd && (
-          <DateTimePicker
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )}
 
-        {ios && (
-          <DateTimePicker
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )} */}
 
         <Text></Text>
 
