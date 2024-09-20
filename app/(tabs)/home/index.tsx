@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { Image as ImageExpo } from "expo-image";
-import { styles } from "../../../components/home/styles/index.styles";
+import { styles } from "./index.styles";
 import { Header } from "@/components/home/header/header";
 import { useRouter } from "expo-router";
 
