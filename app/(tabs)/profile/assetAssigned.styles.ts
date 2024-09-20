@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     // alignContent: "center",
 
     // verticalAlign: "bottom",
-    textAlignVertical: "center",
+    // textAlignVertical: "center",
     // backgroundColor: "#2A3B76",
     marginHorizontal: windowWidth / 8,
 

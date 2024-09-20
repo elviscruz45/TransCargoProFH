@@ -35,12 +35,12 @@ export const styles = StyleSheet.create({
     gap: 2,
     width: windowWidth - 8,
     backgroundColor: "#FFFFFF",
-    shadowColor: "#384967",
-    shadowOffset: {
-      width: 4,
-      height: 4,
-    },
-    shadowOpacity: 0.05,
+    // shadowColor: "#384967",
+    // shadowOffset: {
+    //   width: 4,
+    //   height: 4,
+    // },
+    // shadowOpacity: 0.05,
     borderRadius: 16,
     flex: 0,
     // order: 2,

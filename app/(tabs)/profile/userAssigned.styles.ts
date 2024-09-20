@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     // alignContent: "center",
 
     // verticalAlign: "bottom",
-    textAlignVertical: "center",
+    // textAlignVertical: "center",
     borderRadius: 20,
     backgroundColor: "#2A3B76",
     marginHorizontal: windowWidth / 8,
