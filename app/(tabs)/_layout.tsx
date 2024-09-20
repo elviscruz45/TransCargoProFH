@@ -63,11 +63,10 @@ export default function TabLayout() {
   const isLoading = useSelector((state: RootState) => state.userId.isLoading);
   const session = useSelector((state: RootState) => state.userId.session);
   const name = useSelector((state: RootState) => state.userId.displayName);
-  const user_email = useSelector((state: RootState) => state.userId.email);
   const assetList_idFirebaseAsset = useSelector(
     (state: RootState) => state.home.assetList_idFirebaseAsset
   );
-
+  const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );

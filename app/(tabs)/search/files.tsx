@@ -40,7 +40,10 @@ export default function FileScreen() {
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === item
   );
-
+  const user_email = useSelector((state: RootState) => state.userId.email);
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
 
   const files = currentAsset?.files;
 
@@ -232,35 +235,40 @@ export default function FileScreen() {
                   </Text>
                   <Text></Text>
                   <View style={{ flexDirection: "row", alignSelf: "center" }}>
-                    <TouchableOpacity
-                      onLongPress={() =>
-                        goToEditDocs(
-                          item.tipoFile,
-                          item.FilenameTitle,
-                          item.fechaPostFormato
-                        )
-                      }
-                    >
-                      <ImageExpo
-                        source={require("../../../assets/pictures/editIcon2.png")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    </TouchableOpacity>
+                    {emailCompany === user_email && (
+                      <TouchableOpacity
+                        onPress={() =>
+                          goToEditDocs(
+                            item.tipoFile,
+                            item.FilenameTitle,
+                            item.fechaPostFormato
+                          )
+                        }
+                      >
+                        <ImageExpo
+                          source={require("../../../assets/pictures/editIcon2.png")}
+                          style={[styles.roundImage10, { alignSelf: "center" }]}
+                          cachePolicy={"memory-disk"}
+                        />
+                      </TouchableOpacity>
+                    )}
                     <Text> {" -  "}</Text>
 
-                    <TouchableOpacity
-                      onLongPress={() =>
-                        goToDeleteDocs(item.pdfFileURLFirebase)
-                      }
-                    >
-                      <View style={{ marginRight: "2%" }}>
-                        <ImageExpo
-                          source={require("../../../assets/pictures/deleteIcon.png")}
-                          style={[styles.roundImage10, { alignSelf: "center" }]}
-                        />
-                      </View>
-                    </TouchableOpacity>
+                    {emailCompany === user_email && (
+                      <TouchableOpacity
+                        onPress={() => goToDeleteDocs(item.pdfFileURLFirebase)}
+                      >
+                        <View style={{ marginRight: "2%" }}>
+                          <ImageExpo
+                            source={require("../../../assets/pictures/deleteIcon.png")}
+                            style={[
+                              styles.roundImage10,
+                              { alignSelf: "center" },
+                            ]}
+                          />
+                        </View>
+                      </TouchableOpacity>
+                    )}
                   </View>
                 </View>
               </View>

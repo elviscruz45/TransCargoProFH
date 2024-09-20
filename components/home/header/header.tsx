@@ -60,7 +60,7 @@ export function Header() {
                   source={
                     item?.photoServiceURL
                       ? { uri: item?.photoServiceURL }
-                      : require("../../../assets/assetpics/carIcon.jpeg")
+                      : require("../../../assets/assetpics/carIcon.jpg")
                   }
                   style={{
                     alignSelf: "center",
