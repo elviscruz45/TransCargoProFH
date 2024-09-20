@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import type { RootState } from "../../store";
+import type { RootState } from "../../../app/store";
 
 // import EditScreenInfo from '../../components/EditScreenInfo';
 // import { Text, View } from "../../components/Themed";
