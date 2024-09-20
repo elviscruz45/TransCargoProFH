@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, ScrollView } from "react-native";
 // import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { styles } from "./index.styles";
+import { styles } from "../components/indexStyle/index.styles";
 // import { ConnectedLoginForm } from "../../components/Auth";
 import { Image as ImageExpo } from "expo-image";
 import { Linking } from "react-native";
