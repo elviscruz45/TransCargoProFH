@@ -56,7 +56,7 @@ export default function SearchAsset() {
         data={searchResults}
         ListHeaderComponent={
           <SearchBar
-            placeholder="Buscar AIT o nombre del servicio"
+            placeholder="Buscar Activo o Area"
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             lightTheme={true}

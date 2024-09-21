@@ -163,6 +163,8 @@ export default function FileScreen() {
     <ScrollView
       style={{ backgroundColor: "white" }} // Add backgroundColor here
     >
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
       <Text></Text>
 
       <Text></Text>
@@ -180,6 +182,8 @@ export default function FileScreen() {
         renderItem={({ item }) => {
           return (
             <View>
+              {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
               <View
                 style={{ marginBottom: 10, marginTop: 10, alignSelf: "center" }}
               >
@@ -244,14 +248,13 @@ export default function FileScreen() {
                   <Text
                     style={{
                       fontWeight: "bold",
-                      marginTop: "10%",
+                      marginTop: "2%",
                       marginLeft: "2%",
                     }}
                   >
                     Vencimiento:
                   </Text>
                   <Text style={{ alignSelf: "center" }}>
-
                     {formatDate(item.fechaVencimiento) || "No definido"}
                   </Text>
                   <Text></Text>

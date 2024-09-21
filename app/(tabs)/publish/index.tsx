@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { useState, useEffect } from "react";
 // import EditScreenInfo from '../../components/EditScreenInfo';
 // import { Text, View } from '../../components/Themed';
@@ -159,7 +159,7 @@ export default function Publish() {
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <SearchBar
-        placeholder="Buscar AIT o nombre del servicio"
+        placeholder="Buscar Activo o Area"
         value={searchText}
         platform="default"
         onChangeText={(text?: string) => setSearchText(text)}
@@ -193,6 +193,7 @@ export default function Publish() {
       ) : (
         <Text style={styles.name}>"Escoger Activo"</Text>
       )}
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
       <Text></Text>
       <View
@@ -234,7 +235,6 @@ export default function Publish() {
             />
           </TouchableOpacity>
         )}
-        <Text></Text>
       </View>
       <FlatList
         data={searchResults}

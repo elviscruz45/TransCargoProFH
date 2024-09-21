@@ -84,11 +84,12 @@ export default function AssetAssigned() {
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
         {/* {console.log("SearchItem")} */}
+
         <FlatList
           data={searchResults}
           ListHeaderComponent={
             <SearchBar
-              placeholder="Buscar AIT o nombre del servicio"
+              placeholder="Buscar Activo o Area"
               value={searchText}
               onChangeText={(text) => setSearchText(text)}
               lightTheme={true}

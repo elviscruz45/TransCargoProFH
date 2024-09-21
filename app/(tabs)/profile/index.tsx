@@ -141,8 +141,10 @@ export default function Profile(props: any) {
           style={{
             flexDirection: "row",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
+          <Text></Text>
           <Button
             title="Editar"
             buttonStyle={styles.btnActualizarStyles}
@@ -156,6 +158,8 @@ export default function Profile(props: any) {
             titleStyle={styles.btnTextStyle}
             onPress={() => logout()}
           />
+          <Text></Text>
+          {/* <Text></Text> */}
         </View>
         {/* <DateScreen filterButton={filter} quitFilterButton={quitfilter} /> */}
       </ScrollView>

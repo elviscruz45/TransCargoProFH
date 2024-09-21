@@ -15,7 +15,7 @@ export const SelectActivo: React.FC<Event> = ({
   formik,
   setTipoActivo,
 }) => {
-  function saveProperty(itemValue: any) {
+  function saveProperty(itemValue: string) {
     // setText(itemValue);
     formik.setFieldValue("tipoActivo", itemValue);
     setTipoActivo(itemValue);
@@ -25,7 +25,7 @@ export const SelectActivo: React.FC<Event> = ({
 
   return (
     <SelectList
-      setSelected={(val: any) => saveProperty(val)}
+      setSelected={(val: string) => saveProperty(val)}
       data={tipoActivo}
       save="value"
       maxHeight={250}

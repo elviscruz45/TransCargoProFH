@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     // marginLeft: 100,
     borderRadius: 20,
     backgroundColor: "#2A3B76",
-    marginHorizontal: windowWidth / 5,
+    // marginHorizontal: windowWidth / 5,
 
     // borderTopWidth: 1,
     // borderTopColor: "#e3e3e3",

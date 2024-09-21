@@ -159,8 +159,9 @@ export const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
+    alignSelf: "center",
     // alignItems: "center",
-    marginLeft: windowWidth / 2 - 50,
+    // marginLeft: windowWidth / 2 - 50,
   },
 
   editIcon: {

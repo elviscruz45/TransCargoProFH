@@ -83,6 +83,9 @@ export default function events(props: any) {
   // const companyName = useSelector(
   //   (state: RootState) => state.userId.companyName
   // );
+
+  // const [gpsPermission, setGpsPermission] = useState(false);
+
   useEffect(() => {
     (async () => {
       dispatch(uploadTires([]));
@@ -98,6 +101,7 @@ export default function events(props: any) {
       formik.setFieldValue("ubicacion", location);
     })();
   }, []);
+
   useEffect(() => {
     if (formik.values.llanta.length !== 0) {
       formik.setFieldValue("llanta", tires);
@@ -235,7 +239,20 @@ export default function events(props: any) {
       <Text></Text>
 
       <Text style={styles.name}>{currentAsset.nombre}</Text>
-
+      {currentAsset.placa ? (
+        <Text style={styles.name}>
+          {"Placa: "}
+          {currentAsset.placa}
+        </Text>
+      ) : currentAsset.nombre ? (
+        <Text style={[styles.name, { alignSelf: "center" }]}>
+          {currentAsset.nombre}
+        </Text>
+      ) : (
+        <Text style={[styles.name, { alignSelf: "center" }]}>
+          {currentAsset.NombreArea}
+        </Text>
+      )}
       <View style={styles.equipments}>
         <ImageExpo
           source={
@@ -309,36 +326,6 @@ export default function events(props: any) {
               // editable={true}
 
               // errorMessage={formik.errors.etapa}
-            />
-          )}
-          {(formik.values.tipoEvento === "Inicio Viaje" ||
-            formik.values.tipoEvento === "Final Viaje" ||
-            formik.values.tipoEvento === "Gastos de Viaje" ||
-            formik.values.tipoEvento === "Combustible" ||
-            formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "CheckList" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto" ||
-            formik.values.tipoEvento === "Reporte Varios") && (
-            <Input
-              // value={true ? `${avance} %` : null}
-              value={JSON.stringify(formik.values.ubicacion)}
-              label="Ubicacion"
-              // onChangeText={(text) => {
-              //   formik.setFieldValue("ubicacion", JSON.stringify(location));
-              // }}
-              // placeholder="Avance del ejecucion"
-              editable={false}
-              multiline={true}
-              errorMessage={formik.errors.ubicacion}
-              rightIcon={{
-                type: "material-community",
-                name: "map-marker-radius",
-                color: "#c2c2c2",
-                onPress: () => selectComponent("ubicacion"),
-              }}
             />
           )}
 
@@ -465,6 +452,40 @@ export default function events(props: any) {
                 formik.setFieldValue("costoMantenimiento", text);
               }}
               // errorMessage={formik.errors.visibilidad}
+            />
+          )}
+          {(formik.values.tipoEvento === "Inicio Viaje" ||
+            formik.values.tipoEvento === "Final Viaje" ||
+            formik.values.tipoEvento === "Gastos de Viaje" ||
+            formik.values.tipoEvento === "Combustible" ||
+            formik.values.tipoEvento === "Cambio de aceite" ||
+            formik.values.tipoEvento === "CheckList" ||
+            formik.values.tipoEvento === "Mantenimiento" ||
+            formik.values.tipoEvento === "Cambio Llanta" ||
+            formik.values.tipoEvento === "Reparacion Llanta" ||
+            formik.values.tipoEvento === "Cambio Repuesto" ||
+            formik.values.tipoEvento === "Reporte Varios") && (
+            <Input
+              // value={true ? `${avance} %` : null}
+              value={JSON.stringify(formik.values.ubicacion)}
+              label="Ubicacion"
+              // onChangeText={(text) => {
+              //   formik.setFieldValue("ubicacion", JSON.stringify(location));
+              // }}
+              // placeholder="Avance del ejecucion"
+              editable={false}
+              multiline={true}
+              errorMessage={formik.errors.ubicacion}
+              rightIcon={
+                Platform.OS !== "web"
+                  ? {
+                      type: "material-community",
+                      name: "map-marker-radius",
+                      color: "#c2c2c2",
+                      onPress: () => selectComponent("ubicacion"),
+                    }
+                  : {}
+              }
             />
           )}
         </View>

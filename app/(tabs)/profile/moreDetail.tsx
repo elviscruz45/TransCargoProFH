@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Image,
+  Platform,
 } from "react-native";
 import { Image as ImageExpo } from "expo-image";
 import { styles } from "./moreDetail.styles";
@@ -69,6 +70,8 @@ export default function MoreDetail() {
           </View>
         </TouchableOpacity>
       )} */}
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
       {true ? (
         <ImageExpo
           source={{ uri: currentEmployee.photoURL }}
@@ -82,6 +85,7 @@ export default function MoreDetail() {
           cachePolicy={"memory-disk"}
         />
       )}
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
       <Text></Text>
       <Text style={styles.name}>{currentEmployee.displayNameform}</Text>
@@ -90,6 +94,8 @@ export default function MoreDetail() {
       )}
       <Text></Text>
       <Text></Text>
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
       <View
         style={{
           flexDirection: "row",
@@ -111,9 +117,12 @@ export default function MoreDetail() {
       </View>
       <Text></Text>
       <Text></Text>
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
       <Text style={styles.name}>Informacion Basica</Text>
       <Text></Text>
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
       <View style={[styles.row, styles.center]}>
         <Text style={styles.info}>{"Equipos Asignados: "}</Text>
       </View>

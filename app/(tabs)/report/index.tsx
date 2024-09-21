@@ -177,10 +177,10 @@ export default function Report(props: any) {
         <Text></Text>
         <Text></Text>
 
-        <DateScreen
+        {/* <DateScreen
           filterButton={filter}
           quitFilterButton={() => quitfilter()}
-        />
+        /> */}
 
         <Text></Text>
         <Text></Text>

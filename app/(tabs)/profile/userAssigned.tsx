@@ -158,7 +158,7 @@ export default function AssetAssigned() {
           data={searchResults}
           ListHeaderComponent={
             <SearchBar
-              placeholder="Buscar AIT o nombre del servicio"
+              placeholder="Buscar Usuario"
               value={searchText}
               onChangeText={(text) => setSearchText(text)}
               lightTheme={true}
@@ -172,7 +172,7 @@ export default function AssetAssigned() {
               <View
                 style={{
                   flexDirection: "row",
-                  alignSelf: "center",
+                  // alignSelf: "center",
                   backgroundColor: "white",
                 }}
               >

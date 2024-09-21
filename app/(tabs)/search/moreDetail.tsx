@@ -6,6 +6,7 @@ import {
   Dimensions,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
 import { Image as ImageExpo } from "expo-image";
 import { styles } from "./moreDetail.styles";
@@ -66,11 +67,13 @@ export default function MoreDetail() {
       />
 
       <Text></Text>
-      <Text style={styles.name}>{currentAsset?.nombre}</Text>
-      {currentAsset?.placa && (
+      {currentAsset?.placa ? (
         <Text style={styles.name}>{currentAsset?.placa}</Text>
+      ) : (
+        <Text style={styles.name}>{currentAsset?.nombre}</Text>
       )}
       <Text></Text>
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
       <Text></Text>
       {tipoActivo === "Equipo / Activo" && (

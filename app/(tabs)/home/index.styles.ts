@@ -14,7 +14,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // marginHorizontal: 20,
-    justifyContent: "center",
+    // justifyContent: "center",
+
     backgroundColor: "white",
   },
   title: {
@@ -31,8 +32,6 @@ export const styles = StyleSheet.create({
   },
   center: {
     alignItems: "center",
-    justifyContent: "space-between",
-    margin: 0,
   },
   roundImage: {
     width: 40,

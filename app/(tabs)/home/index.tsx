@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   ScrollView,
+  Platform,
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
@@ -34,6 +35,8 @@ export default function HomeScreen() {
   return (
     <>
       <View style={styles.container}>
+        {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
         <Text></Text>
         <FlatList
           data={eventList}
@@ -49,6 +52,8 @@ export default function HomeScreen() {
                   borderBottomWidth: 5,
                   borderBottomColor: "#f0f8ff",
                   paddingVertical: 10,
+                  // alignItems: "center",
+                  // alignSelf: "center",
                 }}
               >
                 <View style={[styles.row, styles.center]}>
@@ -138,9 +143,6 @@ export default function HomeScreen() {
                     </Text>
                   </View>
                 </View>
-                <View
-                // style={styles.rowlikes}
-                ></View>
               </View>
             );
           }}
