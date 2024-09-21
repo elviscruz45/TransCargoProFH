@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./addFiles.styles";
 import { Input, Button } from "@rneui/themed";
@@ -17,7 +17,6 @@ import {
   getDownloadURL,
   uploadBytesResumable,
 } from "firebase/storage";
-
 import { doc, updateDoc, arrayUnion } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
@@ -187,6 +186,13 @@ export default function AddDocs() {
     }
   };
 
+  // const handleChange = (event: any) => {
+  //   const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+  //   const [year, month, day] = selectedDateString.split("-");
+  //   const selectedDate = new Date(Number(year), Number(month) - 1, Number(day)); // month is 0-indexed in JavaScript Date
+  //   formik.setFieldValue("fechaVencimiento", selectedDate);
+  // };
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <Text></Text>
@@ -223,26 +229,45 @@ export default function AddDocs() {
           }}
           onChangeText={(text) => formik.setFieldValue("tipoFile", text)}
         />
-        {/* {tipoFile === "Otro" && (
+
+        {Platform.OS === "web" ? (
+          <View style={{ marginHorizontal: 10 }}>
+            <Text> </Text>
+
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
+              Fecha de Vencimiento
+            </Text>
+            <Text> </Text>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              onChange={(event: any) => {
+                const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                const [year, month, day] = selectedDateString.split("-");
+                const selectedDate = new Date(
+                  Number(year),
+                  Number(month) - 1,
+                  Number(day)
+                ); // month is 0-indexed in JavaScript Date
+                formik.setFieldValue("fechaVencimiento", selectedDate);
+              }}
+            />
+          </View>
+        ) : (
           <Input
-            label="Nuevo Tipo de Documento Adjunto"
-            // value={formik.values.tipoFile}
-            editable={true}
-            onChangeText={(text) => formik.setFieldValue("tipoFile", text)}
+            label="Fecha de Vencimiento"
+            value={formatdate(formik.values?.fechaVencimiento?.toString())}
+            rightIcon={{
+              type: "material-community",
+              name: "update",
+              color: "#c2c2c2",
+              onPress: () => {
+                selectComponent("date", "fechaVencimiento");
+              },
+            }}
           />
-        )} */}
-        <Input
-          label="Fecha de Vencimiento"
-          value={formatdate(formik.values?.fechaVencimiento?.toString())}
-          rightIcon={{
-            type: "material-community",
-            name: "update",
-            color: "#c2c2c2",
-            onPress: () => {
-              selectComponent("date", "fechaVencimiento");
-            },
-          }}
-        />
+        )}
       </View>
       <Button
         title="Agregar Documento"

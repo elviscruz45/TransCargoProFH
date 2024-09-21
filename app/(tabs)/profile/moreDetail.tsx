@@ -41,7 +41,6 @@ export default function MoreDetail() {
     asset.userAssigned.includes(currentEmployee?.email)
   );
 
-
   // // go to edit screen
   // const goToEditAssetScreen = (item: any) => {
   //   router.push({
@@ -121,11 +120,9 @@ export default function MoreDetail() {
       <Text></Text>
       <View>
         {assetAssigned?.map((item: any, index: any) => (
-          <>
-            <Text key={index} style={{ marginLeft: 20 }}>
-              {item.nombre}
-            </Text>
-          </>
+          <Text key={index} style={{ marginLeft: 20 }}>
+            {item.nombre}
+          </Text>
         ))}
       </View>
     </ScrollView>

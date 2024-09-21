@@ -251,7 +251,6 @@ export default function FileScreen() {
                     Vencimiento:
                   </Text>
                   <Text style={{ alignSelf: "center" }}>
-                    {/* {item.fechaVencimiento} */}
 
                     {formatDate(item.fechaVencimiento) || "No definido"}
                   </Text>

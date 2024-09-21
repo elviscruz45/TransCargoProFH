@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 
@@ -82,7 +82,6 @@ export default function Item() {
   const [endDate, setEndDate] = useState(currentDate);
   const [removeFilter, setRemoveFilter] = useState(true);
 
-
   const handleResetAction = () => {
     // navigation.goBack();
   };
@@ -108,8 +107,11 @@ export default function Item() {
   };
 
   const quitfilter = () => {
+    // Subtract 30 days from the current date
+    const datewithNoFilter = new Date();
+    datewithNoFilter.setDate(currentDate.getDate() - 30);
     setRemoveFilter((prev) => !prev);
-    setStartDate(new Date());
+    setStartDate(datewithNoFilter);
     setEndDate(new Date());
   };
 
@@ -270,6 +272,7 @@ export default function Item() {
         <Text></Text>
 
         <DateScreen filterButton={filter} quitFilterButton={quitfilter} />
+
         <Text></Text>
         <GanttHistorial
           datas={post}

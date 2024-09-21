@@ -41,8 +41,8 @@ export function DateScreen(props: any) {
 
     if (dateStart > dateEnd) {
       alert("La fecha de inicio no puede ser mayor a la fecha de fin");
-    } else if (daysDifference >= 366) {
-      alert("La diferencia entre las fechas no debe ser mayor a 365 días");
+    } else if (daysDifference >= 30) {
+      alert("La diferencia entre las fechas no debe ser mayor a 30 días");
     } else if (new Date(startDate) > new Date()) {
       alert("La fecha de inicio no puede ser mayor a la fecha de hoy");
     } else {
@@ -79,89 +79,118 @@ export function DateScreen(props: any) {
 
   return (
     <>
-      <View style={[styles.row, styles.center]}>
-        <Text></Text>
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+      {Platform.OS === "web" ? (
+        <View style={[styles.row, styles.center, { alignSelf: "center" }]}>
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Inicio: </Text>
+          <input
+            type="date"
+            id="date"
+            value={dateStart.toISOString().split("T")[0]}
+            name="date"
+            onChange={(event: any) => {
+              const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+              const [year, month, day] = selectedDateString.split("-");
+              const selectedDate = new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day)
+              ); // month is 0-indexed in JavaScript Date
+              setDateStart(selectedDate);
+              // formik.setFieldValue("fechaVencimiento", selectedDate);
+            }}
+          />
+          <Text style={{ fontSize: 18, fontWeight: "bold" }}> Fin: </Text>
+          <input
+            type="date"
+            value={dateEnd.toISOString().split("T")[0]}
+            id="date"
+            name="date"
+            onChange={(event: any) => {
+              const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+              const [year, month, day] = selectedDateString.split("-");
+              const selectedDate = new Date(
+                Number(year),
+                Number(month) - 1,
+                Number(day)
+              ); // month is 0-indexed in JavaScript Date
+              setDateEnd(selectedDate);
+            }}
+          />
+        </View>
+      ) : (
+        <View style={[styles.row, styles.center]}>
+          <Text></Text>
 
-        <Text>Inicio:</Text>
-        {androidDate && (
-          <Button
-            onPress={showDatepickerStart}
-            color={"#2A3B76"}
-            title={`${dateStart.toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            })}`}
-          />
-        )}
-        {ios && (
-          <DateTimePicker
-            style={{ alignSelf: "center", backgroundColor: "#2A3B76" }}
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )}
-        <Text>Fin</Text>
+          <Text>Inicio:</Text>
+          {androidDate && (
+            <Button
+              onPress={showDatepickerStart}
+              color={"#2A3B76"}
+              title={`${dateStart.toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })}`}
+            />
+          )}
+          {ios && (
+            <DateTimePicker
+              style={{ alignSelf: "center", backgroundColor: "#2A3B76" }}
+              value={dateStart}
+              mode={"date"}
+              is24Hour={true}
+              onChange={onChangeStart}
+            />
+          )}
+          <Text>Fin</Text>
 
-        {androidDate && (
-          <Button
-            onPress={showDatepickerEnd}
-            color={"#2A3B76"}
-            title={`${dateEnd.toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-            })}`}
-          />
-        )}
-        {androidDateStart && (
-          <DateTimePicker
-            value={dateStart}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeStart}
-          />
-        )}
-        {androidDateEnd && (
-          <DateTimePicker
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )}
+          {androidDate && (
+            <Button
+              onPress={showDatepickerEnd}
+              color={"#2A3B76"}
+              title={`${dateEnd.toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+              })}`}
+            />
+          )}
+          {androidDateStart && (
+            <DateTimePicker
+              value={dateStart}
+              mode={"date"}
+              is24Hour={true}
+              onChange={onChangeStart}
+            />
+          )}
+          {androidDateEnd && (
+            <DateTimePicker
+              value={dateEnd}
+              mode={"date"}
+              is24Hour={true}
+              onChange={onChangeEnd}
+            />
+          )}
 
-        {ios && (
-          <DateTimePicker
-            style={{ alignSelf: "center", backgroundColor: "#2A3B76" }}
-            value={dateEnd}
-            mode={"date"}
-            is24Hour={true}
-            onChange={onChangeEnd}
-          />
-        )}
+          {ios && (
+            <DateTimePicker
+              style={{ alignSelf: "center", backgroundColor: "#2A3B76" }}
+              value={dateEnd}
+              mode={"date"}
+              is24Hour={true}
+              onChange={onChangeEnd}
+            />
+          )}
 
-        <Text></Text>
+          <Text></Text>
 
-        <Text></Text>
-      </View>
+          <Text></Text>
+        </View>
+      )}
+      {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+
       <Text></Text>
-
-      {/* {filtroText === "Con Filtro" && (
-        <Text
-          style={{
-            alignSelf: "center",
-            backgroundColor: filtroText === "Con Filtro" ? "#2A3B76" : "white",
-            opacity: 0.5,
-            color: filtroText === "Con Filtro" ? "white" : "black",
-            padding: 5,
-          }}
-        >
-          {filtroText}
-        </Text>
-      )} */}
 
       <Text></Text>
 

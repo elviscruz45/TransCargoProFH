@@ -83,6 +83,7 @@ export function DateScreen(props: any) {
         <Text></Text>
 
         <Text>Inicio:</Text>
+
         {androidDate && (
           <Button
             onPress={showDatepickerStart}
@@ -94,6 +95,7 @@ export function DateScreen(props: any) {
             })}`}
           />
         )}
+
         {ios && (
           <DateTimePicker
             style={{ alignSelf: "center", backgroundColor: "#2A3B76" }}
@@ -103,6 +105,7 @@ export function DateScreen(props: any) {
             onChange={onChangeStart}
           />
         )}
+
         <Text>Fin</Text>
 
         {androidDate && (
@@ -116,6 +119,7 @@ export function DateScreen(props: any) {
             })}`}
           />
         )}
+
         {androidDateStart && (
           <DateTimePicker
             value={dateStart}
@@ -124,6 +128,7 @@ export function DateScreen(props: any) {
             onChange={onChangeStart}
           />
         )}
+
         {androidDateEnd && (
           <DateTimePicker
             value={dateEnd}
@@ -144,7 +149,6 @@ export function DateScreen(props: any) {
         )}
 
         <Text></Text>
-
         <Text></Text>
       </View>
       <Text></Text>

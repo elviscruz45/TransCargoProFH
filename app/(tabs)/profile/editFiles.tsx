@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Platform } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./editFiles.styles";
 import { Input, Button } from "@rneui/themed";
@@ -85,8 +85,7 @@ export default function EditDocs() {
           console.log("Object with age 28 not found in the list.");
         }
 
-
-        const RefFirebaseLasEventPostd = doc(db, "Asset", uidDoc);
+        const RefFirebaseLasEventPostd = doc(db, "users", uidDoc);
         const updatedData = {
           files: newFileListToUpdate,
         };
@@ -197,18 +196,45 @@ export default function EditDocs() {
             },
           }}
         />
-        <Input
-          label="Fecha de Vencimiento"
-          value={formatdate(formik.values?.fechaVencimiento?.toString())}
-          rightIcon={{
-            type: "material-community",
-            name: "update",
-            color: "#c2c2c2",
-            onPress: () => {
-              selectComponent("date", "fechaVencimiento");
-            },
-          }}
-        />
+
+        {Platform.OS === "web" ? (
+          <View style={{ marginHorizontal: 10 }}>
+            <Text> </Text>
+
+            <Text style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}>
+              Fecha de Vencimiento
+            </Text>
+            <Text> </Text>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              onChange={(event: any) => {
+                const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                const [year, month, day] = selectedDateString.split("-");
+                const selectedDate = new Date(
+                  Number(year),
+                  Number(month) - 1,
+                  Number(day)
+                ); // month is 0-indexed in JavaScript Date
+                formik.setFieldValue("fechaVencimiento", selectedDate);
+              }}
+            />
+          </View>
+        ) : (
+          <Input
+            label="Fecha de Vencimiento"
+            value={formatdate(formik.values?.fechaVencimiento?.toString())}
+            rightIcon={{
+              type: "material-community",
+              name: "update",
+              color: "#c2c2c2",
+              onPress: () => {
+                selectComponent("date", "fechaVencimiento");
+              },
+            }}
+          />
+        )}
       </View>
       <Button
         title="Editar Documento"

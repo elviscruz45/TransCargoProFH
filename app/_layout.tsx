@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Platform } from "react-native";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { Provider } from "react-redux";
@@ -49,7 +49,7 @@ export default function RootLayout() {
           <Stack.Screen name="+not-found" options={{ headerShown: false }} />
         </Stack>
       </Provider>
-      {/* <Toast /> */}
+      {Platform.OS !== "web" && <Toast />}
       {/* </ThemeProvider> */}
     </GestureHandlerRootView>
   );

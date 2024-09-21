@@ -96,6 +96,7 @@ export const AvatarImg = ({ currentAsset, idAsset }: any) => {
       );
     }
   };
+
   return (
     <TouchableOpacity
       onPress={emailCompany === user_email ? () => editPhoto() : () => {}}

@@ -4,6 +4,7 @@ import DateTimePicker, {
 } from "@react-native-community/datetimepicker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Platform, Button, Text } from "react-native";
+
 interface Event {
   onClose: () => void;
   formik: any; // replace with the actual type
