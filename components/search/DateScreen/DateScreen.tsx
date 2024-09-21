@@ -54,7 +54,10 @@ export function DateScreen(props: any) {
     setFiltroText("Sin Filtro");
     setDateEnd(new Date());
     setDateStart(new Date());
+
     quitFilterButton();
+
+    
   };
 
   //methods to change the date
