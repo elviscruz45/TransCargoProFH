@@ -128,7 +128,7 @@ export default function AddDocs() {
 
       const fileSize = blob.size;
 
-      if (fileSize > 25 * 1024 * 1024) {
+      if (fileSize > 50 * 1024 * 1024) {
         Toast.show({
           type: "error",
           position: "bottom",
