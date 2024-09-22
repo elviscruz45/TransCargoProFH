@@ -51,6 +51,7 @@ export default function AddDocs() {
   const router = useRouter();
 
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
+  const [pdfFileURL, setPdfFileURL] = useState("");
 
   //using Formik
   const formik = useFormik({
@@ -76,9 +77,9 @@ export default function AddDocs() {
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
         let snapshotPDF;
-        if (newData.pdfFileURL) {
+        if (pdfFileURL) {
           snapshotPDF = await uploadPdf(
-            newData.pdfFileURL,
+            pdfFileURL,
             newData.fechaPostFormato
           );
 
@@ -120,9 +121,9 @@ export default function AddDocs() {
         Toast.show({
           type: "error",
           position: "bottom",
-          text1: "El archivo excede los 25 MB",
+          text1: "El archivo excede los 50 MB",
         });
-        throw new Error("El archivo excede los 25 MB");
+        throw new Error("El archivo excede los 50 MB");
       }
 
       const storage = getStorage();
@@ -172,7 +173,9 @@ export default function AddDocs() {
       });
       if (result.assets) {
         setShortNameFileUpdated(result?.assets[0]?.name);
-        formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        // formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        setPdfFileURL(result?.assets[0]?.uri);
+
         formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
       } else {
         setShortNameFileUpdated("");

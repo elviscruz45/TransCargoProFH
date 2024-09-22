@@ -43,6 +43,7 @@ export default function EditDocs() {
   // const navigation = useNavigation();
   const router = useRouter();
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
+  const [pdfFileURL, setPdfFileURL] = useState("");
 
   //using Formik
   const formik = useFormik({
@@ -61,8 +62,8 @@ export default function EditDocs() {
         let imageUrlPDF: any;
         let snapshotPDF;
 
-        if (newData.pdfFileURL) {
-          snapshotPDF = await uploadPdf(newData.pdfFileURL);
+        if (pdfFileURL) {
+          snapshotPDF = await uploadPdf(pdfFileURL);
           const imagePathPDF = snapshotPDF?.metadata.fullPath;
           imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
         }
@@ -114,9 +115,9 @@ export default function EditDocs() {
         Toast.show({
           type: "error",
           position: "bottom",
-          text1: "El archivo excede los 25 MB",
+          text1: "El archivo excede los 50 MB",
         });
-        throw new Error("El archivo excede los 25 MB");
+        throw new Error("El archivo excede los 50 MB");
       }
 
       const storage = getStorage();
@@ -157,7 +158,9 @@ export default function EditDocs() {
       });
       if (result.assets) {
         setShortNameFileUpdated(result?.assets[0]?.name);
-        formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        // formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        setPdfFileURL(result?.assets[0]?.uri);
+
         formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
       } else {
         setShortNameFileUpdated("");

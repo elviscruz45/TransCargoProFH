@@ -98,5 +98,5 @@ export const CurrentFormatDate = () => {
   const year = date.getFullYear();
   const hour = date.getHours();
   const minute = date.getMinutes();
-  return `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
+  return `${day}${month}${year}${hour}:${minute}Hrs`;
 };

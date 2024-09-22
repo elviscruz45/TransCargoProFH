@@ -142,7 +142,7 @@ export const uploadPdf = async (
     });
 
     // if (fileSize > 25 * 1024 * 1024) {
-    //   throw new Error("El archivo excede los 25 MB");
+    //   throw new Error("El archivo excede los 50 MB");
     // }
 
     const storage = getStorage();
@@ -157,7 +157,7 @@ export const uploadPdf = async (
     Toast.show({
       type: "error",
       position: "bottom",
-      text1: "El archivo excede los 25 MB",
+      text1: "El archivo excede los 50 MB",
     });
   }
 };

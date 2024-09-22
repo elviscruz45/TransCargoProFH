@@ -43,6 +43,7 @@ export default function AddDocs() {
     (asset: any) => asset.idFirebaseAsset === item
   );
   const files = currentAsset?.files;
+  console.log("files", files);
 
   const tipoFileList = files.map((item: any) => item.tipoFile);
 
@@ -59,6 +60,7 @@ export default function AddDocs() {
   }
 
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
+  const [pdfFileURL, setPdfFileURL] = useState("");
 
   //using Formik
   const formik = useFormik({
@@ -68,15 +70,19 @@ export default function AddDocs() {
     onSubmit: async (formValue) => {
       try {
         if (tipoFileList.includes(formValue.tipoFile)) {
+          if (Platform.OS === "web") {
+            const confirmed = window.confirm("Ya esta creado este documento");
+          } else {
+            Toast.show({
+              type: "error",
+              position: "bottom",
+              text1: "Ya esta creado este documento",
+            });
+          }
           router.back();
-          Toast.show({
-            type: "error",
-            position: "bottom",
-            text1: "Ya esta creado este documento",
-          });
+
           return;
         }
-
         const newData = formValue;
         newData.fechaPostFormato = CurrentFormatDate();
         newData.autor = email;
@@ -84,24 +90,26 @@ export default function AddDocs() {
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
         let snapshotPDF;
-        if (newData.pdfFileURL) {
-          snapshotPDF = await uploadPdf(
-            newData.pdfFileURL,
-            newData.fechaPostFormato
-          );
+        if (pdfFileURL) {
+          snapshotPDF = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
 
           const imagePathPDF = snapshotPDF?.metadata.fullPath;
           imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
         }
+
         newData.pdfFileURLFirebase = imageUrlPDF;
+        console.log("newData", newData);
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
         const RefFirebaseLasEventPostd = doc(db, "Asset", item);
+
         const updatedData = {
           files: arrayUnion(newData),
         };
 
         await updateDoc(RefFirebaseLasEventPostd, updatedData);
+        console.log("cc");
+
         router.back();
         Toast.show({
           type: "success",
@@ -109,6 +117,8 @@ export default function AddDocs() {
           text1: "Documento Agregado Correctamente",
         });
       } catch (error) {
+        console.error("Error uploading PDF file:", error);
+
         Toast.show({
           type: "error",
           position: "bottom",
@@ -132,9 +142,9 @@ export default function AddDocs() {
         Toast.show({
           type: "error",
           position: "bottom",
-          text1: "El archivo excede los 25 MB",
+          text1: "El archivo excede los 50 MB",
         });
-        throw new Error("El archivo excede los 25 MB");
+        throw new Error("El archivo excede los 50 MB");
       }
 
       const storage = getStorage();
@@ -185,7 +195,8 @@ export default function AddDocs() {
       });
       if (result.assets) {
         setShortNameFileUpdated(result?.assets[0]?.name);
-        formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        // formik.setFieldValue("pdfFileURL", result?.assets[0]?.uri);
+        setPdfFileURL(result?.assets[0]?.uri);
         formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
       } else {
         setShortNameFileUpdated("");
