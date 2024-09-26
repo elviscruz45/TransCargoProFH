@@ -276,7 +276,7 @@ export const tipoDocumento_vehiculo = [
 ];
 
 export const tipoDocumento_empresa = [
-  //Datos Empres
+  //Datos Empresaa
   {
     key: "Datos Empresa",
     value: "Datos Empresa",
