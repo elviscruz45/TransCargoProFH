@@ -7,86 +7,125 @@ export const tipoDocumento = [
   },
   {
     key: "habilitacionVehicular",
-    value: "Habilitacion Vehicular",
+    value: "Tarjeta de certificado de habilitación vehicular",
     disabled: false,
   },
   {
     key: "resolucionMaterialesPeligrosos",
-    value: "Resolucion Materiales Peligrosos",
-    disabled: false,
-  },
-  { key: "inspeccionTecnica", value: "Inspeccion Tecnica", disabled: false },
-  { key: "planContingencia", value: "Plan Contingencia", disabled: false },
-  { key: "RDHabilitacion", value: "RDHabilitacion", disabled: false },
-  { key: "partidaRegistral", value: "Partida Registral", disabled: false },
-  { key: "sunatIQBF", value: "Sunat IQBF", disabled: false },
-  { key: "soat", value: "SOAT", disabled: false },
-  {
-    key: "RESOLUCION DE TRANSPORTE TERRESTRE",
-    value: "RESOLUCION DE TRANSPORTE TERRESTRE",
+    value: "Póliza de Responsabilidad Civil Tarjeta de Propiedad",
     disabled: false,
   },
   {
-    key: "RESOLUCION DIRECTORAL MATPEL",
-    value: "RESOLUCION DIRECTORAL MATPEL",
+    key: "Resolución de transporte terrestre",
+    value: "Resolución de transporte terrestre",
     disabled: false,
   },
   {
-    key: "RESOLUCION DIRECTORAL BONIFICACION",
-    value: "RESOLUCION DIRECTORAL BONIFICACION",
+    key: "Resolución directoral MATPEL",
+    value: "Resolución directoral MATPEL",
+    disabled: false,
+  },
+  {
+    key: "Resolución de Plan de Contingencia",
+    value: "Resolución de Plan de Contingencia",
+    disabled: false,
+  },
+  {
+    key: "Plan de contingencia para el transporte de residuos peligrosos",
+    value: "Plan de contingencia para el transporte de residuos peligrosos",
+    disabled: false,
+  },
+  {
+    key: "IQBF SUNAT vehículos",
+    value: "IQBF SUNAT vehículos",
     disabled: false,
   },
   { key: "GPS", value: "GPS", disabled: false },
-  { key: "ITV", value: "ITV", disabled: false },
   {
-    key: "CERTIFICADO DE BONIFICACION",
-    value: "CERTIFICADO DE BONIFICACION",
+    key: "Tarjeta de propiedad",
+    value: "Tarjeta de propiedad",
     disabled: false,
   },
   {
-    key: "CERTIFICADO DE HAB VEHICULAR en mercancias",
-    value: "CERTIFICADO DE HAB VEHICULAR en mercancias",
+    key: "SOAT",
+    value: "SOAT",
     disabled: false,
   },
   {
-    key: "CERTIFICADO DE HERMETICIDAD",
-    value: "CERTIFICADO DE HERMETICIDAD",
-    disabled: false,
-  },
-  { key: "IQBF", value: "IQBF", disabled: false },
-  {
-    key: "SEGURO DE MEDIO AMBIENTE",
-    value: "SEGURO DE MEDIO AMBIENTE",
+    key: "Certificado de Inspección Técnica Vehicular 6 meses",
+    value: "Certificado de Inspección Técnica Vehicular 6 meses",
     disabled: false,
   },
   {
-    key: "PLAN DE CONTINGENCIA PARA EL TRANSPORTE DE RESIDUOS PELIGROSOS",
-    value: "PLAN DE CONTINGENCIA PARA EL TRANSPORTE DE RESIDUOS PELIGROSOS",
+    key: "Certificado de Inspección Técnica Vehicular 12 Meses",
+    value: "Certificado de Inspección Técnica Vehicular 12 Meses",
+    disabled: false,
+  },
+  {
+    key: "Fotos de las unidades Frontal",
+    value: "Fotos de las unidades Frontal",
+    disabled: false,
+  },
+  {
+    key: "Fotos de las unidades Lateral",
+    value: "Fotos de las unidades Lateral",
+    disabled: false,
+  },
+  {
+    key: "Fotos de las unidades Posterior(placa legible)",
+    value: "Fotos de las unidades Posterior(placa legible)",
+    disabled: false,
+  },
+  {
+    key: "Certificado de bonificación",
+    value: "Certificado de bonificación",
+    disabled: false,
+  },
+  {
+    key: "Resolución directoral Bonificación",
+    value: "Resolución directoral Bonificación",
+    disabled: false,
+  },
+  {
+    key: "Certificado de habilitación vehicular",
+    value: "Certificado de habilitación vehicular",
+    disabled: false,
+  },
+  {
+    key: "Certificado de habilitación vehicular especial",
+    value: "Certificado de habilitación vehicular especial",
     disabled: false,
   },
 
   {
-    key: "polizaResponsabilidadCivil",
-    value: "Poliza Responsabilidad Civil",
+    key: "Certificado de hermeticidad",
+    value: "Certificado de hermeticidad",
     disabled: false,
-  }, //Datos Empresa
+  },
   {
-    key: "Datos Empresa",
-    value: "Datos Empresa",
+    key: "Póliza de Medio Ambiente",
+    value: "Póliza de Medio Ambiente",
+    disabled: false,
+  },
+  //Datos Empresa
+  {
+    key: "Documentacion Empresa",
+    value: "Documentacion Empresa",
     disabled: true,
   },
-  { key: "FichaRUC", value: "Ficha RUC", disabled: false },
-  { key: "SeguroCarga", value: "Seguro de Carga", disabled: false },
+  {
+    key: "FichaRUCEmpresa",
+    value: "Ficha RUC",
+    disabled: false,
+  },
 ];
 export const tipoDocumento_personal = [
   //Documentacion Personal
   {
-    key: "Documentacion Personal",
-    value: "Documentacion Personal",
+    key: "Curriculum Vitae",
+    value: "Curriculum Vitae",
     disabled: true,
   },
-  { key: "DNI", value: "DNI", disabled: false },
-  { key: "Curriculum Vitae", value: "Curriculum Vitae", disabled: false },
   { key: "Contrato de trabajo", value: "Contrato de trabajo", disabled: false },
   {
     key: "Certificado de antecedentes penales",
@@ -96,6 +135,36 @@ export const tipoDocumento_personal = [
   {
     key: "Certificado de antecedentes policiales",
     value: "Certificado de antecedentes policiales",
+    disabled: false,
+  },
+  {
+    key: "DNI",
+    value: "DNI",
+    disabled: false,
+  },
+  {
+    key: "Licencia de Conducir",
+    value: "Licencia de Conducir",
+    disabled: false,
+  },
+  {
+    key: "Licencia especial o A4",
+    value: "Licencia especial o A4",
+    disabled: false,
+  },
+  {
+    key: "Record Conductor",
+    value: "Record Conductor",
+    disabled: false,
+  },
+  {
+    key: "Seg. trabajo de riesgo SCTR PENSION",
+    value: "Seg. trabajo de riesgo SCTR PENSION",
+    disabled: false,
+  },
+  {
+    key: "Seg. trabajo de riesgo SCTR SALUD",
+    value: "Seg. trabajo de riesgo SCTR SALUD",
     disabled: false,
   },
   {
@@ -114,8 +183,13 @@ export const tipoDocumento_personal = [
     disabled: false,
   },
   {
-    key: "Cert. Capacitacion MTC MAPTEL I",
-    value: "Cert. Capacitacion MTC MAPTEL I",
+    key: "Cert. Capacitación MTC MAPTEL I",
+    value: "Cert. Capacitación MTC MAPTEL I",
+    disabled: false,
+  },
+  {
+    key: "Cert. Manejo Defensivo",
+    value: "Cert. Manejo Defensivo",
     disabled: false,
   },
   {
@@ -124,32 +198,37 @@ export const tipoDocumento_personal = [
     disabled: false,
   },
   {
-    key: "Cert. Capacitacion MTC Maptel II",
-    value: "Cert. Capacitacion MTC Maptel II",
+    key: "IQBF SUNAT CONDUCTOR",
+    value: "IQBF SUNAT CONDUCTOR",
+    disabled: false,
+  },
+  { key: "Seguro Vida Ley", value: "Seguro Vida Ley", disabled: false },
+  {
+    key: "Cert. Capacitación MTC MATPEL II",
+    value: "Cert. Capacitación MTC MATPEL II",
     disabled: false,
   },
   {
-    key: "CURSO BASICO I DEL CODIGO PBIP",
-    value: "CURSO BASICO I DEL CODIGO PBIP",
+    key: "Curso básico  del código PBIP",
+    value: "Curso básico  del código PBIP",
     disabled: false,
   },
   {
-    key: "CURSO BASICO DE SEGURIDAD PORTUARIA",
-    value: "CURSO BASICO DE SEGURIDAD PORTUARIA",
+    key: "Curso básico de seguridad portuaria",
+    value: "Curso básico de seguridad portuaria",
     disabled: false,
   },
   {
-    key: "CURSO BASICO DE MERCANCIAS PELIGROSAS",
-    value: "CURSO BASICO DE MERCANCIAS PELIGROSAS",
+    key: "Curso básico de mercancías peligrosas",
+    value: "Curso básico de mercancías peligrosas",
     disabled: false,
   },
   {
-    key: "CURSO DE FATIGA Y SOMNOLIENCIA",
-    value: "CURSO DE FATIGA Y SOMNOLIENCIA",
+    key: "Curso de fatiga y somnolencia",
+    value: "Curso de fatiga y somnolencia",
     disabled: false,
   },
-  { key: "HAZMAT", value: "HAZMAT", disabled: false },
-  { key: "CURSO PORTUARIO", value: "CURSO PORTUARIO", disabled: false },
+  { key: "Curso portuario", value: "Curso portuario", disabled: false },
   {
     key: "Cert. Lucha Contra Incendios",
     value: "Cert. Lucha Contra Incendios",
@@ -165,14 +244,6 @@ export const tipoDocumento_personal = [
     value: "Declaración Jurada de domicilio",
     disabled: false,
   },
-  { key: "licenciaA3", value: "Licencia A3", disabled: false },
-  { key: "licenciaA4", value: "Licencia A4", disabled: false },
-  { key: "recordConductor", value: "Record de Conductor", disabled: false },
-  { key: "iqbfConductor", value: "IQBF Conductor", disabled: false },
-  { key: "manejoDefensivo", value: "Manejo Defensivo", disabled: false },
-  { key: "seguroVidaLey", value: "Seguro Vida Ley", disabled: false },
-  { key: "sctrSalud", value: "SCTR Salud", disabled: false },
-  { key: "sctrPension", value: "SCTR Pension", disabled: false },
 ];
 export const tipoDocumento_vehiculo = [
   //Documentacion Vehicular
