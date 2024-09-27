@@ -60,7 +60,7 @@ export default function AddDocs() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        if (tipoFileList.includes(formValue.tipoFile)) {
+        if (tipoFileList?.includes(formValue.tipoFile)) {
           router.back();
           Toast.show({
             type: "error",
