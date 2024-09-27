@@ -143,12 +143,14 @@ export default function events(props: any) {
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
 
         // upload the photo or an pickimage to firebase Storage
-
-        const snapshot = await uploadImage(asset?.photoServiceURL);
+        const snapshot = await uploadImage(
+          photoUri ? photoUri : asset?.photoServiceURL
+        );
         const imagePath = snapshot.metadata.fullPath;
         const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
         newData.fotoPrincipal = imageUrl;
         newData.photoAssetURL = asset?.photoServiceURL;
+
         //Nombre
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
