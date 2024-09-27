@@ -68,8 +68,7 @@ export default function events(props: any) {
 
   const userType =
     useSelector((state: RootState) => state.userId.userType) ?? "";
-  const asset: any =
-    useSelector((state: RootState) => state.publish.asset) ?? "";
+
   //global state management for the user_uid
   const dispatch = useDispatch();
   const currentAsset: CurrentAsset | any = useSelector(
@@ -77,7 +76,8 @@ export default function events(props: any) {
   );
   const photoUri =
     useSelector((state: RootState) => state.publish.cameraUri) ?? "";
-
+  const asset: any =
+    useSelector((state: RootState) => state.publish.asset) ?? "";
   // const name = useSelector((state: RootState) => state.userId.displayName);
   // const user_email = useSelector((state: RootState) => state.userId.email);
   // const companyName = useSelector(
@@ -85,7 +85,6 @@ export default function events(props: any) {
   // );
 
   // const [gpsPermission, setGpsPermission] = useState(false);
-
   useEffect(() => {
     (async () => {
       dispatch(uploadTires([]));
@@ -143,9 +142,7 @@ export default function events(props: any) {
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
 
         // upload the photo or an pickimage to firebase Storage
-        const snapshot = await uploadImage(
-          photoUri ? photoUri : asset?.photoServiceURL
-        );
+        const snapshot = await uploadImage(photoUri);
         const imagePath = snapshot.metadata.fullPath;
         const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
         newData.fotoPrincipal = imageUrl;
@@ -154,8 +151,8 @@ export default function events(props: any) {
         //Nombre
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
+
         //Photo Events
-        newData.photoEvent = photoUri;
         newData.userType = userType;
 
         //Photo of the profile

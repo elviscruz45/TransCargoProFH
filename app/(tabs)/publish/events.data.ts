@@ -13,7 +13,6 @@ export function initialValues() {
     costoTotalRepuesto: "",
     repuesto: "",
     costoMantenimiento: "",
-    photoEvent: "",
     userType: "",
     photoAssetURL: "",
     placa: "",

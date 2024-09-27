@@ -99,8 +99,8 @@ export function History() {
                   <View style={styles.row}>
                     <ImageExpo
                       source={
-                        item.photoEvent
-                          ? { uri: item.photoEvent }
+                        item.fotoPrincipal
+                          ? { uri: item.fotoPrincipal }
                           : require("../../../assets/pictures/report1.png")
                       }
                       cachePolicy={"memory-disk"}
