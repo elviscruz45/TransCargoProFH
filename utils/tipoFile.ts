@@ -12,7 +12,7 @@ export const tipoDocumento = [
   },
   {
     key: "resolucionMaterialesPeligrosos",
-    value: "Póliza de Responsabilidad Civil Tarjeta de Propiedad",
+    value: "Póliza de Responsabilidad Civil",
     disabled: false,
   },
   {
