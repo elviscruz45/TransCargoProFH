@@ -88,7 +88,7 @@ export default function Report(props: any) {
   useEffect(() => {
     if (Array.isArray(globalAssetList)) {
       setAreaList([
-        ...new Set(globalAssetList.map((item: any) => item.nombre)),
+        ...new Set(globalAssetList?.map((item: any) => item.nombre)),
       ]);
     }
     // if (companyName !== "FMI") {

@@ -154,7 +154,7 @@ export default function AssetAssigned() {
                     /> */}
                     <View>
                       {item?.userAssigned &&
-                        item?.userAssigned.map((email: any, index: any) => (
+                        item?.userAssigned?.map((email: any, index: any) => (
                           <Text key={index} style={styles.info}>
                             {email}
                           </Text>

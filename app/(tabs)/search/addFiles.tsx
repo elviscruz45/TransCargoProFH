@@ -45,7 +45,7 @@ export default function AddDocs() {
   const files = currentAsset?.files;
   console.log("files", files);
 
-  const tipoFileList = files.map((item: any) => item.tipoFile);
+  const tipoFileList = files?.map((item: any) => item.tipoFile);
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
@@ -69,7 +69,7 @@ export default function AddDocs() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-        if (tipoFileList.includes(formValue.tipoFile)) {
+        if (tipoFileList?.includes(formValue.tipoFile)) {
           if (Platform.OS === "web") {
             const confirmed = window.confirm("Ya esta creado este documento");
           } else {

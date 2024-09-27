@@ -66,7 +66,7 @@ export const MultiSelectExample = (props: any) => {
   function saveProperty(itemValue: any) {
     const emailRegex = /([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/;
     const emailList = itemValue
-      .map((item: any) => {
+      ?.map((item: any) => {
         const match = item.match(emailRegex);
         return match ? match[0] : null;
       })
@@ -75,7 +75,6 @@ export const MultiSelectExample = (props: any) => {
     const filteredList = list.filter((obj: any) =>
       emailList.includes(obj.email)
     );
-
 
     setUsers(emailList);
 
