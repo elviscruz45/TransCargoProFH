@@ -129,7 +129,7 @@ export default function HomeScreen() {
                   // onPress={() => commentPost(item)}
                   >
                     <ImageExpo
-                      source={{ uri: item.fotoPrincipal }}
+                      source={{ uri: item.photoEvent }}
                       style={styles.postPhoto}
                       cachePolicy={"memory-disk"}
                     />

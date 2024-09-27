@@ -44,7 +44,7 @@ export default function AddDocs() {
   );
   const files = currentEmployee?.files;
 
-  const tipoFileList = files.map((item: any) => item.tipoFile);
+  const tipoFileList = files?.map((item: any) => item.tipoFile);
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
@@ -78,10 +78,7 @@ export default function AddDocs() {
         let imageUrlPDF: any;
         let snapshotPDF;
         if (pdfFileURL) {
-          snapshotPDF = await uploadPdf(
-            pdfFileURL,
-            newData.fechaPostFormato
-          );
+          snapshotPDF = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
 
           const imagePathPDF = snapshotPDF?.metadata.fullPath;
           imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
