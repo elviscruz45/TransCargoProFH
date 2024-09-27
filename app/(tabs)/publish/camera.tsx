@@ -1,4 +1,4 @@
-import { TouchableOpacity, Button } from "react-native";
+import { TouchableOpacity, Button, Platform } from "react-native";
 import React, { useRef, useState } from "react";
 
 // import EditScreenInfo from '../../components/EditScreenInfo';
@@ -76,42 +76,81 @@ export default function CameraScreen() {
   }
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} type={type} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Ionicons name="camera-reverse-sharp" size={35} color="white" />
-          </TouchableOpacity>
+      {Platform.OS === "web" ? (
+        <CameraView style={styles.camera} type={type} ref={cameraRef}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+              <Ionicons name="camera-reverse-sharp" size={35} color="white" />
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.cameraButton}
-            onPress={() => snapPhoto()}
-          >
-            <View
-              style={{
-                borderWidth: 2,
-                borderRadius: 30,
-                borderColor: "white",
-                height: 50,
-                width: 50,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={() => snapPhoto()}
             >
               <View
                 style={{
                   borderWidth: 2,
                   borderRadius: 30,
                   borderColor: "white",
-                  height: 40,
-                  width: 40,
-                  backgroundColor: "white",
+                  height: 50,
+                  width: 50,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
-              ></View>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </CameraView>
+              >
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderRadius: 30,
+                    borderColor: "white",
+                    height: 40,
+                    width: 40,
+                    backgroundColor: "white",
+                  }}
+                ></View>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+      ) : (
+        <CameraView style={styles.camera} facing={type} ref={cameraRef}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+              <Ionicons name="camera-reverse-sharp" size={35} color="white" />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.cameraButton}
+              onPress={() => snapPhoto()}
+            >
+              <View
+                style={{
+                  borderWidth: 2,
+                  borderRadius: 30,
+                  borderColor: "white",
+                  height: 50,
+                  width: 50,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <View
+                  style={{
+                    borderWidth: 2,
+                    borderRadius: 30,
+                    borderColor: "white",
+                    height: 40,
+                    width: 40,
+                    backgroundColor: "white",
+                  }}
+                ></View>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </CameraView>
+      )}
     </View>
   );
 }
