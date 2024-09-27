@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import { takePhoto } from "../../../slices/publish";
 
 export default function CameraScreen() {
-  const [type, setType] = useState("back");
+  const [type, setType] = useState<CameraType>("back");
   const cameraRef = useRef<any>(null);
   const [permission, requestPermission] = useCameraPermissions();
   const router = useRouter();
@@ -69,7 +69,7 @@ export default function CameraScreen() {
   }
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} ref={cameraRef}>
+      <CameraView style={styles.camera} facing={type} ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
             <Ionicons name="camera-reverse-sharp" size={35} color="white" />
