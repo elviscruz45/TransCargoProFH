@@ -61,11 +61,18 @@ export default function CameraScreen() {
       });
     }
   }
+  // function toggleCameraType() {
+  //   setType((current) =>
+  //     current === "back" ? "front" : "back"
+  //   console.log("current", current);
+  //   );
+  // }
   function toggleCameraType() {
-    setType((current) =>
-      // current === CameraType.back ? CameraType.front : CameraType.back
-      current === "back" ? "front" : "back"
-    );
+    setType((current) => {
+      const newType = current === "back" ? "front" : "back";
+      console.log("current", current);
+      return newType;
+    });
   }
   return (
     <View style={styles.container}>
