@@ -76,7 +76,7 @@ export default function CameraScreen() {
   }
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={type} ref={cameraRef}>
+      <CameraView style={styles.camera} type={type} ref={cameraRef}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
             <Ionicons name="camera-reverse-sharp" size={35} color="white" />
