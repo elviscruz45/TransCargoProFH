@@ -104,7 +104,7 @@ export const GanttHistorial = (props: any) => {
 
                 <View style={styles.row}>
                   <ImageExpo
-                    source={{ uri: item.imageUrl }}
+                    source={{ uri: item.fotoPrincipal }}
                     cachePolicy={"memory-disk"}
                     style={{
                       width: 50,

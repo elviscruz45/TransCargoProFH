@@ -47,7 +47,7 @@ export default function CameraScreen() {
         data.uri,
         [{ resize: { width: 800 } }],
         {
-          compress: 0.2,
+          compress: 0.4,
           format: ImageManipulator.SaveFormat.JPEG,
           base64: true,
         }

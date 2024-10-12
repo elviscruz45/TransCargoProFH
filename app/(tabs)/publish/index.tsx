@@ -137,7 +137,7 @@ export default function Publish() {
         result.assets[0].uri,
         [{ resize: { width: 800 } }],
         {
-          compress: 0.1,
+          compress: 0.4,
           base64: true,
           // , format: "jpeg"
         }

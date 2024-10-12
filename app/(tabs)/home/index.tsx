@@ -89,7 +89,7 @@ export default function HomeScreen() {
                               { alignSelf: "center" },
                             ]}
                           >
-                            {item.NombreArea}
+                            {item.nombreAsset}
                           </Text>
                         )}
                       </View>

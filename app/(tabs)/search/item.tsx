@@ -148,7 +148,7 @@ export default function Item() {
           const lista: any = [];
           querySnapshot.forEach((doc) => {
             const dataschema = {
-              // ...item,
+              ...doc.data(),
               createdAt: doc.data().createdAt,
               fechaPostFormato: doc.data().fechaPostFormato,
               emailPerfil: doc.data().emailPerfil,
@@ -192,7 +192,7 @@ export default function Item() {
             <AvatarImg currentAsset={currentAsset} idAsset={item} />
           </View>
           <Text> </Text>
-          <View style={{ marginLeft: 0 }}>
+          <View style={{ ...(Platform.OS === "web" && { marginLeft: 20 }) }}>
             <Text style={styles.name}>{currentAsset?.nombre}</Text>
             <Text style={styles.info}>
               {"Placa:"} {currentAsset?.placa}

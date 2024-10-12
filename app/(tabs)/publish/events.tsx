@@ -78,6 +78,8 @@ export default function events(props: any) {
     useSelector((state: RootState) => state.publish.cameraUri) ?? "";
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
+
+  console.log("asset", asset.photoServiceURL);
   // const name = useSelector((state: RootState) => state.userId.displayName);
   // const user_email = useSelector((state: RootState) => state.userId.email);
   // const companyName = useSelector(
@@ -142,21 +144,15 @@ export default function events(props: any) {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
-        console.log(2);
-        console.log(photoUri);
+
         newData.emailCompany = emailCompany || "Anonimo";
 
         // upload the photo or an pickimage to firebase Storage
         const snapshot = await uploadImage(photoUri, newData.emailCompany);
-        console.log(3);
-        console.log(photoUri);
 
         const imagePath = snapshot.metadata.fullPath;
-        console.log(4);
-        console.log(imagePath);
 
         const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
-        console.log(5);
 
         newData.fotoPrincipal = imageUrl;
         newData.photoAssetURL = asset?.photoServiceURL;
@@ -164,7 +160,6 @@ export default function events(props: any) {
         //Nombre
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
-        console.log(6);
 
         //Photo Events
         newData.userType = userType;
@@ -177,7 +172,6 @@ export default function events(props: any) {
         newData.nombrePerfil = displayName || "Anonimo";
         newData.idFirebaseAsset = currentAsset?.idFirebaseAsset;
         newData.placa = currentAsset?.placa;
-        console.log(4);
 
         //Data about the company belong this event
         const regex = /@(.+?)\./i;
@@ -185,7 +179,6 @@ export default function events(props: any) {
         //Uploading data to Firebase and adding the ID firestore
         const docRef = doc(collection(db, "Events"));
         newData.idEventFirebase = docRef.id;
-        console.log(100);
 
         await setDoc(docRef, newData);
         Toast.show({

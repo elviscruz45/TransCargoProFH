@@ -95,46 +95,6 @@ export default function Profile(props: any) {
         <View>
           <InfoUser />
         </View>
-        <Text></Text>
-
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "white",
-            justifyContent: "space-between",
-
-            // paddingHorizontal: 150,
-          }}
-        >
-          <Text></Text>
-          {emailCompany === email && (
-            <TouchableOpacity
-              // style={styles.btnContainer4}
-              onPress={() => goToAssetScreen()}
-            >
-              <Image
-                source={require("../../../assets/assetpics/assetsIcon.png")}
-                style={styles.roundImageUpload2}
-              />
-            </TouchableOpacity>
-          )}
-
-          {emailCompany === email && (
-            <TouchableOpacity
-              // style={styles.btnContainer4}
-              onPress={() => goToUsersScreen()}
-            >
-              <Image
-                source={require("../../../assets/pictures/manpower2.png")}
-                style={styles.roundImageUpload2}
-              />
-            </TouchableOpacity>
-          )}
-
-          <Text></Text>
-        </View>
-        <Text></Text>
 
         <View
           style={{
@@ -158,7 +118,67 @@ export default function Profile(props: any) {
             onPress={() => logout()}
           />
           <Text></Text>
+
           {/* <Text></Text> */}
+        </View>
+        <Text> </Text>
+        <Text> </Text>
+
+        <View
+          style={{
+            // flexDirection: "row",
+            // alignItems: "center",
+            backgroundColor: "white",
+            // justifyContent: "space-between",
+
+            paddingHorizontal: "10%",
+          }}
+        >
+          <Text></Text>
+          {emailCompany === email && (
+            <TouchableOpacity
+              // style={styles.btnContainer4}
+              onPress={() => goToAssetScreen()}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("../../../assets/assetpics/assetsIcon.png")}
+                  style={styles.roundImageUpload2}
+                />
+                <Text> Lista de Activos</Text>
+              </View>
+
+              <Text> </Text>
+              <Text> </Text>
+            </TouchableOpacity>
+          )}
+
+          {emailCompany === email && (
+            <TouchableOpacity
+              // style={styles.btnContainer4}
+              onPress={() => goToUsersScreen()}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  source={require("../../../assets/pictures/manpower2.png")}
+                  style={styles.roundImageUpload2}
+                />
+                <Text> Lista de Usuarios</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+
+          <Text></Text>
         </View>
         {/* <DateScreen filterButton={filter} quitFilterButton={quitfilter} /> */}
       </ScrollView>

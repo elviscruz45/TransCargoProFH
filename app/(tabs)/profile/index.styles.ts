@@ -135,9 +135,10 @@ export const styles = StyleSheet.create({
     marginRight: 10,
   },
   roundImageUpload2: {
-    width: 30,
-    height: 30,
+    width: 60,
+    height: 60,
     zIndex: 122,
+    // paddingVertical: 30,
     // borderRadius: 50, // half of width and height
   },
 });
