@@ -28,6 +28,10 @@ import { formatdate, CurrentFormatDate } from "../../../utils/formats";
 import { SelectDocument } from "../../../components/profile/TipoFile/Tipo";
 
 export default function AddDocs() {
+
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   const [renderComponent, setRenderComponent] =
     useState<React.ReactNode | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -127,7 +131,7 @@ export default function AddDocs() {
 
       const storageRef = ref(
         storage,
-        `pdfPost/${shortNameFileUpdated}-${formattedDate}`
+        `${emailCompany}/pdfPost/${shortNameFileUpdated}-${formattedDate}`
       );
       return await uploadBytesResumable(storageRef, blob);
     } catch (error) {

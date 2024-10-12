@@ -24,6 +24,10 @@ import { ChangeDate } from "../../../components/publish/forms/ChangeDates/Change
 import { formatdate, CurrentFormatDate } from "../../../utils/formats";
 
 export default function EditDocs() {
+
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   const [renderComponent, setRenderComponent] =
     useState<React.ReactNode | null>(null);
   const [showModal, setShowModal] = useState(false);
@@ -81,7 +85,6 @@ export default function EditDocs() {
           // Replace the object at the found index with the new object
           newFileListToUpdate[indexToUpdate] = newData;
 
-          console.log("Object with age 28 replaced:", newFileListToUpdate);
         } else {
           console.log("Object with age 28 not found in the list.");
         }
@@ -127,7 +130,7 @@ export default function EditDocs() {
 
       const storageRef = ref(
         storage,
-        `pdfPost/${FilenameTitle}-${fechaPostFormato}`
+        `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
       );
       return await uploadBytesResumable(storageRef, blob);
     } catch (error) {

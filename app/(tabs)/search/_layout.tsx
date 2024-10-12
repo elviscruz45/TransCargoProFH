@@ -41,6 +41,7 @@ export default function _layout() {
         options={{
           title: "Unidades",
           headerShown: false,
+          headerTitleAlign: "center", // Center the title
 
           // headerRight: () => (
           //   //   <TouchableOpacity
@@ -49,26 +50,26 @@ export default function _layout() {
           //   //     }
           //   //   >
           //   <Ionicons name="bar-chart-outline" />
-
           //   //   </TouchableOpacity>
           // ),
         }}
       />
+
       <Stack.Screen
         name="item"
         options={{
-          title: "Informacion",
-          headerShown: false,
-
-          // headerShown: false,
-          // presentation: "modal",
+          title: "Unidad",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
+          // headerTitle: () => <Text>Regresar</Text>,
         }}
       />
       <Stack.Screen
         name="moreDetail"
         options={{
-          title: "Information",
-          headerShown: false,
+          title: "Informacion",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",
@@ -77,8 +78,9 @@ export default function _layout() {
       <Stack.Screen
         name="files"
         options={{
-          title: "files",
-          headerShown: false,
+          title: "Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",
@@ -87,8 +89,9 @@ export default function _layout() {
       <Stack.Screen
         name="addFiles"
         options={{
-          title: "addFiles",
-          headerShown: false,
+          title: "Agregar Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",
@@ -97,8 +100,9 @@ export default function _layout() {
       <Stack.Screen
         name="editasset"
         options={{
-          title: "editasset",
-          headerShown: false,
+          title: "Editar Activo",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",
@@ -107,8 +111,9 @@ export default function _layout() {
       <Stack.Screen
         name="editFiles"
         options={{
-          title: "editFiles",
-          headerShown: false,
+          title: "Editar Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",
@@ -117,8 +122,9 @@ export default function _layout() {
       <Stack.Screen
         name="comment"
         options={{
-          title: "comment",
-          headerShown: false,
+          title: "Ver Evento",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
 
           // headerShown: false,
           // presentation: "modal",

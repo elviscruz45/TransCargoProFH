@@ -31,6 +31,20 @@ const firebaseConfig = {
   appId: "1:53564081522:web:18632f6f784a3e7cb249eb",
 };
 
+// // ---------TransCargoPro-3------TransCargoPro2--ecruzchullo@gmail.com
+
+// // Your web app's Firebase configuration
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDlxIAKLjR4gd-8CmBWm0WwixqWJdPHX60",
+//   authDomain: "transcargopro-3.firebaseapp.com",
+//   projectId: "transcargopro-3",
+//   storageBucket: "transcargopro-3.appspot.com",
+//   messagingSenderId: "661012100907",
+//   appId: "1:661012100907:web:dfdf753b18f59140a6376e"
+// };
+
+// //----
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);

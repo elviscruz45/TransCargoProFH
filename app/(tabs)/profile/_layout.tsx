@@ -18,50 +18,57 @@ export default function _layout() {
       <Stack.Screen
         name="index"
         options={{
-          title: "profile",
+          title: "Perfil",
           headerShown: false,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="assetAssigned"
         options={{
-          title: "Asset List",
-          headerShown: false,
+          title: "Lista de Activos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="userAssigned"
         options={{
-          title: "User List",
-          headerShown: false,
+          title: "Lista de Usuarios",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="moreDetail"
         options={{
-          title: "moreDetail",
-          headerShown: false,
+          title: "Detalles del Usuario",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="files"
         options={{
-          title: "Files",
-          headerShown: false,
+          title: "Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="editFiles"
         options={{
-          title: "editFiles",
-          headerShown: false,
+          title: "Edita Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="addFiles"
         options={{
-          title: "addFiles",
-          headerShown: false,
+          title: "Agregar Documentos",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
     </Stack>

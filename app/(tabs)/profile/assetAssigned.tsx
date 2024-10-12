@@ -83,7 +83,6 @@ export default function AssetAssigned() {
   return (
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
-        {/* {console.log("SearchItem")} */}
 
         <FlatList
           data={searchResults}

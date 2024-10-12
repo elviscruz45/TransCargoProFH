@@ -1,10 +1,12 @@
-import { StyleSheet } from "react-native";
-
+import { Platform, StyleSheet, View } from "react-native";
 export const styles = StyleSheet.create({
   content: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    ...(Platform.OS === "web" && {
+      marginHorizontal: "35%",
+    }),
     // marginTop: 30,
   },
   input: {

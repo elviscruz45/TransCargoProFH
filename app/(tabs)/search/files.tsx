@@ -112,7 +112,6 @@ export default function FileScreen() {
         const filteredList = docList.filter(
           (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
         );
-        console.log("docList", filteredList);
 
         const updatedData = {
           files: filteredList,
@@ -139,7 +138,6 @@ export default function FileScreen() {
               const filteredList = docList.filter(
                 (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
               );
-              console.log("docList", filteredList);
 
               const updatedData = {
                 files: filteredList,

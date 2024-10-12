@@ -38,7 +38,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 //   // add other properties as needed
 // }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateFormat, useUserData, uploadPdf, uploadImage } from "./event.cal";
+import { dateFormat, useUserData, uploadImage } from "./event.cal";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -116,6 +116,8 @@ export default function events(props: any) {
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
+      console.log(1);
+
       try {
         const newData = formValue;
         //Data about date time format
@@ -140,17 +142,29 @@ export default function events(props: any) {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
+        console.log(2);
+        console.log(photoUri);
+        newData.emailCompany = emailCompany || "Anonimo";
 
         // upload the photo or an pickimage to firebase Storage
-        const snapshot = await uploadImage(photoUri);
+        const snapshot = await uploadImage(photoUri, newData.emailCompany);
+        console.log(3);
+        console.log(photoUri);
+
         const imagePath = snapshot.metadata.fullPath;
+        console.log(4);
+        console.log(imagePath);
+
         const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
+        console.log(5);
+
         newData.fotoPrincipal = imageUrl;
         newData.photoAssetURL = asset?.photoServiceURL;
 
         //Nombre
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
+        console.log(6);
 
         //Photo Events
         newData.userType = userType;
@@ -159,17 +173,19 @@ export default function events(props: any) {
         newData.photoProfileURL = photoURL;
         //Data about information profile and company
         newData.emailPerfil = email || "Anonimo";
-        newData.emailCompany = emailCompany || "Anonimo";
         newData.llanta = tires || [];
         newData.nombrePerfil = displayName || "Anonimo";
         newData.idFirebaseAsset = currentAsset?.idFirebaseAsset;
         newData.placa = currentAsset?.placa;
+        console.log(4);
+
         //Data about the company belong this event
         const regex = /@(.+?)\./i;
         newData.companyName = companyName || "Anonimo";
         //Uploading data to Firebase and adding the ID firestore
         const docRef = doc(collection(db, "Events"));
         newData.idEventFirebase = docRef.id;
+        console.log(100);
 
         await setDoc(docRef, newData);
         Toast.show({

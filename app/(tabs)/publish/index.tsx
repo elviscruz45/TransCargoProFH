@@ -95,10 +95,8 @@ export default function Publish() {
     // const imageUpdated = AIT.photoServiceURL;
     // if (imageUpdated) {
     //   setEquipment({ uri: imageUpdated });
-    //   console.log("selectAsset");
     // } else {
     //   setEquipment(imageSource);
-    //   console.log("selectAsset111", imageSource);
     // }
     setAsset(item);
     dispatch(pickAsset(item));

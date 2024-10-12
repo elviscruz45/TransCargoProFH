@@ -42,7 +42,7 @@ export const AvatarImg = ({ currentAsset, idAsset }: any) => {
     const response = await fetch(uri);
     const blob = await response.blob();
     const storage = getStorage();
-    const storageRef = ref(storage, `avatarAsset/${idAsset}`);
+    const storageRef = ref(storage, `${emailCompany}/avatarAsset/${idAsset}`);
     uploadBytesResumable(storageRef, blob).then((snapshot) => {
       updatePhotoUrl(snapshot.metadata.fullPath);
     });

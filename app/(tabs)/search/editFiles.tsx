@@ -34,6 +34,9 @@ export default function EditDocs() {
     useLocalSearchParams();
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
+    const emailCompany = useSelector(
+      (state: RootState) => state.userId.emailCompany
+    );
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === uidDoc
   );
@@ -124,7 +127,7 @@ export default function EditDocs() {
 
       const storageRef = ref(
         storage,
-        `pdfPost/${FilenameTitle}-${fechaPostFormato}`
+        `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
       );
       return await uploadBytesResumable(storageRef, blob);
     } catch (error) {

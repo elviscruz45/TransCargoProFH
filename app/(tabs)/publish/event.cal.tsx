@@ -10,6 +10,8 @@ import {
 } from "firebase/storage";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "@/app/store";
 
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
@@ -103,9 +105,7 @@ export const dateFormat = () => {
   return formattedDate;
 };
 
-export const uploadImage = async (uri: any) => {
-  // const uuid = "asdfdscvcxdre";
-
+export const uploadImage = async (uri: any, emailCompany: any) => {
   const uuid = uuidv4();
 
   const response = await fetch(uri);
@@ -114,50 +114,6 @@ export const uploadImage = async (uri: any) => {
 
   const storage = getStorage();
 
-  const storageRef = ref(storage, `mainImageEvents/${uuid}`);
+  const storageRef = ref(storage, `${emailCompany}/mainImageEvents/${uuid}`);
   return uploadBytesResumable(storageRef, blob);
-};
-
-export const uploadPdf = async (
-  uri: any,
-  FilenameTitle: any,
-  formattedDate: any
-) => {
-  try {
-    // const uuid = uuidv4();
-    // const response = await fetch(uri);
-    // const blob = await response.blob();
-    // const fileSize = blob.size;
-    const blob: any = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
-        resolve(xhr.response);
-      };
-      xhr.onerror = function () {
-        reject(new Error("Error converting file URI to Blob"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-
-    // if (fileSize > 25 * 1024 * 1024) {
-    //   throw new Error("El archivo excede los 50 MB");
-    // }
-
-    const storage = getStorage();
-
-    const storageRef = ref(
-      storage,
-      `pdfPost/${FilenameTitle}-${formattedDate}`
-    );
-
-    return uploadBytesResumable(storageRef, blob);
-  } catch (error) {
-    Toast.show({
-      type: "error",
-      position: "bottom",
-      text1: "El archivo excede los 50 MB",
-    });
-  }
 };

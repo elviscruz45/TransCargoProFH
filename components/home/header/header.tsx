@@ -23,9 +23,13 @@ export function Header() {
     return <Text>{shortText}</Text>;
   };
 
-  const selectAsset = (item: any) => {
+  const selectAsset = async (item: any) => {
     //create a to go to the screen called item
-    router.push({
+
+    await router.push({
+      pathname: "/search/",
+    });
+    await router.push({
       pathname: "/search/item",
       params: { item: item.idFirebaseAsset },
     });

@@ -75,7 +75,7 @@ export function InfoUser(props: any) {
     const blob = await response.blob();
 
     const storage = getStorage();
-    const storageRef = ref(storage, `avatar/${session}`);
+    const storageRef = ref(storage, `${emailCompany}/avatar/${session}`);
     uploadBytesResumable(storageRef, blob).then((snapshot) => {
       updatePhotoUrl(snapshot.metadata.fullPath);
     });

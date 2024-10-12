@@ -10,6 +10,7 @@ import {
 import { Link, Tabs, Redirect } from "expo-router";
 // import { TouchableOpacity, Image, View,  } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
@@ -248,6 +249,15 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
+          // headerLeft: () => (
+          //   <TouchableOpacity
+          //     style={{ marginLeft: 0 }}
+          //     onPress={() => home_screen()}
+          //   >
+          //     <Ionicons name="bar-chart-outline" />
+          //   </TouchableOpacity>
+          // ),
+
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
               name={focused ? "home" : "home-outline"}

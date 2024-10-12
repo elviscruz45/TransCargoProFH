@@ -16,7 +16,6 @@ import { useRouter } from "expo-router";
 import { Image as ImageExpo } from "expo-image";
 
 export default function Profile(props: any) {
-  // console.log("ProfileScreen");
   const router = useRouter();
 
   const num = useSelector((state: RootState) => state.counter.value);

@@ -37,53 +37,36 @@ export default function _layout() {
       <Stack.Screen
         name="index"
         options={{
-          title: "publish",
+          title: "Publicar",
           headerShown: false,
-
-          // headerRight: () => (
-          //   //   <TouchableOpacity
-          //   //     onPress={
-          //   //       modalState ? handleVisibleModalFalse : handleVisibleModalTrue
-          //   //     }
-          //   //   >
-          //   <Ionicons name="bar-chart-outline" />
-
-          //   //   </TouchableOpacity>
-          // ),
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="camera"
         options={{
-          title: "foto",
-          headerShown: false,
-
-          // presentation: "modal",
-          // headerRight: () => (
-          //   <TouchableOpacity onPress={() => console.log("save")}>
-          //     <Text>Guardar</Text>
-          //   </TouchableOpacity>
-          // ),
-          // headerLeft: () => (
-          //   <TouchableOpacity onPress={() => console.log("cancel")}>
-          //     <Text>Cancelar</Text>
-          //   </TouchableOpacity>
-          // ),
+          title: "Camara",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
         }}
       />
       <Stack.Screen
         name="events"
         options={{
-          title: "form",
-          headerShown: false,
+          title: "Crear Evento",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
+
           // presentation: "modal",
         }}
       />
       <Stack.Screen
         name="asset"
         options={{
-          title: "form",
-          headerShown: false,
+          title: "Crear Activo",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
+
           // presentation: "modal",
         }}
       />

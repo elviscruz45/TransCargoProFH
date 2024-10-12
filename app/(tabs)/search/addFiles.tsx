@@ -36,14 +36,15 @@ export default function AddDocs() {
   const [tipoFile, setTipoFile] = useState("");
   //global state management for the user_uid
   const { item }: any = useLocalSearchParams();
-
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === item
   );
   const files = currentAsset?.files;
-  console.log("files", files);
 
   const tipoFileList = files?.map((item: any) => item.tipoFile);
 
@@ -98,7 +99,6 @@ export default function AddDocs() {
         }
 
         newData.pdfFileURLFirebase = imageUrlPDF;
-        console.log("newData", newData);
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
         const RefFirebaseLasEventPostd = doc(db, "Asset", item);
@@ -108,7 +108,6 @@ export default function AddDocs() {
         };
 
         await updateDoc(RefFirebaseLasEventPostd, updatedData);
-        console.log("cc");
 
         router.back();
         Toast.show({
@@ -131,7 +130,6 @@ export default function AddDocs() {
   const uploadPdf = async (uri: any, formattedDate: any) => {
     try {
       const response = await fetch(uri);
-      // console.log("response", response);
 
       const blob = await response.blob();
       // const blob = new Blob(response);
@@ -151,7 +149,7 @@ export default function AddDocs() {
 
       const storageRef = ref(
         storage,
-        `pdfPost/${shortNameFileUpdated}-${formattedDate}`
+        `${emailCompany}/pdfPost/${shortNameFileUpdated}-${formattedDate}`
       );
       return await uploadBytesResumable(storageRef, blob);
     } catch (error) {
