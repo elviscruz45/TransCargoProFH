@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 import type { RootState } from "../../store";
 
 // import EditScreenInfo from '../../components/EditScreenInfo';
@@ -12,6 +12,9 @@ const windowHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    ...(Platform.OS === "web" && {
+      marginHorizontal: "0%",
+    }),
     // alignItems: "center",
     // marginHorizontal: 20,
     // justifyContent: "center",

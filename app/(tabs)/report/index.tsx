@@ -3,26 +3,25 @@ import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { styles } from "./index.styles";
 import { DateScreen } from "../../../components/report/DateScreen/DateScreen";
-// import { PieChart } from "../RecursosScreen/PieStatus";
-// import { BarChartMontoServicios } from "../RecursosScreen/BarChartMontoServicios";
-// import { BarChartProceso } from "../RecursosScreen/BarChartProceso";
-// import { ServiceList } from "../RecursosScreen/ServiceList";
-// import { InactiveServiceList } from "../RecursosScreen/InactiveServiceList";
-// import { MontoEDPList } from "../RecursosScreen/MontoEDPList";
-// import { MontoServiceList } from "../RecursosScreen/MontoServiceList";
-// import { RecursosHumanos } from "../RecursosScreen/RecursosHumanos";
-// import { BarInactiveServices } from "../RecursosScreen/BarInactiveServices";
-// import { MontoComprometido } from "../RecursosScreen/MontoComprometido";
-// import { getExcelReportData } from "../../../utils/excelData";
-// import { EstadoServiceList } from "../RecursosScreen/EstadoServiceList";
-// import { useNavigation } from "@react-navigation/native";
-// import { screen } from "../../../utils";
 import { Modal } from "../../../components/shared/Modal";
 import { ChangeDisplayCompany } from "../../../components/report/ChangeCompany/ChangeCompany";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
+import { DataTable } from "react-native-paper";
 
 export default function Report(props: any) {
+  // //fetch global assets
+  const globalAssetList: any = useSelector(
+    (state: RootState) => state.home.assetList
+  );
+
+  // const newTableData = [];
+
+  // for (let i = 0; i < globalAssetList.length; i++) {
+  //   newTableData.push({});
+  // }
+
+  //states of filters
   const [showModal, setShowModal] = useState(false);
   const [renderComponent, setRenderComponent] =
     useState<React.ReactElement | null>(null);
@@ -40,9 +39,7 @@ export default function Report(props: any) {
   // glob state management
   const companyName =
     useSelector((state: RootState) => state.userId.companyName) ?? "";
-  const globalAssetList: any = useSelector(
-    (state: RootState) => state.home.assetList
-  );
+
   //Changing the value to activate again the filter to rende the posts
   const filter = (start: any, end: any) => {
     setStartDate(start);
@@ -67,114 +64,112 @@ export default function Report(props: any) {
   //real time updates
   const [data, setData] = useState();
 
-  // //states to view the tables
-  // const [serviciosActivos, setServiciosActivos] = useState(false);
-  // const [estadoServicios, setEstadoServicios] = useState(false);
-  // const [serviciosInactivos, setServiciosInactivos] = useState(false);
-  // const [montoServicios, setMontoServicios] = useState(false);
-  // const [montoEDP, setMontoEDP] = useState(false);
-  // const [comprometido, setComprometido] = useState(false);
-  // //Data about the company belong this event
-
-  // useEffect(() => {
-  //   setCompanyList([
-  //     ...new Set(globalAssetList.map((item) => item.companyName)),
-  //   ]);
-  //   if (companyName !== "FMI") {
-  //     setCompany(companyName);
-  //   }
-  // }, []);
-
   useEffect(() => {
     if (Array.isArray(globalAssetList)) {
       setAreaList([
         ...new Set(globalAssetList?.map((item: any) => item.nombre)),
       ]);
     }
-    // if (companyName !== "FMI") {
-    //   setArea(companyName);
-    // }
   }, []);
 
-  // useEffect(() => {
-  //   if (props.servicesData && company === "TOTAL CONTRATISTAS") {
-  //     setData(props.servicesData);
-  //   }
-  //   // if (company !== "TOTAL CONTRATISTAS") {
-  //   //   setData(
-  //   //     props.servicesData.filter(
-  //   //       (item) => item.companyName?.toUpperCase() === company
-  //   //     )
-  //   //   );
-  //   // }
-  //   if (company !== "TOTAL CONTRATISTAS" && Array.isArray(props.servicesData)) {
-  //     setData(
-  //       props.servicesData.filter(
-  //         (item) => item.companyName?.toUpperCase() === company
-  //       )
-  //     );
-  //   }
-  // }, [props.servicesData, company]);
-
-  // if (!data || !company || !companyList) {
-  //   return (
-  //     <View
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: "white",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //       }}
-  //     >
-  //       <Text
-  //         style={{
-  //           fontSize: 50,
-  //           // fontFamily: "Arial",
-  //           color: "#2A3B76",
-  //         }}
-  //       >
-  //         Bienvenido
-  //       </Text>
-  //     </View>
-  //   );
-  // } else {
   return (
     <>
       <ScrollView
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
-        <Text></Text>
+        <Text> </Text>
         <View style={{ alignSelf: "center" }}>
-          {"FMI" === "FMI" ? (
-            <TouchableOpacity onPress={() => update_Area()}>
-              <Image
-                source={require("../../../assets/assetpics/companyIcon.png")}
-                style={styles.roundImageUpload}
-              />
-            </TouchableOpacity>
-          ) : (
+          <TouchableOpacity onPress={() => update_Area()}>
             <Image
-              source={require("../../../assets/pictures/AddImage.png")}
+              source={require("../../../assets/assetpics/companyIcon.png")}
               style={styles.roundImageUpload}
             />
-          )}
-
-          {/* <TouchableOpacity
-          // onPress={() => goToHistoryScreen()}
-          >
-            <Image
-              source={require("../../../assets/pictures/AddImage.png")}
-              style={styles.history}
-            />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
-        {"FMI" !== "FMI" ? (
-          <Text style={styles.company}>"Maxnicol"</Text>
-        ) : (
-          <Text style={styles.company}>{area}</Text>
-        )}
-        <Text></Text>
+
+        <Text style={styles.company}>{area}</Text>
+
+        <View style={styles.container}>
+          {globalAssetList.map((item: any, index: any) => {
+            const filesList: any = [];
+
+            const currentDate = new Date();
+
+            item?.files
+              ?.filter((file: any) => {
+                if (file.tipoFile !== "colocar mas tipos de archivos") {
+                  const thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
+                  const fileDate = new Date(
+                    file.fechaVencimiento.seconds * 1000 +
+                      file.fechaVencimiento.nanoseconds / 1000000
+                  );
+                  const timeDifference =
+                    fileDate.getTime() - currentDate.getTime();
+                  return (
+                    timeDifference <= thirtyDaysInMillis && timeDifference >= 0
+                  );
+                }
+                return false;
+              })
+              .forEach((file: any) => {
+                filesList.push(file);
+              });
+            // item?.files?.map((file: any, index: any) => {
+            //   filesList.push(file);
+            // });
+
+            // Sort filesList by fechaVencimiento
+            filesList.sort((a: any, b: any) => {
+              const dateA = new Date(
+                a.fechaVencimiento.seconds * 1000 +
+                  a.fechaVencimiento.nanoseconds / 1000000
+              );
+              const dateB = new Date(
+                b.fechaVencimiento.seconds * 1000 +
+                  b.fechaVencimiento.nanoseconds / 1000000
+              );
+              return dateA.getTime() - dateB.getTime();
+            });
+
+            return (
+              <View key={index}>
+                <Text> </Text>
+                <Text> </Text>
+
+                <Text style={styles.company}>
+                  {item?.placa || item?.nombre}
+                </Text>
+                <DataTable key={index}>
+                  <DataTable.Header>
+                    <DataTable.Title style={styles.titulo2}>
+                      Nombre
+                    </DataTable.Title>
+                    <DataTable.Title style={styles.titulo3}>
+                      Valor
+                    </DataTable.Title>
+                  </DataTable.Header>
+
+                  {filesList?.map((file: any, fileIndex: any) => {
+                    return (
+                      <DataTable.Row key={fileIndex}>
+                        <Text
+                          style={styles.multiLineColumn}
+                          // onPress={() => goToInformation(item.idServiciosAIT)}
+                        >
+                          {file?.tipoFile}
+                        </Text>
+                        <DataTable.Cell style={styles.shortColumn2}>
+                          {formatDate(file?.fechaVencimiento)}
+                        </DataTable.Cell>
+                      </DataTable.Row>
+                    );
+                  })}
+                </DataTable>
+              </View>
+            );
+          })}
+        </View>
         <Text></Text>
 
         {/* <DateScreen
@@ -182,16 +177,16 @@ export default function Report(props: any) {
           quitFilterButton={() => quitfilter()}
         /> */}
 
-        <Text></Text>
-        <Text></Text>
+        {/* <Text></Text>
+        <Text></Text> */}
         {/* {company !== "FMI" && company !== "TOTAL CONTRATISTAS" && (
             <RecursosHumanos company={company} />
           )} */}
 
+        {/* <Text></Text>
         <Text></Text>
-        <Text></Text>
-        <Text></Text>
-        <View style={styles.iconMinMax}>
+        <Text></Text> */}
+        {/* <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Servicios Activos Asignados</Text>
           </View>
@@ -212,7 +207,7 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* {true && (
             <>
@@ -223,7 +218,7 @@ export default function Report(props: any) {
         <Text></Text>
         <Text></Text>
 
-        <View style={styles.iconMinMax}>
+        {/* <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Estado de Servicios Activos</Text>
           </View>
@@ -244,12 +239,12 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* {estadoServicios && <EstadoServiceList data={data} />} */}
         <Text></Text>
 
         <Text></Text>
-        <View style={styles.iconMinMax}>
+        {/* <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Servicios Inactivos</Text>
           </View>
@@ -270,7 +265,7 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         <Text></Text>
 
         {/* {true && (
@@ -294,7 +289,7 @@ export default function Report(props: any) {
           )} */}
         <Text></Text>
 
-        <View style={styles.iconMinMax}>
+        {/* <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Monto Servicios</Text>
           </View>
@@ -315,7 +310,7 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* {montoServicios && (
             <>
               <BarChartMontoServicios data={data} />
@@ -325,7 +320,7 @@ export default function Report(props: any) {
         <Text></Text>
 
         <Text></Text>
-        <View style={styles.iconMinMax}>
+        {/* <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Monto Estado de Pago</Text>
           </View>
@@ -346,7 +341,7 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* {montoEDP && (
             <>
               <BarChartProceso data={data} />
@@ -357,7 +352,7 @@ export default function Report(props: any) {
         <Text></Text>
 
         <Text></Text>
-
+        {/* 
         <View style={styles.iconMinMax}>
           <View style={styles.container22}>
             <Text style={styles.titleText}>Montos Comprometidos</Text>
@@ -379,19 +374,19 @@ export default function Report(props: any) {
               style={styles.roundImageUploadmas}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* {comprometido && <MontoComprometido data={data} />} */}
         <Text></Text>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
         // onPress={() => getExcelReportData(data)}
         >
           <Image
             source={require("../../../assets/pictures/excel2.png")}
             style={styles.excel}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
@@ -400,3 +395,33 @@ export default function Report(props: any) {
   );
   //}
 }
+
+const formatDate = (dateInput: any) => {
+  const { seconds, nanoseconds } = dateInput || {
+    seconds: 0,
+    nanoseconds: 0,
+  };
+  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(milliseconds);
+  const monthNames = [
+    "ene.",
+    "feb.",
+    "mar.",
+    "abr.",
+    "may.",
+    "jun.",
+    "jul.",
+    "ago.",
+    "sep.",
+    "oct.",
+    "nov.",
+    "dic.",
+  ];
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const formattedDate = `${day} ${month} ${year}  `;
+  return formattedDate;
+};

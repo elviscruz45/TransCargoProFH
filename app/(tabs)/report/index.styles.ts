@@ -2,12 +2,12 @@ import { StyleSheet, Dimensions } from "react-native";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
+  // container: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   backgroundColor: "#fff",
+  // },
   chartContainer: {
     width: 200, // Adjust the width as needed
     height: 220, // Adjust the height as needed
@@ -81,5 +81,33 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-end",
     flexDirection: "row",
     zIndex: 100,
+  },
+
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  titulo1: {
+    flex: 0.77, // Adjust the value as per your requirement for the width
+    maxWidth: 200, // Adjust the maxWidth as per your requirement
+  },
+  titulo2: {
+    flex: 1, // Adjust the value as per your requirement for the width
+  },
+  titulo3: {
+    flex: 0.45,
+    // alignItems: "center",
+  },
+  shortColumn1: {
+    flex: 0.77, // Adjust the value as per your requirement for the width
+    maxWidth: 200, // Adjust the maxWidth as per your requirement
+  },
+  shortColumn2: {
+    flex: 1, // Adjust the value as per your requirement for the width
+  },
+  multiLineColumn: {
+    flex: 2,
+    alignSelf: "center",
   },
 });

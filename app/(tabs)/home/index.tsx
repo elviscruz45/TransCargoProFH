@@ -43,6 +43,7 @@ export default function HomeScreen() {
           scrollEnabled={true}
           ListHeaderComponent={user_email === emailCompany ? <Header /> : null}
           showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
           style={{ backgroundColor: "white" }}
           renderItem={({ item }) => {
             return (
