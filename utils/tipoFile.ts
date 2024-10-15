@@ -1,4 +1,4 @@
-export const tipoDocumento = [
+export const tipoDocumento_activo = [
   //Documentacion Vehicular
   {
     key: "Documentacion Vehicular",
@@ -107,18 +107,67 @@ export const tipoDocumento = [
     value: "Póliza de Medio Ambiente",
     disabled: false,
   },
-  //Datos Empresa
+];
+
+export const tipoDocumento_empresa = [
   {
     key: "Documentacion Empresa",
     value: "Documentacion Empresa",
     disabled: true,
   },
   {
+    key: "Segurocarga",
+    value: "Seguro de carga",
+    disabled: false,
+  },
+  {
+    key: "Constancia del sistema GPS",
+    value: "Constancia del sistema GPS",
+    disabled: false,
+  },
+  {
     key: "FichaRUCEmpresa",
     value: "Ficha RUC",
     disabled: false,
   },
+  {
+    key: "Declaración Jurada FORMULARIO 710 - SUNAT",
+    value: "Declaración Jurada FORMULARIO 710 - SUNAT",
+    disabled: false,
+  },
+  {
+    key: "Copia Literal SUNARP",
+    value: "Copia Literal SUNARP",
+    disabled: false,
+  },
+  {
+    key: "DNI Representante Legal",
+    value: "DNI Representante Legal",
+    disabled: false,
+  },
+  {
+    key: "Certificado de antecedentes penales del representante legal",
+    value: "Certificado de antecedentes penales del representante legal",
+    disabled: false,
+  },
+
+  {
+    key: "Certificado de antecedentes policiales del representante legal",
+    value: "Certificado de antecedentes policiales del representante legal",
+    disabled: false,
+  },
+  {
+    key: "Vigencia de poder",
+    value: "Vigencia de poder",
+    disabled: false,
+  },
+  {
+    key: "Plan de contingencia",
+    value: "Plan de contingencia",
+    disabled: false,
+  },
 ];
+
 export const tipoDocumento_personal = [
   //Documentacion Personal
   {
@@ -273,15 +322,4 @@ export const tipoDocumento_vehiculo = [
     value: "Poliza Responsabilidad Civil",
     disabled: false,
   },
-];
-
-export const tipoDocumento_empresa = [
-  //Datos Empr
-  {
-    key: "Datos Empresa",
-    value: "Datos Empresa",
-    disabled: true,
-  },
-  { key: "FichaRUC", value: "Area", disabled: false },
-  { key: "SeguroCarga", value: "Area", disabled: false },
 ];

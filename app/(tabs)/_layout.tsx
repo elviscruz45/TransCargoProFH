@@ -11,7 +11,6 @@ import { Link, Tabs, Redirect } from "expo-router";
 // import { TouchableOpacity, Image, View,  } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
 import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -53,6 +52,7 @@ import {
   setAssetList_idFirebaseAsset,
 } from "../../slices/home";
 import { Image as ImageExpo } from "expo-image";
+import { updateEmployees } from "../../slices/profile";
 
 export default function TabLayout() {
   const router = useRouter();
@@ -157,6 +157,34 @@ export default function TabLayout() {
       };
     }
   }, [user_email]);
+
+  useEffect(() => {
+    let unsubscribe: any;
+    let lista: any = [];
+
+    async function fetchData() {
+      let queryRef;
+      queryRef = query(
+        collection(db, "users"),
+        where("emailCompany", "==", emailCompany)
+      );
+      unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
+        lista = [];
+        ItemFirebase.forEach((doc) => {
+          lista.push(doc.data());
+        });
+        dispatch(updateEmployees(lista));
+      });
+    }
+
+    fetchData();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, []);
 
   // Events
   useEffect(() => {

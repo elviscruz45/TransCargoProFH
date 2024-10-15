@@ -30,13 +30,21 @@ export default function EditDocs() {
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
 
   //global state management for the user_uid
-  const { tipoFile, uidDoc, FilenameTitle, fechaPostFormato }: any =
-    useLocalSearchParams();
+  const {
+    tipoFile,
+    uidDoc,
+    FilenameTitle,
+    fechaPostFormato,
+    pdfFileURLFirebase,
+  }: any = useLocalSearchParams();
+  console.log("FilenameTitle", FilenameTitle);
+  console.log("fechaPostFormato", fechaPostFormato);
+
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
-    const emailCompany = useSelector(
-      (state: RootState) => state.userId.emailCompany
-    );
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === uidDoc
   );
@@ -60,6 +68,7 @@ export default function EditDocs() {
         newData.fechaPostFormato = CurrentFormatDate(); //ok
         newData.autor = email; //ok
         newData.tipoFile = tipoFile; //ok
+        // newData.FilenameTitle = FilenameTitle; //ok
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
@@ -70,6 +79,7 @@ export default function EditDocs() {
           const imagePathPDF = snapshotPDF?.metadata.fullPath;
           imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
         }
+
         newData.pdfFileURLFirebase = imageUrlPDF;
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events

@@ -11,6 +11,10 @@ export function Header() {
     (state: RootState) => state.home.assetList
   );
 
+  const globalFilteredAssetList = globalAssetList?.filter(
+    (item: any) => item.tipoActivo === "Equipo / Activo"
+  );
+
   const router = useRouter();
 
   const ShortTextComponent = (item: any) => {
@@ -42,7 +46,7 @@ export function Header() {
   return (
     <View style={styles.container}>
       <FlatList
-        data={globalAssetList}
+        data={globalFilteredAssetList}
         horizontal={true}
         style={{ backgroundColor: "white" }}
         showsHorizontalScrollIndicator={false}

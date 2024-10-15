@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { connect } from "react-redux";
 import { styles } from "./index.styles";
 import { DateScreen } from "../../../components/report/DateScreen/DateScreen";
@@ -8,14 +15,28 @@ import { ChangeDisplayCompany } from "../../../components/report/ChangeCompany/C
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { DataTable } from "react-native-paper";
+import { SearchBar, Icon } from "@rneui/themed";
 
 export default function Report(props: any) {
-  // //fetch global assets
+  //fetch total users
+  const employeesList = useSelector(
+    (state: RootState) => state.profile.employees
+  );
+
+  //fetch global assets
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
 
-  // const newTableData = [];
+  // const globalAssetList = [...globalAssetListUnsorted].sort((a, b) => {
+  //   if (a.tipoActivo < b.tipoActivo) return -1;
+  //   if (a.tipoActivo > b.tipoActivo) return 1;
+  //   return 0;
+  // });
+
+  //  searching
+  const [searchResults, setSearchResults] = useState<any>([]);
+  const [searchText, setSearchText] = useState("");
 
   // for (let i = 0; i < globalAssetList.length; i++) {
   //   newTableData.push({});
@@ -32,10 +53,10 @@ export default function Report(props: any) {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [removeFilter, setRemoveFilter] = useState(true);
+  const [diasPendientes, setDiasPendientes] = useState(30);
   // console.log(company);
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
-  const [companyList, setCompanyList] = useState();
   // glob state management
   const companyName =
     useSelector((state: RootState) => state.userId.companyName) ?? "";
@@ -72,8 +93,29 @@ export default function Report(props: any) {
     }
   }, []);
 
+  useEffect(() => {
+    if (searchText === "") {
+      setSearchResults([...globalAssetList, ...employeesList]);
+    } else {
+      const result: any = [...globalAssetList, ...employeesList]?.filter(
+        (item: any) => {
+          const re = new RegExp(searchText, "ig");
+          return re.test(item.nombre) || re.test(item.placa);
+        }
+      );
+      setSearchResults(result);
+    }
+  }, [searchText, globalAssetList, employeesList]);
+
   return (
     <>
+      <SearchBar
+        placeholder="Buscar Activo o Area"
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
+        lightTheme={true}
+        inputContainerStyle={{ backgroundColor: "white" }}
+      />
       <ScrollView
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
@@ -90,8 +132,22 @@ export default function Report(props: any) {
 
         <Text style={styles.company}>{area}</Text>
 
+        {Platform.OS === "web" && (
+          <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
+            <Text> Dias Pendientes: </Text>
+
+            <Text> </Text>
+            <input
+              type="number"
+              id="number"
+              name="number"
+              onChange={(event: any) => setDiasPendientes(event.target.value)}
+            />
+          </View>
+        )}
+
         <View style={styles.container}>
-          {globalAssetList.map((item: any, index: any) => {
+          {searchResults.map((item: any, index: any) => {
             const filesList: any = [];
 
             const currentDate = new Date();
@@ -99,7 +155,8 @@ export default function Report(props: any) {
             item?.files
               ?.filter((file: any) => {
                 if (file.tipoFile !== "colocar mas tipos de archivos") {
-                  const thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000;
+                  const thirtyDaysInMillis =
+                    diasPendientes * 24 * 60 * 60 * 1000;
                   const fileDate = new Date(
                     file.fechaVencimiento.seconds * 1000 +
                       file.fechaVencimiento.nanoseconds / 1000000
@@ -138,7 +195,7 @@ export default function Report(props: any) {
                 <Text> </Text>
 
                 <Text style={styles.company}>
-                  {item?.placa || item?.nombre}
+                  {item?.placa || item?.nombre || item?.email}
                 </Text>
                 <DataTable key={index}>
                   <DataTable.Header>

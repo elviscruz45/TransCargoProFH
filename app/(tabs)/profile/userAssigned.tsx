@@ -108,33 +108,33 @@ export default function AssetAssigned() {
   //     { cancelable: false }
   //   );
   // };
-  useEffect(() => {
-    let unsubscribe: any;
-    let lista: any = [];
+  // useEffect(() => {
+  //   let unsubscribe: any;
+  //   let lista: any = [];
 
-    async function fetchData() {
-      let queryRef;
-      queryRef = query(
-        collection(db, "users"),
-        where("emailCompany", "==", emailCompany)
-      );
-      unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
-        lista = [];
-        ItemFirebase.forEach((doc) => {
-          lista.push(doc.data());
-        });
-        dispatch(updateEmployees(lista));
-      });
-    }
+  //   async function fetchData() {
+  //     let queryRef;
+  //     queryRef = query(
+  //       collection(db, "users"),
+  //       where("emailCompany", "==", emailCompany)
+  //     );
+  //     unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
+  //       lista = [];
+  //       ItemFirebase.forEach((doc) => {
+  //         lista.push(doc.data());
+  //       });
+  //       dispatch(updateEmployees(lista));
+  //     });
+  //   }
 
-    fetchData();
+  //   fetchData();
 
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
-      }
-    };
-  }, []);
+  //   return () => {
+  //     if (unsubscribe) {
+  //       unsubscribe();
+  //     }
+  //   };
+  // }, []);
   //this function goes to another screen to get more detail about the service state
   const MoreDetail = (item: any) => {
     router.push({

@@ -44,6 +44,7 @@ export default function AddDocs() {
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === item
   );
+  const tipoActivoCurrent = currentAsset?.tipoActivo;
   const files = currentAsset?.files;
 
   const tipoFileList = files?.map((item: any) => item.tipoFile);
@@ -168,6 +169,7 @@ export default function AddDocs() {
           onClose={onCloseOpenModal}
           formik={formik}
           setTipoFile={setTipoFile}
+          tipoActivoCurrent={tipoActivoCurrent}
         />
       );
     }
@@ -245,14 +247,14 @@ export default function AddDocs() {
           onChangeText={(text) => formik.setFieldValue("tipoFile", text)}
         />
 
-        {tipoFile === "Otro" && (
+        {/* {tipoFile === "Otro" && (
           <Input
             label="Nuevo Tipo de Documento Adjunto"
             // value={formik.values.tipoFile}
             editable={true}
             onChangeText={(text) => formik.setFieldValue("tipoFile", text)}
           />
-        )}
+        )} */}
 
         {Platform.OS === "web" ? (
           <View style={{ marginHorizontal: 10 }}>
