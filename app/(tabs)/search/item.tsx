@@ -179,52 +179,61 @@ export default function Item() {
     }
   }, [startDate, endDate, item]);
 
+  console.log("currentAsset", currentAsset);
   return (
     <>
       <ScrollView
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
-        <Text></Text>
+        <Text> </Text>
 
         <View style={[styles.row, styles.center]}>
           <View>
             <AvatarImg currentAsset={currentAsset} idAsset={item} />
           </View>
           <Text> </Text>
+
           <View style={{ ...(Platform.OS === "web" && { marginLeft: 20 }) }}>
             <Text style={styles.name}>{currentAsset?.nombre}</Text>
-            <Text style={styles.info}>
-              {"Placa:"} {currentAsset?.placa}
-            </Text>
-            {/* <Text style={styles.info}>{"Tipo:"} sdfd</Text> */}
-            <Text style={styles.info}>
-              {"Kilometraje:"}
-              {currentAsset?.kilometraje} {"Km"}
-            </Text>
-            <Text style={styles.info}>
-              {"Cambio aceite Prox:"}
-              {currentAsset?.cambioAceiteProx}
-              {" Km"}
-            </Text>
-            <Text style={styles.info}>
-              {"Gasto Combustible:"} {currentAsset?.gastoCombustible} {"Gls"}
-            </Text>
-            <Text style={styles.info}>
-              {"Rendimiento Combustible:"} {currentAsset?.redimientoCombustible}
-              {"Gls/Km"}
-            </Text>
 
-            <Text style={styles.info}>
-              {"Facturacion a la fecha:"} {"S/."}
-              {currentAsset?.facturacionFleteYTD}
-            </Text>
-            <Text style={styles.info}>
-              {"Servicios a la fecha:"} {currentAsset?.cantidadServiciosYTD}
-            </Text>
-            <Text style={styles.info}>
-              {"Gastos a la fecha:"} {"S/."} {currentAsset?.gastosTotalYTD}
-            </Text>
+            {currentAsset?.tipoActivo === "Equipo / Activo" && (
+              <>
+                <Text style={styles.info}>
+                  {"Placa:"} {currentAsset?.placa}
+                </Text>
+                {/* <Text style={styles.info}>{"Tipo:"} sdfd</Text> */}
+                <Text style={styles.info}>
+                  {"Kilometraje:"}
+                  {currentAsset?.kilometraje} {"Km"}
+                </Text>
+                <Text style={styles.info}>
+                  {"Cambio aceite Prox:"}
+                  {currentAsset?.cambioAceiteProx}
+                  {" Km"}
+                </Text>
+                <Text style={styles.info}>
+                  {"Gasto Combustible:"} {currentAsset?.gastoCombustible}{" "}
+                  {"Gls"}
+                </Text>
+                <Text style={styles.info}>
+                  {"Rendimiento Combustible:"}{" "}
+                  {currentAsset?.redimientoCombustible}
+                  {"Gls/Km"}
+                </Text>
+
+                <Text style={styles.info}>
+                  {"Facturacion a la fecha:"} {"S/."}
+                  {currentAsset?.facturacionFleteYTD}
+                </Text>
+                <Text style={styles.info}>
+                  {"Servicios a la fecha:"} {currentAsset?.cantidadServiciosYTD}
+                </Text>
+                <Text style={styles.info}>
+                  {"Gastos a la fecha:"} {"S/."} {currentAsset?.gastosTotalYTD}
+                </Text>
+              </>
+            )}
           </View>
         </View>
         <Text></Text>

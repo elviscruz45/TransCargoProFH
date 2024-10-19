@@ -73,8 +73,8 @@ export const styles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   roundImage10: {
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     borderRadius: 20,
     // margin: 5,
     alignSelf: "flex-end",
@@ -161,5 +161,21 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     zIndex: 1000,
+  },
+  rowavanceNombre: {
+    flexDirection: "row",
+    marginTop: 0,
+    marginLeft: 5,
+    // alignSelf: "flex-end",
+  },
+  avanceNombre: {
+    fontWeight: "700",
+    // color: "grey",
+  },
+  detail: {
+    marginLeft: 5,
+    marginRight: 35,
+    alignItems: "flex-start",
+    color: "grey",
   },
 });

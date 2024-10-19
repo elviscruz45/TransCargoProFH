@@ -130,6 +130,17 @@ export default function _layout() {
           // presentation: "modal",
         }}
       />
+      <Stack.Screen
+        name="editEvents"
+        options={{
+          title: "Editar Evento",
+          headerShown: true,
+          headerTitleAlign: "center", // Center the title
+
+          // headerShown: false,
+          // presentation: "modal",
+        }}
+      />
       {/*  <Stack.Screen
         name="item"
         options={{

@@ -45,7 +45,7 @@ export function AssetForm({ formik, setNombre }: any) {
       <View style={styles.content}>
         <Input
           label="Tipo de Activo"
-          value={formik.values?.tipoActivo?.toString()}
+          value={formik?.values?.tipoActivo?.toString() ?? ""}
           editable={false}
           rightIcon={{
             type: "material-community",
@@ -59,7 +59,7 @@ export function AssetForm({ formik, setNombre }: any) {
         />
         <Input
           label="Nombre de Activo/Area/Placa"
-          value={formik.values?.nombre?.toString()}
+          value={formik?.values?.nombre?.toString() ?? ""}
           onChangeText={(text) => {
             formik.setFieldValue("nombre", text);
             setNombre(text);
@@ -73,7 +73,7 @@ export function AssetForm({ formik, setNombre }: any) {
 
             <Input
               label="Placa Vehicular Vehicular"
-              value={formik.values?.placa?.toString()}
+              value={formik.values?.placa?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("placa", text);
               }}
@@ -82,49 +82,49 @@ export function AssetForm({ formik, setNombre }: any) {
             <Input
               label="Fecha de Fabricacion"
               keyboardType="numeric"
-              value={formik.values?.fechaFabricacion?.toString()}
+              value={formik.values?.fechaFabricacion?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("fechaFabricacion", text);
               }}
             />
             <Input
               label="Categoria de Vehiculo"
-              value={formik.values?.categoriaVehiculo?.toString()}
+              value={formik.values?.categoriaVehiculo?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("categoriaVehiculo", text);
               }}
             />
             <Input
               label="Numero de Motor"
-              value={formik.values?.numeroMotor?.toString()}
+              value={formik.values?.numeroMotor?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("numeroMotor", text);
               }}
             />
             <Input
               label="Marca"
-              value={formik.values?.marca?.toString()}
+              value={formik.values?.marca?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("marca", text);
               }}
             />
             <Input
               label="Modelo"
-              value={formik.values?.modelo?.toString()}
+              value={formik.values?.modelo?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("modelo", text);
               }}
             />
             <Input
               label="Kilometraje"
-              value={formik.values?.kilometraje?.toString()}
+              value={formik.values?.kilometraje?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("kilometraje", text);
               }}
             />
             <Input
               label="Numero Serie Chasis"
-              value={formik.values?.numeroChasis?.toString()}
+              value={formik.values?.numeroChasis?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("numeroChasis", text);
               }}
@@ -132,28 +132,28 @@ export function AssetForm({ formik, setNombre }: any) {
             <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
             <Input
               label="Clase De Vehiculo"
-              value={formik.values?.claseVehiculo?.toString()}
+              value={formik.values?.claseVehiculo?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("claseVehiculo", text);
               }}
             />
             <Input
               label="Potencia de Motor"
-              value={formik.values?.potencia?.toString()}
+              value={formik.values?.potencia?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("potencia", text);
               }}
             />
             <Input
               label="Tipo Combustible"
-              value={formik.values?.tipoCombustible?.toString()}
+              value={formik.values?.tipoCombustible?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("tipoCombustible", text);
               }}
             />
             <Input
               label="Numero de Serie"
-              value={formik.values?.numeroSerie?.toString()}
+              value={formik.values?.numeroSerie?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("numeroSerie", text);
               }}
@@ -161,7 +161,7 @@ export function AssetForm({ formik, setNombre }: any) {
             <Input
               label="Peso Neto (Kg)"
               keyboardType="numeric"
-              value={formik.values?.pesoNeto?.toString()}
+              value={formik.values?.pesoNeto?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("pesoNeto", text);
               }}
@@ -169,7 +169,7 @@ export function AssetForm({ formik, setNombre }: any) {
             <Input
               label="Carga Util (Kg)"
               keyboardType="numeric"
-              value={formik.values?.cargaUtil?.toString()}
+              value={formik.values?.cargaUtil?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("cargaUtil", text);
               }}
@@ -177,35 +177,35 @@ export function AssetForm({ formik, setNombre }: any) {
             <Input
               label="Peso Bruto (Kg)"
               keyboardType="numeric"
-              value={formik.values?.pesoBruto?.toString()}
+              value={formik.values?.pesoBruto?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("pesoBruto", text);
               }}
             />
             <Input
               label="Dimensiones (LxAxA) (m)"
-              value={formik.values?.dimensiones?.toString()}
+              value={formik.values?.dimensiones?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("dimensiones", text);
               }}
             />
             <Input
               label="Color"
-              value={formik.values?.color?.toString()}
+              value={formik.values?.color?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("color", text);
               }}
             />
             <Input
               label="Carroceria remolcador"
-              value={formik.values?.carroceria?.toString()}
+              value={formik.values?.carroceria?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("carroceria", text);
               }}
             />
             <Input
               label="Ejes"
-              value={formik.values?.ejes?.toString()}
+              value={formik.values?.ejes?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("ejes", text);
               }}

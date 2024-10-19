@@ -116,11 +116,11 @@ export const GanttHistorial = (props: any) => {
                   <Text style={styles.textdetail}>{item.description}</Text>
                 </View>
                 <Text></Text>
-                <View style={styles.rowavanceNombre}>
+                {/* <View style={styles.rowavanceNombre}>
                   <Text style={styles.avanceNombre}> Etapa: </Text>
 
-                  <Text style={styles.detail}> {item.etapa}</Text>
-                </View>
+                  <Text style={styles.detail}> {item.tipoEvento}</Text>
+                </View> */}
                 <View style={styles.rowavanceNombre}>
                   <Text style={styles.avanceNombre}> Fecha: </Text>
 

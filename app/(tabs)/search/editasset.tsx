@@ -13,22 +13,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./editasset.data";
 import { db } from "../../../utils/firebase";
-import {
-  addDoc,
-  collection,
-  query,
-  doc,
-  updateDoc,
-  where,
-  orderBy,
-  getDocs,
-  setDoc,
-} from "firebase/firestore";
-import { UpdateDataType } from "./editasset.data";
-
-// interface UpdateDataType {
-//   tipoActivo?: string; // Replace 'string' with the actual type of 'tipoActivo'
-// }
+import { doc, updateDoc } from "firebase/firestore";
 
 export default function EditAsset(props: any) {
   const { item }: any = useLocalSearchParams();
@@ -38,13 +23,6 @@ export default function EditAsset(props: any) {
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === item
   );
-  const photoURL =
-    useSelector((state: RootState) => state.userId.photoURL) ?? "";
-  const displayName =
-    useSelector((state: RootState) => state.userId.displayName) ?? "";
-  const companyName =
-    useSelector((state: RootState) => state.userId.companyName) ?? "";
-  const email = useSelector((state: RootState) => state.userId.email) ?? "";
 
   // const navigation = useNavigation();
   const [activo, setActivo] = useState();

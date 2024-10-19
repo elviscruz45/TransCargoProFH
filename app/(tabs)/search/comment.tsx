@@ -39,6 +39,7 @@ import {
   onSnapshot,
   getDoc,
   deleteDoc,
+  persistentLocalCache,
 } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
@@ -54,6 +55,8 @@ export default function Comment() {
     tipoEvento?: string;
     comentarios?: string;
     emailPerfil?: string;
+    tipoGasto?: string;
+    ubicacion?: any;
 
     // Add other properties of the post object here if needed
   }
@@ -90,82 +93,6 @@ export default function Comment() {
 
     fetchData();
   }, [item]);
-
-  // console.log("CommentScreen");
-
-  // const navigation = useNavigation();
-  // const {
-  //   route: {
-  //     params: { Item },
-  //   },
-  // } = props;
-
-  // useEffect(() => {
-  //   const docRef = doc(db, "events", Item.idDocFirestoreDB);
-
-  //   // const docRef = doc(db, "events", "u9UoHrWiq0ZxIuH8ggsw");
-  //   let unsubscribe = onSnapshot(docRef, (snapshot) => {
-  //     const post_array = snapshot.data().comentariosUsuarios || [];
-  //     setPostsComments(post_array);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
-
-  // //---This is used to get the attached file in the post that contain an attached file---
-  // const uploadFile = useCallback(async (uri) => {
-  //   try {
-  //     const supported = await Linking.canOpenURL(uri);
-  //     if (supported) {
-  //       await Linking.openURL(uri);
-  //     } else {
-  //       Toast.show({
-  //         type: "error",
-  //         position: "bottom",
-  //         text1: "No se pudo abrir el documento",
-  //       });
-  //     }
-  //   } catch (error) {
-  //     Toast.show({
-  //       type: "error",
-  //       position: "bottom",
-  //       text1: "Error al abrir el documento",
-  //     });
-  //   }
-  // }, []);
-
-  // const handleCommentChange = (text) => {
-  //   setComment(text);
-  // };
-
-  // const handleSendComment = async (comment) => {
-  //   // Send the comment to Firebase
-  //   // Check if the comment parameter is empty or contains only spaces
-  //   if (comment.trim() === "") {
-  //     return;
-  //   }
-
-  //   const PostRef = doc(db, "events", Item.idDocFirestoreDB);
-  //   const commentObj = {
-  //     comment: comment,
-  //     commenterEmail: props.email,
-  //     commenterName: props.firebase_user_name,
-  //     commenterPhoto: props.user_photo,
-  //     date: new Date().getTime(),
-  //   };
-  //   await updateDoc(PostRef, {
-  //     comentariosUsuarios: arrayUnion(commentObj),
-  //   });
-  //   // Clear the comment input
-  //   setComment("");
-  // };
-
-  // // goToServiceInfo
-  // const goToServiceInfo = () => {
-  //   navigation.navigate(screen.search.tab, {
-  //     screen: screen.search.item,
-  //     params: { Item: Item.AITidServicios },
-  //   });
-  // };
 
   //Delete function
   const docDelete = async (idDoc: any) => {
@@ -207,6 +134,34 @@ export default function Comment() {
     }
   };
 
+  //this function goes to homeTab=>commentScreen
+  const editEvent = (item: any) => {
+    console.log("oaa", item?.fotoPrincipal);
+    router.push({
+      pathname: "/(tabs)/search/editEvents",
+      params: {
+        idEventFirebase: item?.idEventFirebase,
+        idFirebaseAsset: item?.idFirebaseAsset,
+        fechaPostFormato: item?.fechaPostFormato,
+        tipoEvento: item?.tipoEvento,
+        comentarios: item?.comentarios,
+        emailPerfil: item?.emailPerfil,
+        tipoGasto: item?.tipoGasto,
+        nombreAsset: item?.nombreAsset,
+        placa: item?.placa,
+      },
+    });
+  };
+
+  const openMap = (latitude: any, longitude: any) => {
+    console.log("latitude", latitude);
+    console.log("longitude", longitude);
+    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    Linking.openURL(url).catch((err) =>
+      console.error("An error occurred", err)
+    );
+  };
+
   if (!post) {
     return <LoadingSpinner />;
   } else {
@@ -225,13 +180,11 @@ export default function Comment() {
             {post?.fechaPostFormato}
           </Text>
         </View>
-
         <ImageExpo
           source={{ uri: post?.fotoPrincipal }}
           style={styles.postPhoto}
           cachePolicy={"memory-disk"}
         />
-
         <Text
           style={{
             color: "black",
@@ -247,29 +200,95 @@ export default function Comment() {
           {post?.tipoEvento}
         </Text>
         {email === post?.emailPerfil && (
-          <TouchableOpacity
-            onPress={() => docDelete(item)}
-            style={{
-              marginRight: "2%",
-            }}
-          >
-            <ImageExpo
-              source={require("../../../assets/pictures/deleteIcon.png")}
-              style={styles.roundImage10}
-              cachePolicy={"memory-disk"}
-            />
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              onPress={() => docDelete(item)}
+              style={{
+                marginRight: "2%",
+              }}
+            >
+              <ImageExpo
+                source={require("../../../assets/pictures/deleteIcon.png")}
+                style={styles.roundImage10}
+                cachePolicy={"memory-disk"}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                marginRight: "2%",
+              }}
+              onPress={() => editEvent(post)}
+            >
+              <Text> </Text>
+              <ImageExpo
+                source={require("../../../assets/pictures/editIcon2.png")}
+                style={styles.roundImage10}
+                cachePolicy={"memory-disk"}
+              />
+            </TouchableOpacity>
+          </View>
         )}
-
-        <Text></Text>
         <Text
           style={{
             paddingHorizontal: 5,
+            fontWeight: "700",
+          }}
+        >
+          {" "}
+          Comentario:
+        </Text>
+        <Text
+          style={{
+            paddingHorizontal: 10,
           }}
         >
           {post?.comentarios}
         </Text>
-        <Text></Text>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Autor: </Text>
+          <Text style={styles.detail}> {post?.emailPerfil}</Text>
+        </View>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Tipo de Gasto: </Text>
+          <Text style={styles.detail}> {post?.tipoGasto}</Text>
+        </View>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Fecha: </Text>
+          <Text style={styles.detail}> {post?.fechaPostFormato}</Text>
+        </View>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Ubicacion Latitud: </Text>
+          <Text style={styles.detail}>{post?.ubicacion?.coords?.latitude}</Text>
+        </View>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Ubicacion Longitud: </Text>
+          <Text style={styles.detail}>
+            {post?.ubicacion?.coords?.longitude}
+          </Text>
+        </View>
+
+        <Text> </Text>
+        {post?.ubicacion?.coords?.latitude &&
+          post?.ubicacion?.coords?.longitude && (
+            <TouchableOpacity
+              style={{ paddingHorizontal: 9 }}
+              onPress={() =>
+                openMap(
+                  post?.ubicacion?.coords?.latitude,
+                  post?.ubicacion?.coords?.longitude
+                )
+              }
+            >
+              <Text style={[styles.avanceNombre, { color: "blue" }]}>
+                Ver Ubicacion
+              </Text>
+            </TouchableOpacity>
+          )}
+
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
+        <Text> </Text>
       </ScrollView>
     );
   }

@@ -4,9 +4,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    ...(Platform.OS === "web" && {
-      marginHorizontal: "35%",
-    }),
+    // ...(Platform.OS === "web" && {
+    //   marginHorizontal: "30%",
+    // }),
     // marginTop: 30,
   },
   input: {
