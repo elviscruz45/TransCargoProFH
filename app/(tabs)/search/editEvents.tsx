@@ -71,7 +71,6 @@ export default function editEvents(props: any) {
     photoProfileURL,
     fotoPrincipal,
   }: any = useLocalSearchParams();
-  console.log("fotoPrincipal", fotoPrincipal);
 
   const userType =
     useSelector((state: RootState) => state.userId.userType) ?? "";
@@ -84,7 +83,6 @@ export default function editEvents(props: any) {
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
 
-  console.log("asset", asset.photoServiceURL);
   // const name = useSelector((state: RootState) => state.userId.displayName);
   // const user_email = useSelector((state: RootState) => state.userId.email);
   // const companyName = useSelector(
@@ -137,9 +135,32 @@ export default function editEvents(props: any) {
         if (newData?.comentarios) {
           updateData.comentarios = newData.comentarios;
         }
+        if (newData?.kilometraje) {
+          updateData.kilometraje = newData.kilometraje;
+        }
+        if (newData?.combustible) {
+          updateData.combustible = newData.combustible;
+        }
+        if (newData?.facturacionFlete) {
+          updateData.facturacionFlete = newData.facturacionFlete;
+        }
+        if (newData?.llanta) {
+          updateData.llanta = newData.llanta;
+        }
+        if (newData?.repuesto) {
+          updateData.repuesto = newData.repuesto;
+        }
+        if (newData?.costoMantenimiento) {
+          updateData.costoMantenimiento = newData.costoMantenimiento;
+        }
+        if (newData?.costo) {
+          updateData.costo = newData.costo;
+        }
+        if (newData?.tipoGasto) {
+          updateData.tipoGasto = newData.tipoGasto;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
-
         router.back();
 
         Toast.show({
@@ -235,190 +256,97 @@ export default function editEvents(props: any) {
 
       <View>
         <View style={styles.content}>
-          {(formik.values.tipoEvento === "Inicio Viaje" ||
-            formik.values.tipoEvento === "Final Viaje" ||
-            formik.values.tipoEvento === "Gastos de Viaje" ||
-            formik.values.tipoEvento === "Combustible" ||
-            formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "CheckList" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto" ||
-            formik.values.tipoEvento === "Reporte Varios") && (
-            <Input
-              value={formik.values.kilometraje}
-              label="Kilometraje (Km)"
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
-              }}
-              // placeholder="Etapa del Evento"
-              // editable={true}
+          <Input
+            value={formik.values.kilometraje}
+            label="Kilometraje (Km)"
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("kilometraje", text);
+            }}
+          />
 
-              // errorMessage={formik.errors.etapa}
-            />
-          )}
+          <Input
+            label=" Combustible (Galones.)"
+            value={formik.values.combustible.toString()}
+            editable={true}
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("combustible", text);
+            }}
+            // errorMessage={formik.errors.visibilidad}
+          />
 
-          {formik.values.tipoEvento === "Combustible" && (
-            <Input
-              label=" Combustible (Galones.)"
-              value={formik.values.combustible.toString()}
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("combustible", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
+          <Input
+            value={formik.values.facturacionFlete.toString()}
+            label="Costo Flete (S/.)"
+            editable={true}
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("facturacionFlete", text);
+            }}
+          />
 
-          {formik.values.tipoEvento === "Combustible" && (
-            <Input
-              value={formik.values.totalCombustible.toString()}
-              label="Total Combustible (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("totalCombustible", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-          {userType === "Facturacion" && (
-            <Input
-              value={formik.values.facturacionFlete.toString()}
-              label="Costo Flete (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("facturacionFlete", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-          {userType === "Pago Servicios" && (
-            <Input
-              value={formik.values.facturacionFlete.toString()}
-              label="Pago de Servicios (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("pagoServicios", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-          {(formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta") && (
-            <Input
-              value={
-                tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
-              }
-              // placeholder="Aprobador"
+          <Input
+            value={
+              tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
+            }
+            // placeholder="Aprobador"
+            style={{ color: tires.length !== 0 ? "blue" : "red" }}
+            label="Llanta"
+            editable={false}
+            multiline={true}
+            // errorMessage={formik.errors.aprobacion}
+            rightIcon={{
+              type: "material-community",
+              color: "#c2c2c2",
 
-              label="Llanta"
-              editable={false}
-              multiline={true}
-              // errorMessage={formik.errors.aprobacion}
-              rightIcon={{
-                type: "material-community",
-                color: "#c2c2c2",
+              name: "car-tire-alert",
+              onPress: () => {
+                router.push({
+                  pathname: "/(modals)/tires",
+                  params: { item: currentAsset?.idFirebaseAsset },
+                });
+                // selectComponent("llanta")
+              },
+            }}
+          />
 
-                name: "car-tire-alert",
-                onPress: () => {
-                  router.push({
-                    pathname: "/(modals)/tires",
-                    params: { item: currentAsset?.idFirebaseAsset },
-                  });
-                  // selectComponent("llanta")
-                },
-              }}
-            />
-          )}
+          <Input
+            value={formik.values.repuesto.toString()}
+            label="Repuesto"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            onChangeText={(text) => {
+              formik.setFieldValue("repuesto", text);
+            }}
+            // errorMessage={formik.errors.visibilidad}
+          />
 
-          {(formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto") && (
-            <Input
-              value={formik.values.costoTotalRepuesto.toString()}
-              label="Costo Total Repuesto (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("costoTotalRepuesto", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-
-          {(formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Repuesto") && (
-            <Input
-              value={formik.values.repuesto.toString()}
-              label="Repuesto"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              onChangeText={(text) => {
-                formik.setFieldValue("repuesto", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-          {(formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Repuesto") && (
-            <Input
-              value={formik.values.costoMantenimiento.toString()}
-              label="Costo Mantenimiento (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("costoMantenimiento", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-          {(formik.values.tipoEvento === "Inicio Viaje" ||
-            formik.values.tipoEvento === "Final Viaje" ||
-            formik.values.tipoEvento === "Gastos de Viaje" ||
-            formik.values.tipoEvento === "Combustible" ||
-            formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "CheckList" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto" ||
-            formik.values.tipoEvento === "Reporte Varios") && (
-            <Input
-              // value={true ? `${avance} %` : null}
-              value={JSON.stringify(formik.values.ubicacion)}
-              label="Ubicacion"
-              // onChangeText={(text) => {
-              //   formik.setFieldValue("ubicacion", JSON.stringify(location));
-              // }}
-              // placeholder="Avance del ejecucion"
-              editable={false}
-              multiline={true}
-              errorMessage={formik.errors.ubicacion}
-              rightIcon={
-                Platform.OS !== "web"
-                  ? {
-                      type: "material-community",
-                      name: "map-marker-radius",
-                      color: "#c2c2c2",
-                      onPress: () => selectComponent("ubicacion"),
-                    }
-                  : {}
-              }
-            />
-          )}
+          <Input
+            value={formik.values.tipoGasto}
+            label="Tipo de Gasto"
+            // placeholder="Titulo del Evento"
+            multiline={true}
+            editable={true}
+            errorMessage={formik.errors.tipoEvento}
+            rightIcon={{
+              type: "material-community",
+              color: "#c2c2c2",
+              name: "clipboard-list-outline",
+              onPress: () => selectComponent("tipoGasto"),
+            }}
+          />
+          <Input
+            value={formik.values.costoMantenimiento.toString()}
+            label="Costo (S/.)"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("costo", text);
+            }}
+            // errorMessage={formik.errors.visibilidad}
+          />
         </View>
       </View>
       <Modal show={showModal} close={onCloseOpenModal}>

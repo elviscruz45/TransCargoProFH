@@ -24,12 +24,12 @@ export const styles = StyleSheet.create({
 
   camion: {
     // position: "absolute",
-    marginTop: "80%",
+    marginTop: "18%",
     alignSelf: "center",
-    width: Platform.OS === "web" ? "140%" : "150%",
-    height: Platform.OS === "web" ? "25%" : "15%",
+    width: Platform.OS === "web" ? "20%" : "10%",
+    height: Platform.OS === "web" ? "300%" : "350%",
     zIndex: 21639,
-    transform: [{ rotate: "270deg" }],
+    // transform: [{ rotate: "270deg" }],
   },
 
   add: {
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
   number1: {
     position: "absolute",
     marginTop: "20%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
   number2: {
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
   number4: {
     position: "absolute",
     marginTop: "54%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
   number8: {
     position: "absolute",
     marginTop: "63%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 

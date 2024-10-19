@@ -37,8 +37,7 @@ export default function EditDocs() {
     fechaPostFormato,
     pdfFileURLFirebase,
   }: any = useLocalSearchParams();
-  console.log("FilenameTitle", FilenameTitle);
-  console.log("fechaPostFormato", fechaPostFormato);
+
 
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];

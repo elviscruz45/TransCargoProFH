@@ -179,7 +179,6 @@ export default function Item() {
     }
   }, [startDate, endDate, item]);
 
-  console.log("currentAsset", currentAsset);
   return (
     <>
       <ScrollView

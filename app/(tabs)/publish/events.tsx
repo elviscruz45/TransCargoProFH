@@ -12,6 +12,7 @@ import { Modal } from "../../../components/shared/Modal";
 import { MapForm } from "../../../components/publish/forms/map/mapForm";
 import { initialValues, validationSchema } from "./events.data";
 import { ChangeEvent } from "../../../components/publish/forms/ChangeEvent/Selection";
+import { ChangeTipoGasto } from "@/components/publish/forms/ChangeTipoGasto/Selection";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
@@ -46,10 +47,12 @@ export default function events(props: any) {
     null
   );
   const [evento, setEvento] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
+  const [tipoGasto, setTipoGasto] = useState<string | null>(null);
+  const [permission, setPermission] = useState<string | null>(null); // To store permission status
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [renderComponent, setRenderComponent] =
     useState<React.ReactElement | null>(null);
   const tires: any =
@@ -79,7 +82,6 @@ export default function events(props: any) {
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
 
-  console.log("asset", asset.photoServiceURL);
   // const name = useSelector((state: RootState) => state.userId.displayName);
   // const user_email = useSelector((state: RootState) => state.userId.email);
   // const companyName = useSelector(
@@ -88,19 +90,43 @@ export default function events(props: any) {
 
   // const [gpsPermission, setGpsPermission] = useState(false);
   useEffect(() => {
-    (async () => {
-      dispatch(uploadTires([]));
+    dispatch(uploadTires([]));
+  }, []);
 
-      let { status } = await Location.requestForegroundPermissionsAsync();
+  const requestPermission = async () => {
+    try {
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      setPermission("granted");
       if (status !== "granted") {
         setErrorMsg("Permission to access location was denied");
-        return;
       }
+    } catch (error) {
+      console.error("Error requesting location permission", error);
+      setErrorMsg("Failed to request location permission");
+    }
+  };
 
-      let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permission to access location was denied");
+  //       return;
+  //     }
+
+  //     let location = await Location.getCurrentPositionAsync({});
+  //     // setLocation(location);
+  //     formik.setFieldValue("ubicacion", location);
+  //   })();
+  // }, []);
+
+  useEffect(() => {
+    const checkPermission = async () => {
+      let location = await Location.getCurrentPositionAsync();
       formik.setFieldValue("ubicacion", location);
-    })();
+      setPermission("granted");
+    };
+    checkPermission();
   }, []);
 
   useEffect(() => {
@@ -219,25 +245,36 @@ export default function events(props: any) {
         />
       );
     }
+    if (key === "tipoGasto") {
+      setRenderComponent(
+        <ChangeTipoGasto
+          onClose={onCloseOpenModal}
+          formik={formik}
+          setTipoGasto={setTipoGasto}
+        />
+      );
+    }
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
-  // const selectComponent = (key: any) => {
-  //   if (key === "evento") {
-  //     setRenderComponent(
-  //       <ChangeDisplayTitulo
-  //         onClose={onCloseOpenModal}
-  //         formik={formik}
-  //         setTitulo={setTitulo}
-  //       />
-  //     );
-  //   }
+  // Still loading or checking permission
+  if (permission === null) {
+    return <View />;
+  }
 
-  //   onCloseOpenModal();
-  // };
-
-  // return <Text>hola</Text>;
+  // Permission denied
+  if (!permission) {
+    return (
+      // <View style={styles.container}>
+      <View>
+        <Text style={{ textAlign: "center" }}>
+          Necesitamos tu permiso para acceder a tu ubicación
+        </Text>
+        <Button onPress={requestPermission} title="Conceder Permiso" />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAwareScrollView
@@ -330,10 +367,6 @@ export default function events(props: any) {
               onChangeText={(text) => {
                 formik.setFieldValue("kilometraje", text);
               }}
-              // placeholder="Etapa del Evento"
-              // editable={true}
-
-              // errorMessage={formik.errors.etapa}
             />
           )}
 
@@ -350,51 +383,25 @@ export default function events(props: any) {
             />
           )}
 
-          {formik.values.tipoEvento === "Combustible" && (
-            <Input
-              value={formik.values.totalCombustible.toString()}
-              label="Total Combustible (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("totalCombustible", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
           {userType === "Facturacion" && (
             <Input
               value={formik.values.facturacionFlete.toString()}
               label="Costo Flete (S/.)"
-              // placeholder="Visibilidad del evento"
               editable={true}
               keyboardType="numeric"
               onChangeText={(text) => {
                 formik.setFieldValue("facturacionFlete", text);
               }}
-              // errorMessage={formik.errors.visibilidad}
             />
           )}
-          {userType === "Pago Servicios" && (
-            <Input
-              value={formik.values.facturacionFlete.toString()}
-              label="Pago de Servicios (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("pagoServicios", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
+
           {(formik.values.tipoEvento === "Cambio Llanta" ||
             formik.values.tipoEvento === "Reparacion Llanta") && (
             <Input
               value={
                 tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
               }
+              style={{ color: tires.length !== 0 ? "blue" : "red" }}
               // placeholder="Aprobador"
 
               label="Llanta"
@@ -417,24 +424,6 @@ export default function events(props: any) {
             />
           )}
 
-          {(formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto") && (
-            <Input
-              value={formik.values.costoTotalRepuesto.toString()}
-              label="Costo Total Repuesto (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("costoTotalRepuesto", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
-          )}
-
           {(formik.values.tipoEvento === "Mantenimiento" ||
             formik.values.tipoEvento === "Cambio Repuesto") && (
             <Input
@@ -448,21 +437,48 @@ export default function events(props: any) {
               // errorMessage={formik.errors.visibilidad}
             />
           )}
-          {(formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Repuesto") && (
-            <Input
-              value={formik.values.costoMantenimiento.toString()}
-              label="Costo Mantenimiento (S/.)"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("costoMantenimiento", text);
-              }}
-              // errorMessage={formik.errors.visibilidad}
-            />
+
+          {(formik.values.tipoEvento === "Gastos de Viaje" ||
+            formik.values.tipoEvento === "Combustible" ||
+            formik.values.tipoEvento === "Cambio de aceite" ||
+            formik.values.tipoEvento === "Mantenimiento" ||
+            formik.values.tipoEvento === "Cambio Llanta" ||
+            formik.values.tipoEvento === "Reparacion Llanta" ||
+            formik.values.tipoEvento === "Cambio Repuesto" ||
+            formik.values.tipoEvento === "Facturacion de Servicio" ||
+            formik.values.tipoEvento === "Pago Servicios" ||
+            formik.values.tipoEvento === "Compra Repuesto" ||
+            formik.values.tipoEvento === "Otro") && (
+            <>
+              <Input
+                value={formik.values.tipoGasto}
+                label="Tipo de Gasto"
+                // placeholder="Titulo del Evento"
+                multiline={true}
+                editable={true}
+                errorMessage={formik.errors.tipoEvento}
+                rightIcon={{
+                  type: "material-community",
+                  color: "#c2c2c2",
+                  name: "clipboard-list-outline",
+                  onPress: () => selectComponent("tipoGasto"),
+                }}
+              />
+              <Input
+                value={formik.values.costoMantenimiento.toString()}
+                label="Costo (S/.)"
+                // placeholder="Visibilidad del evento"
+                editable={true}
+                keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("costo", text);
+                }}
+                // errorMessage={formik.errors.visibilidad}
+              />
+            </>
           )}
-          {(formik.values.tipoEvento === "Inicio Viaje" ||
+
+          {/* {(formik.values.tipoEvento === "Inicio Viaje" ||
             formik.values.tipoEvento === "Final Viaje" ||
             formik.values.tipoEvento === "Gastos de Viaje" ||
             formik.values.tipoEvento === "Combustible" ||
@@ -495,7 +511,7 @@ export default function events(props: any) {
                   : {}
               }
             />
-          )}
+          )} */}
         </View>
       </View>
       <Modal show={showModal} close={onCloseOpenModal}>

@@ -13,9 +13,12 @@ export function initialValues() {
     costoTotalRepuesto: "",
     repuesto: "",
     costoMantenimiento: "",
+    costo: 0,
     userType: "",
     photoAssetURL: "",
     placa: "",
+    //Adicional
+    tipoGasto: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),

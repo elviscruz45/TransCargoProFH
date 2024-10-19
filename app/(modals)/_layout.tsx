@@ -25,7 +25,7 @@ export default function _layout() {
               style={{ width: 200, height: 30 }}
             />
           ),
-          headerShown: false,
+          headerShown: true,
           // presentation: "modal",
         }}
       />

@@ -136,7 +136,6 @@ export default function Comment() {
 
   //this function goes to homeTab=>commentScreen
   const editEvent = (item: any) => {
-    console.log("oaa", item?.fotoPrincipal);
     router.push({
       pathname: "/(tabs)/search/editEvents",
       params: {
@@ -154,8 +153,7 @@ export default function Comment() {
   };
 
   const openMap = (latitude: any, longitude: any) => {
-    console.log("latitude", latitude);
-    console.log("longitude", longitude);
+
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
     Linking.openURL(url).catch((err) =>
       console.error("An error occurred", err)

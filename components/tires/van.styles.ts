@@ -24,12 +24,12 @@ export const styles = StyleSheet.create({
 
   camion: {
     // position: "absolute",
-    marginTop: "80%",
+    marginTop: "15%",
     alignSelf: "center",
-    width: Platform.OS === "web" ? "140%" : "150%",
-    height: Platform.OS === "web" ? "25%" : "15%",
+    width: Platform.OS === "web" ? "15%" : "10%",
+    height: Platform.OS === "web" ? "300%" : "350%",
     zIndex: 21639,
-    transform: [{ rotate: "270deg" }],
+    // transform: [{ rotate: "270deg" }],
   },
 
   add: {
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
   number1: {
     position: "absolute",
     marginTop: "20%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
   number2: {
@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
   number4: {
     position: "absolute",
     marginTop: "54%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
   number8: {
     position: "absolute",
     marginTop: "63%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 
@@ -144,28 +144,28 @@ export const styles = StyleSheet.create({
 
   number11: {
     position: "absolute",
-    marginTop: "133%",
+    marginTop: "136%",
     marginLeft: "24%",
     zIndex: 3000,
   },
 
   number12: {
     position: "absolute",
-    marginTop: "133%",
-    marginLeft: "33%",
+    marginTop: "136%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 
   number13: {
     position: "absolute",
-    marginTop: "133%",
+    marginTop: "136%",
     marginLeft: "60%",
     zIndex: 3000,
   },
 
   number14: {
     position: "absolute",
-    marginTop: "133%",
+    marginTop: "136%",
     marginLeft: "69%",
     zIndex: 3000,
   },
@@ -181,7 +181,7 @@ export const styles = StyleSheet.create({
   number16: {
     position: "absolute",
     marginTop: "142%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
 
@@ -209,7 +209,7 @@ export const styles = StyleSheet.create({
   number20: {
     position: "absolute",
     marginTop: "151%",
-    marginLeft: "33%",
+    marginLeft: "36%",
     zIndex: 3000,
   },
   number21: {
