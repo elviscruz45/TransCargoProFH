@@ -167,7 +167,7 @@ export default function TabLayout() {
         }
       };
     }
-  }, [user_email, assetAsignedList]);
+  }, [user_email, assetAsignedList, emailCompany]);
 
   //traer todoos los usuarios de la empresa
   useEffect(() => {
