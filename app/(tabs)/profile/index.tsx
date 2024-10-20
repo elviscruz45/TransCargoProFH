@@ -92,6 +92,8 @@ export default function Profile(props: any) {
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
+        <Text> </Text>
+
         <View>
           <InfoUser />
         </View>

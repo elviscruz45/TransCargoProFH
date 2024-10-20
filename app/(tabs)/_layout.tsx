@@ -66,10 +66,13 @@ export default function TabLayout() {
   const name = useSelector((state: RootState) => state.userId.displayName);
   const assetAsignedList =
     useSelector((state: RootState) => state.userId.assetAssigned) || [];
-  console.log("assetList123", assetAsignedList);
-  const assetList_idFirebaseAsset =
-    useSelector((state: RootState) => state.home.assetList_idFirebaseAsset) ||
-    [];
+
+  // let assetAsignedList2 =
+  //   assetAsignedList?.length > 0 ? assetAsignedList : ["anything"];
+
+  // const assetList_idFirebaseAsset =
+  //   useSelector((state: RootState) => state.home.assetList_idFirebaseAsset) ||
+  //   [];
 
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
@@ -118,7 +121,7 @@ export default function TabLayout() {
     let lista: any = [];
     let lista_idFirebaseAsset: any = [];
 
-    if (user_email || assetAsignedList.length > 0) {
+    if (user_email && assetAsignedList?.length > 0) {
       function fetchData() {
         let queryRef;
 
@@ -162,9 +165,8 @@ export default function TabLayout() {
     }
   }, [user_email, assetAsignedList]);
 
+  //traer todoos los usuarios de la empresa
   useEffect(() => {
-    console.log("emailCompany", emailCompany);
-    console.log("user_email", user_email);
     if (user_email === emailCompany) {
       let unsubscribe: any;
       let lista: any = [];
@@ -198,8 +200,7 @@ export default function TabLayout() {
   useEffect(() => {
     let unsubscribe: any;
     let lista: any = [];
-
-    if (user_email || assetList_idFirebaseAsset?.length > 0) {
+    if (user_email && assetAsignedList?.length > 0) {
       async function fetchData() {
         let queryRef;
 
@@ -215,11 +216,10 @@ export default function TabLayout() {
             collection(db, "Events"),
             limit(30),
             where("emailCompany", "==", emailCompany),
-            where("idFirebaseAsset", "in", assetList_idFirebaseAsset),
+            where("nombreAsset", "in", assetAsignedList),
             orderBy("createdAt", "desc")
           );
         }
-
         unsubscribe = onSnapshot(queryRef, async (ItemFirebase) => {
           lista = [];
           ItemFirebase.forEach((doc) => {
@@ -230,12 +230,7 @@ export default function TabLayout() {
             return b.createdAt - a.createdAt;
           });
           dispatch(setEventList(lista));
-          // setPosts(lista);
-          // setCompanyName(companyName);
-          // props.saveTotalEventServiceAITList(lista);
-          // console.log("fetch events");
         });
-        // setIsLoading(false);
       }
 
       fetchData();
@@ -246,7 +241,7 @@ export default function TabLayout() {
         }
       };
     }
-  }, [user_email, assetList_idFirebaseAsset]);
+  }, [user_email, assetAsignedList]);
 
   if (isLoading) {
     return (
