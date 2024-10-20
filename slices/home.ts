@@ -8,7 +8,7 @@ export interface homeState {
 }
 
 const initialState: homeState = {
-  assetList: null,
+  assetList: [],
   assetList_idFirebaseAsset: null,
   eventList: null,
 };

@@ -67,6 +67,8 @@ export default function TabLayout() {
   const assetAsignedList =
     useSelector((state: RootState) => state.userId.assetAssigned) || [];
 
+  console.log("assetAsignedList", assetAsignedList);
+
   // let assetAsignedList2 =
   //   assetAsignedList?.length > 0 ? assetAsignedList : ["anything"];
 
@@ -120,6 +122,7 @@ export default function TabLayout() {
     let unsubscribe: any;
     let lista: any = [];
     let lista_idFirebaseAsset: any = [];
+    console.log("emailCompany", emailCompany);
 
     if (user_email && assetAsignedList?.length > 0) {
       function fetchData() {
@@ -149,6 +152,7 @@ export default function TabLayout() {
           lista.sort((a: any, b: any) => {
             return b.LastEventPosted - a.LastEventPosted;
           });
+          console.log("lista", lista);
           dispatch(setAssetList(lista));
           dispatch(setAssetList_idFirebaseAsset(lista_idFirebaseAsset));
 
