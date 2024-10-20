@@ -64,13 +64,12 @@ export default function TabLayout() {
   const isLoading = useSelector((state: RootState) => state.userId.isLoading);
   const session = useSelector((state: RootState) => state.userId.session);
   const name = useSelector((state: RootState) => state.userId.displayName);
-  const assetAsignedList = useSelector(
-    (state: RootState) => state.userId.assetAssigned
-  );
+  const assetAsignedList =
+    useSelector((state: RootState) => state.userId.assetAssigned) || [];
   console.log("assetList123", assetAsignedList);
-  const assetList_idFirebaseAsset = useSelector(
-    (state: RootState) => state.home.assetList_idFirebaseAsset
-  );
+  const assetList_idFirebaseAsset =
+    useSelector((state: RootState) => state.home.assetList_idFirebaseAsset) ||
+    [];
 
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
@@ -119,7 +118,7 @@ export default function TabLayout() {
     let lista: any = [];
     let lista_idFirebaseAsset: any = [];
 
-    if (user_email) {
+    if (user_email || assetAsignedList.length > 0) {
       function fetchData() {
         let queryRef;
 
@@ -161,7 +160,7 @@ export default function TabLayout() {
         }
       };
     }
-  }, [user_email]);
+  }, [user_email, assetAsignedList]);
 
   useEffect(() => {
     console.log("emailCompany", emailCompany);
@@ -200,7 +199,7 @@ export default function TabLayout() {
     let unsubscribe: any;
     let lista: any = [];
 
-    if (user_email || assetList_idFirebaseAsset) {
+    if (user_email || assetList_idFirebaseAsset?.length > 0) {
       async function fetchData() {
         let queryRef;
 
