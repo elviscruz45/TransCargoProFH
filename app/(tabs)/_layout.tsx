@@ -55,6 +55,7 @@ import { Image as ImageExpo } from "expo-image";
 import { updateEmployees } from "../../slices/profile";
 
 export default function TabLayout() {
+  console.log("repeticiones");
   const router = useRouter();
 
   const user = getAuth().currentUser;
