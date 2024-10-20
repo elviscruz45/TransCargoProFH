@@ -44,7 +44,7 @@ export function AssetForm({ formik, setNombre }: any) {
     <View>
       <View style={styles.content}>
         <Input
-          label="Tipo de Activo"
+          label="Tipo"
           value={formik?.values?.tipoActivo?.toString() ?? ""}
           editable={false}
           rightIcon={{
@@ -58,7 +58,7 @@ export function AssetForm({ formik, setNombre }: any) {
           errorMessage={formik.errors.tipoActivo}
         />
         <Input
-          label="Nombre de Activo/Area/Placa"
+          label="Nombre de Placa / Area"
           value={formik?.values?.nombre?.toString() ?? ""}
           onChangeText={(text) => {
             formik.setFieldValue("nombre", text);
@@ -70,9 +70,10 @@ export function AssetForm({ formik, setNombre }: any) {
         {tipoActivo === "Equipo / Activo" && (
           <>
             <Text style={styles.subtitleForm}>Informacion Activo</Text>
+            <Text> </Text>
 
             <Input
-              label="Placa Vehicular Vehicular"
+              label="Placa Vehicular"
               value={formik.values?.placa?.toString() ?? ""}
               onChangeText={(text) => {
                 formik.setFieldValue("placa", text);

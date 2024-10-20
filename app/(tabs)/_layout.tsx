@@ -64,9 +64,14 @@ export default function TabLayout() {
   const isLoading = useSelector((state: RootState) => state.userId.isLoading);
   const session = useSelector((state: RootState) => state.userId.session);
   const name = useSelector((state: RootState) => state.userId.displayName);
+  const assetAsignedList = useSelector(
+    (state: RootState) => state.userId.assetAssigned
+  );
+  console.log("assetList123", assetAsignedList);
   const assetList_idFirebaseAsset = useSelector(
     (state: RootState) => state.home.assetList_idFirebaseAsset
   );
+
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
@@ -126,7 +131,7 @@ export default function TabLayout() {
         } else {
           queryRef = query(
             collection(db, "Asset"),
-            where("userAssigned", "array-contains", user_email),
+            where("nombre", "in", assetAsignedList),
             where("emailCompany", "==", emailCompany)
           );
         }
@@ -159,31 +164,33 @@ export default function TabLayout() {
   }, [user_email]);
 
   useEffect(() => {
-    let unsubscribe: any;
-    let lista: any = [];
+    if (user_email === emailCompany) {
+      let unsubscribe: any;
+      let lista: any = [];
 
-    async function fetchData() {
-      let queryRef;
-      queryRef = query(
-        collection(db, "users"),
-        where("emailCompany", "==", emailCompany)
-      );
-      unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
-        lista = [];
-        ItemFirebase.forEach((doc) => {
-          lista.push(doc.data());
+      async function fetchData() {
+        let queryRef;
+        queryRef = query(
+          collection(db, "users"),
+          where("emailCompany", "==", emailCompany)
+        );
+        unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
+          lista = [];
+          ItemFirebase.forEach((doc) => {
+            lista.push(doc.data());
+          });
+          dispatch(updateEmployees(lista));
         });
-        dispatch(updateEmployees(lista));
-      });
-    }
-
-    fetchData();
-
-    return () => {
-      if (unsubscribe) {
-        unsubscribe();
       }
-    };
+
+      fetchData();
+
+      return () => {
+        if (unsubscribe) {
+          unsubscribe();
+        }
+      };
+    }
   }, []);
 
   // Events

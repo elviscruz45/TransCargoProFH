@@ -13,7 +13,7 @@ export interface userId {
   descripcion: string | null;
   displayName: string | null;
   userType: string | null;
-  assetAssigned: string | null;
+  assetAssigned: string[] | null;
   companyRUC: string | null;
   emailCompany: string | null;
 }
@@ -28,7 +28,7 @@ const initialState: userId = {
   descripcion: "", //-----------ok
   displayName: "", //-----------ok
   userType: "", //-----------ok
-  assetAssigned: "", //-----------ok
+  assetAssigned: [], //-----------ok
   companyRUC: "", //-----------ok
   emailCompany: "", //-----------ok
 };
@@ -71,7 +71,7 @@ export const userIdSlice = createSlice({
       // Perform sign-in logic here
       state.userType = action.payload;
     },
-    updateAssetAssigned: (state, action: PayloadAction<string>) => {
+    updateAssetAssigned: (state, action: PayloadAction<string[]>) => {
       // Perform sign-in logic here
       state.assetAssigned = action.payload;
     },

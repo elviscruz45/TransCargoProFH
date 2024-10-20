@@ -41,11 +41,14 @@ export default function HomeScreen() {
         <FlatList
           data={eventList}
           scrollEnabled={true}
-          ListHeaderComponent={user_email === emailCompany ? <Header /> : null}
+          ListHeaderComponent={<Header />}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
           style={{ backgroundColor: "white" }}
           renderItem={({ item }) => {
+            const arrayLlanta =
+              item?.llanta?.filter((item: any) => item.selected) || [];
+
             return (
               <View
                 style={{
@@ -138,9 +141,13 @@ export default function HomeScreen() {
 
                   <View>
                     <Text style={styles.textAreaTitle}>{item.tipoEvento}</Text>
-                    <Text></Text>
+                    <Text> </Text>
                     <Text style={styles.textAreaComment} selectable={true}>
-                      {item.comentarios}
+                      {item.comentarios}{" "}
+                      {arrayLlanta?.length > 0 &&
+                        arrayLlanta?.map((item: any, index: any) => (
+                          <Text key={index}>Llanta N: {item.value}, </Text>
+                        ))}
                     </Text>
                   </View>
                 </View>

@@ -45,21 +45,26 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { useRouter } from "expo-router";
 import { Platform } from "react-native";
+interface CommentProps {
+  data: any[]; // Define the type of data appropriately
+}
+interface Post {
+  fotoPrincipal?: string;
+  fechaPostFormato?: string;
+  tipoEvento?: string;
+  comentarios?: string;
+  emailPerfil?: string;
+  tipoGasto?: string;
+  ubicacion?: any;
+  llanta?: any;
+
+  // Add other properties of the post object here if needed
+}
 
 export default function Comment() {
   const [postsComments, setPostsComments] = useState([]);
   const [comment, setComment] = useState("");
-  interface Post {
-    fotoPrincipal?: string;
-    fechaPostFormato?: string;
-    tipoEvento?: string;
-    comentarios?: string;
-    emailPerfil?: string;
-    tipoGasto?: string;
-    ubicacion?: any;
 
-    // Add other properties of the post object here if needed
-  }
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
 
   const [post, setPost] = useState<Post | null>(null);
@@ -133,7 +138,7 @@ export default function Comment() {
       );
     }
   };
-
+  const arrayLlanta = post?.llanta.filter((item: any) => item.selected);
   //this function goes to homeTab=>commentScreen
   const editEvent = (item: any) => {
     router.push({
@@ -153,7 +158,6 @@ export default function Comment() {
   };
 
   const openMap = (latitude: any, longitude: any) => {
-
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
     Linking.openURL(url).catch((err) =>
       console.error("An error occurred", err)
@@ -183,6 +187,7 @@ export default function Comment() {
           style={styles.postPhoto}
           cachePolicy={"memory-disk"}
         />
+        <Text> </Text>
         <Text
           style={{
             color: "black",
@@ -282,6 +287,16 @@ export default function Comment() {
               </Text>
             </TouchableOpacity>
           )}
+        <Text> </Text>
+
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Ubicacion de las llantas: </Text>
+
+          {arrayLlanta?.length > 0 &&
+            arrayLlanta?.map((item: any, index: any) => (
+              <Text key={index}>Llanta N: {item.value}, </Text>
+            ))}
+        </View>
 
         <Text> </Text>
         <Text> </Text>

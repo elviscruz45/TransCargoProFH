@@ -43,6 +43,7 @@ import {
   limit,
 } from "firebase/firestore";
 import { ChangeResponsability } from "@/components/profile/ChangeResponsabilityForm/Selection";
+import { ChangeAssets } from "@/components/profile/ChangeAssetAssigned/ChangeAssets";
 
 import { db } from "../../../utils/firebase";
 const windowWidth = Dimensions.get("window").width;
@@ -150,6 +151,13 @@ export default function AssetAssigned() {
     setShowModal(true);
   };
 
+  const SelectAssets = (uidUser: any) => {
+    setRenderComponent(
+      <ChangeAssets onClose={onCloseOpenModal} uidUser={uidUser} />
+    );
+    setShowModal(true);
+  };
+
   return (
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -174,6 +182,7 @@ export default function AssetAssigned() {
                   flexDirection: "row",
                   // alignSelf: "center",
                   backgroundColor: "white",
+                  marginTop: 15,
                 }}
               >
                 <View
@@ -206,22 +215,22 @@ export default function AssetAssigned() {
                 <View
                   style={[styles.equipments, { alignSelf: "center", flex: 1 }]}
                 >
-                  {/* <Button
-                    title={item.companyManagerConfimation ? "si" : "no"}
-                    buttonStyle={[
-                      styles.btnActualizarStyles,
-                      item.companyManagerConfimation
-                        ? { backgroundColor: "green" }
-                        : { backgroundColor: "red" },
-                    ]}
-                    titleStyle={styles.btnTextStyle}
-                    onPress={() =>
-                      userCompanyConfirmation(
-                        item.uid,
-                        item.companyManagerConfimation
-                      )
+                  <Button
+                    title={
+                      item?.assetAssigned?.length > 0
+                        ? item?.assetAssigned.join(", ")
+                        : "No tiene responsabilidades"
                     }
-                  /> */}
+                    // buttonStyle={[
+                    //   styles.btnActualizarStyles,
+                    //   item.companyManagerConfimation
+                    //     ? { backgroundColor: "green" }
+                    //     : { backgroundColor: "red" },
+                    // ]}
+                    titleStyle={styles.btnTextStyle}
+                    onPress={() => SelectAssets(item.uid)}
+                  />
+                  <Text> </Text>
                   <Button
                     title={item.userType ? item.userType : "Ninguno"}
                     buttonStyle={[
