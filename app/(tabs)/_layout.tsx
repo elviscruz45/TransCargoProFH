@@ -67,7 +67,8 @@ export default function TabLayout() {
   const assetAsignedList =
     useSelector((state: RootState) => state.userId.assetAssigned) || [];
 
-  console.log("assetAsignedList", assetAsignedList);
+  // console.log("assetAsignedList", assetAsignedList);
+  console.log("assetAsignedListaaaa", assetAsignedList);
 
   // let assetAsignedList2 =
   //   assetAsignedList?.length > 0 ? assetAsignedList : ["anything"];
@@ -102,7 +103,13 @@ export default function TabLayout() {
           // dispatch(updatecompanyName(docSnap.data().companyName ?? ""));
           dispatch(updateUserType(docSnap.data().userType ?? ""));
           dispatch(updateDescripcion(docSnap.data().descripcion ?? ""));
-          dispatch(updateAssetAssigned(docSnap.data().assetAssigned ?? ""));
+          dispatch(
+            updateAssetAssigned(
+              docSnap.data().assetAssigned?.length > 0
+                ? docSnap.data().assetAssigned
+                : ["anything"]
+            )
+          );
           // dispatch(updatecompanyRUC(docSnap.data().companyRUC ?? ""));
           dispatch(
             updateEmailCompany(docSnap.data().emailCompany ?? emailCompany)
@@ -123,6 +130,8 @@ export default function TabLayout() {
     let lista: any = [];
     let lista_idFirebaseAsset: any = [];
     console.log("emailCompany", emailCompany);
+    console.log("user_email", user_email);
+    console.log("assetAsignedListbbbbb", assetAsignedList);
 
     if (user_email && emailCompany && assetAsignedList?.length > 0) {
       function fetchData() {
