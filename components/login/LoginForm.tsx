@@ -64,6 +64,7 @@ export function LoginForm(props: any) {
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
+      console.log("formValue1234567", formValue);
       try {
         const auth = getAuth();
         const userCredential = await signInWithEmailAndPassword(
@@ -74,6 +75,8 @@ export function LoginForm(props: any) {
         const user_uid = userCredential.user.uid;
         const docRef = doc(db, "users", user_uid);
         const docSnap = await getDoc(docRef);
+        console.log("user_uid", user_uid);
+        console.log("formValue.password", formValue.password);
 
         dispatch(signIn(user_uid));
         dispatch(updateEmailCompany(formValue.emailCompany));
@@ -111,6 +114,7 @@ export function LoginForm(props: any) {
           router.push("/(tabs)/profile");
         }
       } catch (error) {
+        console.log("error", error);
         Toast.show({
           type: "error",
           // position: "top",

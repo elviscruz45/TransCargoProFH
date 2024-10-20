@@ -57,25 +57,12 @@ import { updateEmployees } from "../../slices/profile";
 export default function TabLayout() {
   const router = useRouter();
 
-  const colorScheme = useColorScheme();
   const user = getAuth().currentUser;
   //global state management for the user_uid
   const dispatch = useDispatch();
-  const isLoading = useSelector((state: RootState) => state.userId.isLoading);
   const session = useSelector((state: RootState) => state.userId.session);
-  const name = useSelector((state: RootState) => state.userId.displayName);
   const assetAsignedList =
     useSelector((state: RootState) => state.userId.assetAssigned) || [];
-
-  // console.log("assetAsignedList", assetAsignedList);
-  console.log("assetAsignedListaaaa", assetAsignedList);
-
-  // let assetAsignedList2 =
-  //   assetAsignedList?.length > 0 ? assetAsignedList : ["anything"];
-
-  // const assetList_idFirebaseAsset =
-  //   useSelector((state: RootState) => state.home.assetList_idFirebaseAsset) ||
-  //   [];
 
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
@@ -87,53 +74,63 @@ export default function TabLayout() {
 
   // Mis datos personales
   useEffect(() => {
-    if (user) {
-      dispatch(update_photoURL(user?.photoURL ?? ""));
-      dispatch(updateDisplayName(user?.displayName ?? ""));
-      dispatch(updateEmail(user?.email ?? ""));
-      dispatch(signIn(user?.uid ?? ""));
-    }
-    async function fetchData() {
-      if (session) {
-        const docRef = doc(db, "users", session);
-        const docSnap = await getDoc(docRef);
+    console.log("user", user);
+    dispatch(update_photoURL(user?.photoURL ?? ""));
+    dispatch(updateDisplayName(user?.displayName ?? ""));
+    dispatch(updateEmail(user?.email ?? ""));
+    dispatch(signIn(user?.uid ?? ""));
+  }, []);
 
-        if (docSnap.exists()) {
-          dispatch(updateCargo(docSnap.data().cargo ?? ""));
-          // dispatch(updatecompanyName(docSnap.data().companyName ?? ""));
-          dispatch(updateUserType(docSnap.data().userType ?? ""));
-          dispatch(updateDescripcion(docSnap.data().descripcion ?? ""));
-          dispatch(
-            updateAssetAssigned(
-              docSnap.data().assetAssigned?.length > 0
-                ? docSnap.data().assetAssigned
-                : ["anything"]
-            )
-          );
-          // dispatch(updatecompanyRUC(docSnap.data().companyRUC ?? ""));
-          dispatch(
-            updateEmailCompany(docSnap.data().emailCompany ?? emailCompany)
-          );
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (session && user) {
+          const docRef = doc(db, "users", session);
+          const docSnap = await getDoc(docRef);
+          console.log("docSnap", docSnap.data());
+
+          if (docSnap.exists()) {
+            dispatch(updateCargo(docSnap.data().cargo ?? ""));
+            // dispatch(updatecompanyName(docSnap.data().companyName ?? ""));
+            dispatch(updateUserType(docSnap.data().userType ?? ""));
+            dispatch(updateDescripcion(docSnap.data().descripcion ?? ""));
+            dispatch(
+              updateAssetAssigned(
+                docSnap?.data()?.assetAssigned?.length > 0
+                  ? docSnap.data().assetAssigned
+                  : ["anything"]
+              )
+            );
+            // dispatch(updatecompanyRUC(docSnap.data().companyRUC ?? ""));
+            dispatch(
+              updateEmailCompany(docSnap.data().emailCompany ?? emailCompany)
+            );
+          } else {
+            console.log("No such document!");
+          }
         } else {
-          console.log("No such document!");
+          console.log("Session is undefined or null!");
         }
-      } else {
-        console.log("Session is undefined or null!");
+      } catch (error) {
+        console.error("Error fetching document:", error);
       }
     }
     fetchData();
-  }, [user]);
+  }, [user, session]);
 
   // Equipos
   useEffect(() => {
     let unsubscribe: any;
     let lista: any = [];
     let lista_idFirebaseAsset: any = [];
-    console.log("emailCompany", emailCompany);
-    console.log("user_email", user_email);
-    console.log("assetAsignedListbbbbb", assetAsignedList);
+    console.log("Equipos");
 
-    if (user_email && emailCompany && assetAsignedList?.length > 0) {
+    if (
+      user_email &&
+      emailCompany &&
+      assetAsignedList &&
+      assetAsignedList?.length > 0
+    ) {
       function fetchData() {
         let queryRef;
 
@@ -163,7 +160,7 @@ export default function TabLayout() {
           });
           console.log("lista", lista);
           dispatch(setAssetList(lista));
-          dispatch(setAssetList_idFirebaseAsset(lista_idFirebaseAsset));
+          // dispatch(setAssetList_idFirebaseAsset(lista_idFirebaseAsset));
 
           // setData(lista.slice(0, 50));
           // props.updateAITServicesDATA(lista);
@@ -180,7 +177,8 @@ export default function TabLayout() {
 
   //traer todoos los usuarios de la empresa
   useEffect(() => {
-    if (user_email === emailCompany) {
+    console.log("traer todoos los usuarios de la empresa");
+    if (emailCompany && user_email && user_email === emailCompany) {
       let unsubscribe: any;
       let lista: any = [];
 
@@ -211,9 +209,10 @@ export default function TabLayout() {
 
   // Events
   useEffect(() => {
+    console.log("events");
     let unsubscribe: any;
     let lista: any = [];
-    if (user_email && assetAsignedList?.length > 0) {
+    if (user_email && assetAsignedList && assetAsignedList?.length > 0) {
       async function fetchData() {
         let queryRef;
 
@@ -256,13 +255,6 @@ export default function TabLayout() {
     }
   }, [user_email, assetAsignedList]);
 
-  if (isLoading) {
-    return (
-      <SafeAreaView>
-        <Text>Loading...</Text>
-      </SafeAreaView>
-    );
-  }
   if (!session) {
     // On web, static rendering will stop here as the user is not authenticated
     // in the headless Node process that the pages are rendered in.
@@ -293,14 +285,6 @@ export default function TabLayout() {
               />
             </TouchableOpacity>
           ),
-          // headerLeft: () => (
-          //   <TouchableOpacity
-          //     style={{ marginLeft: 0 }}
-          //     onPress={() => home_screen()}
-          //   >
-          //     <Ionicons name="bar-chart-outline" />
-          //   </TouchableOpacity>
-          // ),
 
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon
