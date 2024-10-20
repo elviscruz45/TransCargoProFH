@@ -164,6 +164,8 @@ export default function TabLayout() {
   }, [user_email]);
 
   useEffect(() => {
+    console.log("emailCompany", emailCompany);
+    console.log("user_email", user_email);
     if (user_email === emailCompany) {
       let unsubscribe: any;
       let lista: any = [];
@@ -191,7 +193,7 @@ export default function TabLayout() {
         }
       };
     }
-  }, []);
+  }, [emailCompany, user_email]);
 
   // Events
   useEffect(() => {
