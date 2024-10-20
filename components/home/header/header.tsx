@@ -10,6 +10,7 @@ export function Header() {
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
+  
 
   const globalFilteredAssetList = globalAssetList?.filter(
     (item: any) => item.tipoActivo === "Equipo / Activo"

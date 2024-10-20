@@ -26,7 +26,7 @@ export default function Report(props: any) {
   //fetch global assets
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
-  );
+  )
 
   // const globalAssetList = [...globalAssetListUnsorted].sort((a, b) => {
   //   if (a.tipoActivo < b.tipoActivo) return -1;
