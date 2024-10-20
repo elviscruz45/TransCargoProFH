@@ -124,7 +124,7 @@ export default function TabLayout() {
     let lista_idFirebaseAsset: any = [];
     console.log("emailCompany", emailCompany);
 
-    if (user_email && assetAsignedList?.length > 0) {
+    if (user_email && emailCompany && assetAsignedList?.length > 0) {
       function fetchData() {
         let queryRef;
 
