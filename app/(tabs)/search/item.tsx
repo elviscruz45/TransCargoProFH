@@ -180,113 +180,110 @@ export default function Item() {
   }, [startDate, endDate, item]);
 
   return (
-    <>
-      <ScrollView
-        style={{ backgroundColor: "white" }} // Add backgroundColor here
-        showsVerticalScrollIndicator={false}
-      >
+    <ScrollView
+      style={{ backgroundColor: "white" }} // Add backgroundColor here
+      showsVerticalScrollIndicator={false}
+    >
+      <Text> </Text>
+
+      <View style={[styles.row, styles.center]}>
+        <View>
+          <AvatarImg currentAsset={currentAsset} idAsset={item} />
+        </View>
         <Text> </Text>
 
-        <View style={[styles.row, styles.center]}>
-          <View>
-            <AvatarImg currentAsset={currentAsset} idAsset={item} />
-          </View>
-          <Text> </Text>
+        <View style={{ ...(Platform.OS === "web" && { marginLeft: 20 }) }}>
+          <Text style={styles.name}>{currentAsset?.nombre}</Text>
 
-          <View style={{ ...(Platform.OS === "web" && { marginLeft: 20 }) }}>
-            <Text style={styles.name}>{currentAsset?.nombre}</Text>
+          {currentAsset?.tipoActivo === "Equipo / Activo" && (
+            <>
+              <Text style={styles.info}>
+                {"Placa:"} {currentAsset?.placa}
+              </Text>
+              {/* <Text style={styles.info}>{"Tipo:"} sdfd</Text> */}
+              <Text style={styles.info}>
+                {"Kilometraje:"}
+                {currentAsset?.kilometraje} {"Km"}
+              </Text>
+              <Text style={styles.info}>
+                {"Cambio aceite Prox:"}
+                {currentAsset?.cambioAceiteProx}
+                {" Km"}
+              </Text>
+              <Text style={styles.info}>
+                {"Gasto Combustible:"} {currentAsset?.gastoCombustible} {"Gls"}
+              </Text>
+              <Text style={styles.info}>
+                {"Rendimiento Combustible:"}{" "}
+                {currentAsset?.redimientoCombustible}
+                {"Gls/Km"}
+              </Text>
 
-            {currentAsset?.tipoActivo === "Equipo / Activo" && (
-              <>
-                <Text style={styles.info}>
-                  {"Placa:"} {currentAsset?.placa}
-                </Text>
-                {/* <Text style={styles.info}>{"Tipo:"} sdfd</Text> */}
-                <Text style={styles.info}>
-                  {"Kilometraje:"}
-                  {currentAsset?.kilometraje} {"Km"}
-                </Text>
-                <Text style={styles.info}>
-                  {"Cambio aceite Prox:"}
-                  {currentAsset?.cambioAceiteProx}
-                  {" Km"}
-                </Text>
-                <Text style={styles.info}>
-                  {"Gasto Combustible:"} {currentAsset?.gastoCombustible}{" "}
-                  {"Gls"}
-                </Text>
-                <Text style={styles.info}>
-                  {"Rendimiento Combustible:"}{" "}
-                  {currentAsset?.redimientoCombustible}
-                  {"Gls/Km"}
-                </Text>
-
-                <Text style={styles.info}>
-                  {"Facturacion a la fecha:"} {"S/."}
-                  {currentAsset?.facturacionFleteYTD}
-                </Text>
-                <Text style={styles.info}>
-                  {"Servicios a la fecha:"} {currentAsset?.cantidadServiciosYTD}
-                </Text>
-                <Text style={styles.info}>
-                  {"Gastos a la fecha:"} {"S/."} {currentAsset?.gastosTotalYTD}
-                </Text>
-              </>
-            )}
-          </View>
+              <Text style={styles.info}>
+                {"Facturacion a la fecha:"} {"S/."}
+                {currentAsset?.facturacionFleteYTD}
+              </Text>
+              <Text style={styles.info}>
+                {"Servicios a la fecha:"} {currentAsset?.cantidadServiciosYTD}
+              </Text>
+              <Text style={styles.info}>
+                {"Gastos a la fecha:"} {"S/."} {currentAsset?.gastosTotalYTD}
+              </Text>
+            </>
+          )}
         </View>
-        <Text></Text>
+      </View>
+      <Text></Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            alignSelf: "center",
-            // alignItems: "center",
-            // backgroundColor: "white",
-            // justifyContent: "space-between",
-          }}
+      <View
+        style={{
+          flexDirection: "row",
+          alignSelf: "center",
+          // alignItems: "center",
+          // backgroundColor: "white",
+          // justifyContent: "space-between",
+        }}
+      >
+        <TouchableOpacity
+          style={styles.btnContainer4}
+          onPress={() => MoreDetail()}
         >
-          <TouchableOpacity
-            style={styles.btnContainer4}
-            onPress={() => MoreDetail()}
-          >
-            <Image
-              source={require("../../../assets/pictures/more_information.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btnContainer4}
-            onPress={() => goToDocs()}
-          >
-            <Image
-              source={require("../../../assets/pictures/addFilesIcon.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-        </View>
-        <Text></Text>
-
-        <Text
-          style={{
-            marginLeft: 15,
-            borderRadius: 5,
-            fontWeight: "700",
-            alignSelf: "center",
-          }}
+          <Image
+            source={require("../../../assets/pictures/more_information.png")}
+            style={styles.roundImageUpload}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.btnContainer4}
+          onPress={() => goToDocs()}
         >
-          Historial de Eventos
-        </Text>
-        <Text></Text>
+          <Image
+            source={require("../../../assets/pictures/addFilesIcon.png")}
+            style={styles.roundImageUpload}
+          />
+        </TouchableOpacity>
+      </View>
+      <Text></Text>
 
-        <DateScreen filterButton={filter} quitFilterButton={quitfilter} />
+      <Text
+        style={{
+          marginLeft: 15,
+          borderRadius: 5,
+          fontWeight: "700",
+          alignSelf: "center",
+        }}
+      >
+        Historial de Eventos
+      </Text>
+      <Text></Text>
 
-        <Text></Text>
-        <GanttHistorial
-          datas={post}
-          // comentPost={(item) => comentPost(item)}
-        />
-      </ScrollView>
-    </>
+      <DateScreen filterButton={filter} quitFilterButton={quitfilter} />
+
+      <Text></Text>
+      <GanttHistorial
+        datas={post}
+        // comentPost={(item) => comentPost(item)}
+      />
+    </ScrollView>
   );
 }

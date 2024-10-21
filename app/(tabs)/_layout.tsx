@@ -208,7 +208,8 @@ export default function TabLayout() {
 
   // Events
   useEffect(() => {
-    console.log("events");
+    console.log("events", assetAsignedList);
+    // console.log(assetAsignedList);
     let unsubscribe: any;
     let lista: any = [];
     if (user_email && assetAsignedList && assetAsignedList?.length > 0) {

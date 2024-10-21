@@ -38,7 +38,7 @@ export const GanttHistorial = (props: any) => {
 
   return (
     <FlatList
-      scrollEnabled={false}
+      scrollEnabled={true}
       // contentContainerStyle={props.listViewContainerStyle}
       data={datas}
       renderItem={({ item, index }) => {
