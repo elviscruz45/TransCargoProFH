@@ -76,16 +76,18 @@ export default function TabLayout() {
   // Mis datos personales
   useEffect(() => {
     console.log("user", user);
-    dispatch(update_photoURL(user?.photoURL ?? ""));
-    dispatch(updateDisplayName(user?.displayName ?? ""));
-    dispatch(updateEmail(user?.email ?? ""));
-    dispatch(signIn(user?.uid ?? ""));
-  }, []);
+    if (user) {
+      dispatch(update_photoURL(user?.photoURL ?? ""));
+      dispatch(updateDisplayName(user?.displayName ?? ""));
+      dispatch(updateEmail(user?.email ?? ""));
+      dispatch(signIn(user?.uid ?? ""));
+    }
+  }, [user]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        if (session && user) {
+        if (session) {
           const docRef = doc(db, "users", session);
           const docSnap = await getDoc(docRef);
           console.log("docSnap", docSnap.data());
@@ -117,7 +119,7 @@ export default function TabLayout() {
       }
     }
     fetchData();
-  }, [user, session]);
+  }, [session]);
 
   // Equipos
   useEffect(() => {
@@ -161,10 +163,6 @@ export default function TabLayout() {
           });
           console.log("lista", lista);
           dispatch(setAssetList(lista));
-          // dispatch(setAssetList_idFirebaseAsset(lista_idFirebaseAsset));
-
-          // setData(lista.slice(0, 50));
-          // props.updateAITServicesDATA(lista);
         });
       }
       fetchData();
