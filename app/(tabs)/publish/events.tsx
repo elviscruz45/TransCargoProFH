@@ -475,6 +475,16 @@ export default function events(props: any) {
                 }}
                 // errorMessage={formik.errors.visibilidad}
               />
+              <Input
+                value={formik.values.numeroFactura.toString()}
+                label="Numero de Factura"
+                // placeholder="Visibilidad del evento"
+                editable={true}
+                onChangeText={(text) => {
+                  formik.setFieldValue("numeroFactura", text);
+                }}
+                // errorMessage={formik.errors.visibilidad}
+              />
             </>
           )}
 

@@ -19,6 +19,7 @@ export function initialValues() {
     placa: "",
     //Adicional
     tipoGasto: "",
+    numeroFactura: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),

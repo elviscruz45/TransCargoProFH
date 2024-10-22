@@ -12,7 +12,6 @@ export const tipoEvento = [
   { area: "Administracion", value: "Facturacion de Servicio" },
   { area: "Administracion", value: "Pago Servicios" },
   { area: "Administracion", value: "Compra Repuesto" },
-  { area: "Administracion", value: "Cambio Llanta" },
   { area: "Administracion", value: "Otro" },
 ];
 
