@@ -7,7 +7,7 @@ import { ChangeDate } from "../ChangeDates/ChangeDate";
 import { SelectActivo } from "../TipoActivo/Tipo";
 import { formatdate } from "../../../../utils/formats";
 
-export function AssetForm({ formik, setNombre }: any) {
+export function AssetForm({ formik, setNombre, action }: any) {
   const [renderComponent, setRenderComponent] = useState<ReactNode>(null);
 
   //open or close modal
@@ -43,31 +43,35 @@ export function AssetForm({ formik, setNombre }: any) {
   return (
     <View>
       <View style={styles.content}>
-        <Input
-          label="Tipo"
-          value={formik?.values?.tipoActivo?.toString() ?? ""}
-          editable={false}
-          rightIcon={{
-            type: "material-community",
-            name: "clipboard-text",
-            color: "#c2c2c2",
-            onPress: () => {
-              selectComponent("TipoActivo", "tipoActivo");
-            },
-          }}
-          errorMessage={formik.errors.tipoActivo}
-        />
-        <Input
-          label="Nombre de Placa / Area"
-          value={formik?.values?.nombre?.toString() ?? ""}
-          onChangeText={(text) => {
-            formik.setFieldValue("nombre", text);
-            setNombre(text);
-          }}
-          errorMessage={formik.errors.nombre}
-        />
+        {action !== "toEdit" && (
+          <>
+            <Input
+              label="Tipo"
+              value={formik?.values?.tipoActivo?.toString() ?? ""}
+              editable={false}
+              rightIcon={{
+                type: "material-community",
+                name: "clipboard-text",
+                color: "#c2c2c2",
+                onPress: () => {
+                  selectComponent("TipoActivo", "tipoActivo");
+                },
+              }}
+              errorMessage={formik.errors.tipoActivo}
+            />
+            <Input
+              label="Nombre de Placa / Area"
+              value={formik?.values?.nombre?.toString() ?? ""}
+              onChangeText={(text) => {
+                formik.setFieldValue("nombre", text);
+                setNombre(text);
+              }}
+              errorMessage={formik.errors.nombre}
+            />
+          </>
+        )}
 
-        {tipoActivo === "Equipo / Activo" && (
+        {(tipoActivo === "Equipo / Activo" || action === "toEdit") && (
           <>
             <Text style={styles.subtitleForm}>Informacion Activo</Text>
             <Text> </Text>

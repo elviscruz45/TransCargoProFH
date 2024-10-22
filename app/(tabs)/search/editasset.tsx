@@ -16,7 +16,7 @@ import { db } from "../../../utils/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function EditAsset(props: any) {
-  const { item }: any = useLocalSearchParams();
+  const { item, action }: any = useLocalSearchParams();
   const router = useRouter();
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
@@ -260,7 +260,12 @@ export default function EditAsset(props: any) {
       </View>
 
       <View style={styles.sectionForms}></View>
-      <AssetForm formik={formik} setActivo={setActivo} setNombre={setNombre} />
+      <AssetForm
+        formik={formik}
+        setActivo={setActivo}
+        setNombre={setNombre}
+        action={action}
+      />
 
       <Button
         title="Agregar"

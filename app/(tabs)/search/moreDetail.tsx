@@ -41,7 +41,7 @@ export default function MoreDetail() {
   const goToEditAssetScreen = (item: any) => {
     router.push({
       pathname: "/search/editasset",
-      params: { item: item },
+      params: { item: item, action: "toEdit" },
     });
   };
   return (
