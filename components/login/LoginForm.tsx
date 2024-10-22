@@ -24,7 +24,7 @@ import { getApps, getApp } from "firebase/app";
 import { useRouter } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
-import { signIn, updateEmailCompany } from "../../slices/auth";
+import { signIn, updateEmailCompany, updateEmail } from "../../slices/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function LoginForm(props: any) {
@@ -80,6 +80,7 @@ export function LoginForm(props: any) {
 
         dispatch(signIn(user_uid));
         dispatch(updateEmailCompany(formValue.emailCompany));
+        dispatch(updateEmail(formValue.email));
 
         //async storage
         await AsyncStorage.setItem(
