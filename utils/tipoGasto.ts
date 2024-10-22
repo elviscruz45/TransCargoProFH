@@ -1,6 +1,7 @@
 export const tipoGasto = [
+  { value: "Tipo de Ingreso", disabled: true },
+  { value: "Facturacion" },
   { value: "Tipo de Gasto", disabled: true },
-  { value: "Descripcion de Cta" },
   { value: "Acces segurida y Epp" },
   { value: "Activos" },
   { value: "Afp" },

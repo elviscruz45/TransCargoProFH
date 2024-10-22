@@ -383,7 +383,7 @@ export default function events(props: any) {
             />
           )}
 
-          {userType === "Facturacion" && (
+          {/* {userType === "Facturacion" && (
             <Input
               value={formik.values.facturacionFlete.toString()}
               label="Costo Flete (S/.)"
@@ -393,7 +393,7 @@ export default function events(props: any) {
                 formik.setFieldValue("facturacionFlete", text);
               }}
             />
-          )}
+          )} */}
 
           {(formik.values.tipoEvento === "Cambio Llanta" ||
             formik.values.tipoEvento === "Reparacion Llanta") && (
@@ -452,7 +452,7 @@ export default function events(props: any) {
             <>
               <Input
                 value={formik.values.tipoGasto}
-                label="Tipo de Gasto"
+                label="Tipo"
                 // placeholder="Titulo del Evento"
                 multiline={true}
                 editable={true}
@@ -465,8 +465,8 @@ export default function events(props: any) {
                 }}
               />
               <Input
-                value={formik.values.costoMantenimiento.toString()}
-                label="Costo (S/.)"
+                value={formik.values.costo.toString()}
+                label="Monto (S/.)"
                 // placeholder="Visibilidad del evento"
                 editable={true}
                 keyboardType="numeric"

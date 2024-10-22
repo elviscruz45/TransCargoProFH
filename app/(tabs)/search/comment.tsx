@@ -57,6 +57,7 @@ interface Post {
   tipoGasto?: string;
   ubicacion?: any;
   llanta?: any;
+  costo?: number;
 
   // Add other properties of the post object here if needed
 }
@@ -64,8 +65,11 @@ interface Post {
 export default function Comment() {
   const [postsComments, setPostsComments] = useState([]);
   const [comment, setComment] = useState("");
-
-  const email = useSelector((state: RootState) => state.userId.email) ?? "";
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
+  const user_email =
+    useSelector((state: RootState) => state.userId.email) ?? "";
 
   const [post, setPost] = useState<Post | null>(null);
   const router = useRouter();
@@ -202,7 +206,7 @@ export default function Comment() {
         >
           {post?.tipoEvento}
         </Text>
-        {email === post?.emailPerfil && (
+        {user_email === post?.emailPerfil && (
           <View>
             <TouchableOpacity
               onPress={() => docDelete(item)}
@@ -216,6 +220,11 @@ export default function Comment() {
                 cachePolicy={"memory-disk"}
               />
             </TouchableOpacity>
+          </View>
+        )}
+
+        {emailCompany === user_email && (
+          <View>
             <TouchableOpacity
               style={{
                 marginRight: "2%",
@@ -235,6 +244,7 @@ export default function Comment() {
           style={{
             paddingHorizontal: 5,
             fontWeight: "700",
+            marginBottom: 10,
           }}
         >
           {" "}
@@ -247,22 +257,37 @@ export default function Comment() {
         >
           {post?.comentarios}
         </Text>
+        <Text> </Text>
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Autor: </Text>
           <Text style={styles.detail}> {post?.emailPerfil}</Text>
         </View>
+        <Text> </Text>
+
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Tipo de Gasto: </Text>
           <Text style={styles.detail}> {post?.tipoGasto}</Text>
         </View>
+        <Text> </Text>
+
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Monto: </Text>
+          <Text style={styles.detail}>S/. {post?.costo}</Text>
+        </View>
+        <Text> </Text>
+
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Fecha: </Text>
           <Text style={styles.detail}> {post?.fechaPostFormato}</Text>
         </View>
+        <Text> </Text>
+
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Ubicacion Latitud: </Text>
           <Text style={styles.detail}>{post?.ubicacion?.coords?.latitude}</Text>
         </View>
+        <Text> </Text>
+
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Ubicacion Longitud: </Text>
           <Text style={styles.detail}>
@@ -290,7 +315,9 @@ export default function Comment() {
         <Text> </Text>
 
         <View style={styles.rowavanceNombre}>
-          <Text style={styles.avanceNombre}> Ubicacion de las llantas: </Text>
+          {arrayLlanta?.length > 0 && (
+            <Text style={styles.avanceNombre}> Ubicacion de las llantas: </Text>
+          )}
 
           {arrayLlanta?.length > 0 &&
             arrayLlanta?.map((item: any, index: any) => (
