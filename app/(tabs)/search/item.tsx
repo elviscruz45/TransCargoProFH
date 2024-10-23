@@ -210,7 +210,7 @@ export default function Item() {
                 {currentAsset?.cambioAceiteProx}
                 {" Km"}
               </Text>
-              <Text style={styles.info}>
+              <Text style={[styles.info, { color: "blue" }]}>
                 {"Gasto Combustible:"} {currentAsset?.gastoCombustible} {"Gls"}
               </Text>
               <Text style={styles.info}>

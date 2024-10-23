@@ -58,6 +58,9 @@ interface Post {
   ubicacion?: any;
   llanta?: any;
   costo?: number;
+  numeroFactura?: string;
+  guiaRemitente?: string;
+  guiTransportista?: string;
 
   // Add other properties of the post object here if needed
 }
@@ -265,7 +268,7 @@ export default function Comment() {
         <Text> </Text>
 
         <View style={styles.rowavanceNombre}>
-          <Text style={styles.avanceNombre}> Tipo de Gasto: </Text>
+          <Text style={styles.avanceNombre}> Tipo de Gasto o Ingreso: </Text>
           <Text style={styles.detail}> {post?.tipoGasto}</Text>
         </View>
         <Text> </Text>
@@ -275,7 +278,21 @@ export default function Comment() {
           <Text style={styles.detail}>S/. {post?.costo}</Text>
         </View>
         <Text> </Text>
-
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Numero de Factura: </Text>
+          <Text style={styles.detail}> {post?.numeroFactura}</Text>
+        </View>
+        <Text> </Text>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Guia de Remitente: </Text>
+          <Text style={styles.detail}> {post?.guiaRemitente}</Text>
+        </View>
+        <Text> </Text>
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Guia de Transportista: </Text>
+          <Text style={styles.detail}> {post?.guiTransportista}</Text>
+        </View>
+        <Text> </Text>
         <View style={styles.rowavanceNombre}>
           <Text style={styles.avanceNombre}> Fecha: </Text>
           <Text style={styles.detail}> {post?.fechaPostFormato}</Text>
@@ -315,11 +332,12 @@ export default function Comment() {
         <Text> </Text>
 
         <View style={styles.rowavanceNombre}>
-          {arrayLlanta?.length > 0 && (
+          {arrayLlanta && arrayLlanta?.length > 0 && (
             <Text style={styles.avanceNombre}> Ubicacion de las llantas: </Text>
           )}
 
-          {arrayLlanta?.length > 0 &&
+          {arrayLlanta &&
+            arrayLlanta?.length > 0 &&
             arrayLlanta?.map((item: any, index: any) => (
               <Text key={index}>Llanta N: {item.value}, </Text>
             ))}

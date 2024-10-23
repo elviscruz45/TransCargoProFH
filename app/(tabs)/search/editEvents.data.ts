@@ -20,6 +20,8 @@ export function initialValues() {
     //Adicional
     tipoGasto: "",
     numeroFactura: "",
+    guiaRemitente: "",
+    guiTransportista: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),

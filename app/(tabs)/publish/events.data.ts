@@ -20,6 +20,8 @@ export function initialValues() {
     //Adicional
     tipoGasto: "",
     numeroFactura: "",
+    guiaRemitente: "",
+    guiTransportista: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),
@@ -38,7 +40,7 @@ export function initialValues() {
 }
 export function validationSchema() {
   return Yup.object({
-    // tipoEvento: Yup.string().required("Campo obligatorio"),
+    tipoEvento: Yup.string().required("Campo obligatorio"),
     // ubicacion: Yup.object().required("Campo obligatorio"),
   });
 }

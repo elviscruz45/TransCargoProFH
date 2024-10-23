@@ -355,7 +355,24 @@ export default function editEvents(props: any) {
             onChangeText={(text) => {
               formik.setFieldValue("numeroFactura", text);
             }}
-            // errorMessage={formik.errors.visibilidad}
+          />
+          <Input
+            value={formik.values.guiaRemitente.toString()}
+            label="Guia de Remitente"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            onChangeText={(text) => {
+              formik.setFieldValue("guiaRemitente", text);
+            }}
+          />
+          <Input
+            value={formik.values.guiTransportista.toString()}
+            label="Guia de Transportista"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            onChangeText={(text) => {
+              formik.setFieldValue("guiTransportista", text);
+            }}
           />
         </View>
       </View>
