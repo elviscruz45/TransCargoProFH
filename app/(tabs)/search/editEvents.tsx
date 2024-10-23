@@ -159,7 +159,15 @@ export default function editEvents(props: any) {
         if (newData?.tipoGasto) {
           updateData.tipoGasto = newData.tipoGasto;
         }
-
+        if (newData?.numeroFactura) {
+          updateData.numeroFactura = newData.numeroFactura;
+        }
+        if (newData?.guiaRemitente) {
+          updateData.guiaRemitente = newData.guiaRemitente;
+        }
+        if (newData?.guiTransportista) {
+          updateData.guiTransportista = newData.guiTransportista;
+        }
         await updateDoc(RefFirebaseLasEventPostd, updateData);
         router.back();
 
