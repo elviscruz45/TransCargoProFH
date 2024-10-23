@@ -445,6 +445,8 @@ export default function events(props: any) {
             formik.values.tipoEvento === "Cambio Llanta" ||
             formik.values.tipoEvento === "Reparacion Llanta" ||
             formik.values.tipoEvento === "Cambio Repuesto" ||
+            formik.values.tipoEvento === "Inicio Viaje" ||
+            formik.values.tipoEvento === "Final Viaje" ||
             formik.values.tipoEvento === "Facturacion de Servicio" ||
             formik.values.tipoEvento === "Pago Servicios" ||
             formik.values.tipoEvento === "Compra Repuesto" ||
