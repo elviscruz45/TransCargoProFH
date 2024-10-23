@@ -87,7 +87,7 @@ export function NameForm(props: any) {
           newData.companyName = companyName ?? "";
           newData.userType = userTypeList[4].value;
           newData.uid = currentLoginUser?.uid ?? "";
-          newData.assetAssigned = "";
+          newData.assetAssigned = [];
 
           ///setting data to firebase
           const docRef = doc(collection(db, "users"), newData.uid);

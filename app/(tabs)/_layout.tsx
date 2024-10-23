@@ -208,7 +208,6 @@ export default function TabLayout() {
 
   // Events
   useEffect(() => {
-    console.log("events", assetAsignedList);
     // console.log(assetAsignedList);
     let unsubscribe: any;
     let lista: any = [];
@@ -219,14 +218,14 @@ export default function TabLayout() {
         if (emailCompany === user_email) {
           queryRef = query(
             collection(db, "Events"),
-            limit(40),
+            limit(15),
             where("emailCompany", "==", emailCompany),
             orderBy("createdAt", "desc")
           );
         } else {
           queryRef = query(
             collection(db, "Events"),
-            limit(30),
+            limit(10),
             where("emailCompany", "==", emailCompany),
             where("nombreAsset", "in", assetAsignedList),
             orderBy("createdAt", "desc")

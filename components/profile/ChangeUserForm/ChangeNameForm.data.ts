@@ -12,7 +12,7 @@ export function initialValues() {
     companyRUC: "",
     userType: "",
     uid: "",
-    assetAssigned: "",
+    assetAssigned: [],
     companyManagerConfimation: "",
   };
 }

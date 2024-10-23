@@ -16,6 +16,16 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { DataTable } from "react-native-paper";
 import { SearchBar, Icon } from "@rneui/themed";
+import { getExcelReportData } from "../../../utils/excelData";
+import { db } from "@/utils/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 
 export default function Report(props: any) {
   //fetch total users
@@ -23,24 +33,20 @@ export default function Report(props: any) {
     (state: RootState) => state.profile.employees
   );
 
+  //user email , emailCompany
+  const user_email = useSelector((state: RootState) => state.userId.email);
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
+
   //fetch global assets
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
-  )
-
-  // const globalAssetList = [...globalAssetListUnsorted].sort((a, b) => {
-  //   if (a.tipoActivo < b.tipoActivo) return -1;
-  //   if (a.tipoActivo > b.tipoActivo) return 1;
-  //   return 0;
-  // });
+  );
 
   //  searching
   const [searchResults, setSearchResults] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
-
-  // for (let i = 0; i < globalAssetList.length; i++) {
-  //   newTableData.push({});
-  // }
 
   //states of filters
   const [showModal, setShowModal] = useState(false);
@@ -84,6 +90,8 @@ export default function Report(props: any) {
   };
   //real time updates
   const [data, setData] = useState();
+  const [dataExcel, setDataExcel] = useState();
+  console.log("dataExcel", dataExcel);
 
   useEffect(() => {
     if (Array.isArray(globalAssetList)) {
@@ -106,6 +114,31 @@ export default function Report(props: any) {
       setSearchResults(result);
     }
   }, [searchText, globalAssetList, employeesList]);
+
+  // Events
+  useEffect(() => {
+    if (emailCompany === user_email) {
+      async function fetchData() {
+        let queryRef;
+        queryRef = query(
+          collection(db, "Events"),
+          limit(5),
+          where("emailCompany", "==", emailCompany),
+          orderBy("createdAt", "desc")
+        );
+        const getDocs1 = await getDocs(queryRef);
+        const lista: any = [];
+        // Process results from the first query
+        if (getDocs1) {
+          getDocs1.forEach((doc) => {
+            lista.push(doc.data());
+          });
+        }
+        setDataExcel(lista);
+      }
+      fetchData();
+    }
+  }, [user_email, emailCompany]);
 
   return (
     <>
@@ -436,14 +469,14 @@ export default function Report(props: any) {
         {/* {comprometido && <MontoComprometido data={data} />} */}
         <Text></Text>
 
-        {/* <TouchableOpacity
-        // onPress={() => getExcelReportData(data)}
-        >
-          <Image
-            source={require("../../../assets/pictures/excel2.png")}
-            style={styles.excel}
-          />
-        </TouchableOpacity> */}
+        {user_email === emailCompany && (
+          <TouchableOpacity onPress={() => getExcelReportData(dataExcel)}>
+            <Image
+              source={require("../../../assets/pictures/excel2.png")}
+              style={styles.excel}
+            />
+          </TouchableOpacity>
+        )}
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
