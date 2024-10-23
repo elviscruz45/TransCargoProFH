@@ -456,7 +456,7 @@ export default function events(props: any) {
                 // placeholder="Titulo del Evento"
                 multiline={true}
                 editable={true}
-                errorMessage={formik.errors.tipoEvento}
+                // errorMessage={formik.errors.tipoEvento}
                 rightIcon={{
                   type: "material-community",
                   color: "#c2c2c2",

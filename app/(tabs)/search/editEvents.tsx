@@ -13,6 +13,7 @@ import { MapForm } from "../../../components/publish/forms/map/mapForm";
 import { initialValues, validationSchema } from "./editEvents.data";
 import { ChangeEvent } from "../../../components/publish/forms/ChangeEvent/Selection";
 import * as Location from "expo-location";
+import { ChangeTipoGasto } from "@/components/publish/forms/ChangeTipoGasto/Selection";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import Toast from "react-native-toast-message";
 import {
@@ -47,6 +48,8 @@ export default function editEvents(props: any) {
   );
   const [evento, setEvento] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [tipoGastos, setTipoGasto] = useState<string | null>(null);
+
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
   );
@@ -204,6 +207,15 @@ export default function editEvents(props: any) {
         />
       );
     }
+    if (key === "tipoGasto") {
+      setRenderComponent(
+        <ChangeTipoGasto
+          onClose={onCloseOpenModal}
+          formik={formik}
+          setTipoGasto={setTipoGasto}
+        />
+      );
+    }
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -331,7 +343,7 @@ export default function editEvents(props: any) {
           />
 
           <Input
-            value={formik.values.tipoGasto}
+            value={formik.values.tipoGasto.toString()}
             label="Tipo"
             // placeholder="Titulo del Evento"
             multiline={true}
