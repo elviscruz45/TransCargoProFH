@@ -90,21 +90,21 @@ export default function editEvents(props: any) {
   // );
 
   // const [gpsPermission, setGpsPermission] = useState(false);
-  useEffect(() => {
-    (async () => {
-      dispatch(uploadTires([]));
+  // useEffect(() => {
+  //   (async () => {
+  //     dispatch(uploadTires([]));
 
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permission to access location was denied");
+  //       return;
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
-      // setLocation(location);
-      formik.setFieldValue("ubicacion", location);
-    })();
-  }, []);
+  //     let location = await Location.getCurrentPositionAsync({});
+  //     // setLocation(location);
+  //     formik.setFieldValue("ubicacion", location);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     if (formik.values.llanta.length !== 0) {
