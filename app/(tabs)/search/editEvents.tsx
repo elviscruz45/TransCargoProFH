@@ -1,5 +1,3 @@
-import { StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
-import { Image as ImageExpo } from "expo-image";
 import { Avatar, Button, Input } from "@rneui/themed";
 import { useFormik } from "formik";
 import React, { useState, useEffect } from "react";
@@ -58,6 +56,9 @@ export default function editEvents(props: any) {
   const tires: any =
     useSelector((state: RootState) => state.publish.tires) ?? [];
 
+  useEffect(() => {
+    dispatch(uploadTires([]));
+  }, []);
   //global state management for the user_uid
   const router = useRouter();
   const {
@@ -86,28 +87,9 @@ export default function editEvents(props: any) {
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
 
-  // const name = useSelector((state: RootState) => state.userId.displayName);
-  // const user_email = useSelector((state: RootState) => state.userId.email);
-  // const companyName = useSelector(
-  //   (state: RootState) => state.userId.companyName
-  // );
-
-  // const [gpsPermission, setGpsPermission] = useState(false);
-  // useEffect(() => {
-  //   (async () => {
-  //     dispatch(uploadTires([]));
-
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       setErrorMsg("Permission to access location was denied");
-  //       return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     // setLocation(location);
-  //     formik.setFieldValue("ubicacion", location);
-  //   })();
-  // }, []);
+  function capitalizeFirstLetter(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
   useEffect(() => {
     if (formik.values.llanta.length !== 0) {
@@ -115,9 +97,7 @@ export default function editEvents(props: any) {
     }
   }, [tires]);
 
-  function capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  // console.log("formik.values", formik.values.llanta);
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -130,7 +110,6 @@ export default function editEvents(props: any) {
         const newData = formValue;
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
         const RefFirebaseLasEventPostd = doc(db, "Events", idEventFirebase);
-
         const updateData: any = {};
         if (newData?.tipoEvento) {
           updateData.tipoEvento = newData.tipoEvento;
@@ -147,8 +126,8 @@ export default function editEvents(props: any) {
         if (newData?.facturacionFlete) {
           updateData.facturacionFlete = newData.facturacionFlete;
         }
-        if (newData?.llanta) {
-          updateData.llanta = newData.llanta;
+        if (tires) {
+          updateData.llanta = tires;
         }
         if (newData?.repuesto) {
           updateData.repuesto = newData.repuesto;
@@ -319,7 +298,6 @@ export default function editEvents(props: any) {
             rightIcon={{
               type: "material-community",
               color: "#c2c2c2",
-
               name: "car-tire-alert",
               onPress: () => {
                 router.push({

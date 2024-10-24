@@ -4,11 +4,17 @@ import { Buffer } from "buffer";
 import * as Sharing from "expo-sharing";
 import { Platform } from "react-native";
 import { saveAs } from "file-saver";
+import { Timestamp } from "firebase/firestore";
+import { array } from "yup";
+
 interface Coordinates {
   latitude?: number;
   longitude?: number;
 }
-
+interface Data {
+  createdAt: Timestamp | null;
+  // other properties...
+}
 interface Ubicacion {
   coords?: Coordinates;
   timestamp?: string; // Formatted as a date string
@@ -72,15 +78,37 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
   // const querySnapshot = collection(db, "ServiciosAIT");
   const post_array: any = [];
 
-  datas.forEach((data) => {
+  datas.forEach((data: any) => {
+    const arrayLlanta =
+      data?.llanta.length > 0
+        ? data?.llanta.filter((item: any) => item.selected)
+        : [];
+
+    const llantaPosicion = arrayLlanta.map((item: any) => item.value);
+
     const table = {
+      // Transportation details
+      Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
+      NombreAsset: data.nombreAsset || "Unknown asset", // Asset name
+      Placa: data.placa || "", // License plate number
+      Kilometraje: data.kilometraje || "", // Kilometrage, default if not provided
+      Comentarios: data.comentarios || "", // Handling empty comments
+      // numero de documentos
+      Numero_Factura: data.numeroFactura || "", // Invoice number
+      Guia_Transportista: data.guiTransportista || "", // Transport guide
+      Guia_Remitente: data.guiaRemitente || "", // Sender guide
+      //Tipos
+      tipoEvento: data.tipoEvento || "", // Type of event
+      tipoGasto: data.tipoGasto || "", // Type of expense
+      // Fuel and maintenance
+      combustible: data.combustible || "", // Fuel
+      totalCombustible: data.totalCombustible || "", // Total fuel consumption
+
       // Main service details
       // LastEventPosted: formatDate(new Date(data.LastEventPosted.seconds * 1000)), // Formatting Timestamp to readable date
-      companyName: data.companyName || "Anonimo", // Default to 'Anonimo' if no company name is provided
-      comentarios: data.comentarios || "No comments provided", // Handling empty comments
 
       // Costs
-      costo: data.costo || 0, // Default to 0 if no cost is provided
+      Costo: data.costo || 0, // Default to 0 if no cost is provided
       costoMantenimiento: data.costoMantenimiento || "N/A", // Maintenance cost, default value if not provided
       costoTotalRepuesto: data.costoTotalRepuesto || "N/A", // Total cost of spare parts
 
@@ -92,43 +120,31 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
       // Timestamps and dates
       // createdAt: formatDate(new Date(data.createdAt.seconds * 1000)), // Formatting Timestamp
       fechaPostFormato: data.fechaPostFormato, // Formatted post date
-      fechaPostISO: data.fechaPostISO, // ISO formatted date
+      // fechaPostISO: data.fechaPostISO, // ISO formatted date
 
-      // Transportation details
-      kilometraje: data.kilometraje || "Unknown", // Kilometrage, default if not provided
-      placa: data.placa || "Unknown", // License plate number
-      nombreAsset: data.nombreAsset || "Unknown asset", // Asset name
-
-      // Event and maintenance
-      idEventFirebase: data.idEventFirebase, // Event ID
-      idFirebaseAsset: data.idFirebaseAsset, // Asset ID in Firebase
-      tipoEvento: data.tipoEvento || "Unknown event", // Type of event
-      tipoGasto: data.tipoGasto || "Unknown expense", // Type of expense
+      // // Event and maintenance
+      // idEventFirebase: data.idEventFirebase, // Event ID
+      // idFirebaseAsset: data.idFirebaseAsset, // Asset ID in Firebase
 
       // Images
-      fotoPrincipal: data.fotoPrincipal || "No image available", // Main photo URL
-      photoAssetURL: data.photoAssetURL || "No asset image available", // Asset photo URL
-      photoProfileURL: data.photoProfileURL || "No profile image available", // Profile image URL
+      fotoPrincipal: data.fotoPrincipal || "", // Main photo URL
+      // photoAssetURL: data.photoAssetURL || "No asset image available", // Asset photo URL
+      // photoProfileURL: data.photoProfileURL || "No profile image available", // Profile image URL
 
       // Optional fields
-      llanta: data.llanta || [], // List of tires, default to empty array
-      numeroFactura: data.numeroFactura || "Not provided", // Invoice number
-      pagoServicios: data.pagoServicios || "N/A", // Payment services
-      guiTransportista: data.guiTransportista || "N/A", // Transport guide
-      guiaRemitente: data.guiaRemitente || "N/A", // Sender guide
+      llanta_Posicion: JSON.stringify(llantaPosicion) || "", // List of tires, default to empty array
+
+      // pagoServicios: data.pagoServicios || "N/A", // Payment services
 
       // Location data
-      ubicacion: {
-        coords: data.ubicacion?.coords || {}, // Coordinates
-        timestamp: formatDate(new Date(data.ubicacion?.timestamp || 0)), // Location timestamp
-      },
+      ubicacion: `https://www.google.com/maps?q=${data?.ubicacion?.coords?.latitude},${data?.ubicacion?.coords?.longitude}`,
 
-      // Fuel and maintenance
-      combustible: data.combustible || "N/A", // Fuel
-      totalCombustible: data.totalCombustible || "N/A", // Total fuel consumption
-
+      // ubicacion: {
+      //   coords: data.ubicacion?.coords || {}, // Coordinates
+      //   timestamp: formatDate(new Date(data.ubicacion?.timestamp || 0)), // Location timestamp
+      // },
       // User type
-      userType: data.userType || "Unknown",
+      Tipo_de_Usuario: data.userType || "Unknown",
     };
     post_array.push(table);
   });

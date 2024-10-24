@@ -7,7 +7,6 @@ import {
   ScrollView,
   Platform,
 } from "react-native";
-
 import React, { useState } from "react";
 import { Button, Input } from "@rneui/themed";
 import { Image as ImageExpo } from "expo-image";
@@ -61,9 +60,9 @@ export default function tires() {
         <ChangeVehiculo onClose={onCloseOpenModal} setTipo={setTipo} />
       );
     }
-
     onCloseOpenModal();
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <Text> </Text>

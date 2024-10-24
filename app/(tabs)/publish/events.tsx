@@ -120,21 +120,6 @@ export default function events(props: any) {
   //   })();
   // }, []);
 
-  useEffect(() => {
-    const checkPermission = async () => {
-      let location = await Location.getCurrentPositionAsync();
-      formik.setFieldValue("ubicacion", location);
-      setPermission("granted");
-    };
-    checkPermission();
-  }, []);
-
-  useEffect(() => {
-    if (formik.values.llanta.length !== 0) {
-      formik.setFieldValue("llanta", tires);
-    }
-  }, [tires]);
-
   function capitalizeFirstLetter(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
@@ -257,6 +242,21 @@ export default function events(props: any) {
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
+
+  useEffect(() => {
+    const checkPermission = async () => {
+      let location = await Location.getCurrentPositionAsync();
+      formik.setFieldValue("ubicacion", location);
+      setPermission("granted");
+    };
+    checkPermission();
+  }, []);
+
+  useEffect(() => {
+    if (formik.values.llanta.length !== 0) {
+      formik.setFieldValue("llanta", tires);
+    }
+  }, [tires]);
 
   // Still loading or checking permission
   if (permission === null) {

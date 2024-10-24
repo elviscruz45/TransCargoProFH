@@ -122,7 +122,7 @@ export default function Report(props: any) {
         let queryRef;
         queryRef = query(
           collection(db, "Events"),
-          limit(5),
+          limit(6),
           where("emailCompany", "==", emailCompany),
           orderBy("createdAt", "desc")
         );
