@@ -196,9 +196,7 @@ export default function Report(props: any) {
                   );
                   const timeDifference =
                     fileDate.getTime() - currentDate.getTime();
-                  return (
-                    timeDifference <= thirtyDaysInMillis && timeDifference >= 0
-                  );
+                  return timeDifference <= thirtyDaysInMillis;
                 }
                 return false;
               })
