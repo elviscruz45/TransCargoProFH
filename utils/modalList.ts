@@ -1,8 +1,6 @@
 export const tipoEvento = [
   { area: "Conductor", value: "Inicio Viaje" },
   { area: "Conductor", value: "Final Viaje" },
-  { area: "Conductor", value: "Carga" },
-  { area: "Conductor", value: "Descarga" },
   { area: "Conductor", value: "Combustible" },
   { area: "Conductor", value: "Mantenimiento" },
   { area: "Conductor", value: "Cambio de aceite" },

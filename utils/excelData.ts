@@ -87,63 +87,32 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
     const llantaPosicion = arrayLlanta.map((item: any) => item.value);
 
     const table = {
-      // Transportation details
       Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
-      NombreAsset: data.nombreAsset || "Unknown asset", // Asset name
-      Placa: data.placa || "", // License plate number
+      NombreAsset: data?.nombreAsset || "Unknown asset", // Asset name
+      Placa: data?.placa || "", // License plate number
+      Carroceria: data?.carroceria || "", // Bodywork
       Kilometraje: data.kilometraje || "", // Kilometrage, default if not provided
+      Cantidad: data.cantidad || 0, // Default to 0 if no quantity is provided
+      Unidad_Medida: data.unidadMedida || "", // Measurement unit
+      Tipo_Carga: data.tipoCarga || "", // Type of load
       Comentarios: data.comentarios || "", // Handling empty comments
-      // numero de documentos
+      Punto_Inicio: data.puntoInicio || "", // Starting point
+      Punto_Llegada: data.puntoLlegada || "", // Destination
+      Cliente_RUC: data.clienteRUC || "", // Customer RUC
       Numero_Factura: data.numeroFactura || "", // Invoice number
       Guia_Transportista: data.guiTransportista || "", // Transport guide
       Guia_Remitente: data.guiaRemitente || "", // Sender guide
-      //Tipos
-      tipoEvento: data.tipoEvento || "", // Type of event
-      tipoGasto: data.tipoGasto || "", // Type of expense
-      // Fuel and maintenance
-      combustible: data.combustible || "", // Fuel
-      totalCombustible: data.totalCombustible || "", // Total fuel consumption
-
-      // Main service details
-      // LastEventPosted: formatDate(new Date(data.LastEventPosted.seconds * 1000)), // Formatting Timestamp to readable date
-
-      // Costs
+      TipodeEvento: data.tipoEvento || "", // Type of event
+      TipodeGasto: data.tipoGasto || "", // Type of expense
+      Cantidad_combustible: data.combustible || "", // Fuel
+      Tipo_Comprobante: data.tipoComprobante || "", // Type of voucher
       Costo: data.costo || 0, // Default to 0 if no cost is provided
-      costoMantenimiento: data.costoMantenimiento || "N/A", // Maintenance cost, default value if not provided
-      costoTotalRepuesto: data.costoTotalRepuesto || "N/A", // Total cost of spare parts
-
-      // User details
-      emailCompany: data.emailCompany || "No email provided", // Company email
-      emailPerfil: data.emailPerfil || "No email provided", // Profile email
-      nombrePerfil: data.nombrePerfil || "Anonymous", // Profile name
-
-      // Timestamps and dates
-      // createdAt: formatDate(new Date(data.createdAt.seconds * 1000)), // Formatting Timestamp
-      fechaPostFormato: data.fechaPostFormato, // Formatted post date
-      // fechaPostISO: data.fechaPostISO, // ISO formatted date
-
-      // // Event and maintenance
-      // idEventFirebase: data.idEventFirebase, // Event ID
-      // idFirebaseAsset: data.idFirebaseAsset, // Asset ID in Firebase
-
-      // Images
-      fotoPrincipal: data.fotoPrincipal || "", // Main photo URL
-      // photoAssetURL: data.photoAssetURL || "No asset image available", // Asset photo URL
-      // photoProfileURL: data.photoProfileURL || "No profile image available", // Profile image URL
-
-      // Optional fields
-      llanta_Posicion: JSON.stringify(llantaPosicion) || "", // List of tires, default to empty array
-
-      // pagoServicios: data.pagoServicios || "N/A", // Payment services
-
-      // Location data
-      ubicacion: `https://www.google.com/maps?q=${data?.ubicacion?.coords?.latitude},${data?.ubicacion?.coords?.longitude}`,
-
-      // ubicacion: {
-      //   coords: data.ubicacion?.coords || {}, // Coordinates
-      //   timestamp: formatDate(new Date(data.ubicacion?.timestamp || 0)), // Location timestamp
-      // },
-      // User type
+      Moneda: data.moneda || "", // Currency
+      EmailPerfil: data.emailPerfil || "No email provided", // Profile email
+      FechaPostFormato: data.fechaPostFormato, // Formatted post date
+      FotoPrincipal: data.fotoPrincipal || "", // Main photo URL
+      Llanta_Posicion: JSON.stringify(llantaPosicion) || "", // List of tires, default to empty array
+      Ubicacion: `https://www.google.com/maps?q=${data?.ubicacion?.coords?.latitude},${data?.ubicacion?.coords?.longitude}`,
       Tipo_de_Usuario: data.userType || "Unknown",
     };
     post_array.push(table);
@@ -193,45 +162,3 @@ function formatDate(timestamp: any) {
   // Format the date as dd/mm/yyyy
   return `${day}/${month}/${year}`;
 }
-
-// datas.forEach((data) => {
-//   const table = {
-//     //Datos principales del servicio
-//     Numero_Servicio: data.NumeroAIT, //ok
-//     Nombre_Servicio: data.NombreServicio, //ok
-//     Tipo_Servicio: data.TipoServicio, //ok
-//     Nombre_Empresa: data.companyName, //ok
-//     Fecha_Post_Formato: data.fechaPostFormato, //ok
-//     Fecha_Ultimo_Evento_Posteado: formatDate(data.LastEventPosted?.toDate().getTime()), //ok
-//     Numero_Cotizacion: data.NumeroCotizacion, //ok
-//     FechaFin_original: data.FechaFin, //ok
-//     //Usuario
-//     Email_Creador_servicio: data.emailPerfil, //ok
-//     Nombre_Autor: data.nombrePerfil, //ok
-//     // Responsables ,interacciones
-//     ResponsableEmpresaUsuario: data.ResponsableEmpresaUsuario, //ok
-//     ResponsableEmpresaContratista: data.ResponsableEmpresaContratista, //ok
-//     AreaServicio: data.AreaServicio, //ok
-//     //Monto y HH
-//     HorasHombre: data.HorasHombre, //ok
-//     Moneda: data.Moneda, //ok
-//     Monto: data.Monto, //ok
-//     //Fechas
-//     FechaPostISO: data.fechaPostISO, //ok
-//     Fecha_Creacion: formatDate(data.createdAt?.toDate().getTime()), //ok
-//     Fecha_Final_Ejecucion: data?.fechaFinEjecucion,
-//     //ok
-//     //Avances
-//     AvanceEjecucion: data.AvanceEjecucion, //ok
-//     AvanceAdministrativoTexto: data.AvanceAdministrativoTexto, //ok
-//     //Modificaciones
-//     // Nueva_Fecha_Fin_Estimada: data.NuevaFechaEstimada, //ok
-//     // HHModificado: data.HHModificado, //ok
-//     // MontoModificado: data.MontoModificado, //ok
-//     //events
-//     // Events: JSON.stringify(data.events), //ok
-//     // Id_Servicios_Cloud: data.idServiciosAIT, //ok
-//     Cantidad_Docs: data.pdfFiles?.length, //ok
-//   };
-//   post_array.push(table);
-// });

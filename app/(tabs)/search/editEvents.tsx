@@ -55,7 +55,10 @@ export default function editEvents(props: any) {
     useState<React.ReactElement | null>(null);
   const tires: any =
     useSelector((state: RootState) => state.publish.tires) ?? [];
-
+  const user_email = useSelector((state: RootState) => state.userId.email);
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
@@ -149,6 +152,33 @@ export default function editEvents(props: any) {
         }
         if (newData?.guiTransportista) {
           updateData.guiTransportista = newData.guiTransportista;
+        }
+        if (newData?.carroceria) {
+          updateData.carroceria = newData.carroceria;
+        }
+        if (newData?.cantidad) {
+          updateData.cantidad = newData.cantidad;
+        }
+        if (newData?.unidadMedida) {
+          updateData.unidadMedida = newData.unidadMedida;
+        }
+        if (newData?.tipoCarga) {
+          updateData.tipoCarga = newData.tipoCarga;
+        }
+        if (newData?.puntoInicio) {
+          updateData.puntoInicio = newData.puntoInicio;
+        }
+        if (newData?.puntoLlegada) {
+          updateData.puntoLlegada = newData.puntoLlegada;
+        }
+        if (newData?.clienteRUC) {
+          updateData.clienteRUC = newData.clienteRUC;
+        }
+        if (newData?.tipoComprobante) {
+          updateData.tipoComprobante = newData.tipoComprobante;
+        }
+        if (newData?.moneda) {
+          updateData.moneda = newData.moneda;
         }
         await updateDoc(RefFirebaseLasEventPostd, updateData);
         router.back();
@@ -263,6 +293,66 @@ export default function editEvents(props: any) {
               formik.setFieldValue("kilometraje", text);
             }}
           />
+          {user_email === emailCompany && (
+            <>
+              <Input
+                value={formik.values.carroceria}
+                label="Placa Carroceria"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("carroceria", text);
+                }}
+              />
+              <Input
+                value={formik.values.cantidad.toString()}
+                label="Cantidad de Carga"
+                keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("cantidad", text);
+                }}
+              />
+              <Input
+                value={formik.values.unidadMedida}
+                label="Unidad de Medida"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("unidadMedida", text);
+                }}
+              />
+              <Input
+                value={formik.values.clienteRUC}
+                label="Cliente RUC"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("clienteRUC", text);
+                }}
+              />
+              <Input
+                value={formik.values.tipoCarga}
+                label="Tipo de Carga"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("tipoCarga", text);
+                }}
+              />
+              <Input
+                value={formik.values.puntoInicio}
+                label="Punto de Inicio"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("puntoInicio", text);
+                }}
+              />
+              <Input
+                value={formik.values.puntoLlegada}
+                label="Punto de Llegada"
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("puntoLlegada", text);
+                }}
+              />
+            </>
+          )}
 
           <Input
             label=" Combustible (Galones.)"
@@ -322,7 +412,7 @@ export default function editEvents(props: any) {
 
           <Input
             value={formik.values.tipoGasto.toString()}
-            label="Tipo"
+            label="Tipo de Gasto o Ingreso"
             // placeholder="Titulo del Evento"
             multiline={true}
             editable={true}
@@ -336,7 +426,7 @@ export default function editEvents(props: any) {
           />
           <Input
             value={formik.values.costo.toString()}
-            label="Monto (S/.)"
+            label="Valor del Monto"
             // placeholder="Visibilidad del evento"
             editable={true}
             keyboardType="numeric"
@@ -344,6 +434,26 @@ export default function editEvents(props: any) {
               formik.setFieldValue("costo", text);
             }}
             // errorMessage={formik.errors.visibilidad}
+          />
+          <Input
+            value={formik.values.costo.toString()}
+            label="Moneda"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            // keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("moneda", text);
+            }}
+          />
+          <Input
+            value={formik.values.costo.toString()}
+            label="Tipo de Comprobante"
+            // placeholder="Visibilidad del evento"
+            editable={true}
+            // keyboardType="numeric"
+            onChangeText={(text) => {
+              formik.setFieldValue("tipoComprobante", text);
+            }}
           />
           <Input
             value={formik.values.numeroFactura.toString()}

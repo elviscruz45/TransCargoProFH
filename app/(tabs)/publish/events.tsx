@@ -59,19 +59,14 @@ export default function events(props: any) {
     useSelector((state: RootState) => state.publish.tires) ?? [];
   const router = useRouter();
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
-  const emailCompany =
-    useSelector((state: RootState) => state.userId.emailCompany) ?? "";
-
   const photoURL =
     useSelector((state: RootState) => state.userId.photoURL) ?? "";
   const displayName =
     useSelector((state: RootState) => state.userId.displayName) ?? "";
   const companyName =
     useSelector((state: RootState) => state.userId.companyName) ?? "";
-
   const userType =
     useSelector((state: RootState) => state.userId.userType) ?? "";
-
   //global state management for the user_uid
   const dispatch = useDispatch();
   const currentAsset: CurrentAsset | any = useSelector(
@@ -81,14 +76,10 @@ export default function events(props: any) {
     useSelector((state: RootState) => state.publish.cameraUri) ?? "";
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
-
-  // const name = useSelector((state: RootState) => state.userId.displayName);
-  // const user_email = useSelector((state: RootState) => state.userId.email);
-  // const companyName = useSelector(
-  //   (state: RootState) => state.userId.companyName
-  // );
-
-  // const [gpsPermission, setGpsPermission] = useState(false);
+  const user_email = useSelector((state: RootState) => state.userId.email);
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
@@ -106,23 +97,9 @@ export default function events(props: any) {
     }
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       setErrorMsg("Permission to access location was denied");
-  //       return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     // setLocation(location);
-  //     formik.setFieldValue("ubicacion", location);
-  //   })();
-  // }, []);
-
-  function capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  // function capitalizeFirstLetter(str: string) {
+  //   return str.charAt(0).toUpperCase() + str.slice(1);
+  // }
 
   const formik = useFormik({
     initialValues: initialValues(),
@@ -369,6 +346,68 @@ export default function events(props: any) {
               }}
             />
           )}
+          {(formik.values.tipoEvento === "Inicio Viaje" ||
+            formik.values.tipoEvento === "Final Viaje") &&
+            user_email === emailCompany && (
+              <>
+                <Input
+                  value={formik.values.carroceria}
+                  label="Placa Carroceria"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("carroceria", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.cantidad.toString()}
+                  label="Cantidad de Carga"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("cantidad", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.unidadMedida}
+                  label="Unidad de Medida"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("unidadMedida", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.clienteRUC}
+                  label="Cliente RUC"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("clienteRUC", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.tipoCarga}
+                  label="Tipo de Carga"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("tipoCarga", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.puntoInicio}
+                  label="Punto de Inicio"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("puntoInicio", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.puntoLlegada}
+                  label="Punto de Llegada"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("puntoLlegada", text);
+                  }}
+                />
+              </>
+            )}
 
           {formik.values.tipoEvento === "Combustible" && (
             <Input
@@ -379,21 +418,8 @@ export default function events(props: any) {
               onChangeText={(text) => {
                 formik.setFieldValue("combustible", text);
               }}
-              // errorMessage={formik.errors.visibilidad}
             />
           )}
-
-          {/* {userType === "Facturacion" && (
-            <Input
-              value={formik.values.facturacionFlete.toString()}
-              label="Costo Flete (S/.)"
-              editable={true}
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("facturacionFlete", text);
-              }}
-            />
-          )} */}
 
           {(formik.values.tipoEvento === "Cambio Llanta" ||
             formik.values.tipoEvento === "Reparacion Llanta") && (
@@ -402,23 +428,18 @@ export default function events(props: any) {
                 tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
               }
               style={{ color: tires.length !== 0 ? "blue" : "red" }}
-              // placeholder="Aprobador"
-
               label="Llanta"
               editable={false}
               multiline={true}
-              // errorMessage={formik.errors.aprobacion}
               rightIcon={{
                 type: "material-community",
                 color: "#c2c2c2",
-
                 name: "car-tire-alert",
                 onPress: () => {
                   router.push({
                     pathname: "/(modals)/tires",
                     params: { item: currentAsset?.idFirebaseAsset },
                   });
-                  // selectComponent("llanta")
                 },
               }}
             />
@@ -454,7 +475,7 @@ export default function events(props: any) {
             <>
               <Input
                 value={formik.values.tipoGasto}
-                label="Tipo"
+                label="Tipo de Gasto o Ingreso"
                 // placeholder="Titulo del Evento"
                 multiline={true}
                 editable={true}
@@ -468,14 +489,33 @@ export default function events(props: any) {
               />
               <Input
                 value={formik.values.costo.toString()}
-                label="Monto (S/.)"
+                label="Valor del Monto"
                 // placeholder="Visibilidad del evento"
                 editable={true}
                 keyboardType="numeric"
                 onChangeText={(text) => {
                   formik.setFieldValue("costo", text);
                 }}
-                // errorMessage={formik.errors.visibilidad}
+              />
+              <Input
+                value={formik.values.costo.toString()}
+                label="Moneda"
+                // placeholder="Visibilidad del evento"
+                editable={true}
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("moneda", text);
+                }}
+              />
+              <Input
+                value={formik.values.costo.toString()}
+                label="Tipo de Comprobante"
+                // placeholder="Visibilidad del evento"
+                editable={true}
+                // keyboardType="numeric"
+                onChangeText={(text) => {
+                  formik.setFieldValue("tipoComprobante", text);
+                }}
               />
               <Input
                 value={formik.values.numeroFactura.toString()}
@@ -506,41 +546,6 @@ export default function events(props: any) {
               />
             </>
           )}
-
-          {/* {(formik.values.tipoEvento === "Inicio Viaje" ||
-            formik.values.tipoEvento === "Final Viaje" ||
-            formik.values.tipoEvento === "Gastos de Viaje" ||
-            formik.values.tipoEvento === "Combustible" ||
-            formik.values.tipoEvento === "Cambio de aceite" ||
-            formik.values.tipoEvento === "CheckList" ||
-            formik.values.tipoEvento === "Mantenimiento" ||
-            formik.values.tipoEvento === "Cambio Llanta" ||
-            formik.values.tipoEvento === "Reparacion Llanta" ||
-            formik.values.tipoEvento === "Cambio Repuesto" ||
-            formik.values.tipoEvento === "Reporte Varios") && (
-            <Input
-              // value={true ? `${avance} %` : null}
-              value={JSON.stringify(formik.values.ubicacion)}
-              label="Ubicacion"
-              // onChangeText={(text) => {
-              //   formik.setFieldValue("ubicacion", JSON.stringify(location));
-              // }}
-              // placeholder="Avance del ejecucion"
-              editable={false}
-              multiline={true}
-              errorMessage={formik.errors.ubicacion}
-              rightIcon={
-                Platform.OS !== "web"
-                  ? {
-                      type: "material-community",
-                      name: "map-marker-radius",
-                      color: "#c2c2c2",
-                      onPress: () => selectComponent("ubicacion"),
-                    }
-                  : {}
-              }
-            />
-          )} */}
         </View>
       </View>
       <Modal show={showModal} close={onCloseOpenModal}>
