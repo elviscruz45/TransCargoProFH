@@ -117,3 +117,43 @@ export const uploadImage = async (uri: any, emailCompany: any) => {
   const storageRef = ref(storage, `${emailCompany}/mainImageEvents/${uuid}`);
   return uploadBytesResumable(storageRef, blob);
 };
+
+export const uploadPdf = async (
+  uri: string,
+  FilenameTitle: string,
+  formattedDate: string,
+  emailCompany: string
+) => {
+  try {
+    const response = await fetch(uri);
+
+    const blob = await response.blob();
+    // const blob = new Blob(response);
+
+    const fileSize = blob.size;
+
+    if (fileSize > 50 * 1024 * 1024) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "El archivo excede los 50 MB",
+      });
+      throw new Error("El archivo excede los 50 MB");
+    }
+
+    const storage = getStorage();
+
+    const storageRef = ref(
+      storage,
+      `${emailCompany}/pdfPostEvent/${FilenameTitle}-${formattedDate}`
+    );
+
+    return uploadBytesResumable(storageRef, blob);
+  } catch (error) {
+    Toast.show({
+      type: "error",
+      position: "bottom",
+      text1: "El archivo excede los 50 MB",
+    });
+  }
+};

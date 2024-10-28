@@ -31,13 +31,19 @@ import type { RootState } from "../../store";
 import type { CurrentAsset } from "../../../types/publish";
 import { uploadTires } from "../../../slices/publish";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import * as DocumentPicker from "expo-document-picker";
 
 // interface CurrentAsset {
 //   image?: string;
 //   // add other properties as needed
 // }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateFormat, useUserData, uploadImage } from "./editEvent.cal";
+import {
+  dateFormat,
+  useUserData,
+  uploadImage,
+  uploadPdf,
+} from "./editEvent.cal";
 
 export default function editEvents(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -47,6 +53,7 @@ export default function editEvents(props: any) {
   const [evento, setEvento] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [tipoGastos, setTipoGasto] = useState<string | null>(null);
+  const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
 
   const [location, setLocation] = useState<Location.LocationObject | null>(
     null
@@ -59,6 +66,27 @@ export default function editEvents(props: any) {
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        // type: "application/pdf",
+        copyToCacheDirectory: false,
+      });
+      if (result.assets) {
+        setShortNameFileUpdated(result?.assets[0]?.name);
+        formik.setFieldValue("pdfFile", result?.assets[0]?.uri);
+        formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
+      } else {
+        setShortNameFileUpdated("");
+      }
+    } catch (err) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al adjuntar el documento",
+      });
+    }
+  };
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
@@ -180,9 +208,34 @@ export default function editEvents(props: any) {
         if (newData?.moneda) {
           updateData.moneda = newData.moneda;
         }
+
+        //manage the file updated to ask for aprovals
+        let imageUrlPDF;
+        if (newData.pdfFile) {
+          const snapshotPDF = await uploadPdf(
+            newData.pdfFile,
+            newData.FilenameTitle,
+            fechaPostFormato,
+            emailCompany as string
+          );
+          const imagePathPDF = snapshotPDF?.metadata.fullPath ?? "";
+          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+        }
+
+        newData.pdfPrincipal = imageUrlPDF || "";
+        console.log("newData.pdfPrincipal", newData.pdfPrincipal);
+        newData.pdfFile = "";
+        console.log(newData);
+
+        if (newData.FilenameTitle) {
+          updateData.FilenameTitle = newData.FilenameTitle;
+        }
+        if (newData.pdfPrincipal) {
+          updateData.pdfPrincipal = newData.pdfPrincipal;
+        }
+
         await updateDoc(RefFirebaseLasEventPostd, updateData);
         router.back();
-
         Toast.show({
           type: "success",
           position: "bottom",
@@ -479,6 +532,19 @@ export default function editEvents(props: any) {
             editable={true}
             onChangeText={(text) => {
               formik.setFieldValue("guiTransportista", text);
+            }}
+          />
+          <Input
+            value={shortNameFileUpdated}
+            placeholder="Adjuntar PDF"
+            multiline={true}
+            editable={false}
+            rightIcon={{
+              type: "material-community",
+              name: "arrow-right-circle-outline",
+              onPress: () => {
+                pickDocument();
+              },
             }}
           />
         </View>

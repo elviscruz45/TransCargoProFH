@@ -32,14 +32,21 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import type { CurrentAsset } from "../../../types/publish";
 import { uploadTires } from "../../../slices/publish";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
+import * as DocumentPicker from "expo-document-picker";
 
 // interface CurrentAsset {
 //   image?: string;
 //   // add other properties as needed
 // }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateFormat, useUserData, uploadImage } from "./event.cal";
+import { dateFormat, useUserData, uploadImage, uploadPdf } from "./event.cal";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -80,6 +87,31 @@ export default function events(props: any) {
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
+
+  const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
+  //algorith to pick a pdf File to attach to the event
+  const pickDocument = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        // type: "application/pdf",
+        copyToCacheDirectory: false,
+      });
+      if (result.assets) {
+        setShortNameFileUpdated(result?.assets[0]?.name);
+        formik.setFieldValue("pdfFile", result?.assets[0]?.uri);
+        formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
+      } else {
+        setShortNameFileUpdated("");
+      }
+    } catch (err) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al adjuntar el documento",
+      });
+    }
+  };
+
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
@@ -132,8 +164,24 @@ export default function events(props: any) {
         const hour = date.getHours();
         const minute = date.getMinutes();
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
-
         newData.emailCompany = emailCompany || "Anonimo";
+
+        //manage the file updated to ask for aprovals
+        let imageUrlPDF;
+        if (newData.pdfFile) {
+          const snapshotPDF = await uploadPdf(
+            newData.pdfFile,
+            newData.FilenameTitle,
+            newData.fechaPostFormato,
+            newData.emailCompany
+          );
+          const imagePathPDF = snapshotPDF?.metadata.fullPath ?? "";
+          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+        }
+
+        newData.pdfPrincipal = imageUrlPDF || "";
+        newData.pdfFile = "";
+
 
         // upload the photo or an pickimage to firebase Storage
         const snapshot = await uploadImage(photoUri, newData.emailCompany);
@@ -167,17 +215,21 @@ export default function events(props: any) {
         //Uploading data to Firebase and adding the ID firestore
         const docRef = doc(collection(db, "Events"));
         newData.idEventFirebase = docRef.id;
+       
 
         await setDoc(docRef, newData);
+
+        router.back();
+
+        router.push({
+          pathname: "/home",
+          // params: { item: item },
+        });
+
         Toast.show({
           type: "success",
           position: "bottom",
           text1: "Se ha subido correctamente",
-        });
-        router.back();
-        router.push({
-          pathname: "/home",
-          // params: { item: item },
         });
       } catch (error) {
         Toast.show({
@@ -546,6 +598,19 @@ export default function events(props: any) {
               />
             </>
           )}
+          <Input
+            value={shortNameFileUpdated}
+            placeholder="Adjuntar PDF"
+            multiline={true}
+            editable={false}
+            rightIcon={{
+              type: "material-community",
+              name: "arrow-right-circle-outline",
+              onPress: () => {
+                pickDocument();
+              },
+            }}
+          />
         </View>
       </View>
       <Modal show={showModal} close={onCloseOpenModal}>

@@ -30,7 +30,9 @@ export function initialValues() {
     clienteRUC: "",
     tipoComprobante: "",
     moneda: "",
-
+    pdfFile: "",
+    FilenameTitle: "",
+    pdfPrincipal: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),

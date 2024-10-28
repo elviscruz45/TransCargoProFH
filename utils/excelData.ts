@@ -114,6 +114,7 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
       Llanta_Posicion: JSON.stringify(llantaPosicion) || "", // List of tires, default to empty array
       Ubicacion: `https://www.google.com/maps?q=${data?.ubicacion?.coords?.latitude},${data?.ubicacion?.coords?.longitude}`,
       Tipo_de_Usuario: data.userType || "Unknown",
+      Archivo_adjunto: data.pdfPrincipal || "", // Attached file
     };
     post_array.push(table);
   });

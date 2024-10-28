@@ -61,6 +61,8 @@ interface Post {
   numeroFactura?: string;
   guiaRemitente?: string;
   guiTransportista?: string;
+  pdfPrincipal?: string;
+  FilenameTitle?: string;
 
   // Add other properties of the post object here if needed
 }
@@ -170,7 +172,27 @@ export default function Comment() {
       console.error("An error occurred", err)
     );
   };
-
+  //---This is used to get the attached file in the post that contain an attached file---
+  const uploadFile = useCallback(async (uri: string) => {
+    try {
+      const supported = await Linking.canOpenURL(uri);
+      if (supported) {
+        await Linking.openURL(uri);
+      } else {
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Unable to open PDF document",
+        });
+      }
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error opening PDF document",
+      });
+    }
+  }, []);
   if (!post) {
     return <LoadingSpinner />;
   } else {
@@ -342,6 +364,24 @@ export default function Comment() {
               <Text key={index}>Llanta N: {item.value}, </Text>
             ))}
         </View>
+
+        <Text> </Text>
+
+        <View style={styles.rowavanceNombre}>
+          <Text style={styles.avanceNombre}> Archivo Adjunto: </Text>
+        </View>
+
+        <Text> </Text>
+        {post?.pdfPrincipal && (
+          <TouchableOpacity
+            style={{ paddingHorizontal: 9 }}
+            onPress={() => uploadFile(post?.pdfPrincipal as string)}
+          >
+            <Text style={[styles.avanceNombre, { color: "blue" }]}>
+              {post?.FilenameTitle}
+            </Text>
+          </TouchableOpacity>
+        )}
 
         <Text> </Text>
         <Text> </Text>
