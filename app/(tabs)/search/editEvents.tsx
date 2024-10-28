@@ -411,7 +411,7 @@ export default function editEvents(props: any) {
           />
 
           <Input
-            value={formik.values.tipoGasto.toString()}
+            value={formik.values.tipoGasto}
             label="Tipo de Gasto o Ingreso"
             // placeholder="Titulo del Evento"
             multiline={true}
@@ -433,10 +433,9 @@ export default function editEvents(props: any) {
             onChangeText={(text) => {
               formik.setFieldValue("costo", text);
             }}
-            // errorMessage={formik.errors.visibilidad}
           />
           <Input
-            value={formik.values.costo.toString()}
+            value={formik.values.moneda.toString()}
             label="Moneda"
             // placeholder="Visibilidad del evento"
             editable={true}
@@ -446,7 +445,7 @@ export default function editEvents(props: any) {
             }}
           />
           <Input
-            value={formik.values.costo.toString()}
+            value={formik.values.tipoComprobante.toString()}
             label="Tipo de Comprobante"
             // placeholder="Visibilidad del evento"
             editable={true}

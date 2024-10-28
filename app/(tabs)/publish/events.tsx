@@ -498,7 +498,7 @@ export default function events(props: any) {
                 }}
               />
               <Input
-                value={formik.values.costo.toString()}
+                value={formik.values.moneda.toString()}
                 label="Moneda"
                 // placeholder="Visibilidad del evento"
                 editable={true}
@@ -508,7 +508,7 @@ export default function events(props: any) {
                 }}
               />
               <Input
-                value={formik.values.costo.toString()}
+                value={formik.values.tipoComprobante.toString()}
                 label="Tipo de Comprobante"
                 // placeholder="Visibilidad del evento"
                 editable={true}
