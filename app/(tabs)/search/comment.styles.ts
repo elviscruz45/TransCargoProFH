@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -19,18 +19,12 @@ export const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    // alignSelf: "flex-end",
-    // backgroundColor: "red",
   },
   row5: {
     flexDirection: "row",
-    // alignSelf: "flex-center",
-    // backgroundColor: "red",
   },
   center: {
-    // alignItems: "center",
     justifyContent: "space-between",
-    // marginRight: 5,
   },
   row2: {
     flexDirection: "row",
@@ -84,8 +78,15 @@ export const styles = StyleSheet.create({
   Texticons: { alignItems: "center", marginLeft: 20 },
 
   postPhoto: {
-    height: windowWidth * 0.98,
-    width: windowWidth * 0.98,
+    ...(Platform.OS === "web"
+      ? {
+          height: windowWidth * 0.4,
+          width: windowWidth * 0.3,
+        }
+      : {
+          height: windowWidth * 0.98,
+          width: windowWidth * 0.98,
+        }),
 
     marginTop: 0,
     borderRadius: 10,
@@ -132,13 +133,11 @@ export const styles = StyleSheet.create({
     // color: "#DB4545",
   },
   commentContainer: {
-    // backgroundColor: "red",
     zIndex: 100,
     flexDirection: "row",
     alignItems: "center",
     // paddingHorizontal: 5,
     marginRight: 5,
-    // backgroundColor: "white",
     // borderTopWidth: 1,
     // borderTopColor: "lightgray",
     marginBottom: 0,
@@ -170,12 +169,14 @@ export const styles = StyleSheet.create({
   },
   avanceNombre: {
     fontWeight: "700",
+    color: "#DCDCDF",
+
     // color: "grey",
   },
   detail: {
     marginLeft: 5,
     marginRight: 35,
     alignItems: "flex-start",
-    color: "grey",
+    color: "#DCDCDF",
   },
 });

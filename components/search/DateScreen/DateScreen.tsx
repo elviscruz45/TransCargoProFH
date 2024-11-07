@@ -55,8 +55,6 @@ export function DateScreen(props: any) {
     setDateEnd(new Date());
     setDateStart(new Date());
     quitFilterButton();
-
-    
   };
 
   //methods to change the date
@@ -84,7 +82,9 @@ export function DateScreen(props: any) {
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
       {Platform.OS === "web" ? (
         <View style={[styles.row, styles.center, { alignSelf: "center" }]}>
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Inicio: </Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#DCDCDF" }}>
+            Inicio:{" "}
+          </Text>
           <input
             type="date"
             id="date"
@@ -102,7 +102,10 @@ export function DateScreen(props: any) {
               // formik.setFieldValue("fechaVencimiento", selectedDate);
             }}
           />
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}> Fin: </Text>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#DCDCDF" }}>
+            {" "}
+            Fin:{" "}
+          </Text>
           <input
             type="date"
             value={dateEnd.toISOString().split("T")[0]}
@@ -124,7 +127,7 @@ export function DateScreen(props: any) {
         <View style={[styles.row, styles.center]}>
           <Text></Text>
 
-          <Text>Inicio:</Text>
+          <Text style={{ color: "#DCDCDF" }}>Inicio:</Text>
           {androidDate && (
             <Button
               onPress={showDatepickerStart}
@@ -145,7 +148,7 @@ export function DateScreen(props: any) {
               onChange={onChangeStart}
             />
           )}
-          <Text>Fin</Text>
+          <Text style={{ color: "#DCDCDF" }}>Fin</Text>
 
           {androidDate && (
             <Button

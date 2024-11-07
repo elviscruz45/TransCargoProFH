@@ -17,6 +17,7 @@ export const styles = StyleSheet.create({
   displayName: {
     fontWeight: "bold",
     paddingBottom: 5,
+    color: "#DCDCDF",
   },
   detalles: {
     flexDirection: "row",

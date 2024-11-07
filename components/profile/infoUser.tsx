@@ -151,68 +151,28 @@ export function InfoUser(props: any) {
           <Text></Text>
           <Text style={styles.displayName}>{displayName}</Text>
 
-          <Text>{email}</Text>
-          {/* <Text>{userType}</Text> */}
-          {/* <Text>{companyRUC}</Text> */}
-          <Text>{cargo}</Text>
-          <Text style={{ fontWeight: "bold" }}>Correo del Grupo:</Text>
+          <Text style={{ color: "#DCDCDF" }}>{email}</Text>
 
-          {emailCompany && <Text>{emailCompany}</Text>}
+          <Text>{cargo}</Text>
+          <Text style={{ fontWeight: "bold", color: "#DCDCDF" }}>
+            Correo del Grupo:
+          </Text>
+
+          {emailCompany && (
+            <Text style={{ color: "#DCDCDF" }}>{emailCompany}</Text>
+          )}
         </View>
         <Text> </Text>
         <Text> </Text>
         <Text> </Text>
 
-        {/* {true && (
-          <TouchableOpacity
-            // style={styles.btnContainer4}
-            onPress={() => goToAssetScreen()}
-          >
-            <Image
-              source={require("../../assets/assetpics/assetsIcon.png")}
-              style={styles.roundImageUpload2}
-            />
-          </TouchableOpacity>
-        )} */}
         <Text> </Text>
-        <Text> </Text>
-        {/* {emailCompany === email && (
-          <TouchableOpacity
-            // style={styles.btnContainer4}
-            onPress={() => goToAssetScreen()}
-          >
-            <Image
-              source={require("../../assets/assetpics/assetsIcon.png")}
-              style={styles.roundImageUpload2}
-            />
-          </TouchableOpacity>
-        )}
-        <Text> </Text>
-        <Text> </Text>
-
-        {emailCompany === email && (
-          <TouchableOpacity
-            // style={styles.btnContainer4}
-            onPress={() => goToUsersScreen()}
-          >
-            <Image
-              source={require("../../assets/pictures/manpower2.png")}
-              style={styles.roundImageUpload2}
-            />
-          </TouchableOpacity>
-        )} */}
         <Text> </Text>
 
         <Text> </Text>
 
-        {/* 
-        {approvalListPending && (
-          <Text style={styles.bellNomber}>{approvalListPending.length}</Text>
-        )} */}
+        <Text> </Text>
       </View>
-      {/* <Modal  show={showModal} close={onCloseOpenModal}>
-        {renderComponent}
-      </Modal> */}
     </>
   );
 }

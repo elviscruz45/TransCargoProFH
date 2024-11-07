@@ -18,12 +18,7 @@ export const styles = StyleSheet.create({
     color: "#2A3B76",
     fontWeight: "bold",
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff", // Set the desired background color
-  },
+
   content: {
     alignItems: "center",
   },

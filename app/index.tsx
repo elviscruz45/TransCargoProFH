@@ -14,7 +14,7 @@ export default function AuthScreen() {
   };
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+    <ScrollView style={{ flex: 1 }}>
       <View style={styles.image}>
         <ImageExpo
           source={require("../assets/pictures/logotransp.png")}

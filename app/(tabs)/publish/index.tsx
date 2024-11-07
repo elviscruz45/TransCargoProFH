@@ -155,7 +155,7 @@ export default function Publish() {
   };
 
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
+    <View style={{ backgroundColor: "#020617", flex: 1 }}>
       <SearchBar
         placeholder="Buscar Activo o Area"
         value={searchText}
@@ -176,6 +176,7 @@ export default function Publish() {
         clearIcon={{ name: "clear" }}
         showCancel={false}
       />
+      <Text> </Text>
       <ImageExpo
         source={
           asset?.photoServiceURL
@@ -193,12 +194,12 @@ export default function Publish() {
       )}
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
-      <Text></Text>
+      <Text> </Text>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: "white",
+          backgroundColor: "#020617",
           justifyContent: "space-between",
 
           // paddingHorizontal: 150,
@@ -234,6 +235,7 @@ export default function Publish() {
           </TouchableOpacity>
         )}
       </View>
+      <Text> </Text>
       <FlatList
         data={searchResults}
         showsVerticalScrollIndicator={false}
@@ -242,7 +244,7 @@ export default function Publish() {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "white" }} // Add backgroundColor here
+              style={{ backgroundColor: "#020617" }} // Add backgroundColor here
             >
               <View style={styles.equipments}>
                 <ImageExpo

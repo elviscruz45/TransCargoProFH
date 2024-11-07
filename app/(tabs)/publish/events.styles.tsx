@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 
 // import EditScreenInfo from '../../components/EditScreenInfo';
 // import { Text, View } from '../../components/Themed';
@@ -7,8 +7,12 @@ const windowWidth = Dimensions.get("window").width;
 
 export const styles = StyleSheet.create({
   equipments: {
+    ...(Platform.OS === "web" && {
+      paddingHorizontal: windowWidth * 0.2,
+    }),
     flexDirection: "row",
-    margin: 10,
+    margin: 2,
+    marginLeft: 2,
     alignSelf: "center",
   },
   roundImage: {
@@ -37,15 +41,31 @@ export const styles = StyleSheet.create({
   postPhoto: {
     // height: 700,
     // width: windowWidth,
-    height: windowWidth * 0.45,
-    width: windowWidth * 0.35,
+    ...(Platform.OS === "web"
+      ? {
+          height: windowWidth * 0.4,
+          width: windowWidth * 0.3,
+        }
+      : {
+          height: windowWidth * 0.45,
+          width: windowWidth * 0.35,
+        }),
+
     marginTop: 0,
     borderRadius: 20,
   },
   textArea: {
-    // height: 100,
-    width: windowWidth * 0.55,
-    height: windowWidth * 0.2,
+    ...(Platform.OS === "web"
+      ? {
+          height: windowWidth * 0.2,
+          width: windowWidth * 0.3,
+        }
+      : {
+          height: windowWidth * 0.2,
+          width: windowWidth * 0.55,
+        }),
+    borderColor: "black",
+
     padding: 0,
     margin: 0,
   },

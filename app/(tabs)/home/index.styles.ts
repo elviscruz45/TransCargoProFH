@@ -6,6 +6,7 @@ import type { RootState } from "../../store";
 import { Text, View, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { decrement, increment } from "../../../slices/counter";
+
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
@@ -18,8 +19,7 @@ export const styles = StyleSheet.create({
     // alignItems: "center",
     // marginHorizontal: 20,
     // justifyContent: "center",
-
-    backgroundColor: "white",
+    backgroundColor: "#020617",
   },
   title: {
     fontSize: 20,
@@ -47,28 +47,41 @@ export const styles = StyleSheet.create({
   NombreServicio: {
     // maxWidth: windowWidth * 0.48,
     width: windowWidth * 0.4,
+    color: "#DCDCDF",
     // color: true ? "black" : "red",
   },
   NombrePerfilCorto: {
     width: windowWidth * 0.33,
+    color: "#DCDCDF",
   },
   postPhoto: {
-    height: windowWidth * 0.48,
-    width: windowWidth * 0.48,
+    ...(Platform.OS === "web"
+      ? {
+          height: windowWidth * 0.25,
+          width: windowWidth * 0.2,
+        }
+      : {
+          height: windowWidth * 0.48,
+          width: windowWidth * 0.48,
+        }),
+
     marginTop: 0,
     borderRadius: 5,
-    borderWidth: 0.1,
+    borderWidth: 0.3,
+    borderColor: "#DCDCDF",
   },
   textAreaTitle: {
     width: windowWidth * 0.45,
     marginLeft: 10,
     fontWeight: "bold",
     fontSize: 18,
+    color: "#DCDCDF",
   },
   textAreaComment: {
     width: windowWidth * 0.45,
     marginLeft: 10,
     fontSize: 14,
+    color: "#DCDCDF",
   },
   equipments: {
     flexDirection: "row",
@@ -93,7 +106,6 @@ export const styles = StyleSheet.create({
     // paddingVertical: 10,
     // marginHorizontal: 150,
     borderRadius: 20,
-    backgroundColor: "red",
     // borderTopWidth: 1,
     // borderTopColor: "#e3e3e3",
     // borderBottomWidth: 1,

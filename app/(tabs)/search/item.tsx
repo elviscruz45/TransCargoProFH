@@ -128,21 +128,6 @@ export default function Item() {
           where("idFirebaseAsset", "==", item)
         );
 
-        // const lista = [];
-        // service?.events?.forEach((item) => {
-        //   const dataschema = {
-        //     ...item,
-        //     time: "27 Ago",
-        //     title: item.titulo,
-        //     description: item.comentarios,
-        //     lineColor: "skyblue",
-        //     icon: require("../../../../assets/empresa.png"),
-        //     imageUrl: item.fotoUsuarioPerfil,
-        //     idDocAITFirestoreDB: Item,
-        //   };
-        //   lista.push(dataschema);
-        // });
-
         try {
           const querySnapshot = await getDocs(q);
           const lista: any = [];
@@ -181,7 +166,7 @@ export default function Item() {
 
   return (
     <ScrollView
-      style={{ backgroundColor: "white" }} // Add backgroundColor here
+      style={{ backgroundColor: "#020617" }} // Add backgroundColor here
       showsVerticalScrollIndicator={false}
     >
       <Text> </Text>
@@ -271,6 +256,7 @@ export default function Item() {
           borderRadius: 5,
           fontWeight: "700",
           alignSelf: "center",
+          color: "#DCDCDF",
         }}
       >
         Historial de Eventos

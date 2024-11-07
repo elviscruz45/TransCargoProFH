@@ -30,10 +30,12 @@ export const styles = StyleSheet.create({
   },
   name: {
     fontWeight: "bold",
+    fontSize: 30,
     marginRight: 100,
+    color: "#DCDCDF",
   },
   info: {
-    color: "#828282",
+    color: "#DCDCDF",
     paddingRight: 100,
     marginTop: 3,
   },

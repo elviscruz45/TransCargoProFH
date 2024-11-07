@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 export const styles = StyleSheet.create({
@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
   //   alignItems: "center",
   //   backgroundColor: "#fff",
   // },
+  table: {
+    ...(Platform.OS === "web" && {
+      paddingHorizontal: windowWidth * 0.15,
+      marginBottom: 90,
+    }),
+  },
   chartContainer: {
     width: 200, // Adjust the width as needed
     height: 220, // Adjust the height as needed
@@ -46,10 +52,23 @@ export const styles = StyleSheet.create({
     height: 30,
     margin: 5,
   },
-  company: {
+  reporteTitulo: {
     paddingHorizontal: 15,
+    ...(Platform.OS === "web" && {
+      fontSize: 40,
+    }),
     fontWeight: "900",
     textAlign: "center",
+    color: "#DCDCDF",
+  },
+  item: {
+    paddingHorizontal: 15,
+    ...(Platform.OS === "web" && {
+      fontSize: 30,
+    }),
+    fontWeight: "900",
+    textAlign: "center",
+    color: "#DCDCDF",
   },
   history: {
     flexDirection: "row",
@@ -68,12 +87,15 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: "#020617",
   },
   titleText: {
     paddingHorizontal: 15,
     fontWeight: "600",
     textAlign: "center",
+    alignContent: "center",
+    color: "#DCDCDF",
+    fontSize: 30,
   },
   iconMinMax: {
     paddingHorizontal: 15,
@@ -86,7 +108,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#020617",
   },
   titulo1: {
     flex: 0.77, // Adjust the value as per your requirement for the width
@@ -94,10 +116,16 @@ export const styles = StyleSheet.create({
   },
   titulo2: {
     flex: 1, // Adjust the value as per your requirement for the width
+    color: "#DCDCDF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   titulo3: {
     flex: 0.45,
     // alignItems: "center",
+    color: "#DCDCDF",
+    fontSize: 18,
+    fontWeight: "bold",
   },
   shortColumn1: {
     flex: 0.77, // Adjust the value as per your requirement for the width
@@ -105,9 +133,13 @@ export const styles = StyleSheet.create({
   },
   shortColumn2: {
     flex: 1, // Adjust the value as per your requirement for the width
+    color: "#DCDCDF",
+    fontSize: 18,
   },
   multiLineColumn: {
     flex: 2,
     alignSelf: "center",
+    color: "#DCDCDF",
+    fontSize: 18,
   },
 });

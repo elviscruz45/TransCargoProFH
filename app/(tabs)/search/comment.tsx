@@ -198,19 +198,16 @@ export default function Comment() {
   } else {
     return (
       <ScrollView
-        style={{ backgroundColor: "white" }} // Add backgroundColor here
+        style={{ backgroundColor: "#020617" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
-
-        // contentContainerStyle={{ flexGrow: 1 }} // Allow the content to grow inside the ScrollView
-        // keyboardShouldPersistTaps="handled" // Ensure taps are handled when the keyboard is open
       >
-        <Text></Text>
-        <View style={[styles.row5, styles.center]}>
+        <Text> </Text>
+        {/* <View style={[styles.row5, styles.center]}>
           <Text style={{ margin: 5, color: "#5B5B5B" }}>
             {"Fecha:  "}
             {post?.fechaPostFormato}
           </Text>
-        </View>
+        </View> */}
         <ImageExpo
           source={{ uri: post?.fotoPrincipal }}
           style={styles.postPhoto}
@@ -219,7 +216,7 @@ export default function Comment() {
         <Text> </Text>
         <Text
           style={{
-            color: "black",
+            color: "#DCDCDF",
             fontWeight: "700",
             textAlign: "center",
             // alignSelf: "center",
@@ -270,6 +267,7 @@ export default function Comment() {
             paddingHorizontal: 5,
             fontWeight: "700",
             marginBottom: 10,
+            color: "#DCDCDF",
           }}
         >
           {" "}
@@ -278,6 +276,7 @@ export default function Comment() {
         <Text
           style={{
             paddingHorizontal: 10,
+            color: "#DCDCDF",
           }}
         >
           {post?.comentarios}

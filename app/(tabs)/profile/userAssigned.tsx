@@ -221,12 +221,7 @@ export default function AssetAssigned() {
                         ? item?.assetAssigned.join(", ")
                         : "No tiene responsabilidades"
                     }
-                    // buttonStyle={[
-                    //   styles.btnActualizarStyles,
-                    //   item.companyManagerConfimation
-                    //     ? { backgroundColor: "green" }
-                    //     : { backgroundColor: "red" },
-                    // ]}
+           
                     titleStyle={styles.btnTextStyle}
                     onPress={() => SelectAssets(item.uid)}
                   />

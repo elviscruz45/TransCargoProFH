@@ -10,7 +10,6 @@ export function Header() {
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
-  
 
   const globalFilteredAssetList = globalAssetList?.filter(
     (item: any) => item.tipoActivo === "Equipo / Activo"
@@ -49,13 +48,13 @@ export function Header() {
       <FlatList
         data={globalFilteredAssetList}
         horizontal={true}
-        style={{ backgroundColor: "white" }}
+        style={{ backgroundColor: "#020617" }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "white" }} // Add backgroundColor here
+              style={{ backgroundColor: "#020617" }} // Add backgroundColor here
             >
               <View
                 style={{
@@ -80,7 +79,7 @@ export function Header() {
                   }}
                 />
                 {item.placa ? (
-                  <Text style={{ alignSelf: "center" }}>
+                  <Text style={{ alignSelf: "center", color: "#DCDCDF" }}>
                     {ShortTextComponent(item.placa)}
                   </Text>
                 ) : (

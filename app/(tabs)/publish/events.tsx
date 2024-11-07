@@ -47,6 +47,8 @@ import * as DocumentPicker from "expo-document-picker";
 // }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { dateFormat, useUserData, uploadImage, uploadPdf } from "./event.cal";
+import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedida/Selection";
+import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -182,7 +184,6 @@ export default function events(props: any) {
         newData.pdfPrincipal = imageUrlPDF || "";
         newData.pdfFile = "";
 
-
         // upload the photo or an pickimage to firebase Storage
         const snapshot = await uploadImage(photoUri, newData.emailCompany);
 
@@ -215,7 +216,6 @@ export default function events(props: any) {
         //Uploading data to Firebase and adding the ID firestore
         const docRef = doc(collection(db, "Events"));
         newData.idEventFirebase = docRef.id;
-       
 
         await setDoc(docRef, newData);
 
@@ -268,6 +268,25 @@ export default function events(props: any) {
         />
       );
     }
+    if (key === "unidadMedida") {
+      setRenderComponent(
+        <ChangeUnidadMedida
+          onClose={onCloseOpenModal}
+          formik={formik}
+          setTipoGasto={setTipoGasto}
+        />
+      );
+    }
+    if (key === "moneda") {
+      setRenderComponent(
+        <ChangeMoneda
+          onClose={onCloseOpenModal}
+          formik={formik}
+          setTipoGasto={setTipoGasto}
+        />
+      );
+    }
+
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -307,12 +326,16 @@ export default function events(props: any) {
 
   return (
     <KeyboardAwareScrollView
-      style={{ backgroundColor: "white", flex: 1 }} // Add backgroundColor here
+      style={
+        Platform.OS === "web"
+          ? { backgroundColor: "white", flex: 1, paddingHorizontal: "17%" }
+          : { backgroundColor: "white", flex: 1 }
+      } // Add backgroundColor here
       // showsVerticalScrollIndicator={false}
     >
-      <Text></Text>
+      <Text> </Text>
 
-      <Text style={styles.name}>{currentAsset.nombre}</Text>
+      {/* <Text style={styles.name}>{currentAsset.nombre}</Text> */}
       {currentAsset.placa ? (
         <Text style={styles.name}>
           {"Placa: "}
@@ -369,12 +392,15 @@ export default function events(props: any) {
             // placeholder="Comentarios"
             multiline={true}
             inputContainerStyle={styles.textArea}
+            inputStyle={{ color: "grey" }}
             onChangeText={(text) => {
               formik.setFieldValue("comentarios", text);
             }} // errorMessage={formik.errors.observacion}
           />
         </View>
       </View>
+
+      <Text> </Text>
 
       <View>
         <View style={styles.content}>
@@ -422,8 +448,11 @@ export default function events(props: any) {
                   value={formik.values.unidadMedida}
                   label="Unidad de Medida"
                   // keyboardType="numeric"
-                  onChangeText={(text) => {
-                    formik.setFieldValue("unidadMedida", text);
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("unidadMedida"),
                   }}
                 />
                 <Input
@@ -555,8 +584,11 @@ export default function events(props: any) {
                 // placeholder="Visibilidad del evento"
                 editable={true}
                 // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("moneda", text);
+                rightIcon={{
+                  type: "material-community",
+                  color: "#c2c2c2",
+                  name: "clipboard-list-outline",
+                  onPress: () => selectComponent("moneda"),
                 }}
               />
               <Input

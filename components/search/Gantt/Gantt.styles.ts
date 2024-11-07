@@ -123,6 +123,7 @@ export const styles = StyleSheet.create({
     marginBottom: 10,
     // alignSelf: "center",
     fontWeight: "bold",
+    color: "#DCDCDF",
   },
   description: {
     marginTop: 10,
@@ -135,7 +136,7 @@ export const styles = StyleSheet.create({
   },
   avanceNombre: {
     fontWeight: "600",
-    color: "grey",
+    color: "#DCDCDF",
   },
   rowavanceNombre: {
     flexDirection: "row",
@@ -147,7 +148,7 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 35,
     alignItems: "flex-start",
-    color: "grey",
+    color: "#DCDCDF",
   },
   textdetail: {
     width: windowWidth * 0.65,
@@ -155,6 +156,7 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 35,
     textAlign: "left",
+    color: "#DCDCDF",
     // alignItems: "flex-start",
   },
 });

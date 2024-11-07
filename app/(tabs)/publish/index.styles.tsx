@@ -31,14 +31,16 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     // marginRight: 100,
     alignSelf: "center",
+    color: "#DCDCDF",
   },
   name2: {
     fontWeight: "bold",
     // marginRight: 100,
     alignSelf: "flex-start",
+    color: "#DCDCDF",
   },
   info: {
-    color: "#828282",
+    color: "#DCDCDF",
     // paddingRight: 100,
     marginTop: 3,
     alignSelf: "flex-start",
@@ -49,11 +51,12 @@ export const styles = StyleSheet.create({
     // right: 10,
     // marginHorizontal: 100,
     paddingHorizontal: 60,
+    borderRadius: 40,
   },
   roundImageUpload: {
     width: 50,
     height: 50,
-    // borderRadius: 50, // half of width and height
+    borderRadius: 45, // half of width and height
   },
   btnContainer3: {
     // position: "absolute",
