@@ -48,13 +48,13 @@ export function Header() {
       <FlatList
         data={globalFilteredAssetList}
         horizontal={true}
-        style={{ backgroundColor: "#020617" }}
+        style={{ backgroundColor: "" }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+              style={{ backgroundColor: "" }} // Add backgroundColor here
             >
               <View
                 style={{
@@ -79,7 +79,7 @@ export function Header() {
                   }}
                 />
                 {item.placa ? (
-                  <Text style={{ alignSelf: "center", color: "#DCDCDF" }}>
+                  <Text style={{ alignSelf: "center", color: "" }}>
                     {ShortTextComponent(item.placa)}
                   </Text>
                 ) : (

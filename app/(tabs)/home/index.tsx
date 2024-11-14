@@ -44,7 +44,7 @@ export default function HomeScreen() {
           ListHeaderComponent={<Header />}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
-          style={{ backgroundColor: "#020617" }}
+          style={{ backgroundColor: "" }}
           renderItem={({ item }) => {
             const arrayLlanta =
               item?.llanta?.filter((item: any) => item.selected) || [];
@@ -54,7 +54,7 @@ export default function HomeScreen() {
                 style={{
                   // margin: 2,
                   borderBottomWidth: 1,
-                  borderBottomColor: "#DCDCDF",
+                  borderBottomColor: "",
                   paddingVertical: 10,
 
                   // alignItems: "center",
@@ -112,19 +112,19 @@ export default function HomeScreen() {
                 </View>
 
                 <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 5, color: "#DCDCDF" }}>
+                  <Text style={{ marginLeft: 5, color: "" }}>
                     {"Tipo:  "}
                     {item.tipoEvento}
                   </Text>
                 </View>
                 <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 5, color: "#DCDCDF" }}>
+                  <Text style={{ marginLeft: 5, color: "" }}>
                     {"Empresa:  "}
                     {item.emailCompany}
                   </Text>
                 </View>
 
-                <Text style={{ marginLeft: 5, color: "#DCDCDF" }}>
+                <Text style={{ marginLeft: 5, color: "" }}>
                   {"Fecha:  "}
                   {item.fechaPostFormato}
                 </Text>

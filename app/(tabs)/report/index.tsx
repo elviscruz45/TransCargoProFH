@@ -153,7 +153,7 @@ export default function Report(props: any) {
         inputContainerStyle={{ backgroundColor: "white" }}
       />
       <ScrollView
-        style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+        style={{ backgroundColor: "" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
         <Text> </Text>
@@ -170,7 +170,7 @@ export default function Report(props: any) {
 
         {Platform.OS === "web" && (
           <View style={{ marginHorizontal: 10, flexDirection: "row" }}>
-            <Text style={{ color: "#DCDCDF", fontSize: 30 }}>
+            <Text style={{ color: "", fontSize: 30 }}>
               {" "}
               Dias Pendientes:{" "}
             </Text>

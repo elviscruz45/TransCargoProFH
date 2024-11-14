@@ -151,15 +151,15 @@ export function InfoUser(props: any) {
           <Text></Text>
           <Text style={styles.displayName}>{displayName}</Text>
 
-          <Text style={{ color: "#DCDCDF" }}>{email}</Text>
+          <Text style={{ color: "" }}>{email}</Text>
 
           <Text>{cargo}</Text>
-          <Text style={{ fontWeight: "bold", color: "#DCDCDF" }}>
+          <Text style={{ fontWeight: "bold", color: "" }}>
             Correo del Grupo:
           </Text>
 
           {emailCompany && (
-            <Text style={{ color: "#DCDCDF" }}>{emailCompany}</Text>
+            <Text style={{ color: "" }}>{emailCompany}</Text>
           )}
         </View>
         <Text> </Text>

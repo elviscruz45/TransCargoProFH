@@ -198,7 +198,7 @@ export default function Comment() {
   } else {
     return (
       <ScrollView
-        style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+        style={{ backgroundColor: "" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
         <Text> </Text>
@@ -216,7 +216,7 @@ export default function Comment() {
         <Text> </Text>
         <Text
           style={{
-            color: "#DCDCDF",
+            color: "",
             fontWeight: "700",
             textAlign: "center",
             // alignSelf: "center",
@@ -267,7 +267,7 @@ export default function Comment() {
             paddingHorizontal: 5,
             fontWeight: "700",
             marginBottom: 10,
-            color: "#DCDCDF",
+            color: "",
           }}
         >
           {" "}
@@ -276,7 +276,7 @@ export default function Comment() {
         <Text
           style={{
             paddingHorizontal: 10,
-            color: "#DCDCDF",
+            color: "",
           }}
         >
           {post?.comentarios}

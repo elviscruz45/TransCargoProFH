@@ -51,7 +51,7 @@ export default function SearchAsset() {
   }, [searchText, globalAssetList]);
 
   return (
-    <View style={{ backgroundColor: "#020617", flex: 1 }}>
+    <View style={{ backgroundColor: "", flex: 1 }}>
       <FlatList
         data={searchResults}
         ListHeaderComponent={
@@ -69,7 +69,7 @@ export default function SearchAsset() {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+              style={{ backgroundColor: "" }} // Add backgroundColor here
             >
               <View style={styles.equipments}>
                 {

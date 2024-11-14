@@ -59,7 +59,7 @@ export const styles = StyleSheet.create({
     }),
     fontWeight: "900",
     textAlign: "center",
-    color: "#DCDCDF",
+    color: "",
   },
   item: {
     paddingHorizontal: 15,
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     }),
     fontWeight: "900",
     textAlign: "center",
-    color: "#DCDCDF",
+    color: "",
   },
   history: {
     flexDirection: "row",
@@ -87,14 +87,14 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#020617",
+    backgroundColor: "",
   },
   titleText: {
     paddingHorizontal: 15,
     fontWeight: "600",
     textAlign: "center",
     alignContent: "center",
-    color: "#DCDCDF",
+    color: "",
     fontSize: 30,
   },
   iconMinMax: {
@@ -108,7 +108,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "#020617",
+    backgroundColor: "",
   },
   titulo1: {
     flex: 0.77, // Adjust the value as per your requirement for the width
@@ -116,14 +116,14 @@ export const styles = StyleSheet.create({
   },
   titulo2: {
     flex: 1, // Adjust the value as per your requirement for the width
-    color: "#DCDCDF",
+    color: "",
     fontSize: 18,
     fontWeight: "bold",
   },
   titulo3: {
     flex: 0.45,
     // alignItems: "center",
-    color: "#DCDCDF",
+    color: "",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -133,13 +133,13 @@ export const styles = StyleSheet.create({
   },
   shortColumn2: {
     flex: 1, // Adjust the value as per your requirement for the width
-    color: "#DCDCDF",
+    color: "",
     fontSize: 18,
   },
   multiLineColumn: {
     flex: 2,
     alignSelf: "center",
-    color: "#DCDCDF",
+    color: "",
     fontSize: 18,
   },
 });

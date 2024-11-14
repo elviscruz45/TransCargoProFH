@@ -89,7 +89,7 @@ export default function Profile(props: any) {
   return (
     <>
       <ScrollView
-        style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+        style={{ backgroundColor: "" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
         <Text> </Text>
@@ -130,7 +130,7 @@ export default function Profile(props: any) {
           style={{
             // flexDirection: "row",
             // alignItems: "center",
-            backgroundColor: "#020617",
+            backgroundColor: "",
             // justifyContent: "space-between",
 
             paddingHorizontal: "10%",
@@ -152,7 +152,7 @@ export default function Profile(props: any) {
                   source={require("../../../assets/assetpics/assetsIcon.png")}
                   style={styles.roundImageUpload2}
                 />
-                <Text style={{ color: "#DCDCDF" }}> Lista de Activos</Text>
+                <Text style={{ color: "" }}> Lista de Activos</Text>
               </View>
 
               <Text> </Text>
@@ -175,7 +175,7 @@ export default function Profile(props: any) {
                   source={require("../../../assets/pictures/manpower2.png")}
                   style={styles.roundImageUpload2}
                 />
-                <Text style={{ color: "#DCDCDF" }}> Lista de Usuarios</Text>
+                <Text style={{ color: "" }}> Lista de Usuarios</Text>
               </View>
             </TouchableOpacity>
           )}

@@ -82,7 +82,7 @@ export function DateScreen(props: any) {
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
       {Platform.OS === "web" ? (
         <View style={[styles.row, styles.center, { alignSelf: "center" }]}>
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#DCDCDF" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "" }}>
             Inicio:{" "}
           </Text>
           <input
@@ -102,7 +102,7 @@ export function DateScreen(props: any) {
               // formik.setFieldValue("fechaVencimiento", selectedDate);
             }}
           />
-          <Text style={{ fontSize: 18, fontWeight: "bold", color: "#DCDCDF" }}>
+          <Text style={{ fontSize: 18, fontWeight: "bold", color: "" }}>
             {" "}
             Fin:{" "}
           </Text>
@@ -127,7 +127,7 @@ export function DateScreen(props: any) {
         <View style={[styles.row, styles.center]}>
           <Text></Text>
 
-          <Text style={{ color: "#DCDCDF" }}>Inicio:</Text>
+          <Text style={{ color: "" }}>Inicio:</Text>
           {androidDate && (
             <Button
               onPress={showDatepickerStart}
@@ -148,7 +148,7 @@ export function DateScreen(props: any) {
               onChange={onChangeStart}
             />
           )}
-          <Text style={{ color: "#DCDCDF" }}>Fin</Text>
+          <Text style={{ color: "" }}>Fin</Text>
 
           {androidDate && (
             <Button

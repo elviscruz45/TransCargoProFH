@@ -169,7 +169,7 @@ export const styles = StyleSheet.create({
   },
   avanceNombre: {
     fontWeight: "700",
-    color: "#DCDCDF",
+    color: "",
 
     // color: "grey",
   },
@@ -177,6 +177,6 @@ export const styles = StyleSheet.create({
     marginLeft: 5,
     marginRight: 35,
     alignItems: "flex-start",
-    color: "#DCDCDF",
+    color: "",
   },
 });

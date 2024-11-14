@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     // alignItems: "center",
     // marginHorizontal: 20,
     justifyContent: "center",
-    backgroundColor: "#020617",
+    backgroundColor: "",
     // alignSelf: "center",
   },
   title: {

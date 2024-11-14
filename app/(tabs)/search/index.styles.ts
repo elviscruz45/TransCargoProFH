@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     marginRight: 100,
   },
   info: {
-    color: "#DCDCDF",
+    color: "",
     paddingRight: 100,
     marginTop: 3,
   },

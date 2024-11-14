@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     // alignItems: "center",
     // marginHorizontal: 20,
     // justifyContent: "center",
-    backgroundColor: "#020617",
+    backgroundColor: "",
   },
   title: {
     fontSize: 20,
@@ -47,12 +47,12 @@ export const styles = StyleSheet.create({
   NombreServicio: {
     // maxWidth: windowWidth * 0.48,
     width: windowWidth * 0.4,
-    color: "#DCDCDF",
+    color: "",
     // color: true ? "black" : "red",
   },
   NombrePerfilCorto: {
     width: windowWidth * 0.33,
-    color: "#DCDCDF",
+    color: "",
   },
   postPhoto: {
     ...(Platform.OS === "web"
@@ -68,20 +68,20 @@ export const styles = StyleSheet.create({
     marginTop: 0,
     borderRadius: 5,
     borderWidth: 0.3,
-    borderColor: "#DCDCDF",
+    borderColor: "",
   },
   textAreaTitle: {
     width: windowWidth * 0.45,
     marginLeft: 10,
     fontWeight: "bold",
     fontSize: 18,
-    color: "#DCDCDF",
+    color: "",
   },
   textAreaComment: {
     width: windowWidth * 0.45,
     marginLeft: 10,
     fontSize: 14,
-    color: "#DCDCDF",
+    color: "",
   },
   equipments: {
     flexDirection: "row",

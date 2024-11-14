@@ -32,10 +32,10 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 30,
     marginRight: 100,
-    color: "#DCDCDF",
+    color: "",
   },
   info: {
-    color: "#DCDCDF",
+    color: "",
     paddingRight: 100,
     marginTop: 3,
   },

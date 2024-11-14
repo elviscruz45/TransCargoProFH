@@ -166,7 +166,7 @@ export default function Item() {
 
   return (
     <ScrollView
-      style={{ backgroundColor: "#020617" }} // Add backgroundColor here
+      style={{ backgroundColor: "" }} // Add backgroundColor here
       showsVerticalScrollIndicator={false}
     >
       <Text> </Text>
@@ -256,7 +256,7 @@ export default function Item() {
           borderRadius: 5,
           fontWeight: "700",
           alignSelf: "center",
-          color: "#DCDCDF",
+          color: "",
         }}
       >
         Historial de Eventos
