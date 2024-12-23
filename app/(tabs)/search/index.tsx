@@ -23,20 +23,12 @@ export default function SearchAsset() {
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
-  // console.log("HOlacomoestas", globalAssetList);
-  //this method is used to go to a screen to see the status of the item
   const selectAsset = (item: any) => {
-    //create a to go to the screen called item
     router.push({
       pathname: "/search/item",
       params: { item: item.idFirebaseAsset },
     });
-    // navigation.navigate(screen.search.tab, {
-    //   screen: screen.search.item,
-    //   params: { Item: idServiciosAIT },
-    // });
   };
-  //hola
 
   useEffect(() => {
     if (searchText === "") {

@@ -28,7 +28,6 @@ import { formatdate, CurrentFormatDate } from "../../../utils/formats";
 import { SelectDocument } from "../../../components/profile/TipoFile/Tipo";
 
 export default function AddDocs() {
-
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
@@ -46,6 +45,9 @@ export default function AddDocs() {
   const currentEmployee: any = employeesList.find(
     (user: any) => user.uid === item
   );
+  const currentUserNameDoc = currentEmployee?.email.split("@")[0];
+  console.log("11111---currentUserNameDoc", currentUserNameDoc);
+
   const files = currentEmployee?.files;
 
   const tipoFileList = files?.map((item: any) => item.tipoFile);
@@ -77,6 +79,7 @@ export default function AddDocs() {
         const newData = formValue;
         newData.fechaPostFormato = CurrentFormatDate();
         newData.autor = email;
+        newData.nombre = currentUserNameDoc;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;

@@ -262,7 +262,6 @@ export default function TabLayout() {
   const home_screen = () => {
     router.push({
       pathname: "/home",
-      // params: { item: item },
     });
   };
   return (

@@ -30,10 +30,7 @@ export function Header() {
   const selectAsset = async (item: any) => {
     //create a to go to the screen called item
 
-    await router.push({
-      pathname: "/search/",
-    });
-    await router.push({
+    router.push({
       pathname: "/search/item",
       params: { item: item.idFirebaseAsset },
     });

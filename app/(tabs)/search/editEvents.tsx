@@ -2,8 +2,6 @@ import { Avatar, Button, Input } from "@rneui/themed";
 import { useFormik } from "formik";
 import React, { useState, useEffect } from "react";
 import { Platform } from "react-native";
-// import EditScreenInfo from '../../components/EditScreenInfo';
-// import { Text, View } from '../../components/Themed';
 import { Text, View } from "react-native";
 import { styles } from "./editEvents.styles";
 import { Modal } from "../../../components/shared/Modal";
@@ -33,10 +31,6 @@ import { uploadTires } from "../../../slices/publish";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import * as DocumentPicker from "expo-document-picker";
 
-// interface CurrentAsset {
-//   image?: string;
-//   // add other properties as needed
-// }
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import {
   dateFormat,
@@ -44,20 +38,24 @@ import {
   uploadImage,
   uploadPdf,
 } from "./editEvent.cal";
+import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedida/Selection";
+import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection";
 
 export default function editEvents(props: any) {
+  //global state management for the user_uid
+  const router = useRouter();
+  const {
+    idEventFirebase,
+    fechaPostFormato,
+    nombreAsset,
+    placa,
+    tipoEvento,
+  }: any = useLocalSearchParams();
+  console.log("tipoEvento", tipoEvento);
+  //----------------------------------------------------------------------------------
   const [showModal, setShowModal] = useState(false);
-  const [ubicacion, setUbicacion] = useState<Location.LocationObject | null>(
-    null
-  );
-  const [evento, setEvento] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [tipoGastos, setTipoGasto] = useState<string | null>(null);
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
 
-  const [location, setLocation] = useState<Location.LocationObject | null>(
-    null
-  );
   const [renderComponent, setRenderComponent] =
     useState<React.ReactElement | null>(null);
   const tires: any =
@@ -69,7 +67,6 @@ export default function editEvents(props: any) {
   const pickDocument = async () => {
     try {
       const result = await DocumentPicker.getDocumentAsync({
-        // type: "application/pdf",
         copyToCacheDirectory: false,
       });
       if (result.assets) {
@@ -90,37 +87,12 @@ export default function editEvents(props: any) {
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
-  //global state management for the user_uid
-  const router = useRouter();
-  const {
-    idEventFirebase,
-    idFirebaseAsset,
-    fechaPostFormato,
-    tipoEvento,
-    comentarios,
-    emailPerfil,
-    tipoGasto,
-    nombreAsset,
-    placa,
-    photoAssetURL,
-    photoProfileURL,
-    fotoPrincipal,
-  }: any = useLocalSearchParams();
-
-  const userType =
-    useSelector((state: RootState) => state.userId.userType) ?? "";
 
   //global state management for the user_uid
   const dispatch = useDispatch();
   const currentAsset: CurrentAsset | any = useSelector(
     (state: RootState) => state.publish.asset
   );
-  const asset: any =
-    useSelector((state: RootState) => state.publish.asset) ?? "";
-
-  function capitalizeFirstLetter(str: string) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
 
   useEffect(() => {
     if (formik.values.llanta.length !== 0) {
@@ -208,6 +180,9 @@ export default function editEvents(props: any) {
         if (newData?.moneda) {
           updateData.moneda = newData.moneda;
         }
+        if (newData?.clienteNombre) {
+          updateData.clienteNombre = newData.clienteNombre;
+        }
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF;
@@ -223,9 +198,7 @@ export default function editEvents(props: any) {
         }
 
         newData.pdfPrincipal = imageUrlPDF || "";
-        console.log("newData.pdfPrincipal", newData.pdfPrincipal);
         newData.pdfFile = "";
-        console.log(newData);
 
         if (newData.FilenameTitle) {
           updateData.FilenameTitle = newData.FilenameTitle;
@@ -234,13 +207,26 @@ export default function editEvents(props: any) {
           updateData.pdfPrincipal = newData.pdfPrincipal;
         }
 
+        if (newData.descripcionGasto) {
+          updateData.descripcionGasto = newData.descripcionGasto;
+        }
+
+        if (newData.fechaContable) {
+          updateData.fechaContable = newData.fechaContable;
+        }
         await updateDoc(RefFirebaseLasEventPostd, updateData);
-        router.back();
+
+        router.push({
+          pathname: "/search",
+        });
+
         Toast.show({
           type: "success",
           position: "bottom",
           text1: "Se ha editado el evento correctamente correctamente",
         });
+        // Reset the form
+        formik.resetForm(); // Reset the form after successful submission
       } catch (error) {
         Toast.show({
           type: "error",
@@ -253,29 +239,27 @@ export default function editEvents(props: any) {
   const selectComponent = (key: string) => {
     if (key === "ubicacion") {
       setRenderComponent(
-        <MapForm
-          onClose={onCloseOpenModal}
-          formik={formik}
-          setUbicacion={setUbicacion}
-        />
+        <MapForm onClose={onCloseOpenModal} formik={formik} />
       );
     }
     if (key === "tipoEvento") {
       setRenderComponent(
-        <ChangeEvent
-          onClose={onCloseOpenModal}
-          formik={formik}
-          setEvento={setEvento}
-        />
+        <ChangeEvent onClose={onCloseOpenModal} formik={formik} />
       );
     }
     if (key === "tipoGasto") {
       setRenderComponent(
-        <ChangeTipoGasto
-          onClose={onCloseOpenModal}
-          formik={formik}
-          setTipoGasto={setTipoGasto}
-        />
+        <ChangeTipoGasto onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+    if (key === "unidadMedida") {
+      setRenderComponent(
+        <ChangeUnidadMedida onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+    if (key === "moneda") {
+      setRenderComponent(
+        <ChangeMoneda onClose={onCloseOpenModal} formik={formik} />
       );
     }
     onCloseOpenModal();
@@ -285,7 +269,6 @@ export default function editEvents(props: any) {
   return (
     <KeyboardAwareScrollView
       style={{ backgroundColor: "white", flex: 1 }} // Add backgroundColor here
-      // showsVerticalScrollIndicator={false}
     >
       <Text> </Text>
 
@@ -306,10 +289,9 @@ export default function editEvents(props: any) {
       )}
 
       <Text> </Text>
-
       <Text> </Text>
 
-      <View>
+      <View style={{ marginHorizontal: 10 }}>
         <Input
           value={formik.values.tipoEvento}
           label="Tipo de Evento"
@@ -336,219 +318,339 @@ export default function editEvents(props: any) {
         />
       </View>
 
-      <View>
-        <View style={styles.content}>
-          <Input
-            value={formik.values.kilometraje}
-            label="Kilometraje (Km)"
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("kilometraje", text);
-            }}
-          />
-          {user_email === emailCompany && (
-            <>
-              <Input
-                value={formik.values.carroceria}
-                label="Placa Carroceria"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("carroceria", text);
-                }}
-              />
-              <Input
-                value={formik.values.cantidad.toString()}
-                label="Cantidad de Carga"
-                keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("cantidad", text);
-                }}
-              />
-              <Input
-                value={formik.values.unidadMedida}
-                label="Unidad de Medida"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("unidadMedida", text);
-                }}
-              />
-              <Input
-                value={formik.values.clienteRUC}
-                label="Cliente RUC"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("clienteRUC", text);
-                }}
-              />
-              <Input
-                value={formik.values.tipoCarga}
-                label="Tipo de Carga"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("tipoCarga", text);
-                }}
-              />
-              <Input
-                value={formik.values.puntoInicio}
-                label="Punto de Inicio"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("puntoInicio", text);
-                }}
-              />
-              <Input
-                value={formik.values.puntoLlegada}
-                label="Punto de Llegada"
-                // keyboardType="numeric"
-                onChangeText={(text) => {
-                  formik.setFieldValue("puntoLlegada", text);
-                }}
-              />
-            </>
-          )}
+      <View style={styles.content}>
+        {user_email === emailCompany && (
+          <>
+            {tipoEvento === "1. Inicio Viaje" && (
+              <>
+                <Input
+                  value={formik.values.tipoCarga}
+                  label="Nombre del material de que se transporta"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("tipoCarga", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.guiaRemitente.toString()}
+                  label="Guia de Remitente"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  onChangeText={(text) => {
+                    formik.setFieldValue("guiaRemitente", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.guiTransportista.toString()}
+                  label="Guia de Transportista"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  onChangeText={(text) => {
+                    formik.setFieldValue("guiTransportista", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.kilometraje}
+                  label="Kilometraje (Km)"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("kilometraje", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.puntoInicio}
+                  label="Punto de Inicio"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("puntoInicio", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.puntoLlegada}
+                  label="Punto de Llegada"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("puntoLlegada", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.numeroFactura.toString()}
+                  label="Numero de Factura"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  onChangeText={(text) => {
+                    formik.setFieldValue("numeroFactura", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.cantidad.toString()}
+                  label="Cantidad de Carga"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("cantidad", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.unidadMedida}
+                  label="Unidad de Medida de la carga"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("unidadMedida"),
+                  }}
+                />
 
-          <Input
-            label=" Combustible (Galones.)"
-            value={formik.values.combustible.toString()}
-            editable={true}
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("combustible", text);
-            }}
-            // errorMessage={formik.errors.visibilidad}
-          />
+                <Input
+                  value={formik.values.costo.toString()}
+                  label="Valor del Monto"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("costo", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.moneda.toString()}
+                  label="Moneda"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  // keyboardType="numeric"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("moneda"),
+                  }}
+                />
 
-          {/* <Input
-            value={formik.values.facturacionFlete.toString()}
-            label="Costo Flete (S/.)"
-            editable={true}
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("facturacionFlete", text);
-            }}
-          /> */}
+                <Input
+                  value={formik.values.carroceria}
+                  label="Placa Carroceria"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("carroceria", text);
+                  }}
+                />
 
-          <Input
-            value={
-              tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
-            }
-            // placeholder="Aprobador"
-            style={{ color: tires.length !== 0 ? "blue" : "red" }}
-            label="Llanta"
-            editable={false}
-            multiline={true}
-            // errorMessage={formik.errors.aprobacion}
-            rightIcon={{
-              type: "material-community",
-              color: "#c2c2c2",
-              name: "car-tire-alert",
-              onPress: () => {
-                router.push({
-                  pathname: "/(modals)/tires",
-                  params: { item: currentAsset?.idFirebaseAsset },
-                });
-                // selectComponent("llanta")
-              },
-            }}
-          />
+                <Input
+                  value={formik.values.clienteRUC}
+                  label="Cliente RUC de la carga"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("clienteRUC", text);
+                  }}
+                />
+              </>
+            )}
+            {tipoEvento === "2. Egreso" && (
+              <>
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
 
-          <Input
-            value={formik.values.repuesto.toString()}
-            label="Repuesto"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            onChangeText={(text) => {
-              formik.setFieldValue("repuesto", text);
-            }}
-            // errorMessage={formik.errors.visibilidad}
-          />
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
+                      Fecha Contable
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue("fechaContable", selectedDate);
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
 
-          <Input
-            value={formik.values.tipoGasto}
-            label="Tipo de Gasto o Ingreso"
-            // placeholder="Titulo del Evento"
-            multiline={true}
-            editable={true}
-            // errorMessage={formik.errors.tipoEvento}
-            rightIcon={{
-              type: "material-community",
-              color: "#c2c2c2",
-              name: "clipboard-list-outline",
-              onPress: () => selectComponent("tipoGasto"),
-            }}
-          />
-          <Input
-            value={formik.values.costo.toString()}
-            label="Valor del Monto"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("costo", text);
-            }}
-          />
-          <Input
-            value={formik.values.moneda.toString()}
-            label="Moneda"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            // keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("moneda", text);
-            }}
-          />
-          <Input
-            value={formik.values.tipoComprobante.toString()}
-            label="Tipo de Comprobante"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            // keyboardType="numeric"
-            onChangeText={(text) => {
-              formik.setFieldValue("tipoComprobante", text);
-            }}
-          />
-          <Input
-            value={formik.values.numeroFactura.toString()}
-            label="Numero de Factura"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            onChangeText={(text) => {
-              formik.setFieldValue("numeroFactura", text);
-            }}
-          />
-          <Input
-            value={formik.values.guiaRemitente.toString()}
-            label="Guia de Remitente"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            onChangeText={(text) => {
-              formik.setFieldValue("guiaRemitente", text);
-            }}
-          />
-          <Input
-            value={formik.values.guiTransportista.toString()}
-            label="Guia de Transportista"
-            // placeholder="Visibilidad del evento"
-            editable={true}
-            onChangeText={(text) => {
-              formik.setFieldValue("guiTransportista", text);
-            }}
-          />
-          <Input
-            value={shortNameFileUpdated}
-            placeholder="Adjuntar PDF"
-            multiline={true}
-            editable={false}
-            rightIcon={{
-              type: "material-community",
-              name: "arrow-right-circle-outline",
-              onPress: () => {
-                pickDocument();
-              },
-            }}
-          />
-        </View>
+                <Input
+                  value={formik.values.kilometraje}
+                  label="Kilometraje (Km)"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("kilometraje", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.descripcionGasto}
+                  label="Descripcion del gasto"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("descripcionGasto", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.tipoGasto}
+                  label="Tipo de Gasto"
+                  // placeholder="Titulo del Evento"
+                  multiline={true}
+                  editable={true}
+                  // errorMessage={formik.errors.tipoEvento}
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("tipoGasto"),
+                  }}
+                />
+
+                <Input
+                  value={formik.values.clienteNombre}
+                  label="Nombre del proveedor"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("clienteNombre", text);
+                  }}
+                />
+
+                <Input
+                  label=" Combustible (Galones.)"
+                  value={formik.values.combustible.toString()}
+                  editable={true}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("combustible", text);
+                  }}
+                  // errorMessage={formik.errors.visibilidad}
+                />
+
+                <Input
+                  value={formik.values.tipoComprobante.toString()}
+                  label="Tipo de Comprobante"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("tipoComprobante", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.numeroFactura.toString()}
+                  label="Numero de Factura"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  onChangeText={(text) => {
+                    formik.setFieldValue("numeroFactura", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.costo.toString()}
+                  label="Valor del Monto"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("costo", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.moneda.toString()}
+                  label="Moneda"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  // keyboardType="numeric"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("moneda"),
+                  }}
+                />
+              </>
+            )}
+            {tipoEvento === "3. Llanta" && (
+              <>
+                <Input
+                  value={formik.values.kilometraje}
+                  label="Kilometraje (Km)"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("kilometraje", text);
+                  }}
+                />
+                <Input
+                  value={
+                    tires.length !== 0
+                      ? "Formulario llenado"
+                      : "Formulario vacio"
+                  }
+                  // placeholder="Aprobador"
+                  style={{ color: tires.length !== 0 ? "blue" : "red" }}
+                  label="Llanta"
+                  editable={false}
+                  multiline={true}
+                  // errorMessage={formik.errors.aprobacion}
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "car-tire-alert",
+                    onPress: () => {
+                      router.push({
+                        pathname: "/(modals)/tires",
+                        params: { item: currentAsset?.idFirebaseAsset },
+                      });
+                      // selectComponent("llanta")
+                    },
+                  }}
+                />
+              </>
+            )}
+            {tipoEvento === "4. Mantenimiento" && (
+              <>
+                <Input
+                  value={formik.values.kilometraje}
+                  label="Kilometraje (Km)"
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("kilometraje", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.repuesto.toString()}
+                  label="Repuesto"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  onChangeText={(text) => {
+                    formik.setFieldValue("repuesto", text);
+                  }}
+                  // errorMessage={formik.errors.visibilidad}
+                />
+              </>
+            )}
+            <Input
+              value={shortNameFileUpdated}
+              placeholder="Adjuntar PDF"
+              multiline={true}
+              editable={false}
+              rightIcon={{
+                type: "material-community",
+                name: "arrow-right-circle-outline",
+                onPress: () => {
+                  pickDocument();
+                },
+              }}
+            />
+          </>
+        )}
       </View>
+
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
@@ -561,3 +663,33 @@ export default function editEvents(props: any) {
     </KeyboardAwareScrollView>
   );
 }
+
+const formatdate = (item: any) => {
+  const date = new Date(item);
+  const monthNames = [
+    "ene.",
+    "feb.",
+    "mar.",
+    "abr.",
+    "may.",
+    "jun.",
+    "jul.",
+    "ago.",
+    "sep.",
+    "oct.",
+    "nov.",
+    "dic.",
+  ];
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const formattedDate = `${day} ${month} ${year} `;
+  const fechaPostFormato = formattedDate;
+  if (!item) {
+    return;
+  } else {
+    return fechaPostFormato;
+  }
+};

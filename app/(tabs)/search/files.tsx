@@ -106,7 +106,6 @@ export default function FileScreen() {
         uidDoc: item,
         FilenameTitle: FilenameTitle,
         fechaPostFormato: fechaPostFormato,
-        pdfFileURLFirebase: pdfFileURLFirebase,
       },
     });
   };

@@ -3,12 +3,14 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   content: {
     alignItems: "center",
+    flex: 1,
+    alignSelf: "center",
     marginLeft: 5,
-    paddingHorizontal: 25,
+    // paddingHorizontal: 25,
     // justifyContent: "center",
     flexDirection: "row",
     paddingVertical: 5,
-    width: "55%",
+    // width: "55%",
   },
   avatar: {
     marginRight: 20,

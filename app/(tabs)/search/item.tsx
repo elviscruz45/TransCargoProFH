@@ -137,7 +137,7 @@ export default function Item() {
               createdAt: doc.data().createdAt,
               fechaPostFormato: doc.data().fechaPostFormato,
               emailPerfil: doc.data().emailPerfil,
-              time: "27 Ago",
+              time: "01 Ene",
               title: doc.data().tipoEvento,
               description: doc.data().comentarios,
               lineColor: "skyblue",
@@ -266,10 +266,7 @@ export default function Item() {
       <DateScreen filterButton={filter} quitFilterButton={quitfilter} />
 
       <Text></Text>
-      <GanttHistorial
-        datas={post}
-        // comentPost={(item) => comentPost(item)}
-      />
+      <GanttHistorial datas={post} />
     </ScrollView>
   );
 }

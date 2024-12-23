@@ -14,6 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 //   import { setToFalse, setToTrue } from "../../../slices/slide";
 import { useState } from "react";
 // import Colors from "../../../constants/Colors";
+import { useRouter } from "expo-router";
 
 //   function TabBarIcon(props: {
 //     name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -23,15 +24,35 @@ import { useState } from "react";
 //   }
 
 export default function _layout() {
-  // const dispatch = useAppDispatch();
-  // const modalState = useAppSelector((state) => state.modalSlice.value);
-  // const colorScheme = useColorScheme();
-  // const handleVisibleModalFalse = () => {
-  //   dispatch(setToFalse());
-  // };
-  // const handleVisibleModalTrue = () => {
-  //   dispatch(setToTrue());
-  // };
+  const router = useRouter();
+
+  const CustomBackButton = () => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          router.push({
+            pathname: "/publish",
+          })
+        }
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginLeft: 8,
+        }}
+      >
+        <Ionicons name="arrow-back-outline" size={24} color="#007AFF" />
+        <Text
+          style={{
+            marginLeft: 4,
+            color: "#007AFF",
+            fontSize: 16,
+          }}
+        >
+          Atrás
+        </Text>
+      </TouchableOpacity>
+    );
+  };
   return (
     <Stack>
       <Stack.Screen
@@ -48,6 +69,7 @@ export default function _layout() {
           title: "Camara",
           headerShown: true,
           headerTitleAlign: "center", // Center the title
+          headerLeft: () => <CustomBackButton />,
         }}
       />
       <Stack.Screen
@@ -56,6 +78,7 @@ export default function _layout() {
           title: "Crear Evento",
           headerShown: true,
           headerTitleAlign: "center", // Center the title
+          headerLeft: () => <CustomBackButton />,
 
           // presentation: "modal",
         }}
@@ -66,6 +89,7 @@ export default function _layout() {
           title: "Crear Activo",
           headerShown: true,
           headerTitleAlign: "center", // Center the title
+          headerLeft: () => <CustomBackButton />,
 
           // presentation: "modal",
         }}

@@ -6,14 +6,9 @@ import { unidadesMedidaList } from "@/utils/unidadesMedidaList";
 interface Event {
   onClose: () => void;
   formik: any; // replace with the actual type
-  setTipoGasto: any; // replace with the actual type
 }
 
-export const ChangeUnidadMedida: React.FC<Event> = ({
-  onClose,
-  formik,
-  setTipoGasto,
-}) => {
+export const ChangeUnidadMedida: React.FC<Event> = ({ onClose, formik }) => {
   const [selected, setSelected] = useState("");
   const [list, setList] = useState([]);
 

@@ -83,7 +83,6 @@ export default function AssetAssigned() {
   return (
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
-
         <FlatList
           data={searchResults}
           ListHeaderComponent={
@@ -100,6 +99,8 @@ export default function AssetAssigned() {
           renderItem={({ item, index }) => {
             return (
               <View style={{ flexDirection: "row" }}>
+                <Text> </Text>
+                <Text> </Text>
                 <TouchableOpacity
                   onPress={() => selectComponent(item.idFirebaseAsset)}
                   // onPress={() => selectAsset(item)}

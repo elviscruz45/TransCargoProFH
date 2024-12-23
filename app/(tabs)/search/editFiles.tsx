@@ -30,14 +30,8 @@ export default function EditDocs() {
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
 
   //global state management for the user_uid
-  const {
-    tipoFile,
-    uidDoc,
-    FilenameTitle,
-    fechaPostFormato,
-    pdfFileURLFirebase,
-  }: any = useLocalSearchParams();
-
+  const { tipoFile, uidDoc, FilenameTitle, fechaPostFormato }: any =
+    useLocalSearchParams();
 
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
@@ -47,6 +41,9 @@ export default function EditDocs() {
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === uidDoc
   );
+  const currentUserNameDoc = currentAsset?.nombre;
+  const currentAssetIdFirebase = currentAsset?.idFirebaseAsset;
+
   const files = currentAsset?.files;
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
@@ -66,6 +63,9 @@ export default function EditDocs() {
         const newData = formValue;
         newData.fechaPostFormato = CurrentFormatDate(); //ok
         newData.autor = email; //ok
+        newData.nombre = currentUserNameDoc;
+        newData.idAssetFirebase = currentAssetIdFirebase;
+
         newData.tipoFile = tipoFile; //ok
         // newData.FilenameTitle = FilenameTitle; //ok
 
@@ -100,7 +100,10 @@ export default function EditDocs() {
           files: newFileListToUpdate,
         };
         await updateDoc(RefFirebaseLasEventPostd, updatedData);
-        router.back();
+        router.push({
+          pathname: "/search",
+        });
+
         Toast.show({
           type: "success",
           position: "bottom",

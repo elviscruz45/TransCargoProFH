@@ -230,6 +230,7 @@ export default function EditAsset(props: any) {
           position: "bottom",
           text1: "Se ha Actualizado correctamente",
         });
+        formik.resetForm(); // Reset the form after successful submission
       } catch (error) {
         Toast.show({
           type: "error",

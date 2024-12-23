@@ -25,9 +25,11 @@ export function initialValues() {
     cantidad: 0,
     unidadMedida: "",
     tipoCarga: "",
+    descripcionGasto: "",
     puntoInicio: "",
     puntoLlegada: "",
     clienteRUC: "",
+    clienteNombre: "",
     tipoComprobante: "",
     moneda: "",
     pdfFile: "",
@@ -47,6 +49,7 @@ export function initialValues() {
     companyName: "",
     idFirebaseAsset: "",
     idEventFirebase: "",
+    fechaContable: new Date(),
   };
 }
 export function validationSchema() {

@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
+    // alignSelf: "center",
   },
   camera: {
     flex: 1,
@@ -16,6 +17,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     backgroundColor: "transparent",
+    alignSelf: "center",
     margin: 64,
   },
   button: {

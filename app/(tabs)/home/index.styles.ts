@@ -66,6 +66,7 @@ export const styles = StyleSheet.create({
         }),
 
     marginTop: 0,
+    marginLeft: 10,
     borderRadius: 5,
     borderWidth: 0.3,
     borderColor: "",

@@ -152,7 +152,7 @@ export default function Profile(props: any) {
                   source={require("../../../assets/assetpics/assetsIcon.png")}
                   style={styles.roundImageUpload2}
                 />
-                <Text style={{ color: "" }}> Lista de Activos</Text>
+                <Text style={{ color: "" }}> Activos</Text>
               </View>
 
               <Text> </Text>
@@ -175,7 +175,7 @@ export default function Profile(props: any) {
                   source={require("../../../assets/pictures/manpower2.png")}
                   style={styles.roundImageUpload2}
                 />
-                <Text style={{ color: "" }}> Lista de Usuarios</Text>
+                <Text style={{ color: "" }}> Recursos Humanos</Text>
               </View>
             </TouchableOpacity>
           )}

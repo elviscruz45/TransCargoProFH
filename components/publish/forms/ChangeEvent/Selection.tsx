@@ -6,14 +6,9 @@ import { tipoEvento } from "../../../../utils/modalList";
 interface Event {
   onClose: () => void;
   formik: any; // replace with the actual type
-  setEvento: any; // replace with the actual type
 }
 
-export const ChangeEvent: React.FC<Event> = ({
-  onClose,
-  formik,
-  setEvento,
-}) => {
+export const ChangeEvent: React.FC<Event> = ({ onClose, formik }) => {
   const [selected, setSelected] = useState("");
   const [list, setList] = useState([]);
 

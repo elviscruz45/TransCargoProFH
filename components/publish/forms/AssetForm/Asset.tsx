@@ -5,6 +5,8 @@ import { Input } from "react-native-elements";
 import { Modal } from "../../../shared/Modal/Modal";
 import { ChangeDate } from "../ChangeDates/ChangeDate";
 import { SelectActivo } from "../TipoActivo/Tipo";
+import { SelectReporte } from "../Reporte/Tipo";
+
 import { formatdate } from "../../../../utils/formats";
 
 export function AssetForm({ formik, setNombre, action }: any) {
@@ -16,24 +18,16 @@ export function AssetForm({ formik, setNombre, action }: any) {
   const [tipoActivo, setTipoActivo] = useState<string>("");
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
-  const selectComponent = (key: string, formikValue: string) => {
+  const selectComponent = (key: string) => {
     if (key === "TipoActivo") {
       setRenderComponent(
-        <SelectActivo
-          onClose={onCloseOpenModal}
-          formik={formik}
-          // setAreaservicio={setAreaservicio}
-          setTipoActivo={setTipoActivo}
-        />
+        <SelectActivo onClose={onCloseOpenModal} formik={formik} />
       );
     }
-    if (key === "date") {
+
+    if (key === "reporte") {
       setRenderComponent(
-        <ChangeDate
-          onClose={onCloseOpenModal}
-          formik={formik}
-          formikValue={formikValue}
-        />
+        <SelectReporte onClose={onCloseOpenModal} formik={formik} />
       );
     }
 
@@ -54,7 +48,7 @@ export function AssetForm({ formik, setNombre, action }: any) {
                 name: "clipboard-text",
                 color: "#c2c2c2",
                 onPress: () => {
-                  selectComponent("TipoActivo", "tipoActivo");
+                  selectComponent("TipoActivo");
                 },
               }}
               errorMessage={formik.errors.tipoActivo}
@@ -68,10 +62,21 @@ export function AssetForm({ formik, setNombre, action }: any) {
               }}
               errorMessage={formik.errors.nombre}
             />
+            <Input
+              label="Reportabilidad"
+              value={formik.values?.reporte?.toString() ?? ""}
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("reporte"),
+              }}
+            />
           </>
         )}
 
-        {(tipoActivo === "Equipo / Activo" || action === "toEdit") && (
+        {(formik?.values?.tipoActivo === "Equipo / Activo" ||
+          action === "toEdit") && (
           <>
             <Text style={styles.subtitleForm}>Informacion Activo</Text>
             <Text> </Text>
@@ -135,6 +140,7 @@ export function AssetForm({ formik, setNombre, action }: any) {
               }}
             />
             <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
+            <Text> </Text>
             <Input
               label="Clase De Vehiculo"
               value={formik.values?.claseVehiculo?.toString() ?? ""}
@@ -225,302 +231,3 @@ export function AssetForm({ formik, setNombre, action }: any) {
     </View>
   );
 }
-
-// {tipoActivo === "Conductor / Personal" && (
-//   <>
-//     <Text style={styles.subtitleForm}>Informacion Personal</Text>
-//     <Input
-//       value={formik.values?.dni?.toString()}
-//       label="DNI"
-//       keyboardType="numeric"
-//       onChangeText={(text) => {
-//         formik.setFieldValue("dni", text);
-//       }}
-//     />
-//   </>
-// )}
-// {tipoActivo === "Conductor / Personal" && (
-//   <>
-//     <Text style={styles.subtitleForm}>Documentacion Personal</Text>
-//     <Input
-//       label="Licencia de Conducir A3"
-//       // InputComponent={() => (
-//       //   <>
-//       //     <ChangeDate onClose={onCloseOpenModal} formik={formik} />
-//       //   </>
-//       // )}
-//       value={formatdate(formik.values?.licenciaA3?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "licenciaA3");
-//         },
-//       }}
-//     />
-
-//     <Input
-//       label="Licencia de Conducir A4"
-//       value={formatdate(formik.values?.licenciaA4?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "licenciaA4");
-//         },
-//       }}
-//     />
-
-//     <Input
-//       label="Certificado de Salud Ocupacional"
-//       value={formatdate(formik.values?.certificadoSalud?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "certificadoSalud");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Record de Conductor"
-//       value={formatdate(formik.values?.recordConductor?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "recordConductor");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="IQBF SUNAT Conductor"
-//       value={formatdate(formik.values?.iqbfConductor?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "iqbfConductor");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Manejo Defensivo"
-//       value={formatdate(formik.values?.manejoDefensivo?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "manejoDefensivo");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Seguro Vida Ley"
-//       value={formatdate(formik.values?.seguroVidaLey?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "seguroVidaLey");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="SCTR Salud"
-//       value={formatdate(formik.values?.sctrSalud?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "sctrSalud");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="SCTR Pension"
-//       value={formatdate(formik.values?.sctrPension?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "sctrPension");
-//         },
-//       }}
-//     />
-//   </>
-// )}
-
-// {tipoActivo === "Area / Empresa" && (
-//   <>
-//     <Text style={styles.subtitleForm}>Documentos de la Empresa</Text>
-//     <Input
-//       label="Ficha RUC"
-//       value={formatdate(formik.values?.FichaRUC?.toString())}
-//       onChangeText={(text) => {
-//         formik.setFieldValue("FichaRUC", text);
-//       }}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "FichaRUC");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Seguro de Carga"
-//       value={formatdate(formik.values?.SeguroCarga?.toString())}
-//       onChangeText={(text) => {
-//         formik.setFieldValue("SeguroCarga", text);
-//       }}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "SeguroCarga");
-//         },
-//       }}
-//     />
-//   </>
-// )}
-
-//////////////////////////////////////
-// {tipoActivo === "Equipo / Activo" && (
-//   <>
-//     <Text style={styles.subtitleForm}>Documentacion Vehicular</Text>
-//     <Input
-//       label="Habilitacion Vehicular"
-//       value={formatdate(
-//         formik.values?.habilitacionVehicular?.toString()
-//       )}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "habilitacionVehicular");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Resolucion Materiales Peligrosos"
-//       value={formatdate(
-//         formik.values?.resolucionMaterialesPeligrosos?.toString()
-//       )}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "resolucionMaterialesPeligrosos");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Inspeccion Tecnica"
-//       value={formatdate(formik.values?.inspeccionTecnica?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "inspeccionTecnica");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Vencimiento SUNAT IQBF"
-//       value={formatdate(formik.values?.sunatIQBF?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "sunatIQBF");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="SOAT"
-//       value={formatdate(formik.values?.soat?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "soat");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="Poliza Responsabilidad Civil"
-//       value={formatdate(
-//         formik.values?.polizaResponsabilidadCivil?.toString()
-//       )}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "polizaResponsabilidadCivil");
-//         },
-//       }}
-//     />
-
-//     <Input
-//       label="Plan de Contingencia"
-//       value={formatdate(formik.values?.planContingencia?.toString())}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "planContingencia");
-//         },
-//       }}
-//     />
-//     <Input
-//       label="R.D De Habilitacion"
-//       value={formatdate(formik.values?.RDHabilitacion?.toString())}
-//       onChangeText={(text) => {
-//         formik.setFieldValue("RDHabilitacion", text);
-//       }}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "RDHabilitacion");
-//         },
-//       }}
-//     />
-
-//     <Input
-//       label="Partida Registral"
-//       value={formatdate(formik.values?.partidaRegistral?.toString())}
-//       onChangeText={(text) => {
-//         formik.setFieldValue("partidaRegistral", text);
-//       }}
-//       rightIcon={{
-//         type: "material-community",
-//         name: "update",
-//         color: "#c2c2c2",
-//         onPress: () => {
-//           selectComponent("date", "partidaRegistral");
-//         },
-//       }}
-//     />
-//   </>
-// )}

@@ -3,6 +3,8 @@ export function initialValues() {
   return {
     nombre: "",
     tipoActivo: "",
+    tracto: "Carroceria",
+    reporte: "",
     //informacion personal
     dni: "",
     //informacion activo
@@ -67,6 +69,7 @@ export function initialValues() {
     companyName: "",
     emailCompany: "",
     idFirebaseAsset: "",
+
     //user assigned
     userAssigned: [],
     files: [],

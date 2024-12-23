@@ -5,13 +5,11 @@ import { tipoGasto } from "@/utils/tipoGasto";
 interface Event {
   onClose: () => void;
   formik: any; // replace with the actual type
-  setTipoGasto: any; // replace with the actual type
 }
 
 export const ChangeTipoGasto: React.FC<Event> = ({
   onClose,
   formik,
-  setTipoGasto,
 }) => {
   const [selected, setSelected] = useState("");
   const [list, setList] = useState([]);

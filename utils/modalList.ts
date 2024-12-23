@@ -1,5 +1,6 @@
 export const tipoEvento = [
-  { area: "Conductor", value: "Inicio Viaje" },
+  { area: "Conductor", value: "1. Inicio Viaje" },
+  { area: "Conductor", value: "2. Egreso" },
   { area: "Conductor", value: "Final Viaje" },
   { area: "Conductor", value: "Combustible" },
   { area: "Conductor", value: "Mantenimiento" },
@@ -17,6 +18,7 @@ export const tipoEvento = [
 
 export const tipoEvento_Gerencia = [
   { area: "Gerencia", value: "Gerencia", disabled: true },
+  { area: "Conductor", value: "Inicio Viaje" },
   { area: "Gerencia", value: "Reporte" },
   { area: "Gerencia", value: "Cambio de aceite" },
   { area: "Gerencia", value: "Mantenimiento" },
@@ -30,6 +32,8 @@ export const tipoEvento_Gerencia = [
 
 export const tipoEvento_Administracion = [
   { area: "Administracion", value: "Administracion", disabled: true },
+  { area: "Conductor", value: "Inicio Viaje" },
+
   { area: "Administracion", value: "Reporte Diario" },
   { area: "Administracion", value: "Cambio de aceite" },
   { area: "Administracion", value: "Mantenimiento" },
@@ -54,6 +58,8 @@ export const tipoEvento_Ambiente = [
 
 export const tipoEvento_Supervisor = [
   { area: "Supervisor", value: "Supervisor", disabled: true },
+  { area: "Conductor", value: "Inicio Viaje Admin" },
+
   { area: "Supervisor", value: "CheckList" },
   { area: "Supervisor", value: "Mantenimiento" },
   { area: "Supervisor", value: "Cambio de aceite" },

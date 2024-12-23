@@ -7,19 +7,12 @@ import { tipoActivo } from "../../../../utils/tipoActivo";
 interface Event {
   onClose: () => void;
   formik: any; // replace with the actual type
-  setTipoActivo: (value: string) => void;
 }
 
-export const SelectActivo: React.FC<Event> = ({
-  onClose,
-  formik,
-  setTipoActivo,
-}) => {
+export const SelectActivo: React.FC<Event> = ({ onClose, formik }) => {
   function saveProperty(itemValue: string) {
     // setText(itemValue);
     formik.setFieldValue("tipoActivo", itemValue);
-    setTipoActivo(itemValue);
-
     onClose();
   }
 

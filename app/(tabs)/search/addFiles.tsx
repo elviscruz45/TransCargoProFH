@@ -44,6 +44,10 @@ export default function AddDocs() {
   const currentAsset: any = assetList.find(
     (asset: any) => asset.idFirebaseAsset === item
   );
+
+  const currentUserNameDoc = currentAsset?.nombre;
+  const currentAssetIdFirebase = currentAsset?.idFirebaseAsset;
+
   const tipoActivoCurrent = currentAsset?.tipoActivo;
   const files = currentAsset?.files;
 
@@ -88,6 +92,8 @@ export default function AddDocs() {
         const newData = formValue;
         newData.fechaPostFormato = CurrentFormatDate();
         newData.autor = email;
+        newData.nombre = currentUserNameDoc;
+        newData.idAssetFirebase = currentAssetIdFirebase;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;

@@ -37,7 +37,6 @@ export default function HomeScreen() {
       <View style={styles.container}>
         {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
-        <Text></Text>
         <FlatList
           data={eventList}
           scrollEnabled={true}
@@ -62,6 +61,9 @@ export default function HomeScreen() {
                 }}
               >
                 <View style={[styles.row, styles.center]}>
+                  <Text> </Text>
+                  <Text> </Text>
+                  <Text> </Text>
                   <View style={[styles.row, styles.center]}>
                     <TouchableOpacity
                       style={[styles.row, styles.center]}
@@ -110,25 +112,25 @@ export default function HomeScreen() {
                     </Text>
                   </View>
                 </View>
+                <Text> </Text>
 
                 <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 5, color: "" }}>
+                  <Text style={{ marginLeft: 15, color: "" }}>
                     {"Tipo:  "}
                     {item.tipoEvento}
                   </Text>
                 </View>
                 <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 5, color: "" }}>
+                  <Text style={{ marginLeft: 15, color: "" }}>
                     {"Empresa:  "}
                     {item.emailCompany}
                   </Text>
                 </View>
-
-                <Text style={{ marginLeft: 5, color: "" }}>
+                <Text style={{ marginLeft: 15, color: "" }}>
                   {"Fecha:  "}
                   {item.fechaPostFormato}
                 </Text>
-                <Text></Text>
+                <Text> </Text>
                 <View style={styles.equipments}>
                   <TouchableOpacity
                   // onPress={() => commentPost(item)}
@@ -139,6 +141,7 @@ export default function HomeScreen() {
                       cachePolicy={"memory-disk"}
                     />
                   </TouchableOpacity>
+                  <Text>{"     "} </Text>
 
                   <View>
                     <Text style={styles.textAreaTitle}>{item.tipoEvento}</Text>
@@ -152,6 +155,8 @@ export default function HomeScreen() {
                     </Text>
                   </View>
                 </View>
+                <Text> </Text>
+                <Text> </Text>
               </View>
             );
           }}

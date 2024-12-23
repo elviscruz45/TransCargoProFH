@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
   },
   //events
   content: {
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
   },
   subtitleForm: {
     color: "#2A3B76",
