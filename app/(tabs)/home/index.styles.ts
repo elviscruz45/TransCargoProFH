@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     // alignItems: "center",
     // marginHorizontal: 20,
     // justifyContent: "center",
-    backgroundColor: "",
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,

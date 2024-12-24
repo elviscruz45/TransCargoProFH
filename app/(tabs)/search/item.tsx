@@ -166,7 +166,7 @@ export default function Item() {
 
   return (
     <ScrollView
-      style={{ backgroundColor: "" }} // Add backgroundColor here
+      style={{ backgroundColor: "white" }} // Add backgroundColor here
       showsVerticalScrollIndicator={false}
     >
       <Text> </Text>

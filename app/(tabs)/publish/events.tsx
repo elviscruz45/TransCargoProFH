@@ -49,6 +49,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { dateFormat, useUserData, uploadImage, uploadPdf } from "./event.cal";
 import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedida/Selection";
 import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection";
+import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -269,6 +270,12 @@ export default function events(props: any) {
       );
     }
 
+    if (key === "tipoMantto") {
+      setRenderComponent(
+        <ChangeMantto onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -420,13 +427,16 @@ export default function events(props: any) {
               label="Kilometraje (Km)"
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("kilometraje", numericText);
               }}
             />
             <Input
               value={formik.values.puntoInicio}
               label="Punto de Inicio"
               onChangeText={(text) => {
+                
                 formik.setFieldValue("puntoInicio", text);
               }}
             />
@@ -452,7 +462,9 @@ export default function events(props: any) {
               label="Cantidad de Carga"
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("cantidad", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("cantidad", numericText);
               }}
             />
             <Input
@@ -473,7 +485,9 @@ export default function events(props: any) {
               editable={true}
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("costo", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("costo", numericText);
               }}
             />
             <Input
@@ -517,7 +531,9 @@ export default function events(props: any) {
               label="Kilometraje (Km)"
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("kilometraje", numericText);
               }}
             />
             <Input
@@ -543,7 +559,9 @@ export default function events(props: any) {
               editable={true}
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("combustible", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("combustible", numericText);
               }}
               // errorMessage={formik.errors.visibilidad}
             />
@@ -587,7 +605,9 @@ export default function events(props: any) {
               editable={true}
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("costo", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("costo", numericText);
               }}
             />
             <Input
@@ -606,52 +626,59 @@ export default function events(props: any) {
           </>
         )}
 
-        {formik.values.tipoEvento === "3. Llanta" && (
+        {formik.values.tipoEvento === "3. Mantenimiento" && (
           <>
             <Input
               value={formik.values.kilometraje}
               label="Kilometraje (Km)"
               keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("kilometraje", numericText);
               }}
             />
+
             <Input
-              value={
-                tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
-              }
-              // placeholder="Aprobador"
-              style={{ color: tires.length !== 0 ? "blue" : "red" }}
-              label="Llanta"
-              editable={false}
-              multiline={true}
-              // errorMessage={formik.errors.aprobacion}
+              value={formik.values.tipoMantto.toString()}
+              label="Tipo de Mantenimiento"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              // keyboardType="numeric"
               rightIcon={{
                 type: "material-community",
                 color: "#c2c2c2",
-                name: "car-tire-alert",
-                onPress: () => {
-                  router.push({
-                    pathname: "/(modals)/tires",
-                    params: { item: currentAsset?.idFirebaseAsset },
-                  });
-                  // selectComponent("llanta")
-                },
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("tipoMantto"),
               }}
             />
-          </>
-        )}
 
-        {formik.values.tipoEvento === "4. Mantenimiento" && (
-          <>
-            <Input
-              value={formik.values.kilometraje}
-              label="Kilometraje (Km)"
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
-              }}
-            />
+            {formik.values.tipoMantto === "Cambio de Llanta" && (
+              <Input
+                value={
+                  tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
+                }
+                // placeholder="Aprobador"
+                style={{ color: tires.length !== 0 ? "blue" : "red" }}
+                label="Llanta"
+                editable={false}
+                multiline={true}
+                // errorMessage={formik.errors.aprobacion}
+                rightIcon={{
+                  type: "material-community",
+                  color: "#c2c2c2",
+                  name: "car-tire-alert",
+                  onPress: () => {
+                    router.push({
+                      pathname: "/(modals)/tires",
+                      params: { item: currentAsset?.idFirebaseAsset },
+                    });
+                    // selectComponent("llanta")
+                  },
+                }}
+              />
+            )}
+
             <Input
               value={formik.values.repuesto.toString()}
               label="Repuesto"

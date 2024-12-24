@@ -30,7 +30,6 @@ export function initialValues() {
     puntoLlegada: "",
     clienteRUC: "",
     clienteNombre: "",
-    tipoComprobante: "",
     moneda: "",
     pdfFile: "",
     FilenameTitle: "",
@@ -50,6 +49,11 @@ export function initialValues() {
     idFirebaseAsset: "",
     idEventFirebase: "",
     fechaContable: new Date(),
+    //pago conductor
+    pagoConductor: 0,
+    nombreConductor: "",
+    tipoComprobante: "",
+    tipoMantto: "",
   };
 }
 export function validationSchema() {

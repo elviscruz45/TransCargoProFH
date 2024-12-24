@@ -178,18 +178,18 @@ export default function Operaciones(props: any) {
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Fecha Contable</Text>
         </DataTable.Title>
-        <DataTable.Title style={styles.titulo2}>
+        {/* <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Unidad</Text>
-        </DataTable.Title>
+        </DataTable.Title> */}
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Descripcion</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Tipo Gasto</Text>
         </DataTable.Title>
-        <DataTable.Title style={styles.titulo2}>
+        {/* <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Kilometraje</Text>
-        </DataTable.Title>
+        </DataTable.Title> */}
 
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Proveedor</Text>
@@ -205,7 +205,7 @@ export default function Operaciones(props: any) {
         </DataTable.Title>
       </DataTable.Header>
       <ScrollView
-        style={{ backgroundColor: "" }} // Add backgroundColor here
+        style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
         <DataTable>
@@ -233,9 +233,9 @@ export default function Operaciones(props: any) {
                 <DataTable.Cell style={styles.shortColumn2}>
                   {formatDate(file?.fechaContable)}
                 </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
+                {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
-                </DataTable.Cell>
+                </DataTable.Cell> */}
 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
@@ -244,18 +244,23 @@ export default function Operaciones(props: any) {
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.tipoGasto}</Text>
+                  <Text style={styles.shortColumn2}> {file?.tipoGasto}</Text>
                 </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
+                {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
-                </DataTable.Cell>
+                </DataTable.Cell> */}
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {file?.costo} {file?.moneda}
+                    {file?.moneda === "Dolares"
+                      ? " $ "
+                      : file?.moneda === "Euros"
+                      ? " EUR "
+                      : " S/."}{" "}
+                    {new Intl.NumberFormat("en-US").format(file?.costo || 0)}{" "}
                   </Text>
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.shortColumn2}>
@@ -267,7 +272,7 @@ export default function Operaciones(props: any) {
                 <DataTable.Cell style={styles.shortColumn2}>
                   <TouchableOpacity onPress={() => goToEditDocs(file)}>
                     <ImageExpo
-                      source={require("../../../assets/pictures/editIcon2.png")}
+                      source={require("../../../assets/reportes/views.png")}
                       style={[styles.roundImage10, { alignSelf: "center" }]}
                       cachePolicy={"memory-disk"}
                     />

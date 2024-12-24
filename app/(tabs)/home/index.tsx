@@ -43,7 +43,7 @@ export default function HomeScreen() {
           ListHeaderComponent={<Header />}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
-          style={{ backgroundColor: "" }}
+          style={{ backgroundColor: "white" }}
           renderItem={({ item }) => {
             const arrayLlanta =
               item?.llanta?.filter((item: any) => item.selected) || [];

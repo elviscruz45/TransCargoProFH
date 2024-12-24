@@ -17,8 +17,7 @@ export function Reporte({ setAsset }: any) {
   console.log("globalAssetList", globalAssetList);
 
   const globalFilteredAssetList = globalAssetList?.filter(
-    (item: any) =>
-      item.reporte === "Visible" && item.tipoActivo === "Equipo / Activo"
+    (item: any) => item.tipoActivo === "Equipo / Activo"
   );
 
   const ShortTextComponent = (item: any) => {

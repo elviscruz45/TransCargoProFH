@@ -89,7 +89,7 @@ export default function Profile(props: any) {
   return (
     <>
       <ScrollView
-        style={{ backgroundColor: "" }} // Add backgroundColor here
+        style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
         <Text> </Text>
@@ -130,7 +130,7 @@ export default function Profile(props: any) {
           style={{
             // flexDirection: "row",
             // alignItems: "center",
-            backgroundColor: "",
+            backgroundColor: "white",
             // justifyContent: "space-between",
 
             paddingHorizontal: "10%",

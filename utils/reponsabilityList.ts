@@ -5,4 +5,3 @@ export const responsabilidad = [
   { area: "Medio Ambiente", value: "Medio Ambiente" },
   { area: "Inactivo", value: "Inactivo" },
 ];
-// ];

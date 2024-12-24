@@ -5,13 +5,16 @@ import { Image as ImageExpo } from "expo-image";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 
 export function Reporte({ setAsset }: any) {
+  const [selected, setSelected] = useState("");
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
 
   const globalFilteredAssetList = globalAssetList;
+  console.log("globalFilteredAssetList", globalFilteredAssetList);
 
   const ShortTextComponent = (item: any) => {
     const longText = item;
@@ -28,13 +31,16 @@ export function Reporte({ setAsset }: any) {
       <FlatList
         data={globalFilteredAssetList}
         horizontal={true}
-        style={{ backgroundColor: "" }}
+        style={{ backgroundColor: "white" }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress={() => setAsset(item?.idFirebaseAsset)}
-              style={{ backgroundColor: "" }} // Add backgroundColor here
+              onPress={() => {
+                setAsset(item?.idFirebaseAsset);
+                setSelected(item?.idFirebaseAsset);
+              }}
+              style={{ backgroundColor: "white" }} // Add backgroundColor here
             >
               <View
                 style={{
@@ -56,14 +62,31 @@ export function Reporte({ setAsset }: any) {
                     width: 80,
                     height: 80,
                     borderRadius: 80,
+                    borderWidth: selected === item?.idFirebaseAsset ? 3 : 0,
+                    borderColor:
+                      selected === item?.idFirebaseAsset ? "blue" : "",
                   }}
                 />
                 {item.placa ? (
-                  <Text style={{ alignSelf: "center", color: "" }}>
+                  <Text
+                    style={{
+                      alignSelf: "center",
+                      color: selected === item?.idFirebaseAsset ? "blue" : "",
+                      fontWeight:
+                        selected === item?.idFirebaseAsset ? "bold" : "400",
+                    }}
+                  >
                     {ShortTextComponent(item.placa)}
                   </Text>
                 ) : (
-                  <Text style={{ alignSelf: "center" }}>
+                  <Text
+                    style={{
+                      alignSelf: "center",
+                      color: selected === item?.idFirebaseAsset ? "blue" : "",
+                      fontWeight:
+                        selected === item?.idFirebaseAsset ? "bold" : "400",
+                    }}
+                  >
                     {ShortTextComponent(item.nombre ?? item.NombreArea)}
                   </Text>
                 )}

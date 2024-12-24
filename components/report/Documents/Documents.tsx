@@ -204,7 +204,7 @@ export default function Documents(props: any) {
         </DataTable.Title>
       </DataTable.Header>
       <ScrollView
-        style={{ backgroundColor: "" }} // Add backgroundColor here
+        style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={Platform.OS === "web" ? true : false}
       >
         <DataTable>

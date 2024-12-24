@@ -89,7 +89,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "",
+    backgroundColor: "white",
   },
   titleText: {
     paddingHorizontal: 15,
@@ -110,7 +110,7 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: "",
+    backgroundColor: "white",
   },
   titulo1: {
     flex: 0.77, // Adjust the value as per your requirement for the width

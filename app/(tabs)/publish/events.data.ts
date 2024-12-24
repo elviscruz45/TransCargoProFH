@@ -49,6 +49,7 @@ export function initialValues() {
     companyName: "",
     idFirebaseAsset: "",
     idEventFirebase: "",
+    tipoMantto: "",
   };
 }
 export function validationSchema() {

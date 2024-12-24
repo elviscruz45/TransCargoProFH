@@ -94,7 +94,9 @@ export function AssetForm({ formik, setNombre, action }: any) {
               keyboardType="numeric"
               value={formik.values?.fechaFabricacion?.toString() ?? ""}
               onChangeText={(text) => {
-                formik.setFieldValue("fechaFabricacion", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("fechaFabricacion", numericText);
               }}
             />
             <Input
@@ -174,7 +176,9 @@ export function AssetForm({ formik, setNombre, action }: any) {
               keyboardType="numeric"
               value={formik.values?.pesoNeto?.toString() ?? ""}
               onChangeText={(text) => {
-                formik.setFieldValue("pesoNeto", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("pesoNeto", numericText);
               }}
             />
             <Input
@@ -182,7 +186,9 @@ export function AssetForm({ formik, setNombre, action }: any) {
               keyboardType="numeric"
               value={formik.values?.cargaUtil?.toString() ?? ""}
               onChangeText={(text) => {
-                formik.setFieldValue("cargaUtil", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("cargaUtil", numericText);
               }}
             />
             <Input
@@ -190,7 +196,9 @@ export function AssetForm({ formik, setNombre, action }: any) {
               keyboardType="numeric"
               value={formik.values?.pesoBruto?.toString() ?? ""}
               onChangeText={(text) => {
-                formik.setFieldValue("pesoBruto", text);
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("pesoBruto", numericText);
               }}
             />
             <Input

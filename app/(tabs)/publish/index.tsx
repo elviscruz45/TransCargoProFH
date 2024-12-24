@@ -155,7 +155,7 @@ export default function Publish() {
   };
 
   return (
-    <View style={{ backgroundColor: "", flex: 1 }}>
+    <View style={{ backgroundColor: "white", flex: 1 }}>
       <SearchBar
         placeholder="Buscar Activo o Area"
         value={searchText}
@@ -199,7 +199,7 @@ export default function Publish() {
         style={{
           flexDirection: "row",
           alignItems: "center",
-          backgroundColor: "",
+          backgroundColor: "white",
           justifyContent: "space-between",
 
           // paddingHorizontal: 150,
@@ -244,7 +244,7 @@ export default function Publish() {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "" }} // Add backgroundColor here
+              style={{ backgroundColor: "white" }} // Add backgroundColor here
             >
               <View style={styles.equipments}>
                 <ImageExpo

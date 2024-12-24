@@ -45,13 +45,13 @@ export function Header() {
       <FlatList
         data={globalFilteredAssetList}
         horizontal={true}
-        style={{ backgroundColor: "" }}
+        style={{ backgroundColor: "white" }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
               onPress={() => selectAsset(item)}
-              style={{ backgroundColor: "" }} // Add backgroundColor here
+              style={{ backgroundColor: "white" }} // Add backgroundColor here
             >
               <View
                 style={{

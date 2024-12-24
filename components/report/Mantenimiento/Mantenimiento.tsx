@@ -8,7 +8,7 @@ import {
   Platform,
 } from "react-native";
 import { connect } from "react-redux";
-import { styles } from "./Ingresos.styles";
+import { styles } from "./Mantenimiento.styles";
 import { DateScreen } from "../DateScreen/DateScreen";
 import { Modal } from "../../shared/Modal";
 import { ChangeDisplayCompany } from "../ChangeCompany/ChangeCompany";
@@ -29,9 +29,9 @@ import {
 import { Image as ImageExpo } from "expo-image";
 import { useRouter } from "expo-router";
 import OperacionDate from "../OperacionDate";
-import { Reporte } from "../HeaderReporte/headerIngreso";
+import { Reporte } from "../HeaderReporte/headerMantto";
 
-export default function Operaciones(props: any) {
+export default function Mantenimiento(props: any) {
   const [post, setPost] = useState([]);
   const [asset, setAsset] = useState("");
   console.log("post", post);
@@ -105,7 +105,7 @@ export default function Operaciones(props: any) {
           where("createdAt", "<=", endDate),
           where("emailCompany", "==", emailCompany),
           where("idFirebaseAsset", "==", asset),
-          where("tipoEvento", "==", "1. Inicio Viaje"),
+          where("tipoEvento", "==", "3. Mantenimiento"),
           limit(50)
         );
         console.log("2222222", asset);
@@ -152,8 +152,8 @@ export default function Operaciones(props: any) {
   };
 
   return (
-    <View style={{ backgroundColor: "white" }}>
-      <Text style={styles.reporteTitulo}>Control Ingresos</Text>
+    <>
+      <Text style={styles.reporteTitulo}>Historial de mantenimiento</Text>
       <Text> </Text>
       {Platform.OS === "web" && (
         <View
@@ -172,43 +172,26 @@ export default function Operaciones(props: any) {
       <Text> </Text>
       <DataTable.Header>
         <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Fecha Inicio</Text>
+          <Text style={styles.titulo2}>Fecha</Text>
         </DataTable.Title>
-        {/* <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Unidad</Text>
-        </DataTable.Title> */}
-
-        {/* <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Carga</Text>
-        </DataTable.Title> */}
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Guia Transp</Text>
-        </DataTable.Title>
-
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Kilometraje</Text>
         </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Viaje Inicio</Text>
+
+        <DataTable.Title style={styles.titulo2}>
+          <Text style={styles.titulo2}>Descripcion</Text>
+        </DataTable.Title>
+        <DataTable.Title style={styles.titulo2}>
+          <Text style={styles.titulo2}>Tipo Mantto</Text>
+        </DataTable.Title>
+
+        <DataTable.Title style={styles.titulo2}>
+          <Text style={styles.titulo2}>Cantidad de Llantas</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Viaje Fin</Text>
+          <Text style={styles.titulo3}>Repuesto</Text>
         </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Factura</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Cantidad</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Ingreso</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Conductor</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>S/. Pago</Text>
-        </DataTable.Title>
+
         <DataTable.Title style={styles.titulo3}>
           <Text style={styles.titulo3}>Acciones</Text>
         </DataTable.Title>
@@ -239,62 +222,32 @@ export default function Operaciones(props: any) {
                     {formatDate(file?.createdAt)}
                   </Text>
                 </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
-                </DataTable.Cell> */}
-                {/* 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.tipoCarga}</Text>
-                </DataTable.Cell> */}
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.guiTransportista}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.puntoInicio}</Text>
-                </DataTable.Cell>
-
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.puntoLlegada}</Text>
-                </DataTable.Cell>
-
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.numeroFactura}</Text>
-                </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {file?.cantidad} {file?.unidadMedida}
+                    {new Intl.NumberFormat("en-US").format(file?.kilometraje)}
                   </Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.moneda === "Dolares"
-                      ? "$ "
-                      : file?.moneda === "Euros"
-                      ? "EUR "
-                      : "S/. "}
-                    {new Intl.NumberFormat("en-US").format(file?.costo || 0)}{" "}
-                  </Text>
+                  <Text style={styles.shortColumn2}>{file?.comentarios}</Text>
                 </DataTable.Cell>
+
                 <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.nombreConductor?.split("@")[0]}
-                  </Text>
+                  <Text style={styles.shortColumn2}> {file?.tipoMantto}</Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {new Intl.NumberFormat("en-US").format(
-                      file?.pagoConductor || 0
-                    )}
+                    {file?.llanta?.filter((item: any) => item.selected)
+                      .length || 0}
                   </Text>
                 </DataTable.Cell>
+
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.repuesto}</Text>
+                </DataTable.Cell>
+
                 <DataTable.Cell style={styles.shortColumn2}>
                   <TouchableOpacity onPress={() => goToEditDocs(file)}>
                     <ImageExpo
@@ -303,8 +256,9 @@ export default function Operaciones(props: any) {
                       cachePolicy={"memory-disk"}
                     />
                   </TouchableOpacity>
-                  <Text>{"  .  "} </Text>{" "}
-                  {file?.numeroFactura ? (
+                  <Text>{"  .  "} </Text>
+
+                  {file?.moneda ? (
                     <ImageExpo
                       source={require("../../../assets/reportes/green.svg")}
                       style={[styles.roundImage10, { alignSelf: "center" }]}
@@ -317,13 +271,6 @@ export default function Operaciones(props: any) {
                       cachePolicy={"memory-disk"}
                     />
                   )}
-                  {/* {isExpiring && (
-                    <ImageExpo
-                      source={require("../../../assets/pictures/trafficlight-red.webp")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  )} */}
                 </DataTable.Cell>
               </DataTable.Row>
             );
@@ -333,7 +280,7 @@ export default function Operaciones(props: any) {
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
-    </View>
+    </>
   );
   //}
 }
