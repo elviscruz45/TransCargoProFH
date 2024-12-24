@@ -45,83 +45,85 @@ export default function Report(props: any) {
     (state: RootState) => state.userId.emailCompany
   );
   return (
-    <View style={{ backgroundColor: "white" }}>
-      <Text> </Text>
-      {/* <Text style={styles.reporteTitulo}>Reporte General</Text> */}
-      {/* <Text> </Text> */}
-      {user_email === emailCompany && (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "white",
-            justifyContent: "space-between",
-          }}
-        >
-          <TouchableOpacity
-            style={styles.btnContainer2}
-            onPress={() => {
-              setDocumentos(true);
-              setEgresos(false);
-              setOperaciones(false);
-              setMantenimiento(false);
+    <>
+      <View style={{ backgroundColor: "white" }}>
+        <Text> </Text>
+        {/* <Text style={styles.reporteTitulo}>Reporte General</Text> */}
+        {/* <Text> </Text> */}
+        {user_email === emailCompany && (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              // backgroundColor: "white",
+              justifyContent: "space-between",
             }}
           >
-            <ImageExpo
-              source={require("../../../assets/reportes/documentos.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btnContainer3}
-            onPress={() => {
-              setDocumentos(false);
-              setEgresos(false);
-              setOperaciones(true);
-              setMantenimiento(false);
-            }}
-          >
-            <ImageExpo
-              source={require("../../../assets/reportes/ingresos.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btnContainer4}
-            onPress={() => {
-              setDocumentos(false);
-              setEgresos(true);
-              setOperaciones(false);
-              setMantenimiento(false);
-            }}
-          >
-            <ImageExpo
-              source={require("../../../assets/reportes/egresos.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btnContainer4}
-            onPress={() => {
-              setDocumentos(false);
-              setEgresos(false);
-              setOperaciones(false);
-              setMantenimiento(true);
-            }}
-          >
-            <ImageExpo
-              source={require("../../../assets/reportes/mantto.png")}
-              style={styles.roundImageUpload}
-            />
-          </TouchableOpacity>
-        </View>
-      )}
+            <TouchableOpacity
+              style={styles.btnContainer2}
+              onPress={() => {
+                setDocumentos(true);
+                setEgresos(false);
+                setOperaciones(false);
+                setMantenimiento(false);
+              }}
+            >
+              <ImageExpo
+                source={require("../../../assets/reportes/documentos.png")}
+                style={styles.roundImageUpload}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnContainer3}
+              onPress={() => {
+                setDocumentos(false);
+                setEgresos(false);
+                setOperaciones(true);
+                setMantenimiento(false);
+              }}
+            >
+              <ImageExpo
+                source={require("../../../assets/reportes/ingresos.png")}
+                style={styles.roundImageUpload}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnContainer4}
+              onPress={() => {
+                setDocumentos(false);
+                setEgresos(true);
+                setOperaciones(false);
+                setMantenimiento(false);
+              }}
+            >
+              <ImageExpo
+                source={require("../../../assets/reportes/egresos.png")}
+                style={styles.roundImageUpload}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btnContainer4}
+              onPress={() => {
+                setDocumentos(false);
+                setEgresos(false);
+                setOperaciones(false);
+                setMantenimiento(true);
+              }}
+            >
+              <ImageExpo
+                source={require("../../../assets/reportes/mantto.png")}
+                style={styles.roundImageUpload}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
       <Text> </Text>
 
       {documentos ? <Documents /> : null}
       {operaciones ? <Operaciones /> : null}
       {egresos ? <Egresos /> : null}
       {mantenimiento ? <Mantenimiento /> : null}
-    </View>
+    </>
   );
 }

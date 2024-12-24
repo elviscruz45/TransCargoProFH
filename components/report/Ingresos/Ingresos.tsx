@@ -152,7 +152,7 @@ export default function Operaciones(props: any) {
   };
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <>
       <Text style={styles.reporteTitulo}>Control Ingresos</Text>
       <Text> </Text>
       {Platform.OS === "web" && (
@@ -333,7 +333,7 @@ export default function Operaciones(props: any) {
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
-    </View>
+    </>
   );
   //}
 }
