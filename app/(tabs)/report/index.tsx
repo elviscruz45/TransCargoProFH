@@ -46,7 +46,7 @@ export default function Report(props: any) {
   );
   return (
     <>
-      <View style={{ backgroundColor: "white" }}>
+      <View style={{ backgroundColor: "" }}>
         <Text> </Text>
         {/* <Text style={styles.reporteTitulo}>Reporte General</Text> */}
         {/* <Text> </Text> */}

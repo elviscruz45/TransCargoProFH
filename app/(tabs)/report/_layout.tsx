@@ -41,6 +41,9 @@ export default function _layout() {
         options={{
           headerShown: false,
           title: "report",
+          contentStyle: {
+            backgroundColor: "white",
+          },
           // headerRight: () => (
           //   //   <TouchableOpacity
           //   //     onPress={
