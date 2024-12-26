@@ -67,10 +67,11 @@ export default function Documents(props: any) {
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
+
   const globalAssetFileList = globalAssetList
     ?.map((item: any) => item.files)
     .flat()
-    .filter((file: any) => file !== undefined);
+    .filter((file: any) => file !== undefined && !file.deactivated);
 
   const ChartTotalnoDate = globalAssetFileList.concat(employeeFileList);
 
