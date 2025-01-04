@@ -53,7 +53,7 @@ export const styles = StyleSheet.create({
 
     marginTop: 0,
     borderRadius: 20,
-    borderWidth: 0.6,
+    borderWidth: 0.5,
   },
   textArea: {
     ...(Platform.OS === "web"
