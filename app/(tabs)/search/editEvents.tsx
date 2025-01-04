@@ -43,6 +43,7 @@ import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection"
 import { ChangeConductor } from "@/components/publish/forms/ChangeConductor/Selection";
 import { ChangeComprobante } from "@/components/publish/forms/ChangeTipoComprobante/Selection";
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
+import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
 
 export default function editEvents(props: any) {
   //global state management for the user_uid
@@ -227,6 +228,16 @@ export default function editEvents(props: any) {
         if (newData.tipoMantto) {
           updateData.tipoMantto = newData.tipoMantto;
         }
+        if (newData.precioUnitario) {
+          updateData.precioUnitario = newData.precioUnitario;
+        }
+        if (newData.facturaPagada) {
+          updateData.facturaPagada = newData.facturaPagada;
+        }
+        if (newData.fechadePago) {
+          updateData.fechadePago = newData.fechadePago;
+        }
+
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
         router.push({
@@ -290,6 +301,11 @@ export default function editEvents(props: any) {
         <ChangeMantto onClose={onCloseOpenModal} formik={formik} />
       );
     }
+    if (key === "facturaPagada") {
+      setRenderComponent(
+        <ChangePagado onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -351,12 +367,54 @@ export default function editEvents(props: any) {
           <>
             {tipoEvento === "1. Inicio Viaje" && (
               <>
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
+                      Fecha Contable
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue("fechaContable", selectedDate);
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
                 <Input
                   value={formik.values.tipoCarga}
                   label="Nombre del material de que se transporta"
                   // keyboardType="numeric"
                   onChangeText={(text) => {
                     formik.setFieldValue("tipoCarga", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.clienteNombre}
+                  label="Nombre del Cliente"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    formik.setFieldValue("clienteNombre", text);
                   }}
                 />
                 <Input
@@ -434,7 +492,7 @@ export default function editEvents(props: any) {
                   label="Cantidad de Carga"
                   keyboardType="numeric"
                   onChangeText={(text) => {
-                    const numericText = text.replace(/[^0-9]/g, "");
+                    const numericText = text.replace(/[^0-9.]/g, "");
 
                     formik.setFieldValue("cantidad", numericText);
                   }}
@@ -451,15 +509,15 @@ export default function editEvents(props: any) {
                 />
 
                 <Input
-                  value={formik.values.costo.toString()}
-                  label="Valor del Monto"
+                  value={formik.values.precioUnitario.toString()}
+                  label="Precio Unitario"
                   // placeholder="Visibilidad del evento"
                   editable={true}
                   keyboardType="numeric"
                   onChangeText={(text) => {
-                    const numericText = text.replace(/[^0-9]/g, "");
+                    const numericText = text.replace(/[^0-9.]/g, "");
 
-                    formik.setFieldValue("costo", numericText);
+                    formik.setFieldValue("precioUnitario", numericText);
                   }}
                 />
                 <Input
@@ -475,6 +533,50 @@ export default function editEvents(props: any) {
                     onPress: () => selectComponent("moneda"),
                   }}
                 />
+                <Input
+                  value={formik.values.facturaPagada}
+                  label="Factura Pagada?"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("facturaPagada"),
+                  }}
+                />
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
+                      Fecha de pago de la factura
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue("fechadePago", selectedDate);
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
                 <Input
                   value={formik?.values?.nombreConductor}
                   label="Nombre del conductor"

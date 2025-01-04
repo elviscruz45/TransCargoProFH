@@ -201,13 +201,13 @@ export default function Operaciones(props: any) {
           <Text style={styles.titulo3}>Cantidad</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Ingreso</Text>
+          <Text style={styles.titulo3}>Precio Unitario</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
           <Text style={styles.titulo3}>Conductor</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>S/. Pago</Text>
+          <Text style={styles.titulo3}>Pago</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
           <Text style={styles.titulo3}>Acciones</Text>
@@ -236,7 +236,7 @@ export default function Operaciones(props: any) {
               <DataTable.Row key={index}>
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {formatDate(file?.createdAt)}
+                    {formatDate(file?.fechacontable || file?.createdAt)}
                   </Text>
                 </DataTable.Cell>
                 {/* <DataTable.Cell style={styles.shortColumn2}>
@@ -304,7 +304,7 @@ export default function Operaciones(props: any) {
                     />
                   </TouchableOpacity>
                   <Text>{"  .  "} </Text>{" "}
-                  {file?.numeroFactura ? (
+                  {file?.facturaPagada === "Si" ? (
                     <ImageExpo
                       source={require("../../../assets/reportes/green.svg")}
                       style={[styles.roundImage10, { alignSelf: "center" }]}

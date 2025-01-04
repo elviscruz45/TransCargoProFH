@@ -50,6 +50,9 @@ export function initialValues() {
     idFirebaseAsset: "",
     idEventFirebase: "",
     tipoMantto: "",
+    precioUnitario: 0,
+    facturaPagada: "No",
+    fechadePago: new Date(),
   };
 }
 export function validationSchema() {

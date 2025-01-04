@@ -54,6 +54,9 @@ export function initialValues() {
     nombreConductor: "",
     tipoComprobante: "",
     tipoMantto: "",
+    precioUnitario: 0,
+    facturaPagada: "",
+    fechadePago: new Date(),
   };
 }
 export function validationSchema() {
