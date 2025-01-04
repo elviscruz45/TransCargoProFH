@@ -174,9 +174,9 @@ export default function Operaciones(props: any) {
         <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Fecha Inicio</Text>
         </DataTable.Title>
-        {/* <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Unidad</Text>
-        </DataTable.Title> */}
+        <DataTable.Title style={styles.titulo2}>
+          <Text style={styles.titulo2}>Cliente</Text>
+        </DataTable.Title>
 
         {/* <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Carga</Text>
@@ -207,7 +207,7 @@ export default function Operaciones(props: any) {
           <Text style={styles.titulo3}>Conductor</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Pago</Text>
+          <Text style={styles.titulo3}>S/. Pago</Text>
         </DataTable.Title>
         <DataTable.Title style={styles.titulo3}>
           <Text style={styles.titulo3}>Acciones</Text>
@@ -239,9 +239,9 @@ export default function Operaciones(props: any) {
                     {formatDate(file?.fechacontable || file?.createdAt)}
                   </Text>
                 </DataTable.Cell>
-                {/* <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
-                </DataTable.Cell> */}
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
+                </DataTable.Cell>
                 {/* 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.tipoCarga}</Text>
@@ -284,7 +284,7 @@ export default function Operaciones(props: any) {
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {file?.nombreConductor?.split("@")[0]}
+                    {file?.nombreConductor?.split(".")[0]}
                   </Text>
                 </DataTable.Cell>
 

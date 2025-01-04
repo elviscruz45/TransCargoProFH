@@ -378,7 +378,7 @@ export default function editEvents(props: any) {
                         color: "gray",
                       }}
                     >
-                      Fecha Contable
+                      Fecha de Viaje
                     </Text>
                     <Text> </Text>
                     <input
