@@ -56,15 +56,15 @@ export const styles = StyleSheet.create({
     borderWidth: 0.4,
   },
   textArea: {
-    ...(Platform.OS === "web"
-      ? {
-          height: windowWidth * 0.2,
-          width: windowWidth * 0.3,
-        }
-      : {
-          height: windowWidth * 0.2,
-          width: windowWidth * 0.55,
-        }),
+    // ...(Platform.OS === "web"
+    //   ? {
+    //       height: windowWidth * 0.2,
+    //       width: windowWidth * 0.3,
+    //     }
+    //   : {
+    //       height: windowWidth * 0.2,
+    //       width: windowWidth * 0.55,
+    //     }),
     borderColor: "black",
 
     padding: 0,

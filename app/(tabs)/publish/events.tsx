@@ -326,7 +326,7 @@ export default function events(props: any) {
     <KeyboardAwareScrollView
       style={
         Platform.OS === "web"
-          ? { backgroundColor: "white", flex: 1, paddingHorizontal: "17%" }
+          ? { backgroundColor: "white", flex: 1 }
           : { backgroundColor: "white", flex: 1 }
       } // Add backgroundColor here
       // showsVerticalScrollIndicator={false}
@@ -361,6 +361,8 @@ export default function events(props: any) {
       </View>
 
       <View style={styles.equipments}>
+        <Text> </Text>
+        <Text> </Text>
         <ImageExpo
           source={
             photoUri
@@ -369,7 +371,7 @@ export default function events(props: any) {
           }
           style={styles.postPhoto}
         />
-        <View style={{ marginHorizontal: 10 }}>
+        <View>
           <Input
             value={formik.values.tipoEvento}
             label="Tipo de Evento"
