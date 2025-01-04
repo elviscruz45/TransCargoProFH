@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
     margin: 10,
     // width: "100%",
     alignItems: "center", // Align contents vertically
+    borderRadius: 50,
   },
   image: {
     width: 50,

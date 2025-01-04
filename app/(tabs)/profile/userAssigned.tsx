@@ -221,7 +221,6 @@ export default function AssetAssigned() {
                         ? item?.assetAssigned.join(", ")
                         : "No tiene responsabilidades"
                     }
-           
                     titleStyle={styles.btnTextStyle}
                     onPress={() => SelectAssets(item.uid)}
                   />

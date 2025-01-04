@@ -34,8 +34,6 @@ import { Reporte } from "../HeaderReporte/headerIngreso";
 export default function Operaciones(props: any) {
   const [post, setPost] = useState([]);
   const [asset, setAsset] = useState("");
-  console.log("post", post);
-  console.log("assetmm", asset);
 
   //  searching
   const [searchResults, setSearchResults] = useState<any>([]);
