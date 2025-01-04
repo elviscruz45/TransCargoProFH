@@ -53,6 +53,7 @@ export function initialValues() {
     precioUnitario: 0,
     facturaPagada: "No",
     fechadePago: new Date(),
+    fechaContable: new Date(),
   };
 }
 export function validationSchema() {

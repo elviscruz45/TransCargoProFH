@@ -236,7 +236,7 @@ export default function Operaciones(props: any) {
               <DataTable.Row key={index}>
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
-                    {formatDate(file?.fechacontable || file?.createdAt)}
+                    {formatDate(file?.fechaContable || file?.createdAt)}
                   </Text>
                 </DataTable.Cell>
                 <DataTable.Cell style={styles.shortColumn2}>
