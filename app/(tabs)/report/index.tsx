@@ -46,7 +46,7 @@ export default function Report(props: any) {
   );
   return (
     <>
-      <View style={{ backgroundColor: "" }}>
+      <View style={{ backgroundColor: "", marginHorizontal: 20 }}>
         <Text> </Text>
         {/* <Text style={styles.reporteTitulo}>Reporte General</Text> */}
         {/* <Text> </Text> */}
@@ -60,7 +60,7 @@ export default function Report(props: any) {
             }}
           >
             <TouchableOpacity
-              style={styles.btnContainer2}
+              // style={styles.btnContainer2}
               onPress={() => {
                 setDocumentos(true);
                 setEgresos(false);
@@ -74,7 +74,7 @@ export default function Report(props: any) {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btnContainer3}
+              // style={styles.btnContainer3}
               onPress={() => {
                 setDocumentos(false);
                 setEgresos(false);
@@ -88,7 +88,7 @@ export default function Report(props: any) {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btnContainer4}
+              // style={styles.btnContainer4}
               onPress={() => {
                 setDocumentos(false);
                 setEgresos(true);
@@ -102,7 +102,7 @@ export default function Report(props: any) {
               />
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.btnContainer4}
+              // style={styles.btnContainer4}
               onPress={() => {
                 setDocumentos(false);
                 setEgresos(false);

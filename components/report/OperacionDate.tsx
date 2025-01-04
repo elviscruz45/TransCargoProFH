@@ -1,4 +1,4 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import { styles } from "./OperacionDate.styles";
 import { connect } from "react-redux";
@@ -77,11 +77,19 @@ export default function OperacionDate(props: any) {
     setAndroidDateEnd(true);
   };
 
+  const screenWidth = Dimensions.get("window").width;
+
   return (
     <>
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
       {Platform.OS === "web" ? (
-        <View style={[styles.row, styles.center, { alignSelf: "center" }]}>
+        <View
+          style={[
+            screenWidth > 600 ? styles.row : null,
+            styles.center,
+            { alignSelf: "center" },
+          ]}
+        >
           <Text style={{ fontSize: 18, fontWeight: "bold", color: "" }}>
             Inicio:{" "}
           </Text>
