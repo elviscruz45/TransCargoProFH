@@ -170,112 +170,119 @@ export default function Mantenimiento(props: any) {
       <Text> </Text>
       <Reporte setAsset={setAsset} />
       <Text> </Text>
-      <DataTable.Header>
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Fecha</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Kilometraje</Text>
-        </DataTable.Title>
-
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Descripcion</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Tipo Mantto</Text>
-        </DataTable.Title>
-
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Cantidad de Llantas</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Repuesto</Text>
-        </DataTable.Title>
-
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Acciones</Text>
-        </DataTable.Title>
-      </DataTable.Header>
       <ScrollView
+        horizontal={true}
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
-        <DataTable>
-          {post?.map((file: any, index: any) => {
-            const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file?.fechaVencimiento?.seconds * 1000 +
-                file?.fechaVencimiento?.nanoseconds / 1000000
-            );
+        <ScrollView
+          style={{ backgroundColor: "white" }}
+          showsVerticalScrollIndicator={true}
+        >
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Fecha</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Kilometraje</Text>
+              </DataTable.Title>
 
-            const currentDate = new Date();
-            const timeDifference = fileDate.getTime() - currentDate.getTime();
-            const isExpiring = timeDifference <= FiveDaysInMillis;
-            console.log("index", file.autor);
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Descripcion</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Tipo Mantto</Text>
+              </DataTable.Title>
 
-            const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Cantidad de Llantas</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Repuesto</Text>
+              </DataTable.Title>
 
-            return (
-              <DataTable.Row key={index}>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {formatDate(file?.createdAt)}
-                  </Text>
-                </DataTable.Cell>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Acciones</Text>
+              </DataTable.Title>
+            </DataTable.Header>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {new Intl.NumberFormat("en-US").format(file?.kilometraje)}
-                  </Text>
-                </DataTable.Cell>
+            {post?.map((file: any, index: any) => {
+              const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+              const fileDate = new Date(
+                file?.fechaVencimiento?.seconds * 1000 +
+                  file?.fechaVencimiento?.nanoseconds / 1000000
+              );
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.comentarios}</Text>
-                </DataTable.Cell>
+              const currentDate = new Date();
+              const timeDifference = fileDate.getTime() - currentDate.getTime();
+              const isExpiring = timeDifference <= FiveDaysInMillis;
+              console.log("index", file.autor);
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}> {file?.tipoMantto}</Text>
-                </DataTable.Cell>
+              const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.llanta?.filter((item: any) => item.selected)
-                      .length || 0}
-                  </Text>
-                </DataTable.Cell>
+              return (
+                <DataTable.Row key={index}>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {formatDate(file?.createdAt)}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.repuesto}</Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {new Intl.NumberFormat("en-US").format(file?.kilometraje)}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <TouchableOpacity onPress={() => goToEditDocs(file)}>
-                    <ImageExpo
-                      source={require("../../../assets/reportes/views.png")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  </TouchableOpacity>
-                  <Text>{"  .  "} </Text>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>{file?.comentarios}</Text>
+                  </DataTable.Cell>
 
-                  {file?.moneda ? (
-                    <ImageExpo
-                      source={require("../../../assets/reportes/green.svg")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  ) : (
-                    <ImageExpo
-                      source={require("../../../assets/pictures/trafficlight-red.webp")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  )}
-                </DataTable.Cell>
-              </DataTable.Row>
-            );
-          })}
-        </DataTable>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}> {file?.tipoMantto}</Text>
+                  </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.llanta?.filter((item: any) => item.selected)
+                        .length || 0}
+                    </Text>
+                  </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>{file?.repuesto}</Text>
+                  </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <TouchableOpacity onPress={() => goToEditDocs(file)}>
+                      <ImageExpo
+                        source={require("../../../assets/reportes/views.png")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    </TouchableOpacity>
+                    <Text>{"  .  "} </Text>
+
+                    {file?.moneda ? (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/green.svg")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : (
+                      <ImageExpo
+                        source={require("../../../assets/pictures/trafficlight-red.webp")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    )}
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
+          </DataTable>
+        </ScrollView>{" "}
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}

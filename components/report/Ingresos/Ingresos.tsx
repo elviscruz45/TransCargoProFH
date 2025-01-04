@@ -170,165 +170,181 @@ export default function Operaciones(props: any) {
       <Text> </Text>
       <Reporte setAsset={setAsset} />
       <Text> </Text>
-      <DataTable.Header>
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Fecha Inicio</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Cliente</Text>
-        </DataTable.Title>
-
-        {/* <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Carga</Text>
-        </DataTable.Title> */}
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Guia Transp</Text>
-        </DataTable.Title>
-
-        <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Kilometraje</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Viaje Inicio</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Viaje Fin</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Factura</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Cantidad</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Precio Unitario</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Conductor</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>S/. Pago</Text>
-        </DataTable.Title>
-        <DataTable.Title style={styles.titulo3}>
-          <Text style={styles.titulo3}>Acciones</Text>
-        </DataTable.Title>
-      </DataTable.Header>
       <ScrollView
+        horizontal={true}
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
-        <DataTable>
-          {post?.map((file: any, index: any) => {
-            const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file?.fechaVencimiento?.seconds * 1000 +
-                file?.fechaVencimiento?.nanoseconds / 1000000
-            );
+        <ScrollView
+          style={{ backgroundColor: "white" }}
+          showsVerticalScrollIndicator={true}
+        >
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Fecha Inicio</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Cliente</Text>
+              </DataTable.Title>
 
-            const currentDate = new Date();
-            const timeDifference = fileDate.getTime() - currentDate.getTime();
-            const isExpiring = timeDifference <= FiveDaysInMillis;
-            console.log("index", file.autor);
+              {/* <DataTable.Title style={styles.titulo2}>
+          <Text style={styles.titulo2}>Carga</Text>
+        </DataTable.Title> */}
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Guia Transp</Text>
+              </DataTable.Title>
 
-            const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Kilometraje</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Viaje Inicio</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Viaje Fin</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Factura</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Cantidad</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Monto Total</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Conductor</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>S/. Pago</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Acciones</Text>
+              </DataTable.Title>
+            </DataTable.Header>
 
-            return (
-              <DataTable.Row key={index}>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {formatDate(file?.fechaContable || file?.createdAt)}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
-                </DataTable.Cell>
-                {/* 
+            {post?.map((file: any, index: any) => {
+              const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+              const fileDate = new Date(
+                file?.fechaVencimiento?.seconds * 1000 +
+                  file?.fechaVencimiento?.nanoseconds / 1000000
+              );
+
+              const currentDate = new Date();
+              const timeDifference = fileDate.getTime() - currentDate.getTime();
+              const isExpiring = timeDifference <= FiveDaysInMillis;
+              console.log("index", file.autor);
+
+              const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+
+              return (
+                <DataTable.Row key={index}>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {formatDate(file?.fechaContable || file?.createdAt)}
+                    </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.clienteNombre}
+                    </Text>
+                  </DataTable.Cell>
+                  {/* 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.tipoCarga}</Text>
                 </DataTable.Cell> */}
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.guiTransportista}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.puntoInicio}</Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.guiTransportista}
+                    </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>{file?.puntoInicio}</Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.puntoLlegada}</Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.puntoLlegada}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.numeroFactura}</Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.numeroFactura}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.cantidad} {file?.unidadMedida}
-                  </Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.cantidad} {file?.unidadMedida}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.moneda === "Dolares"
-                      ? "$ "
-                      : file?.moneda === "Euros"
-                      ? "EUR "
-                      : "S/. "}
-                    {new Intl.NumberFormat("en-US").format(file?.costo || 0)}{" "}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {file?.nombreConductor?.split(".")[0]}
-                  </Text>
-                </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.moneda === "Dolares"
+                        ? "$ "
+                        : file?.moneda === "Euros"
+                        ? "EUR "
+                        : "S/. "}
+                      {new Intl.NumberFormat("en-US").format(
+                        Number(file?.precioUnitario) * Number(file?.cantidad) ||
+                          0
+                      )}{" "}
+                    </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.nombreConductor?.split(".")[0]}
+                    </Text>
+                  </DataTable.Cell>
 
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>
-                    {new Intl.NumberFormat("en-US").format(
-                      file?.pagoConductor || 0
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {new Intl.NumberFormat("en-US").format(
+                        file?.pagoConductor || 0
+                      )}
+                    </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <TouchableOpacity onPress={() => goToEditDocs(file)}>
+                      <ImageExpo
+                        source={require("../../../assets/reportes/views.png")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    </TouchableOpacity>
+                    <Text>{"  .  "} </Text>{" "}
+                    {file?.facturaPagada === "Si" ? (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/green.svg")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : (
+                      <ImageExpo
+                        source={require("../../../assets/pictures/trafficlight-red.webp")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
                     )}
-                  </Text>
-                </DataTable.Cell>
-                <DataTable.Cell style={styles.shortColumn2}>
-                  <TouchableOpacity onPress={() => goToEditDocs(file)}>
-                    <ImageExpo
-                      source={require("../../../assets/reportes/views.png")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  </TouchableOpacity>
-                  <Text>{"  .  "} </Text>{" "}
-                  {file?.facturaPagada === "Si" ? (
-                    <ImageExpo
-                      source={require("../../../assets/reportes/green.svg")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  ) : (
-                    <ImageExpo
-                      source={require("../../../assets/pictures/trafficlight-red.webp")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  )}
-                  {/* {isExpiring && (
+                    {/* {isExpiring && (
                     <ImageExpo
                       source={require("../../../assets/pictures/trafficlight-red.webp")}
                       style={[styles.roundImage10, { alignSelf: "center" }]}
                       cachePolicy={"memory-disk"}
                     />
                   )} */}
-                </DataTable.Cell>
-              </DataTable.Row>
-            );
-          })}
-        </DataTable>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
+          </DataTable>
+        </ScrollView>
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
