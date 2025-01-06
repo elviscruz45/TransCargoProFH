@@ -211,6 +211,9 @@ export default function Operaciones(props: any) {
                 <Text style={styles.titulo3}>Comp Tipo</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Numero Doc</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Acciones</Text>
               </DataTable.Title>
             </DataTable.Header>
@@ -276,7 +279,11 @@ export default function Operaciones(props: any) {
                       {file?.tipoComprobante}
                     </Text>
                   </DataTable.Cell>
-
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.numeroFactura}
+                    </Text>
+                  </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
                     <TouchableOpacity onPress={() => goToEditDocs(file)}>
                       <ImageExpo
