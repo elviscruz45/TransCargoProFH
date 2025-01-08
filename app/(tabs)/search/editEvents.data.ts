@@ -48,7 +48,7 @@ export function initialValues() {
     companyName: "",
     idFirebaseAsset: "",
     idEventFirebase: "",
-    fechaContable: new Date(),
+    fechaContable: "",
     //pago conductor
     pagoConductor: 0,
     nombreConductor: "",
