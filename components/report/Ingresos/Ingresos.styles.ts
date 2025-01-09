@@ -136,6 +136,13 @@ export const styles = StyleSheet.create({
     // margin: 5,
     alignSelf: "flex-end",
   },
+  roundImage11: {
+    width: 20,
+    height: 20,
+    // borderRadius: 20,
+    // margin: 5,
+    alignSelf: "flex-end",
+  },
   shortColumn1: {
     flex: 0.77, // Adjust the value as per your requirement for the width
     maxWidth: 200, // Adjust the maxWidth as per your requirement
@@ -146,6 +153,7 @@ export const styles = StyleSheet.create({
     // // fontSize: 18,
     alignSelf: "center",
     textAlign: "left",
+    width: 150,
   },
   multiLineColumn: {
     flex: 2,

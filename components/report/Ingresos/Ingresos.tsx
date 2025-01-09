@@ -178,6 +178,9 @@ export default function Operaciones(props: any) {
       <Text> </Text>
       <ScrollView
         horizontal={true}
+        contentContainerStyle={{
+          minWidth: "100%", // Ensure it fills the entire width
+        }}
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
@@ -185,7 +188,7 @@ export default function Operaciones(props: any) {
           style={{ backgroundColor: "white" }}
           showsVerticalScrollIndicator={true}
         >
-          <DataTable>
+          <DataTable style={{ width: "100%" }}>
             <DataTable.Header>
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Placa</Text>
@@ -229,10 +232,10 @@ export default function Operaciones(props: any) {
                 <Text style={styles.titulo3}>S/. Pago</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Acciones</Text>
+                <Text style={styles.titulo3}>Viajando</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Estado de Viaje</Text>
+                <Text style={styles.titulo3}>Acciones</Text>
               </DataTable.Title>
             </DataTable.Header>
 
@@ -335,6 +338,21 @@ export default function Operaciones(props: any) {
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
+                    {file?.enViaje === "Si" ? (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-on.png")}
+                        style={[styles.roundImage11, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-off.png")}
+                        style={[styles.roundImage11, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    )}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
                     <TouchableOpacity onPress={() => goToEditDocs(file)}>
                       <ImageExpo
                         source={require("../../../assets/reportes/views.png")}
@@ -352,21 +370,6 @@ export default function Operaciones(props: any) {
                     ) : (
                       <ImageExpo
                         source={require("../../../assets/pictures/trafficlight-red.webp")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    )}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    {file?.enViaje === "Si" ? (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/truck-on.png")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    ) : (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/truck-off.png")}
                         style={[styles.roundImage10, { alignSelf: "center" }]}
                         cachePolicy={"memory-disk"}
                       />

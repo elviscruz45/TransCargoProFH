@@ -146,6 +146,7 @@ export const styles = StyleSheet.create({
     // // fontSize: 18,
     alignSelf: "center",
     textAlign: "left",
+    width: 200,
   },
   multiLineColumn: {
     flex: 2,

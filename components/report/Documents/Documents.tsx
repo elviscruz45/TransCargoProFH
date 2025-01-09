@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from "react-native";
 import { connect } from "react-redux";
 import { styles } from "./Documents.styles";
@@ -191,14 +192,19 @@ export default function Documents(props: any) {
       <Text> </Text>
       <ScrollView
         horizontal={true}
-        style={{ backgroundColor: "white" }} // Add backgroundColor here
+        contentContainerStyle={{
+          minWidth: "100%", // Ensure it fills the entire width
+        }}
+        style={{
+          backgroundColor: "white",
+        }} // Add backgroundColor here
         showsVerticalScrollIndicator={Platform.OS === "web" ? true : false}
       >
         <ScrollView
           style={{ backgroundColor: "white" }}
           showsVerticalScrollIndicator={true}
         >
-          <DataTable>
+          <DataTable style={{ width: "100%" }}>
             <DataTable.Header>
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Nombre / Area</Text>
