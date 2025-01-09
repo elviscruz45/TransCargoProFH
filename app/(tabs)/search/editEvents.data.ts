@@ -57,6 +57,7 @@ export function initialValues() {
     precioUnitario: 0,
     facturaPagada: "",
     fechadePago: "",
+    enViaje: "",
   };
 }
 export function validationSchema() {

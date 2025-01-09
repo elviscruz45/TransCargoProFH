@@ -44,6 +44,7 @@ import { ChangeConductor } from "@/components/publish/forms/ChangeConductor/Sele
 import { ChangeComprobante } from "@/components/publish/forms/ChangeTipoComprobante/Selection";
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
 import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
+import { ChangeEnViaje } from "@/components/publish/forms/ChangeEnViaje/Selection";
 
 export default function editEvents(props: any) {
   //global state management for the user_uid
@@ -237,6 +238,9 @@ export default function editEvents(props: any) {
         if (newData.fechadePago) {
           updateData.fechadePago = newData.fechadePago;
         }
+        if (newData.enViaje) {
+          updateData.enViaje = newData.enViaje;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
@@ -304,6 +308,11 @@ export default function editEvents(props: any) {
     if (key === "facturaPagada") {
       setRenderComponent(
         <ChangePagado onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+    if (key === "enViaje") {
+      setRenderComponent(
+        <ChangeEnViaje onClose={onCloseOpenModal} formik={formik} />
       );
     }
     onCloseOpenModal();
@@ -478,6 +487,18 @@ export default function editEvents(props: any) {
                     formik.setFieldValue("puntoLlegada", text);
                   }}
                 />
+
+                <Input
+                  value={formik.values.enViaje}
+                  label="Estoy Viajando?"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("enViaje"),
+                  }}
+                />
+
                 <Input
                   value={formik.values.numeroFactura.toString()}
                   label="Numero de Factura"

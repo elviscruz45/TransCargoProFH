@@ -9,12 +9,9 @@ import { useState } from "react";
 
 export function Reporte({ setAsset }: any) {
   const [selected, setSelected] = useState("");
-
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
   );
-
-  console.log("globalAssetList", globalAssetList);
 
   const globalFilteredAssetList = globalAssetList?.filter(
     (item: any) =>

@@ -95,29 +95,37 @@ export default function Operaciones(props: any) {
     let q;
     if (startDate && endDate) {
       async function fetchData() {
-        console.log("11111111");
-        q = query(
-          collection(db, "Events"),
-          orderBy("createdAt", "desc"),
-          where("createdAt", ">=", startDate),
-          where("createdAt", "<=", endDate),
-          where("emailCompany", "==", emailCompany),
-          where("idFirebaseAsset", "==", asset),
-          where("tipoEvento", "==", "1. Inicio Viaje"),
-          limit(50)
-        );
-        console.log("2222222", asset);
+        if (asset === "") {
+          q = query(
+            collection(db, "Events"),
+            orderBy("createdAt", "desc"),
+            where("createdAt", ">=", startDate),
+            where("createdAt", "<=", endDate),
+            where("emailCompany", "==", emailCompany),
+            where("tipoEvento", "==", "1. Inicio Viaje"),
+            limit(1000)
+          );
+        } else {
+          q = query(
+            collection(db, "Events"),
+            orderBy("createdAt", "desc"),
+            where("createdAt", ">=", startDate),
+            where("createdAt", "<=", endDate),
+            where("emailCompany", "==", emailCompany),
+            where("idFirebaseAsset", "==", asset),
+            where("tipoEvento", "==", "1. Inicio Viaje"),
+            limit(50)
+          );
+        }
 
         try {
           const querySnapshot = await getDocs(q);
           const lista: any = [];
-          console.log("33333333");
 
           querySnapshot.forEach((doc) => {
             const dataschema = {
               ...doc.data(),
             };
-            console.log("4444444");
 
             lista.push(dataschema);
           });
@@ -180,6 +188,9 @@ export default function Operaciones(props: any) {
           <DataTable>
             <DataTable.Header>
               <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Placa</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Fecha Inicio</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo2}>
@@ -220,6 +231,9 @@ export default function Operaciones(props: any) {
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Acciones</Text>
               </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Estado de Viaje</Text>
+              </DataTable.Title>
             </DataTable.Header>
 
             {post?.map((file: any, index: any) => {
@@ -239,8 +253,12 @@ export default function Operaciones(props: any) {
               return (
                 <DataTable.Row key={index}>
                   <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
+                  </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>
-                      {formatDate(file?.fechaContable || file?.createdAt)}
+                      {formatDate(file?.fechaContable)}
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
@@ -316,7 +334,7 @@ export default function Operaciones(props: any) {
                         cachePolicy={"memory-disk"}
                       />
                     </TouchableOpacity>
-                    <Text>{"  .  "} </Text>{" "}
+                    <Text>{"  .  "} </Text>
                     {file?.facturaPagada === "Si" ? (
                       <ImageExpo
                         source={require("../../../assets/reportes/green.svg")}
@@ -330,13 +348,21 @@ export default function Operaciones(props: any) {
                         cachePolicy={"memory-disk"}
                       />
                     )}
-                    {/* {isExpiring && (
-                    <ImageExpo
-                      source={require("../../../assets/pictures/trafficlight-red.webp")}
-                      style={[styles.roundImage10, { alignSelf: "center" }]}
-                      cachePolicy={"memory-disk"}
-                    />
-                  )} */}
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    {file?.enViaje === "Si" ? (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-on.png")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-off.png")}
+                        style={[styles.roundImage10, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    )}
                   </DataTable.Cell>
                 </DataTable.Row>
               );

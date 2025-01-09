@@ -130,8 +130,8 @@ export const styles = StyleSheet.create({
     // fontWeight: "bold",
   },
   roundImage10: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     borderRadius: 20,
     // margin: 5,
     alignSelf: "flex-end",
