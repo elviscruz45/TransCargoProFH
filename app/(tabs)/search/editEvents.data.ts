@@ -58,6 +58,7 @@ export function initialValues() {
     facturaPagada: "",
     fechadePago: "",
     enViaje: "",
+    igv: 0,
   };
 }
 export function validationSchema() {

@@ -271,7 +271,11 @@ export default function Operaciones(props: any) {
                         : file?.moneda === "Euros"
                         ? " EUR "
                         : " S/."}{" "}
-                      {new Intl.NumberFormat("en-US").format(file?.costo || 0)}{" "}
+                      {new Intl.NumberFormat("en-US").format(
+                        Number(file?.costo) + Number(file?.igv) ||
+                          Number(file?.costo) ||
+                          0
+                      )}{" "}
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>

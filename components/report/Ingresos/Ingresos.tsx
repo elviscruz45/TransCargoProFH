@@ -246,9 +246,9 @@ export default function Operaciones(props: any) {
               const currentDate = new Date();
               const timeDifference = fileDate.getTime() - currentDate.getTime();
               const isExpiring = timeDifference <= FiveDaysInMillis;
-              console.log("index", file.autor);
 
               const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+              console.log("index", file);
 
               return (
                 <DataTable.Row key={index}>
@@ -308,8 +308,16 @@ export default function Operaciones(props: any) {
                         ? "EUR "
                         : "S/. "}
                       {new Intl.NumberFormat("en-US").format(
-                        Number(file?.precioUnitario) * Number(file?.cantidad) ||
-                          0
+                        Number(
+                          (
+                            Number(file?.precioUnitario) *
+                              Number(file?.cantidad) +
+                              Number(file?.igv) ||
+                            Number(file?.precioUnitario) *
+                              Number(file?.cantidad) ||
+                            0
+                          ).toFixed(2)
+                        )
                       )}{" "}
                     </Text>
                   </DataTable.Cell>
@@ -375,7 +383,6 @@ export default function Operaciones(props: any) {
       </Modal>
     </>
   );
-  //}
 }
 
 const formatDate = (dateInput: any) => {

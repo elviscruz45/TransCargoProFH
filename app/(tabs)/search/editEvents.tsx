@@ -241,6 +241,9 @@ export default function editEvents(props: any) {
         if (newData.enViaje) {
           updateData.enViaje = newData.enViaje;
         }
+        if (newData.igv) {
+          updateData.igv = newData.igv;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
@@ -552,6 +555,17 @@ export default function editEvents(props: any) {
                     color: "#c2c2c2",
                     name: "clipboard-list-outline",
                     onPress: () => selectComponent("moneda"),
+                  }}
+                />
+                <Input
+                  value={formik.values.igv.toString()}
+                  label="IGV"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    const numericText = text.replace(/[^0-9.]/g, "");
+                    formik.setFieldValue("igv", numericText);
                   }}
                 />
                 <Input
