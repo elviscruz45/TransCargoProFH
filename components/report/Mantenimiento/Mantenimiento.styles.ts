@@ -121,6 +121,7 @@ export const styles = StyleSheet.create({
     // color: "",
     // // fontSize: 18,
     // fontWeight: "600",
+    width: 200,
   },
   titulo3: {
     // flex: 0.45,

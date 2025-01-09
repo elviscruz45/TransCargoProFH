@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { uploadTires } from "../../slices/publish";
 
-export default function Volquete() {
+export default function Volquete(tipo: any) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [tires, setTires] = useState([
@@ -42,6 +42,7 @@ export default function Volquete() {
     { value: 20, selected: false },
     { value: 21, selected: false },
     { value: 22, selected: false },
+    tipo,
   ]);
 
   const onPressAceptar = (): void => {

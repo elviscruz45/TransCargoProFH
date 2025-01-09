@@ -150,6 +150,8 @@ export default function Comment() {
     }
   };
   const arrayLlanta = post?.llanta.filter((item: any) => item.selected);
+  const llantaTipo = post?.llanta[post?.llanta?.length - 1]?.tipo;
+  console.log("llantaTipo111111111111", llantaTipo);
   //this function goes to homeTab=>commentScreen
   const editEvent = (item: any) => {
     router.push({
@@ -364,7 +366,34 @@ export default function Comment() {
             arrayLlanta?.map((item: any, index: any) => (
               <Text key={index}>Llanta N: {item.value}, </Text>
             ))}
+          <Text>{"  "}</Text>
+          {arrayLlanta && arrayLlanta?.length > 0 && (
+            <ImageExpo
+              source={
+                llantaTipo === "Tracto"
+                  ? require("../../../assets/reportes/Tracto.png")
+                  : llantaTipo === "Tracto balon"
+                  ? require("../../../assets/reportes/Tracto_balon.png")
+                  : llantaTipo === "Carroceria 3 ejes"
+                  ? require("../../../assets/reportes/Carroceria_3_ejes.png")
+                  : llantaTipo === "Carroceria 3 ejes balon"
+                  ? require("../../../assets/reportes/Carroceria_3_ejes_balon.png")
+                  : llantaTipo === "Auto"
+                  ? require("../../../assets/reportes/Auto.png")
+                  : llantaTipo === "Pick Up"
+                  ? require("../../../assets/reportes/Pick_Up.png")
+                  : llantaTipo === "Van"
+                  ? require("../../../assets/reportes/Van.png")
+                  : llantaTipo === "Volquete"
+                  ? require("../../../assets/reportes/Volquete.png")
+                  : require("../../../assets/reportes/Tracto.png")
+              }
+              style={styles.diagrama}
+              cachePolicy={"memory-disk"}
+            />
+          )}
         </View>
+        <Text> </Text>
 
         <Text> </Text>
 

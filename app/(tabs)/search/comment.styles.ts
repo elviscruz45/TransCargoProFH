@@ -93,6 +93,22 @@ export const styles = StyleSheet.create({
     borderWidth: 0.1,
     alignSelf: "center",
   },
+  diagrama: {
+    ...(Platform.OS === "web"
+      ? {
+          height: windowWidth * 0.2,
+          width: windowWidth * 0.2,
+        }
+      : {
+          height: windowWidth * 0.98,
+          width: windowWidth * 0.98,
+        }),
+
+    marginTop: 0,
+    borderRadius: 10,
+    borderWidth: 0.1,
+    alignSelf: "center",
+  },
   container2: {
     flex: 1,
     alignItems: "center",

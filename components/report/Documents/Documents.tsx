@@ -236,16 +236,16 @@ export default function Documents(props: any) {
 
               return (
                 <DataTable.Row key={index}>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
+                  <DataTable.Cell style={styles.column1}>
+                    <Text style={styles.column1}>
                       {file?.placa ||
                         file?.nombre ||
                         file?.email ||
                         file?.pdfFileURL}
                     </Text>
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>{file?.tipoFile}</Text>
+                  <DataTable.Cell style={styles.column2}>
+                    <Text style={styles.column2}>{file?.tipoFile}</Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>

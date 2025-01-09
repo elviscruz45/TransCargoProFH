@@ -35,23 +35,23 @@ export default function tires() {
 
   const renderVehiculo =
     tipo === "Tracto" ? (
-      <Tires_tracto />
+      <Tires_tracto tipo={tipo} />
     ) : tipo === "Pick Up" ? (
-      <Pickup />
+      <Pickup tipo={tipo} />
     ) : tipo === "Tracto balon" ? (
-      <Tires_tracto_balon />
+      <Tires_tracto_balon tipo={tipo} />
     ) : tipo === "Carroceria 3 ejes" ? (
-      <Tires_carreta_3_ejes />
+      <Tires_carreta_3_ejes tipo={tipo} />
     ) : tipo === "Carroceria 3 ejes balon" ? (
-      <Tires_carreta_3ejesbalon />
+      <Tires_carreta_3ejesbalon tipo={tipo} />
     ) : tipo === "Auto" ? (
-      <Auto />
+      <Auto tipo={tipo} />
     ) : tipo === "Van" ? (
-      <Van />
+      <Van tipo={tipo} />
     ) : tipo === "Volquete" ? (
-      <Volquete />
+      <Volquete tipo={tipo} />
     ) : (
-      <Tires_tracto />
+      <Tires_tracto tipo={tipo} />
     );
 
   const selectComponent = (key: string) => {

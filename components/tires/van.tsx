@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { uploadTires } from "../../slices/publish";
 
-export default function Van() {
+export default function Van(tipo: any) {
   const dispatch = useDispatch();
   const router = useRouter();
   const [tires, setTires] = useState([
@@ -42,6 +42,7 @@ export default function Van() {
     { value: 20, selected: false },
     { value: 21, selected: false },
     { value: 22, selected: false },
+    tipo,
   ]);
   const onPressAceptar = (): void => {
     dispatch(uploadTires(tires));

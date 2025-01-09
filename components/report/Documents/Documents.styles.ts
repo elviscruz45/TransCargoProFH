@@ -154,6 +154,17 @@ export const styles = StyleSheet.create({
     alignSelf: "center",
     textAlign: "left",
   },
+  column1: {
+    alignSelf: "center",
+    textAlign: "left",
+    width: 100,
+  },
+  column2: {
+    alignSelf: "center",
+    textAlign: "left",
+    width: 500,
+  },
+
   multiLineColumn: {
     flex: 2,
     alignSelf: "center",
