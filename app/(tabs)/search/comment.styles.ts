@@ -100,8 +100,8 @@ export const styles = StyleSheet.create({
           width: windowWidth * 0.2,
         }
       : {
-          height: windowWidth * 0.98,
-          width: windowWidth * 0.98,
+          height: windowWidth * 0.5,
+          width: windowWidth * 0.5,
         }),
 
     marginTop: 0,
