@@ -63,6 +63,8 @@ interface Post {
   guiTransportista?: string;
   pdfPrincipal?: string;
   FilenameTitle?: string;
+  pdfPrincipal2?: string;
+  FilenameTitle2?: string;
 
   // Add other properties of the post object here if needed
 }
@@ -381,7 +383,17 @@ export default function Comment() {
             </Text>
           </TouchableOpacity>
         )}
-
+        <Text> </Text>
+        {post?.pdfPrincipal2 && (
+          <TouchableOpacity
+            style={{ paddingHorizontal: 9 }}
+            onPress={() => uploadFile(post?.pdfPrincipal2 as string)}
+          >
+            <Text style={[styles.avanceNombre, { color: "blue" }]}>
+              {post?.FilenameTitle2}
+            </Text>
+          </TouchableOpacity>
+        )}
         <Text> </Text>
         <Text> </Text>
         <Text> </Text>

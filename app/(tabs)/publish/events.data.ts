@@ -32,9 +32,6 @@ export function initialValues() {
     clienteNombre: "",
     tipoComprobante: "",
     moneda: "",
-    pdfFile: "",
-    FilenameTitle: "",
-    pdfPrincipal: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: new Date().toISOString(),
@@ -54,6 +51,13 @@ export function initialValues() {
     facturaPagada: "No",
     fechadePago: new Date(),
     fechaContable: new Date(),
+    // pdf
+    pdfFile: "",
+    FilenameTitle: "",
+    pdfPrincipal: "",
+    pdfFile2: "",
+    FilenameTitle2: "",
+    pdfPrincipal2: "",
   };
 }
 export function validationSchema() {

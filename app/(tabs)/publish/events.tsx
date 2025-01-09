@@ -93,6 +93,8 @@ export default function events(props: any) {
   );
 
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
+  const [shortNameFileUpdated2, setShortNameFileUpdated2] = useState("");
+
   //algorith to pick a pdf File to attach to the event
   const pickDocument = async () => {
     try {
@@ -106,6 +108,28 @@ export default function events(props: any) {
         formik.setFieldValue("FilenameTitle", result?.assets[0]?.name);
       } else {
         setShortNameFileUpdated("");
+      }
+    } catch (err) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al adjuntar el documento",
+      });
+    }
+  };
+
+  const pickDocument2 = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        // type: "application/pdf",
+        copyToCacheDirectory: false,
+      });
+      if (result.assets) {
+        setShortNameFileUpdated2(result?.assets[0]?.name);
+        formik.setFieldValue("pdfFile2", result?.assets[0]?.uri);
+        formik.setFieldValue("FilenameTitle2", result?.assets[0]?.name);
+      } else {
+        setShortNameFileUpdated2("");
       }
     } catch (err) {
       Toast.show({
@@ -170,7 +194,7 @@ export default function events(props: any) {
         const formattedDate = `${day} ${month} ${year}  ${hour}:${minute} Hrs`;
         newData.emailCompany = emailCompany || "Anonimo";
 
-        //manage the file updated to ask for aprovals
+        //manage the file 1
         let imageUrlPDF;
         if (newData.pdfFile) {
           const snapshotPDF = await uploadPdf(
@@ -185,6 +209,22 @@ export default function events(props: any) {
 
         newData.pdfPrincipal = imageUrlPDF || "";
         newData.pdfFile = "";
+
+        //manage the file 2
+        let imageUrlPDF2;
+        if (newData.pdfFile2) {
+          const snapshotPDF2 = await uploadPdf(
+            newData.pdfFile2,
+            newData.FilenameTitle2,
+            newData.fechaPostFormato,
+            newData.emailCompany
+          );
+          const imagePathPDF2 = snapshotPDF2?.metadata.fullPath ?? "";
+          imageUrlPDF2 = await getDownloadURL(ref(getStorage(), imagePathPDF2));
+        }
+
+        newData.pdfPrincipal2 = imageUrlPDF2 || "";
+        newData.pdfFile2 = "";
 
         // upload the photo or an pickimage to firebase Storage
         const snapshot = await uploadImage(photoUri, newData.emailCompany);
@@ -822,6 +862,19 @@ export default function events(props: any) {
             name: "arrow-right-circle-outline",
             onPress: () => {
               pickDocument();
+            },
+          }}
+        />
+        <Input
+          value={shortNameFileUpdated2}
+          placeholder="Adjuntar PDF 2"
+          multiline={true}
+          editable={false}
+          rightIcon={{
+            type: "material-community",
+            name: "arrow-right-circle-outline",
+            onPress: () => {
+              pickDocument2();
             },
           }}
         />

@@ -60,6 +60,7 @@ export default function editEvents(props: any) {
   //----------------------------------------------------------------------------------
   const [showModal, setShowModal] = useState(false);
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
+  const [shortNameFileUpdated2, setShortNameFileUpdated2] = useState("");
 
   const [renderComponent, setRenderComponent] =
     useState<React.ReactElement | null>(null);
@@ -89,6 +90,29 @@ export default function editEvents(props: any) {
       });
     }
   };
+
+  const pickDocument2 = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        // type: "application/pdf",
+        copyToCacheDirectory: false,
+      });
+      if (result.assets) {
+        setShortNameFileUpdated2(result?.assets[0]?.name);
+        formik.setFieldValue("pdfFile2", result?.assets[0]?.uri);
+        formik.setFieldValue("FilenameTitle2", result?.assets[0]?.name);
+      } else {
+        setShortNameFileUpdated2("");
+      }
+    } catch (err) {
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "Error al adjuntar el documento",
+      });
+    }
+  };
+
   useEffect(() => {
     dispatch(uploadTires([]));
   }, []);
@@ -189,7 +213,7 @@ export default function editEvents(props: any) {
           updateData.clienteNombre = newData.clienteNombre;
         }
 
-        //manage the file updated to ask for aprovals
+        //manage the file 1
         let imageUrlPDF;
         if (newData.pdfFile) {
           const snapshotPDF = await uploadPdf(
@@ -211,7 +235,29 @@ export default function editEvents(props: any) {
         if (newData.pdfPrincipal) {
           updateData.pdfPrincipal = newData.pdfPrincipal;
         }
+        //manage the file 2
+        let imageUrlPDF2;
+        if (newData.pdfFile2) {
+          const snapshotPDF2 = await uploadPdf(
+            newData.pdfFile2,
+            newData.FilenameTitle2,
+            fechaPostFormato,
+            emailCompany as string
+          );
+          const imagePathPDF2 = snapshotPDF2?.metadata.fullPath ?? "";
+          imageUrlPDF2 = await getDownloadURL(ref(getStorage(), imagePathPDF2));
+        }
 
+        newData.pdfPrincipal2 = imageUrlPDF2 || "";
+        newData.pdfFile2 = "";
+
+        if (newData.FilenameTitle2) {
+          updateData.FilenameTitle2 = newData.FilenameTitle2;
+        }
+        if (newData.pdfPrincipal2) {
+          updateData.pdfPrincipal2 = newData.pdfPrincipal2;
+        }
+        //continua ...
         if (newData.descripcionGasto) {
           updateData.descripcionGasto = newData.descripcionGasto;
         }
@@ -853,6 +899,19 @@ export default function editEvents(props: any) {
                 name: "arrow-right-circle-outline",
                 onPress: () => {
                   pickDocument();
+                },
+              }}
+            />
+            <Input
+              value={shortNameFileUpdated2}
+              placeholder="Adjuntar PDF 2"
+              multiline={true}
+              editable={false}
+              rightIcon={{
+                type: "material-community",
+                name: "arrow-right-circle-outline",
+                onPress: () => {
+                  pickDocument2();
                 },
               }}
             />

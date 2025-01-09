@@ -31,9 +31,7 @@ export function initialValues() {
     clienteRUC: "",
     clienteNombre: "",
     moneda: "",
-    pdfFile: "",
-    FilenameTitle: "",
-    pdfPrincipal: "",
+
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: "",
@@ -59,6 +57,13 @@ export function initialValues() {
     fechadePago: "",
     enViaje: "",
     igv: 0,
+    // pdf
+    pdfFile: "",
+    FilenameTitle: "",
+    pdfPrincipal: "",
+    pdfFile2: "",
+    FilenameTitle2: "",
+    pdfPrincipal2: "",
   };
 }
 export function validationSchema() {
