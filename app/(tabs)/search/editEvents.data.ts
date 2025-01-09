@@ -8,7 +8,7 @@ export function initialValues() {
     combustible: "",
     facturacionFlete: "",
     pagoServicios: "",
-    llanta: [],
+    llanta: "",
     costoTotalRepuesto: "",
     repuesto: "",
     costoMantenimiento: "",
@@ -36,10 +36,10 @@ export function initialValues() {
     pdfPrincipal: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
-    fechaPostISO: new Date().toISOString(),
+    fechaPostISO: "",
     fotoPrincipal: "",
-    createdAt: new Date(),
-    LastEventPosted: new Date(),
+    createdAt: "",
+    LastEventPosted: "",
     photoProfileURL: "",
     emailPerfil: "",
     emailCompany: "",
@@ -56,7 +56,7 @@ export function initialValues() {
     tipoMantto: "",
     precioUnitario: 0,
     facturaPagada: "",
-    fechadePago: new Date(),
+    fechadePago: "",
   };
 }
 export function validationSchema() {
