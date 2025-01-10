@@ -282,6 +282,25 @@ export default function Mantenimiento(props: any) {
               );
             })}
           </DataTable>
+          <Text> </Text>
+          <Text> </Text>
+
+          {/* <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+            Reporte Excel
+          </Text> */}
+          <TouchableOpacity
+            onPress={() => getExcelReportData("Mantenimientos", post)}
+          >
+            <Text> </Text>
+
+            <ImageExpo
+              source={require("../../../assets/pictures/excel2.png")}
+              style={styles.excel}
+            />
+            <Text> </Text>
+          </TouchableOpacity>
+          <Text> </Text>
+          <Text> </Text>
         </ScrollView>{" "}
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>

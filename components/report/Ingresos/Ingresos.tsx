@@ -89,8 +89,8 @@ export default function Operaciones(props: any) {
     setStartDate(datewithNoFilter);
     setEndDate(new Date());
   };
-  // trayendo data
 
+  // trayendo data
   useEffect(() => {
     let q;
     if (startDate && endDate) {
@@ -157,9 +157,25 @@ export default function Operaciones(props: any) {
     }
   };
 
+  const montoTotal = post.reduce((acc: any, item: any) => {
+    console.log("item", item.moneda);
+    const monto =
+      item?.moneda === "Dolares"
+        ? Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 +
+            Number(item?.igv) * 3.7 ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 ||
+          0
+        : Number(item?.precioUnitario) * Number(item?.cantidad) +
+            Number(item?.igv) ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) ||
+          0;
+
+    return acc + monto;
+  }, 0);
+
   return (
     <>
-      <Text style={styles.reporteTitulo}>Control Ingresos</Text>
+      <Text style={styles.reporteTitulo}>Control de Ingresos</Text>
       <Text> </Text>
       {Platform.OS === "web" && (
         <View
@@ -379,6 +395,35 @@ export default function Operaciones(props: any) {
               );
             })}
           </DataTable>
+          <Text> </Text>
+          <Text> </Text>
+          <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+            Ingreso Total S/.{" "}
+            {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
+          </Text>{" "}
+          <TouchableOpacity
+            onPress={() => getExcelReportData("Control de Ingresos", post)}
+          >
+            <Text> </Text>
+
+            <ImageExpo
+              source={require("../../../assets/pictures/excel2.png")}
+              style={styles.excel}
+            />
+            <Text> </Text>
+          </TouchableOpacity>
+          <Text> </Text>
+          <Text
+            style={{
+              marginLeft: 15,
+              fontWeight: "black",
+              fontSize: 10,
+            }}
+          >
+            Tasa de Cambio 3.7 soles = 1 dolar
+          </Text>
+          <Text> </Text>
+          <Text> </Text>
         </ScrollView>
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>

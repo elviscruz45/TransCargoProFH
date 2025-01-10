@@ -74,7 +74,10 @@ interface EventDetails {
   // User type
   userType: string;
 }
-export const getExcelReportData = async (datas: EventDetails[] = []) => {
+export const getExcelReportData = async (
+  titulo: string,
+  datas: EventDetails[] = []
+) => {
   // const querySnapshot = collection(db, "ServiciosAIT");
   const post_array: any = [];
 
@@ -115,6 +118,44 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
       Ubicacion: `https://www.google.com/maps?q=${data?.ubicacion?.coords?.latitude},${data?.ubicacion?.coords?.longitude}`,
       Tipo_de_Usuario: data.userType || "Unknown",
       Archivo_adjunto: data.pdfPrincipal || "", // Attached file
+      //neuvos campo
+
+      // Campos de facturación y pagos
+      Facturacion_Flete: data?.facturacionFlete || "", // Facturación del flete
+      Pago_Servicios: data?.pagoServicios || "", // Pagos por servicios prestados
+      Costo_Total_Repuesto: data?.costoTotalRepuesto || 0, // Costo total de repuestos
+      Costo_Mantenimiento: data?.costoMantenimiento || 0, // Costo de mantenimiento
+
+      // Información del conductor y pagos
+      Pago_Conductor: data?.pagoConductor || 0, // Monto pagado al conductor
+      Nombre_Conductor: data?.nombreConductor || "", // Nombre del conductor
+
+      // Detalles técnicos
+      Tipo_Mantenimiento: data?.tipoMantto || "", // Tipo de mantenimiento realizado
+      Precio_Unitario: data?.precioUnitario || 0, // Precio por unidad
+
+      // Estado de facturación
+      Factura_Pagada: data?.facturaPagada || "", // Estado de pago de la factura
+      Fecha_de_Pago: data?.fechadePago || "", // Fecha cuando se realizó el pago
+      En_Viaje: data?.enViaje || "", // Indica si está en viaje
+      IGV: data?.igv || 0, // Impuesto General a las Ventas
+
+      // Información de la compañía
+      Nombre_Compania: data?.companyName || "", // Nombre de la empresa
+      Email_Compania: data?.emailCompany || "", // Email de la empresa
+
+      // Documentación adicional
+      PDF_Archivo2: data?.pdfFile2 || "", // URL del segundo archivo PDF
+      Nombre_Archivo2: data?.FilenameTitle2 || "", // Nombre del segundo archivo
+
+      // Identificadores únicos
+      ID_Firebase_Asset: data?.idFirebaseAsset || "", // ID del activo en Firebase
+      ID_Event_Firebase: data?.idEventFirebase || "", // ID del evento en Firebase
+      Fecha_Contable: data?.fechaContable || "", // Fecha para contabilidad
+
+      // Información del perfil
+      Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
+      Ultimo_Evento: data?.LastEventPosted || "",
     };
     post_array.push(table);
   });
@@ -123,7 +164,7 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
 
   const worksheet = XLSX.utils.json_to_sheet(post_array);
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  XLSX.utils.book_append_sheet(workbook, worksheet, titulo);
   const excelFileBuffer = XLSX.write(workbook, {
     type: "array",
     bookType: "xlsx",
@@ -134,11 +175,11 @@ export const getExcelReportData = async (datas: EventDetails[] = []) => {
     const blob = new Blob([excelFileBuffer], {
       type: "application/octet-stream",
     });
-    saveAs(blob, "dataset.xlsx");
+    saveAs(blob, "ReporteTransCargoPro.xlsx");
   } else {
     // Native platforms: use expo-file-system and expo-sharing
     const base64String = Buffer.from(excelFileBuffer).toString("base64");
-    const fileUri = `${FileSystem.cacheDirectory}dataset.xlsx`;
+    const fileUri = `${FileSystem.cacheDirectory}ReporteTransCargoPro.xlsx`;
 
     try {
       await FileSystem.writeAsStringAsync(fileUri, base64String, {

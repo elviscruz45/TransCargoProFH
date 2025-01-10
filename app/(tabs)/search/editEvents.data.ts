@@ -31,7 +31,6 @@ export function initialValues() {
     clienteRUC: "",
     clienteNombre: "",
     moneda: "",
-
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
     fechaPostISO: "",

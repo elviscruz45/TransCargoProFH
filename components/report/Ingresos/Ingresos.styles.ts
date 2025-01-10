@@ -43,7 +43,8 @@ export const styles = StyleSheet.create({
   excel: {
     width: 40,
     height: 40,
-    alignSelf: "center",
+    marginLeft: 10,
+    // alignSelf: "center",
     flexDirection: "row",
     // marginLeft: windowWidth * 0.4,
   },
