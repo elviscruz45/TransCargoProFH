@@ -91,7 +91,7 @@ export const getExcelReportData = async (
 
     const table = {
       Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
-      Fecha_Contable: formatDate(data?.fechaContable) || "", // Fecha para contabilidad
+      Fecha_Contable: formatDateContable(data?.fechaContable) || "", // Fecha para contabilidad
       NombreAsset: data?.nombreAsset || "Unknown asset", // Asset name
       Placa: data?.placa || "", // License plate number
       Carroceria: data?.carroceria || "", // Bodywork
@@ -231,6 +231,6 @@ const formatDateContable = (dateInput: any) => {
   const year = date.getFullYear();
   const hour = date.getHours();
   const minute = date.getMinutes();
-  const formattedDate = `${day} ${month} ${year}  `;
+  const formattedDate = `${day}/${month}/${year}  `;
   return formattedDate;
 };
