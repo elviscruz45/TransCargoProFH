@@ -91,6 +91,7 @@ export const getExcelReportData = async (
 
     const table = {
       Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
+      Fecha_Contable: formatDate(data?.fechaContable) || "", // Fecha para contabilidad
       NombreAsset: data?.nombreAsset || "Unknown asset", // Asset name
       Placa: data?.placa || "", // License plate number
       Carroceria: data?.carroceria || "", // Bodywork
@@ -151,7 +152,6 @@ export const getExcelReportData = async (
       // Identificadores únicos
       ID_Firebase_Asset: data?.idFirebaseAsset || "", // ID del activo en Firebase
       ID_Event_Firebase: data?.idEventFirebase || "", // ID del evento en Firebase
-      Fecha_Contable: data?.fechaContable || "", // Fecha para contabilidad
 
       // Información del perfil
       Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
@@ -204,3 +204,33 @@ function formatDate(timestamp: any) {
   // Format the date as dd/mm/yyyy
   return `${day}/${month}/${year}`;
 }
+
+const formatDateContable = (dateInput: any) => {
+  const { seconds, nanoseconds } = dateInput || {
+    seconds: 0,
+    nanoseconds: 0,
+  };
+  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(milliseconds);
+  const monthNames = [
+    "ene.",
+    "feb.",
+    "mar.",
+    "abr.",
+    "may.",
+    "jun.",
+    "jul.",
+    "ago.",
+    "sep.",
+    "oct.",
+    "nov.",
+    "dic.",
+  ];
+  const day = date.getDate();
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+  const hour = date.getHours();
+  const minute = date.getMinutes();
+  const formattedDate = `${day} ${month} ${year}  `;
+  return formattedDate;
+};
