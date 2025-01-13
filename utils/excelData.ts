@@ -213,18 +213,18 @@ const formatDateContable = (dateInput: any) => {
   const milliseconds = seconds * 1000 + nanoseconds / 1000000;
   const date = new Date(milliseconds);
   const monthNames = [
-    "ene.",
-    "feb.",
-    "mar.",
-    "abr.",
-    "may.",
-    "jun.",
-    "jul.",
-    "ago.",
-    "sep.",
-    "oct.",
-    "nov.",
-    "dic.",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
   ];
   const day = date.getDate();
   const month = monthNames[date.getMonth()];
