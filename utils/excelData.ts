@@ -103,6 +103,7 @@ export const getExcelReportData = async (
       Punto_Inicio: data.puntoInicio || "", // Starting point
       Punto_Llegada: data.puntoLlegada || "", // Destination
       Cliente_RUC: data.clienteRUC || "", // Customer RUC
+      Cliente_Nombre: data.clienteNombre || "", // Customer name
       Numero_Factura: data.numeroFactura || "", // Invoice number
       Guia_Transportista: data.guiTransportista || "", // Transport guide
       Guia_Remitente: data.guiaRemitente || "", // Sender guide

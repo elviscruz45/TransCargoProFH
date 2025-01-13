@@ -9,6 +9,7 @@ export function initialValues() {
     fechaPostFormato: "",
     fechaVencimiento: new Date(),
     autor: "",
+    nombre: "",
   };
 }
 

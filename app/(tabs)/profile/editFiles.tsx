@@ -24,7 +24,6 @@ import { ChangeDate } from "../../../components/publish/forms/ChangeDates/Change
 import { formatdate, CurrentFormatDate } from "../../../utils/formats";
 
 export default function EditDocs() {
-
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
@@ -42,6 +41,9 @@ export default function EditDocs() {
   const currentEmployee: any = employeesList.find(
     (user: any) => user.uid === uidDoc
   );
+
+  const currentUserNameDoc = currentEmployee?.email.split("@")[0];
+
   const files = currentEmployee?.files;
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
@@ -62,6 +64,7 @@ export default function EditDocs() {
         newData.fechaPostFormato = CurrentFormatDate(); //ok
         newData.autor = email; //ok
         newData.tipoFile = tipoFile; //ok
+        newData.nombre = currentUserNameDoc;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
@@ -84,7 +87,6 @@ export default function EditDocs() {
         if (indexToUpdate !== -1) {
           // Replace the object at the found index with the new object
           newFileListToUpdate[indexToUpdate] = newData;
-
         } else {
           console.log("Object with age 28 not found in the list.");
         }
