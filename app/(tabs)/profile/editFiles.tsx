@@ -43,6 +43,8 @@ export default function EditDocs() {
   );
 
   const currentUserNameDoc = currentEmployee?.email.split("@")[0];
+  const usuarioIDCurrent = currentEmployee?.uid;
+  console.log("usuarioIDCurrentEDITT", uidDoc);
 
   const files = currentEmployee?.files;
 
@@ -65,6 +67,7 @@ export default function EditDocs() {
         newData.autor = email; //ok
         newData.tipoFile = tipoFile; //ok
         newData.nombre = currentUserNameDoc;
+        newData.idFirebase = uidDoc;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;

@@ -46,7 +46,8 @@ export default function AddDocs() {
     (user: any) => user.uid === item
   );
   const currentUserNameDoc = currentEmployee?.email.split("@")[0];
-  console.log("11111---currentUserNameDoc", currentUserNameDoc);
+  const usuarioIDCurrent = currentEmployee?.uid;
+  console.log("usuarioIDCurrent", usuarioIDCurrent);
 
   const files = currentEmployee?.files;
 
@@ -80,6 +81,7 @@ export default function AddDocs() {
         newData.fechaPostFormato = CurrentFormatDate();
         newData.autor = email;
         newData.nombre = currentUserNameDoc;
+        newData.idFirebase = usuarioIDCurrent;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;

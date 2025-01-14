@@ -142,9 +142,15 @@ export default function Documents(props: any) {
   const router = useRouter();
 
   const goToEditDocs = (item: any) => {
-    console.log("item", item, item.idAssetFirebase, item.autor);
+    console.log("item", item?.idAssetFirebase, item.idFirebase, item.autor);
 
-    if (item?.idAssetFirebase || !item?.autor.includes("@")) {
+    if (
+      item?.idAssetFirebase ||
+      item?.pdfFileURL?.includes(".") ||
+      item?.nombre?.includes(".") ||
+      item.autor
+    ) {
+      console.log("entrad");
       router.push({
         pathname:
           item?.pdfFileURL?.includes(".") || item?.nombre?.includes(".")
@@ -152,7 +158,7 @@ export default function Documents(props: any) {
             : "/search/editFiles",
         params: {
           tipoFile: item?.tipoFile,
-          uidDoc: item?.idAssetFirebase || item?.autor,
+          uidDoc: item?.idAssetFirebase || item?.idFirebase || item?.autor,
           FilenameTitle: item?.FilenameTitle,
           fechaPostFormato: item?.fechaPostFormato,
         },

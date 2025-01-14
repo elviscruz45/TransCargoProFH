@@ -10,6 +10,7 @@ export function initialValues() {
     fechaVencimiento: new Date(),
     autor: "",
     nombre: "",
+    idFirebase: "",
   };
 }
 
