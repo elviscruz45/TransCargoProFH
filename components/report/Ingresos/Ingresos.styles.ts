@@ -164,6 +164,16 @@ export const styles = StyleSheet.create({
     textAlign: "left",
     width: 150,
   },
+  shortColumn3: {
+    // flex: 1, // Adjust the value as per your requirement for the width
+    // color: "",
+    // // fontSize: 18,
+    alignSelf: "center",
+    textAlign: "left",
+    width: 150,
+    color: "red",
+    fontWeight: "bold",
+  },
   multiLineColumn: {
     flex: 2,
     alignSelf: "center",

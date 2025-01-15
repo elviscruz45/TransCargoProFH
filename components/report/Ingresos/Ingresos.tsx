@@ -230,6 +230,10 @@ export default function Operaciones(props: any) {
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Kilometraje</Text>
               </DataTable.Title>
+
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Prox Preventivo</Text>
+              </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Viaje Inicio</Text>
               </DataTable.Title>
@@ -275,7 +279,17 @@ export default function Operaciones(props: any) {
               const isExpiring = timeDifference <= FiveDaysInMillis;
 
               const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
-              console.log("index", file);
+
+              const proxManttoPreventivo = [
+                file?.cambioAceiteProx,
+                file?.cambioAceiteCajaProx,
+                file?.cambioAceiteDifProx,
+                file?.cambioHidrolinaProx,
+                file?.cambioRefrigeranteProx,
+                file?.cambioFiltrosProx,
+              ];
+              const proxKilometrajeMantto = Math.min(...proxManttoPreventivo);
+              console.log("proxKilometrajeMantto", proxKilometrajeMantto);
 
               return (
                 <DataTable.Row key={index}>
@@ -325,7 +339,29 @@ export default function Operaciones(props: any) {
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
+                    <Text style={styles.shortColumn2}>
+                      {new Intl.NumberFormat("en-US").format(file?.kilometraje)}
+                    </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text
+                      style={
+                        Number(proxKilometrajeMantto) -
+                          Number(file?.kilometraje) >
+                        1000
+                          ? styles.shortColumn2
+                          : styles.shortColumn3
+                      }
+                    >
+                      {new Intl.NumberFormat("en-US").format(
+                        Number(
+                          (
+                            Number(proxKilometrajeMantto) -
+                              Number(file?.kilometraje) || 0
+                          ).toFixed(2)
+                        )
+                      )}
+                    </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>{file?.puntoInicio}</Text>
