@@ -183,20 +183,62 @@ export default function Item() {
 
           {currentAsset?.tipoActivo === "Equipo / Activo" && (
             <>
-              <Text style={styles.info}>
+              {/* <Text style={styles.info}>
                 {"Placa:"} {currentAsset?.placa}
-              </Text>
+              </Text> */}
               {/* <Text style={styles.info}>{"Tipo:"} sdfd</Text> */}
               <Text style={styles.info}>
-                {"Kilometraje:"}
-                {currentAsset?.kilometraje} {"Km"}
+                {"Kilometraje: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.kilometraje)
+                )}{" "}
+                {"Km"}
               </Text>
+              <Text>---------------------</Text>
               <Text style={styles.info}>
-                {"Cambio aceite Prox:"}
-                {currentAsset?.cambioAceiteProx}
+                {"Cambio Aceite Motor Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioAceiteProx)
+                )}
                 {" Km"}
               </Text>
-              <Text style={[styles.info, { color: "blue" }]}>
+              <Text style={styles.info}>
+                {"Cambio Aceite Caja Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioAceiteCajaProx)
+                )}
+                {" Km"}
+              </Text>{" "}
+              <Text style={styles.info}>
+                {"Cambio Aceite Diferencial Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioAceiteDifProx)
+                )}
+                {" Km"}
+              </Text>{" "}
+              <Text style={styles.info}>
+                {"Cambio Aceite Freno Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioHidrolinaProx)
+                )}
+                {" Km"}
+              </Text>{" "}
+              <Text style={styles.info}>
+                {"Cambio Refrigerante Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioRefrigeranteProx)
+                )}
+                {" Km"}
+              </Text>
+              <Text style={styles.info}>
+                {"Cambio Filtro Aire Prox: "}
+                {new Intl.NumberFormat("en-US").format(
+                  Number(currentAsset?.cambioFiltrosProx)
+                )}
+                {" Km"}
+              </Text>
+              <Text>---------------------</Text>
+              {/* <Text style={[styles.info, { color: "blue" }]}>
                 {"Gasto Combustible:"} {currentAsset?.gastoCombustible} {"Gls"}
               </Text>
               <Text style={styles.info}>
@@ -204,7 +246,6 @@ export default function Item() {
                 {currentAsset?.redimientoCombustible}
                 {"Gls/Km"}
               </Text>
-
               <Text style={styles.info}>
                 {"Facturacion a la fecha:"} {"S/."}
                 {currentAsset?.facturacionFleteYTD}
@@ -214,7 +255,7 @@ export default function Item() {
               </Text>
               <Text style={styles.info}>
                 {"Gastos a la fecha:"} {"S/."} {currentAsset?.gastosTotalYTD}
-              </Text>
+              </Text> */}
             </>
           )}
         </View>

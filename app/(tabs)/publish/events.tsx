@@ -241,6 +241,15 @@ export default function events(props: any) {
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
 
+        //Kilometraje de mantenimiento
+        newData.kilometrajeMantto = currentAsset?.kilometraje;
+        newData.cambioAceiteProx = currentAsset?.cambioAceiteProx;
+        newData.cambioAceiteCajaProx = currentAsset?.cambioAceiteCajaProx;
+        newData.cambioAceiteDifProx = currentAsset?.cambioAceiteDifProx;
+        newData.cambioHidrolinaProx = currentAsset?.cambioHidrolinaProx;
+        newData.cambioRefrigeranteProx = currentAsset?.cambioRefrigeranteProx;
+        newData.cambioFiltrosProx = currentAsset?.cambioFiltrosProx;
+
         //Photo Events
         newData.userType = userType;
 

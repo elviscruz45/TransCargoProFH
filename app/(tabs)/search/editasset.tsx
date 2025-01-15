@@ -72,6 +72,24 @@ export default function EditAsset(props: any) {
         if (newData?.kilometraje) {
           updateData.kilometraje = newData.kilometraje;
         }
+        if (newData?.cambioAceiteProx) {
+          updateData.cambioAceiteProx = newData.cambioAceiteProx;
+        }
+        if (newData?.cambioAceiteCajaProx) {
+          updateData.cambioAceiteCajaProx = newData.cambioAceiteCajaProx;
+        }
+        if (newData?.cambioAceiteDifProx) {
+          updateData.cambioAceiteDifProx = newData.cambioAceiteDifProx;
+        }
+        if (newData?.cambioHidrolinaProx) {
+          updateData.cambioHidrolinaProx = newData.cambioHidrolinaProx;
+        }
+        if (newData?.cambioRefrigeranteProx) {
+          updateData.cambioRefrigeranteProx = newData.cambioRefrigeranteProx;
+        }
+        if (newData?.cambioFiltrosProx) {
+          updateData.cambioFiltrosProx = newData.cambioFiltrosProx;
+        }
         if (newData?.numeroChasis) {
           updateData.numeroChasis = newData.numeroChasis;
         }

@@ -60,6 +60,14 @@ export function initialValues() {
     pdfPrincipal2: "",
     //
     igv: 0,
+    //kilometraje
+    kilometrajeMantto: "",
+    cambioAceiteProx: "",
+    cambioAceiteCajaProx: "",
+    cambioAceiteDifProx: "",
+    cambioHidrolinaProx: "",
+    cambioRefrigeranteProx: "",
+    cambioFiltrosProx: "",
   };
 }
 export function validationSchema() {

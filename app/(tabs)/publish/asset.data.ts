@@ -7,6 +7,7 @@ export function initialValues() {
     reporte: "",
     //informacion personal
     dni: "",
+
     //informacion activo
     placa: "",
     fechaFabricacion: "",
@@ -14,7 +15,7 @@ export function initialValues() {
     numeroMotor: "",
     marca: "",
     modelo: "",
-    kilometraje: "",
+    // kilometraje: "",
     numeroChasis: "",
     //datos Vehiculo
     claseVehiculo: "",
@@ -29,6 +30,7 @@ export function initialValues() {
     carroceria: "",
     ejes: "",
     //activo Calculos
+    kilometraje: "",
     gastoCombustible: null,
     cambioAceiteProx: null,
     cambioAceiteCajaProx: "",
@@ -37,7 +39,6 @@ export function initialValues() {
     cambioRefrigeranteProx: "",
     cambioFiltrosProx: "",
     //
-
     redimientoCombustible: "",
     facturacionFleteYTD: "",
     cantidadServiciosYTD: "",

@@ -239,6 +239,9 @@ export default function Operaciones(props: any) {
                 <Text style={styles.titulo3}>Cantidad</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>PU</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Monto Total</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
@@ -316,6 +319,19 @@ export default function Operaciones(props: any) {
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>
                       {file?.cantidad} {file?.unidadMedida}
+                    </Text>
+                  </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {file?.moneda === "Dolares"
+                        ? "$ "
+                        : file?.moneda === "Euros"
+                        ? "EUR "
+                        : "S/. "}
+                      {new Intl.NumberFormat("en-US").format(
+                        Number((Number(file?.precioUnitario) || 0).toFixed(2))
+                      )}{" "}
                     </Text>
                   </DataTable.Cell>
 
