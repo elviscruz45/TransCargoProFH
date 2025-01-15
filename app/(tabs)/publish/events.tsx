@@ -51,6 +51,7 @@ import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedid
 import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection";
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
 import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
+import { ChangeIgv } from "@/components/publish/forms/ChangeIgv/Selection";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -323,6 +324,12 @@ export default function events(props: any) {
       );
     }
 
+    if (key === "igv") {
+      setRenderComponent(
+        <ChangeIgv onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -552,7 +559,6 @@ export default function events(props: any) {
               keyboardType="numeric"
               onChangeText={(text) => {
                 const numericText = text.replace(/[^0-9.]/g, "");
-
                 formik.setFieldValue("cantidad", numericText);
               }}
             />
@@ -590,6 +596,19 @@ export default function events(props: any) {
                 color: "#c2c2c2",
                 name: "clipboard-list-outline",
                 onPress: () => selectComponent("moneda"),
+              }}
+            />
+            <Input
+              value={formik.values.igv.toString()}
+              label="IGV"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              keyboardType="numeric"
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("igv"),
               }}
             />
             <Input
@@ -813,7 +832,8 @@ export default function events(props: any) {
               }}
             />
 
-            {formik.values.tipoMantto === "Cambio de Llanta" && (
+            {(formik.values.tipoMantto === "Cambio de Llanta" ||
+              formik.values.tipoMantto === "Reparacion de Llanta") && (
               <Input
                 value={
                   tires.length !== 0 ? "Formulario llenado" : "Formulario vacio"
@@ -841,7 +861,7 @@ export default function events(props: any) {
 
             <Input
               value={formik.values.repuesto.toString()}
-              label="Repuesto"
+              label="Repuesto o Consumible"
               // placeholder="Visibilidad del evento"
               editable={true}
               onChangeText={(text) => {

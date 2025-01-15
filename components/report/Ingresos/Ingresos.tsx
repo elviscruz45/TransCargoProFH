@@ -98,9 +98,9 @@ export default function Operaciones(props: any) {
         if (asset === "") {
           q = query(
             collection(db, "Events"),
-            orderBy("createdAt", "desc"),
-            where("createdAt", ">=", startDate),
-            where("createdAt", "<=", endDate),
+            orderBy("fechaContable", "desc"),
+            where("fechaContable", ">=", startDate),
+            where("fechaContable", "<=", endDate),
             where("emailCompany", "==", emailCompany),
             where("tipoEvento", "==", "1. Inicio Viaje"),
             limit(1000)
@@ -108,9 +108,9 @@ export default function Operaciones(props: any) {
         } else {
           q = query(
             collection(db, "Events"),
-            orderBy("createdAt", "desc"),
-            where("createdAt", ">=", startDate),
-            where("createdAt", "<=", endDate),
+            orderBy("fechaContable", "desc"),
+            where("fechaContable", ">=", startDate),
+            where("fechaContable", "<=", endDate),
             where("emailCompany", "==", emailCompany),
             where("idFirebaseAsset", "==", asset),
             where("tipoEvento", "==", "1. Inicio Viaje"),
@@ -330,8 +330,8 @@ export default function Operaciones(props: any) {
                         Number(
                           (
                             Number(file?.precioUnitario) *
-                              Number(file?.cantidad) +
-                              Number(file?.igv) ||
+                              Number(file?.cantidad) *
+                              Number(1 + file?.igv / 100) ||
                             Number(file?.precioUnitario) *
                               Number(file?.cantidad) ||
                             0

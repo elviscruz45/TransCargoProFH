@@ -117,8 +117,15 @@ export interface UpdateDataType {
   carroceria?: any;
   ejes?: any;
   //activo Calculos
-  gastoCombustible?: any;
-  cambioAceiteProx?: any;
+  gastoCombustible: null;
+  cambioAceiteProx: null;
+  cambioAceiteCajaProx: "";
+  cambioAceiteDifProx: "";
+  cambioHidrolinaProx: "";
+  cambioRefrigeranteProx: "";
+  cambioFiltrosProx: "";
+  //
+
   redimientoCombustible?: any;
   facturacionFleteYTD?: any;
   cantidadServiciosYTD?: any;

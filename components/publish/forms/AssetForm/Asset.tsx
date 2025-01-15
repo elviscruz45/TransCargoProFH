@@ -9,7 +9,7 @@ import { SelectReporte } from "../Reporte/Tipo";
 
 import { formatdate } from "../../../../utils/formats";
 
-export function AssetForm({ formik, setNombre, action }: any) {
+export function AssetForm({ formik, setNombre, action, tipoActivoEdit }: any) {
   const [renderComponent, setRenderComponent] = useState<ReactNode>(null);
 
   //open or close modal
@@ -75,162 +75,218 @@ export function AssetForm({ formik, setNombre, action }: any) {
           </>
         )}
 
-        {(formik?.values?.tipoActivo === "Equipo / Activo" ||
-          action === "toEdit") && (
-          <>
-            <Text style={styles.subtitleForm}>Informacion Activo</Text>
-            <Text> </Text>
+        {formik?.values?.tipoActivo === "Equipo / Activo" ||
+          (action === "toEdit" && tipoActivoEdit === "Equipo / Activo" && (
+            <>
+              <Text style={styles.subtitleForm}>Informacion Activo</Text>
+              <Text> </Text>
 
-            <Input
-              label="Placa Vehicular"
-              value={formik.values?.placa?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("placa", text);
-              }}
-            />
+              <Input
+                label="Placa Vehicular"
+                value={formik.values?.placa?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("placa", text);
+                }}
+              />
 
-            <Input
-              label="Fecha de Fabricacion"
-              keyboardType="numeric"
-              value={formik.values?.fechaFabricacion?.toString() ?? ""}
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
+              <Input
+                label="Fecha de Fabricacion"
+                keyboardType="numeric"
+                value={formik.values?.fechaFabricacion?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
 
-                formik.setFieldValue("fechaFabricacion", numericText);
-              }}
-            />
-            <Input
-              label="Categoria de Vehiculo"
-              value={formik.values?.categoriaVehiculo?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("categoriaVehiculo", text);
-              }}
-            />
-            <Input
-              label="Numero de Motor"
-              value={formik.values?.numeroMotor?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("numeroMotor", text);
-              }}
-            />
-            <Input
-              label="Marca"
-              value={formik.values?.marca?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("marca", text);
-              }}
-            />
-            <Input
-              label="Modelo"
-              value={formik.values?.modelo?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("modelo", text);
-              }}
-            />
-            <Input
-              label="Kilometraje"
-              value={formik.values?.kilometraje?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("kilometraje", text);
-              }}
-            />
-            <Input
-              label="Numero Serie Chasis"
-              value={formik.values?.numeroChasis?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("numeroChasis", text);
-              }}
-            />
-            <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
-            <Text> </Text>
-            <Input
-              label="Clase De Vehiculo"
-              value={formik.values?.claseVehiculo?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("claseVehiculo", text);
-              }}
-            />
-            <Input
-              label="Potencia de Motor"
-              value={formik.values?.potencia?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("potencia", text);
-              }}
-            />
-            <Input
-              label="Tipo Combustible"
-              value={formik.values?.tipoCombustible?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("tipoCombustible", text);
-              }}
-            />
-            <Input
-              label="Numero de Serie"
-              value={formik.values?.numeroSerie?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("numeroSerie", text);
-              }}
-            />
-            <Input
-              label="Peso Neto (Kg)"
-              keyboardType="numeric"
-              value={formik.values?.pesoNeto?.toString() ?? ""}
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
+                  formik.setFieldValue("fechaFabricacion", numericText);
+                }}
+              />
+              <Input
+                label="Categoria de Vehiculo"
+                value={formik.values?.categoriaVehiculo?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("categoriaVehiculo", text);
+                }}
+              />
+              <Input
+                label="Numero de Motor"
+                value={formik.values?.numeroMotor?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("numeroMotor", text);
+                }}
+              />
+              <Input
+                label="Marca"
+                value={formik.values?.marca?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("marca", text);
+                }}
+              />
+              <Input
+                label="Modelo"
+                value={formik.values?.modelo?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("modelo", text);
+                }}
+              />
+              <Input
+                label="Kilometraje"
+                value={formik.values?.kilometraje?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
 
-                formik.setFieldValue("pesoNeto", numericText);
-              }}
-            />
-            <Input
-              label="Carga Util (Kg)"
-              keyboardType="numeric"
-              value={formik.values?.cargaUtil?.toString() ?? ""}
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
+                  formik.setFieldValue("kilometraje", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de Aceite Motor Proximo"
+                value={formik.values?.cambioAceiteProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
 
-                formik.setFieldValue("cargaUtil", numericText);
-              }}
-            />
-            <Input
-              label="Peso Bruto (Kg)"
-              keyboardType="numeric"
-              value={formik.values?.pesoBruto?.toString() ?? ""}
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
+                  formik.setFieldValue("cambioAceiteProx", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de Aceite Caja Proximo"
+                value={formik.values?.cambioAceiteCajaProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
 
-                formik.setFieldValue("pesoBruto", numericText);
-              }}
-            />
-            <Input
-              label="Dimensiones (LxAxA) (m)"
-              value={formik.values?.dimensiones?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("dimensiones", text);
-              }}
-            />
-            <Input
-              label="Color"
-              value={formik.values?.color?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("color", text);
-              }}
-            />
-            <Input
-              label="Carroceria remolcador"
-              value={formik.values?.carroceria?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("carroceria", text);
-              }}
-            />
-            <Input
-              label="Ejes"
-              value={formik.values?.ejes?.toString() ?? ""}
-              onChangeText={(text) => {
-                formik.setFieldValue("ejes", text);
-              }}
-            />
-          </>
-        )}
+                  formik.setFieldValue("cambioAceiteCajaProx", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de Aceite de Diferencial Proximo"
+                value={formik.values?.cambioAceiteDifProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("cambioAceiteDifProx", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de liquido de frenos Proximo"
+                value={formik.values?.cambioHidrolinaProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+                  formik.setFieldValue("cambioHidrolinaProx", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de refrigerante"
+                value={formik.values?.cambioRefrigeranteProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("cambioRefrigeranteProx", numericText);
+                }}
+              />
+              <Input
+                label="Cambio de Filtro de Aire Proximo"
+                value={formik.values?.cambioFiltrosProx?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("cambioFiltrosProx", numericText);
+                }}
+              />
+
+              <Input
+                label="Numero Serie Chasis"
+                value={formik.values?.numeroChasis?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("numeroChasis", text);
+                }}
+              />
+              <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
+              <Text> </Text>
+              <Input
+                label="Clase De Vehiculo"
+                value={formik.values?.claseVehiculo?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("claseVehiculo", text);
+                }}
+              />
+              <Input
+                label="Potencia de Motor"
+                value={formik.values?.potencia?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("potencia", text);
+                }}
+              />
+              <Input
+                label="Tipo Combustible"
+                value={formik.values?.tipoCombustible?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("tipoCombustible", text);
+                }}
+              />
+              <Input
+                label="Numero de Serie"
+                value={formik.values?.numeroSerie?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("numeroSerie", text);
+                }}
+              />
+              <Input
+                label="Peso Neto (Kg)"
+                keyboardType="numeric"
+                value={formik.values?.pesoNeto?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("pesoNeto", numericText);
+                }}
+              />
+              <Input
+                label="Carga Util (Kg)"
+                keyboardType="numeric"
+                value={formik.values?.cargaUtil?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("cargaUtil", numericText);
+                }}
+              />
+              <Input
+                label="Peso Bruto (Kg)"
+                keyboardType="numeric"
+                value={formik.values?.pesoBruto?.toString() ?? ""}
+                onChangeText={(text) => {
+                  const numericText = text.replace(/[^0-9]/g, "");
+
+                  formik.setFieldValue("pesoBruto", numericText);
+                }}
+              />
+              <Input
+                label="Dimensiones (LxAxA) (m)"
+                value={formik.values?.dimensiones?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("dimensiones", text);
+                }}
+              />
+              <Input
+                label="Color"
+                value={formik.values?.color?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("color", text);
+                }}
+              />
+              <Input
+                label="Carroceria remolcador"
+                value={formik.values?.carroceria?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("carroceria", text);
+                }}
+              />
+              <Input
+                label="Ejes"
+                value={formik.values?.ejes?.toString() ?? ""}
+                onChangeText={(text) => {
+                  formik.setFieldValue("ejes", text);
+                }}
+              />
+            </>
+          ))}
       </View>
 
       <Modal show={showModal} close={onCloseOpenModal}>

@@ -45,6 +45,7 @@ import { ChangeComprobante } from "@/components/publish/forms/ChangeTipoComproba
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
 import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
 import { ChangeEnViaje } from "@/components/publish/forms/ChangeEnViaje/Selection";
+import { ChangeIgv } from "@/components/publish/forms/ChangeIgv/Selection";
 
 export default function editEvents(props: any) {
   //global state management for the user_uid
@@ -364,6 +365,13 @@ export default function editEvents(props: any) {
         <ChangeEnViaje onClose={onCloseOpenModal} formik={formik} />
       );
     }
+
+    if (key === "igv") {
+      setRenderComponent(
+        <ChangeIgv onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+
     onCloseOpenModal();
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -609,9 +617,11 @@ export default function editEvents(props: any) {
                   // placeholder="Visibilidad del evento"
                   editable={true}
                   keyboardType="numeric"
-                  onChangeText={(text) => {
-                    const numericText = text.replace(/[^0-9.]/g, "");
-                    formik.setFieldValue("igv", numericText);
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("igv"),
                   }}
                 />
                 <Input
@@ -848,7 +858,8 @@ export default function editEvents(props: any) {
                   }}
                 />
 
-                {formik.values.tipoMantto === "Cambio de Llanta" && (
+                {(formik.values.tipoMantto === "Cambio de Llanta" ||
+                  formik.values.tipoMantto === "Reparacion de Llanta") && (
                   <Input
                     value={
                       tires.length !== 0
@@ -878,7 +889,7 @@ export default function editEvents(props: any) {
 
                 <Input
                   value={formik.values.repuesto.toString()}
-                  label="Repuesto"
+                  label="Repuesto o Consumible"
                   // placeholder="Visibilidad del evento"
                   editable={true}
                   onChangeText={(text) => {

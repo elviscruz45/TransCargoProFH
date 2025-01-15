@@ -121,10 +121,11 @@ export default function Item() {
       async function fetchData() {
         q = query(
           collection(db, "Events"),
-          orderBy("createdAt", "desc"),
-          where("createdAt", ">=", startDate),
-          where("createdAt", "<=", endDate),
+          orderBy("fechaContable", "desc"),
+          where("fechaContable", ">=", startDate),
+          where("fechaContable", "<=", endDate),
           where("emailCompany", "==", emailCompany),
+          where("tipoEvento", "!=", "2. Egreso"),
           where("idFirebaseAsset", "==", item)
         );
 

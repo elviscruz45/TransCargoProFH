@@ -16,7 +16,7 @@ import { db } from "../../../utils/firebase";
 import { doc, updateDoc } from "firebase/firestore";
 
 export default function EditAsset(props: any) {
-  const { item, action }: any = useLocalSearchParams();
+  const { item, action, tipoActivoEdit }: any = useLocalSearchParams();
   const router = useRouter();
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
@@ -266,6 +266,7 @@ export default function EditAsset(props: any) {
         setActivo={setActivo}
         setNombre={setNombre}
         action={action}
+        tipoActivoEdit={tipoActivoEdit}
       />
 
       <Button

@@ -58,6 +58,8 @@ export function initialValues() {
     pdfFile2: "",
     FilenameTitle2: "",
     pdfPrincipal2: "",
+    //
+    igv: 0,
   };
 }
 export function validationSchema() {

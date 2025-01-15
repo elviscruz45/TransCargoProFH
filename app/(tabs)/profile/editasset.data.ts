@@ -30,6 +30,13 @@ export function initialValues() {
     //activo Calculos
     gastoCombustible: null,
     cambioAceiteProx: null,
+    cambioAceiteCajaProx: "",
+    cambioAceiteDifProx: "",
+    cambioHidrolinaProx: "",
+    cambioRefrigeranteProx: "",
+    cambioFiltrosProx: "",
+    //
+    
     redimientoCombustible: null,
     facturacionFleteYTD: null,
     cantidadServiciosYTD: null,

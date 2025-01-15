@@ -42,7 +42,7 @@ export const GanttHistorial = (props: any) => {
       // contentContainerStyle={props.listViewContainerStyle}
       data={datas}
       renderItem={({ item, index }) => {
-        const timestampData = item.createdAt;
+        const timestampData = item?.fechaContable;
         const timestampInMilliseconds =
           timestampData?.seconds * 1000 + timestampData?.nanoseconds / 1000000;
         const date = new Date(timestampInMilliseconds); // Function to get the abbreviated month name
@@ -140,7 +140,7 @@ export const GanttHistorial = (props: any) => {
           </View>
         );
       }}
-      keyExtractor={(item, index) => `${index}-${item.createdAt}`}
+      keyExtractor={(item, index) => `${index}-${item.fechaContable}`}
     />
   );
 };

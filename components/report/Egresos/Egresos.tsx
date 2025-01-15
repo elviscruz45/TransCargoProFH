@@ -100,9 +100,9 @@ export default function Operaciones(props: any) {
         console.log("11111111");
         q = query(
           collection(db, "Events"),
-          orderBy("createdAt", "desc"),
-          where("createdAt", ">=", startDate),
-          where("createdAt", "<=", endDate),
+          orderBy("fechaContable", "desc"),
+          where("fechaContable", ">=", startDate),
+          where("fechaContable", "<=", endDate),
           where("emailCompany", "==", emailCompany),
           where("idFirebaseAsset", "==", asset),
           where("tipoEvento", "==", "2. Egreso"),

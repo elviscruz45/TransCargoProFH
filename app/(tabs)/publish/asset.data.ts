@@ -29,8 +29,15 @@ export function initialValues() {
     carroceria: "",
     ejes: "",
     //activo Calculos
-    gastoCombustible: "",
-    cambioAceiteProx: "",
+    gastoCombustible: null,
+    cambioAceiteProx: null,
+    cambioAceiteCajaProx: "",
+    cambioAceiteDifProx: "",
+    cambioHidrolinaProx: "",
+    cambioRefrigeranteProx: "",
+    cambioFiltrosProx: "",
+    //
+
     redimientoCombustible: "",
     facturacionFleteYTD: "",
     cantidadServiciosYTD: "",

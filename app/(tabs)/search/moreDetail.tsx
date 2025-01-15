@@ -41,7 +41,7 @@ export default function MoreDetail() {
   const goToEditAssetScreen = (item: any) => {
     router.push({
       pathname: "/search/editasset",
-      params: { item: item, action: "toEdit" },
+      params: { item: item, action: "toEdit", tipoActivoEdit: tipoActivo },
     });
   };
   return (
@@ -262,7 +262,7 @@ export default function MoreDetail() {
 
       {tipoActivo === "Area / Empresa" && (
         <>
-          <Text style={styles.name}>Datos Empresa</Text>
+          {/* <Text style={styles.name}>Datos Empresa</Text>
           <Text></Text>
 
           <View style={[styles.row, styles.center]}>
@@ -324,7 +324,7 @@ export default function MoreDetail() {
           <View style={[styles.row, styles.center]}>
             <Text style={styles.info}>{"Vencimiento SOAT:  "}</Text>
             <Text style={styles.info2}>{formatDate(currentAsset.soat)}</Text>
-          </View>
+          </View> */}
         </>
       )}
     </ScrollView>

@@ -24,6 +24,7 @@ export const ChangeMantto: React.FC<Event> = ({ onClose, formik }) => {
     { value: "Cambio de aceite de Diferencial" },
     { value: "Cambio de aceite Otros" },
     { value: "Cambio de Llanta" },
+    { value: "Reparacion de Llanta" },
     { value: "Cambio de repuesto" },
     { value: "Soldadura" },
   ];
