@@ -209,8 +209,12 @@ export default function Operaciones(props: any) {
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Placa</Text>
               </DataTable.Title>
+
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Fecha Inicio</Text>
+              </DataTable.Title>
+              <DataTable.Title style={styles.titulo3}>
+                <Text style={styles.titulo3}>Viajando / Lavado</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo2}>
                 <Text style={styles.titulo2}>Cliente</Text>
@@ -244,15 +248,16 @@ export default function Operaciones(props: any) {
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Monto Total</Text>
               </DataTable.Title>
+              <DataTable.Title style={styles.titulo2}>
+                <Text style={styles.titulo2}>Fecha Emision Factura</Text>
+              </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Conductor</Text>
               </DataTable.Title>
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>S/. Pago</Text>
               </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Viajando</Text>
-              </DataTable.Title>
+
               <DataTable.Title style={styles.titulo3}>
                 <Text style={styles.titulo3}>Acciones</Text>
               </DataTable.Title>
@@ -282,6 +287,28 @@ export default function Operaciones(props: any) {
                     <Text style={styles.shortColumn2}>
                       {formatDate(file?.fechaContable)}
                     </Text>
+                  </DataTable.Cell>
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    {file?.enViaje === "Si" ? (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-on.png")}
+                        style={[styles.roundImage11, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : (
+                      <ImageExpo
+                        source={require("../../../assets/reportes/truck-off.png")}
+                        style={[styles.roundImage11, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    )}
+                    {file?.LavadoyEngrase === "Si" ? (
+                      <ImageExpo
+                        source={require("../../../assets/images/lavado.png")}
+                        style={[styles.roundImage12, { alignSelf: "center" }]}
+                        cachePolicy={"memory-disk"}
+                      />
+                    ) : null}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>
@@ -356,6 +383,13 @@ export default function Operaciones(props: any) {
                       )}{" "}
                     </Text>
                   </DataTable.Cell>
+
+                  <DataTable.Cell style={styles.shortColumn2}>
+                    <Text style={styles.shortColumn2}>
+                      {formatDate(file?.fechadeEmisionFactura)}
+                    </Text>
+                  </DataTable.Cell>
+
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>
                       {file?.nombreConductor?.split(".")[0]}
@@ -369,21 +403,7 @@ export default function Operaciones(props: any) {
                       )}
                     </Text>
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    {file?.enViaje === "Si" ? (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/truck-on.png")}
-                        style={[styles.roundImage11, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    ) : (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/truck-off.png")}
-                        style={[styles.roundImage11, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    )}
-                  </DataTable.Cell>
+
                   <DataTable.Cell style={styles.shortColumn2}>
                     <TouchableOpacity onPress={() => goToEditDocs(file)}>
                       <ImageExpo

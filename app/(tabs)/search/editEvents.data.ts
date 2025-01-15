@@ -63,6 +63,9 @@ export function initialValues() {
     pdfFile2: "",
     FilenameTitle2: "",
     pdfPrincipal2: "",
+    //
+    fechadeEmisionFactura: "",
+    LavadoyEngrase: "",
   };
 }
 export function validationSchema() {

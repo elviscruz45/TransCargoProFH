@@ -46,6 +46,7 @@ import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Select
 import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
 import { ChangeEnViaje } from "@/components/publish/forms/ChangeEnViaje/Selection";
 import { ChangeIgv } from "@/components/publish/forms/ChangeIgv/Selection";
+import { ChangeLavadoyEngrase } from "@/components/publish/forms/ChangeLavadoyEngrase/Selection";
 
 export default function editEvents(props: any) {
   //global state management for the user_uid
@@ -291,6 +292,12 @@ export default function editEvents(props: any) {
         if (newData.igv) {
           updateData.igv = newData.igv;
         }
+        if (newData.fechadeEmisionFactura) {
+          updateData.fechadeEmisionFactura = newData.fechadeEmisionFactura;
+        }
+        if (newData.LavadoyEngrase) {
+          updateData.LavadoyEngrase = newData.LavadoyEngrase;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
@@ -363,6 +370,11 @@ export default function editEvents(props: any) {
     if (key === "enViaje") {
       setRenderComponent(
         <ChangeEnViaje onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+    if (key === "LavadoyEngrase") {
+      setRenderComponent(
+        <ChangeLavadoyEngrase onClose={onCloseOpenModal} formik={formik} />
       );
     }
 
@@ -473,6 +485,16 @@ export default function editEvents(props: any) {
                   // keyboardType="numeric"
                   onChangeText={(text) => {
                     formik.setFieldValue("tipoCarga", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.LavadoyEngrase}
+                  label="Lavado y Engrase?"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("LavadoyEngrase"),
                   }}
                 />
                 <Input
@@ -645,6 +667,44 @@ export default function editEvents(props: any) {
                         color: "gray",
                       }}
                     >
+                      Fecha Emision de factura
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue(
+                          "fechadeEmisionFactura",
+                          selectedDate
+                        );
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
+
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
                       Fecha de pago de la factura
                     </Text>
                     <Text> </Text>
@@ -668,6 +728,7 @@ export default function editEvents(props: any) {
                     <Text> </Text>
                   </View>
                 )}
+
                 <Input
                   value={formik?.values?.nombreConductor}
                   label="Nombre del conductor"

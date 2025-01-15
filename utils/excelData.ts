@@ -157,6 +157,8 @@ export const getExcelReportData = async (
       // Información del perfil
       Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
       Ultimo_Evento: data?.LastEventPosted || "",
+      //Fechas
+      Fecha_EmisionFactura: data?.fechadeEmisionFactura || "", // Fecha para contabilidad
     };
     post_array.push(table);
   });
