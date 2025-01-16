@@ -161,12 +161,15 @@ export default function Operaciones(props: any) {
     console.log("item", item.moneda);
     const monto =
       item?.moneda === "Dolares"
-        ? Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 +
-            Number(item?.igv) * 3.7 ||
+        ? Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) *
+            3.7 ||
           Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 ||
           0
-        : Number(item?.precioUnitario) * Number(item?.cantidad) +
-            Number(item?.igv) ||
+        : Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) ||
           Number(item?.precioUnitario) * Number(item?.cantidad) ||
           0;
 
