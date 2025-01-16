@@ -91,7 +91,7 @@ export const getExcelReportData = async (
 
     const table = {
       Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
-      Fecha_Contable: formatDateContable(data?.fechaContable) || "", // Fecha para contabilidad
+      Fecha_Operativa: formatDateContable(data?.fechaContable) || "", // Fecha para contabilidad
       NombreAsset: data?.nombreAsset || "Unknown asset", // Asset name
       Placa: data?.placa || "", // License plate number
       Carroceria: data?.carroceria || "", // Bodywork
@@ -158,7 +158,8 @@ export const getExcelReportData = async (
       Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
       Ultimo_Evento: data?.LastEventPosted || "",
       //Fechas
-      Fecha_EmisionFactura: data?.fechadeEmisionFactura || "", // Fecha para contabilidad
+      Fecha_EmisionFactura:
+        formatDateContable(data?.fechadeEmisionFactura) || "", // Fecha para contabilidad
     };
     post_array.push(table);
   });
