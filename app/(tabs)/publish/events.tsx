@@ -210,6 +210,7 @@ export default function events(props: any) {
 
         newData.pdfPrincipal = imageUrlPDF || "";
         newData.pdfFile = "";
+        console.log("111111");
 
         //manage the file 2
         let imageUrlPDF2;
@@ -236,19 +237,21 @@ export default function events(props: any) {
 
         newData.fotoPrincipal = imageUrl;
         newData.photoAssetURL = asset?.photoServiceURL;
+        console.log("2222");
 
         //Nombre
         newData.nombreAsset = asset?.nombre;
         newData.fechaPostFormato = formattedDate;
 
         //Kilometraje de mantenimiento
-        newData.kilometrajeMantto = currentAsset?.kilometraje;
-        newData.cambioAceiteProx = currentAsset?.cambioAceiteProx;
-        newData.cambioAceiteCajaProx = currentAsset?.cambioAceiteCajaProx;
-        newData.cambioAceiteDifProx = currentAsset?.cambioAceiteDifProx;
-        newData.cambioHidrolinaProx = currentAsset?.cambioHidrolinaProx;
-        newData.cambioRefrigeranteProx = currentAsset?.cambioRefrigeranteProx;
-        newData.cambioFiltrosProx = currentAsset?.cambioFiltrosProx;
+        newData.kilometrajeMantto = currentAsset?.kilometraje ?? 0;
+        newData.cambioAceiteProx = currentAsset?.cambioAceiteProx ?? 0;
+        newData.cambioAceiteCajaProx = currentAsset?.cambioAceiteCajaProx ?? 0;
+        newData.cambioAceiteDifProx = currentAsset?.cambioAceiteDifProx ?? 0;
+        newData.cambioHidrolinaProx = currentAsset?.cambioHidrolinaProx ?? 0;
+        newData.cambioRefrigeranteProx =
+          currentAsset?.cambioRefrigeranteProx ?? 0;
+        newData.cambioFiltrosProx = currentAsset?.cambioFiltrosProx ?? 0;
 
         //Photo Events
         newData.userType = userType;
@@ -261,6 +264,7 @@ export default function events(props: any) {
         newData.nombrePerfil = displayName || "Anonimo";
         newData.idFirebaseAsset = currentAsset?.idFirebaseAsset;
         newData.placa = currentAsset?.placa;
+        console.log("33333");
 
         //Data about the company belong this event
         const regex = /@(.+?)\./i;
@@ -268,8 +272,10 @@ export default function events(props: any) {
         //Uploading data to Firebase and adding the ID firestore
         const docRef = doc(collection(db, "Events"));
         newData.idEventFirebase = docRef.id;
+        console.log("444");
 
         await setDoc(docRef, newData);
+        console.log("555");
 
         router.push({
           pathname: "/publish",
@@ -286,6 +292,7 @@ export default function events(props: any) {
           text1: "Se ha subido correctamente",
         });
       } catch (error) {
+        console.log("Error al tratar de subir estos datos", error);
         Toast.show({
           type: "error",
           position: "bottom",
