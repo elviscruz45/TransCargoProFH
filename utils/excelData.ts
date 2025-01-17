@@ -138,7 +138,7 @@ export const getExcelReportData = async (
 
       // Estado de facturación
       Factura_Pagada: data?.facturaPagada || "", // Estado de pago de la factura
-      Fecha_de_Pago: data?.fechadePago || "", // Fecha cuando se realizó el pago
+      Fecha_de_Pago: formatDateContable(data?.fechadePago) || "", // Fecha cuando se realizó el pago
       En_Viaje: data?.enViaje || "", // Indica si está en viaje
       IGV: data?.igv || 0, // Impuesto General a las Ventas
 
@@ -150,9 +150,9 @@ export const getExcelReportData = async (
       PDF_Archivo2: data?.pdfFile2 || "", // URL del segundo archivo PDF
       Nombre_Archivo2: data?.FilenameTitle2 || "", // Nombre del segundo archivo
 
-      // Identificadores únicos
-      ID_Firebase_Asset: data?.idFirebaseAsset || "", // ID del activo en Firebase
-      ID_Event_Firebase: data?.idEventFirebase || "", // ID del evento en Firebase
+      // // Identificadores únicos
+      // ID_Firebase_Asset: data?.idFirebaseAsset || "", // ID del activo en Firebase
+      // ID_Event_Firebase: data?.idEventFirebase || "", // ID del evento en Firebase
 
       // Información del perfil
       Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
