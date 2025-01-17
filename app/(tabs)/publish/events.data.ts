@@ -31,6 +31,8 @@ export function initialValues() {
     clienteRUC: "",
     clienteNombre: "",
     tipoComprobante: "",
+    nombreConductor: "",
+
     moneda: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",

@@ -52,6 +52,8 @@ import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection"
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
 import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection";
 import { ChangeIgv } from "@/components/publish/forms/ChangeIgv/Selection";
+import { ChangeComprobante } from "@/components/publish/forms/ChangeTipoComprobante/Selection";
+import { ChangeConductor } from "@/components/publish/forms/ChangeConductor/Selection";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -312,6 +314,11 @@ export default function events(props: any) {
         <ChangeEvent onClose={onCloseOpenModal} formik={formik} />
       );
     }
+    if (key === "tipoComprobante") {
+      setRenderComponent(
+        <ChangeComprobante onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
     if (key === "tipoGasto") {
       setRenderComponent(
         <ChangeTipoGasto onClose={onCloseOpenModal} formik={formik} />
@@ -337,6 +344,11 @@ export default function events(props: any) {
     if (key === "facturaPagada") {
       setRenderComponent(
         <ChangePagado onClose={onCloseOpenModal} formik={formik} />
+      );
+    }
+    if (key === "nombreConductor") {
+      setRenderComponent(
+        <ChangeConductor onClose={onCloseOpenModal} formik={formik} />
       );
     }
 
@@ -600,7 +612,16 @@ export default function events(props: any) {
                 formik.setFieldValue("precioUnitario", numericText);
               }}
             />
-
+            <Input
+              value={formik?.values?.nombreConductor}
+              label="Nombre del conductor"
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("nombreConductor"),
+              }}
+            />
             <Input
               value={formik.values.moneda.toString()}
               label="Moneda"
@@ -780,8 +801,14 @@ export default function events(props: any) {
               // placeholder="Visibilidad del evento"
               editable={true}
               // keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("tipoComprobante", text);
+              // onChangeText={(text) => {
+              //   formik.setFieldValue("tipoComprobante", text);
+              // }}
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("tipoComprobante"),
               }}
             />
             <Input
@@ -823,6 +850,39 @@ export default function events(props: any) {
 
         {formik.values.tipoEvento === "3. Mantenimiento" && (
           <>
+            {Platform.OS === "web" && (
+              <View style={{ marginHorizontal: 10 }}>
+                <Text> </Text>
+
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    color: "gray",
+                  }}
+                >
+                  Fecha de Matenimiento
+                </Text>
+                <Text> </Text>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  onChange={(event: any) => {
+                    const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                    const [year, month, day] = selectedDateString.split("-");
+                    const selectedDate = new Date(
+                      Number(year),
+                      Number(month) - 1,
+                      Number(day)
+                    ); // month is 0-indexed in JavaScript Date
+                    formik.setFieldValue("fechaContable", selectedDate);
+                  }}
+                />
+                <Text> </Text>
+                <Text> </Text>
+              </View>
+            )}
             <Input
               value={formik.values.kilometraje}
               label="Kilometraje (Km)"

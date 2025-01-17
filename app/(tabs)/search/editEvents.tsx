@@ -895,6 +895,40 @@ export default function editEvents(props: any) {
             )}
             {tipoEvento === "3. Mantenimiento" && (
               <>
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
+
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
+                      Fecha de Matenimiento
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue("fechaContable", selectedDate);
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
                 <Input
                   value={formik.values.kilometraje}
                   label="Kilometraje (Km)"

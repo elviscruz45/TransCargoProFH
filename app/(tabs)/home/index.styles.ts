@@ -57,8 +57,8 @@ export const styles = StyleSheet.create({
   postPhoto: {
     ...(Platform.OS === "web"
       ? {
-          height: windowWidth * 0.4,
-          width: windowWidth * 0.35,
+          height: windowWidth * 0.35,
+          width: windowWidth * 0.3,
         }
       : {
           height: windowWidth * 0.48,
