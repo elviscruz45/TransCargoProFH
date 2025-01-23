@@ -286,17 +286,23 @@ export default function Operaciones(props: any) {
               const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
               const proxManttoPreventivo = [
-                Number(file?.cambioAceiteProx ?? 0),
-                Number(file?.cambioAceiteCajaProx ?? 0),
-                Number(file?.cambioAceiteDifProx ?? 0),
-                Number(file?.cambioHidrolinaProx ?? 0),
-                Number(file?.cambioRefrigeranteProx ?? 0),
-                Number(file?.cambioFiltrosProx ?? 0),
+                Number(file?.cambioAceiteProx ?? Infinity),
+                Number(file?.cambioAceiteCajaProx ?? Infinity),
+                Number(file?.cambioAceiteDifProx ?? Infinity),
+                Number(file?.cambioHidrolinaProx ?? Infinity),
+                Number(file?.cambioRefrigeranteProx ?? Infinity),
+                Number(file?.cambioFiltrosProx ?? Infinity),
               ].filter((item) => item > 0);
+              console.log("proxManttoPreventivo", proxManttoPreventivo);
 
               const proxKilometrajeMantto =
                 proxManttoPreventivo.length > 0 &&
                 Math.min(...proxManttoPreventivo);
+              console.log("proxKilometrajeMantto", proxKilometrajeMantto);
+              console.log(
+                "NUMBER",
+                Number(proxKilometrajeMantto) - Number(file?.kilometraje)
+              );
 
               return (
                 <DataTable.Row key={index}>
@@ -350,28 +356,30 @@ export default function Operaciones(props: any) {
                       {new Intl.NumberFormat("en-US").format(file?.kilometraje)}
                     </Text>
                   </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
+                  <DataTable.Cell style={styles.shortColumn3}>
                     <Text
                       style={
-                        Number(proxKilometrajeMantto) -
-                          Number(file?.kilometraje) >
-                        1000
-                          ? styles.shortColumn2
-                          : styles.shortColumn3
+                        proxKilometrajeMantto == Infinity
+                          ? styles.shortColumn3
+                          : Number(proxKilometrajeMantto) -
+                              Number(file?.kilometraje) >
+                            1000
+                          ? styles.shortColumn3
+                          : styles.shortColumn2
                       }
                     >
                       {Number(proxKilometrajeMantto) -
                         Number(file?.kilometraje) >
-                      -50000
+                      -35000
                         ? new Intl.NumberFormat("en-US").format(
                             Number(
                               (
                                 Number(proxKilometrajeMantto) -
                                 Number(file?.kilometraje)
                               ).toFixed(2)
-                            ) || 0
+                            ) || Infinity
                           )
-                        : 0}
+                        : "∞"}
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
