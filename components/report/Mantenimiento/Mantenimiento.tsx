@@ -225,7 +225,7 @@ export default function Mantenimiento(props: any) {
                 <DataTable.Row key={index}>
                   <DataTable.Cell style={styles.shortColumn2}>
                     <Text style={styles.shortColumn2}>
-                      {formatDate(file?.createdAt)}
+                      {formatDate(file?.fechaContable)}
                     </Text>
                   </DataTable.Cell>
 

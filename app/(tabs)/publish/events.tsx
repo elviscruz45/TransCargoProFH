@@ -769,7 +769,7 @@ export default function events(props: any) {
               }}
             />
 
-            <Input
+            {/* <Input
               label=" Combustible (Galones.)"
               value={formik.values.combustible.toString()}
               editable={true}
@@ -780,7 +780,8 @@ export default function events(props: any) {
                 formik.setFieldValue("combustible", numericText);
               }}
               // errorMessage={formik.errors.visibilidad}
-            />
+            /> */}
+
             <Input
               value={formik.values.tipoGasto}
               label="Tipo de Gasto"
@@ -795,6 +796,55 @@ export default function events(props: any) {
                 onPress: () => selectComponent("tipoGasto"),
               }}
             />
+
+            <Input
+              value={formik.values.cantidad.toString()}
+              label="Cantidad "
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9.]/g, "");
+
+                formik.setFieldValue("cantidad", numericText);
+              }}
+            />
+
+            <Input
+              value={formik.values.unidadMedida}
+              label="Unidad de Medida"
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("unidadMedida"),
+              }}
+            />
+
+            <Input
+              value={formik.values.precioUnitario.toString()}
+              label="Precio Unitario"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9.]/g, "");
+
+                formik.setFieldValue("precioUnitario", numericText);
+              }}
+            />
+            <Input
+              value={formik.values.moneda.toString()}
+              label="Moneda"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              // keyboardType="numeric"
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("moneda"),
+              }}
+            />
+
             <Input
               value={formik.values.tipoComprobante.toString()}
               label="Tipo de Comprobante"

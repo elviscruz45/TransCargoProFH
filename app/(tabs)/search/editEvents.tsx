@@ -795,10 +795,10 @@ export default function editEvents(props: any) {
                   keyboardType="numeric"
                   onChangeText={(text) => {
                     const numericText = text.replace(/[^0-9]/g, "");
-
                     formik.setFieldValue("kilometraje", numericText);
                   }}
                 />
+
                 <Input
                   value={formik.values.descripcionGasto}
                   label="Descripcion del gasto"
@@ -807,6 +807,7 @@ export default function editEvents(props: any) {
                     formik.setFieldValue("descripcionGasto", text);
                   }}
                 />
+
                 <Input
                   value={formik.values.tipoGasto}
                   label="Tipo de Gasto"
@@ -832,16 +833,51 @@ export default function editEvents(props: any) {
                 />
 
                 <Input
-                  label=" Combustible (Galones.)"
-                  value={formik.values.combustible.toString()}
+                  value={formik.values.cantidad.toString()}
+                  label="Cantidad "
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    const numericText = text.replace(/[^0-9.]/g, "");
+
+                    formik.setFieldValue("cantidad", numericText);
+                  }}
+                />
+
+                <Input
+                  value={formik.values.unidadMedida}
+                  label="Unidad de Medida"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("unidadMedida"),
+                  }}
+                />
+
+                <Input
+                  value={formik.values.precioUnitario.toString()}
+                  label="Precio Unitario"
+                  // placeholder="Visibilidad del evento"
                   editable={true}
                   keyboardType="numeric"
                   onChangeText={(text) => {
-                    const numericText = text.replace(/[^0-9]/g, "");
+                    const numericText = text.replace(/[^0-9.]/g, "");
 
-                    formik.setFieldValue("combustible", numericText);
+                    formik.setFieldValue("precioUnitario", numericText);
                   }}
-                  // errorMessage={formik.errors.visibilidad}
+                />
+                <Input
+                  value={formik.values.moneda.toString()}
+                  label="Moneda"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  // keyboardType="numeric"
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("moneda"),
+                  }}
                 />
 
                 <Input
@@ -857,6 +893,7 @@ export default function editEvents(props: any) {
                     onPress: () => selectComponent("tipoComprobante"),
                   }}
                 />
+
                 <Input
                   value={formik.values.numeroFactura.toString()}
                   label="Numero de Factura"
@@ -866,6 +903,7 @@ export default function editEvents(props: any) {
                     formik.setFieldValue("numeroFactura", text);
                   }}
                 />
+
                 <Input
                   value={formik.values.costo.toString()}
                   label="Valor del Monto"

@@ -176,6 +176,8 @@ export default function Operaciones(props: any) {
     return acc + monto;
   }, 0);
 
+  console.log("file");
+
   return (
     <>
       <Text style={styles.reporteTitulo}>Control de Ingresos</Text>
@@ -284,15 +286,17 @@ export default function Operaciones(props: any) {
               const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
               const proxManttoPreventivo = [
-                file?.cambioAceiteProx,
-                file?.cambioAceiteCajaProx,
-                file?.cambioAceiteDifProx,
-                file?.cambioHidrolinaProx,
-                file?.cambioRefrigeranteProx,
-                file?.cambioFiltrosProx,
-              ];
-              const proxKilometrajeMantto = Math.min(...proxManttoPreventivo);
-              console.log("proxKilometrajeMantto", proxKilometrajeMantto);
+                Number(file?.cambioAceiteProx ?? 0),
+                Number(file?.cambioAceiteCajaProx ?? 0),
+                Number(file?.cambioAceiteDifProx ?? 0),
+                Number(file?.cambioHidrolinaProx ?? 0),
+                Number(file?.cambioRefrigeranteProx ?? 0),
+                Number(file?.cambioFiltrosProx ?? 0),
+              ].filter((item) => item > 0);
+
+              const proxKilometrajeMantto =
+                proxManttoPreventivo.length > 0 &&
+                Math.min(...proxManttoPreventivo);
 
               return (
                 <DataTable.Row key={index}>
@@ -356,14 +360,18 @@ export default function Operaciones(props: any) {
                           : styles.shortColumn3
                       }
                     >
-                      {new Intl.NumberFormat("en-US").format(
-                        Number(
-                          (
-                            Number(proxKilometrajeMantto) -
-                              Number(file?.kilometraje) || 0
-                          ).toFixed(2)
-                        )
-                      )}
+                      {Number(proxKilometrajeMantto) -
+                        Number(file?.kilometraje) >
+                      -50000
+                        ? new Intl.NumberFormat("en-US").format(
+                            Number(
+                              (
+                                Number(proxKilometrajeMantto) -
+                                Number(file?.kilometraje)
+                              ).toFixed(2)
+                            ) || 0
+                          )
+                        : 0}
                     </Text>
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.shortColumn2}>
