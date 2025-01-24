@@ -577,7 +577,22 @@ export default function editEvents(props: any) {
                     onPress: () => selectComponent("enViaje"),
                   }}
                 />
-
+                <Input
+                  value={formik.values.tipoComprobante.toString()}
+                  label="Tipo de Comprobante"
+                  // placeholder="Visibilidad del evento"
+                  editable={true}
+                  // keyboardType="numeric"
+                  // onChangeText={(text) => {
+                  //   formik.setFieldValue("tipoComprobante", text);
+                  // }}
+                  rightIcon={{
+                    type: "material-community",
+                    color: "#c2c2c2",
+                    name: "clipboard-list-outline",
+                    onPress: () => selectComponent("tipoComprobante"),
+                  }}
+                />
                 <Input
                   value={formik.values.numeroFactura.toString()}
                   label="Numero de Factura"

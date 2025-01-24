@@ -513,12 +513,13 @@ export default function events(props: any) {
                 <Text> </Text>
               </View>
             )}
+
             <Input
-              value={formik.values.tipoCarga}
-              label="Nombre del material de que se transporta"
+              value={formik.values.clienteRUC}
+              label="Cliente RUC de la carga"
               // keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("tipoCarga", text);
+                formik.setFieldValue("clienteRUC", text);
               }}
             />
             <Input
@@ -547,14 +548,13 @@ export default function events(props: any) {
                 formik.setFieldValue("guiTransportista", text);
               }}
             />
-            <Input
-              value={formik.values.kilometraje}
-              label="Kilometraje (Km)"
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                const numericText = text.replace(/[^0-9]/g, "");
 
-                formik.setFieldValue("kilometraje", numericText);
+            <Input
+              value={formik.values.tipoCarga}
+              label="Nombre del material de que se transporta"
+              // keyboardType="numeric"
+              onChangeText={(text) => {
+                formik.setFieldValue("tipoCarga", text);
               }}
             />
             <Input
@@ -570,15 +570,6 @@ export default function events(props: any) {
               // keyboardType="numeric"
               onChangeText={(text) => {
                 formik.setFieldValue("puntoLlegada", text);
-              }}
-            />
-            <Input
-              value={formik.values.numeroFactura.toString()}
-              label="Numero de Factura"
-              // placeholder="Visibilidad del evento"
-              editable={true}
-              onChangeText={(text) => {
-                formik.setFieldValue("numeroFactura", text);
               }}
             />
             <Input
@@ -613,16 +604,6 @@ export default function events(props: any) {
               }}
             />
             <Input
-              value={formik?.values?.nombreConductor}
-              label="Nombre del conductor"
-              rightIcon={{
-                type: "material-community",
-                color: "#c2c2c2",
-                name: "clipboard-list-outline",
-                onPress: () => selectComponent("nombreConductor"),
-              }}
-            />
-            <Input
               value={formik.values.moneda.toString()}
               label="Moneda"
               // placeholder="Visibilidad del evento"
@@ -648,6 +629,63 @@ export default function events(props: any) {
                 onPress: () => selectComponent("igv"),
               }}
             />
+            <Input
+              value={formik?.values?.nombreConductor}
+              label="Nombre del conductor"
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("nombreConductor"),
+              }}
+            />
+            <Input
+              value={formik.values.carroceria}
+              label="Placa Carroceria"
+              // keyboardType="numeric"
+              onChangeText={(text) => {
+                formik.setFieldValue("carroceria", text);
+              }}
+            />
+
+            <Input
+              value={formik.values.kilometraje}
+              label="Kilometraje (Km)"
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9]/g, "");
+
+                formik.setFieldValue("kilometraje", numericText);
+              }}
+            />
+
+            <Input
+              value={formik.values.tipoComprobante.toString()}
+              label="Tipo de Comprobante"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              // keyboardType="numeric"
+              // onChangeText={(text) => {
+              //   formik.setFieldValue("tipoComprobante", text);
+              // }}
+              rightIcon={{
+                type: "material-community",
+                color: "#c2c2c2",
+                name: "clipboard-list-outline",
+                onPress: () => selectComponent("tipoComprobante"),
+              }}
+            />
+
+            <Input
+              value={formik.values.numeroFactura.toString()}
+              label="Numero de Factura"
+              // placeholder="Visibilidad del evento"
+              editable={true}
+              onChangeText={(text) => {
+                formik.setFieldValue("numeroFactura", text);
+              }}
+            />
+
             <Input
               value={formik.values.facturaPagada}
               label="Factura Pagada?"
@@ -687,23 +725,6 @@ export default function events(props: any) {
                 <Text> </Text>
               </View>
             )}
-            <Input
-              value={formik.values.carroceria}
-              label="Placa Carroceria"
-              // keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("carroceria", text);
-              }}
-            />
-
-            <Input
-              value={formik.values.clienteRUC}
-              label="Cliente RUC de la carga"
-              // keyboardType="numeric"
-              onChangeText={(text) => {
-                formik.setFieldValue("clienteRUC", text);
-              }}
-            />
           </>
         )}
 
