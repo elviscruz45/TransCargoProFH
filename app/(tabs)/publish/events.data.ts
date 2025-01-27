@@ -71,7 +71,7 @@ export function initialValues() {
     cambioRefrigeranteProx: "",
     cambioFiltrosProx: "",
     //
-    fechaEmisionFactura: null,
+    fechadeEmisionFactura: null,
     cantidadVueltasEquivalente: 0,
   };
 }

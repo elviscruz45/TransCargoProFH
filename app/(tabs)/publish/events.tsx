@@ -715,7 +715,7 @@ export default function events(props: any) {
                       Number(month) - 1,
                       Number(day)
                     ); // month is 0-indexed in JavaScript Date
-                    formik.setFieldValue("fechaEmisionFactura", selectedDate);
+                    formik.setFieldValue("fechadeEmisionFactura", selectedDate);
                   }}
                 />
                 <Text> </Text>

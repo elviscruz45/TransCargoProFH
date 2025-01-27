@@ -54,6 +54,7 @@ export default function Operaciones(props: any) {
 
   const [startDate, setStartDate] = useState(pastDate);
   const [endDate, setEndDate] = useState(currentDate);
+  const [cantidadAsset, setCantidadAsset] = useState(0);
   const [removeFilter, setRemoveFilter] = useState(true);
   const [diasPendientes, setDiasPendientes] = useState(30);
   //real time updates
@@ -158,7 +159,6 @@ export default function Operaciones(props: any) {
   };
 
   const montoTotal = post.reduce((acc: any, item: any) => {
-    console.log("item", item.moneda);
     const monto =
       item?.moneda === "Dolares"
         ? Number(item?.precioUnitario) *
@@ -176,7 +176,69 @@ export default function Operaciones(props: any) {
     return acc + monto;
   }, 0);
 
-  console.log("file");
+  const cantidadViajando = post.reduce((acc: any, item: any) => {
+    if (item?.enViaje === "Si") {
+      return acc + 1;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const cantidadVueltas = post.reduce((acc: any, item: any) => {
+    return Number(acc) + Number(item?.cantidadVueltasEquivalente ?? 0);
+  }, 0);
+
+  const cantidadFacturasEmitidas = post.reduce((acc: any, item: any) => {
+    const monto =
+      item?.moneda === "Dolares"
+        ? Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) *
+            3.7 ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 ||
+          0
+        : Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) ||
+          0;
+
+    // console.log(
+    //   " item.fechadeEmisionFactura",
+    //   item.fechadeEmisionFactura && monto
+    // );
+
+    if (item.fechadeEmisionFactura) {
+      return acc + monto;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const cantidadFacturasPagadas = post.reduce((acc: any, item: any) => {
+    const monto =
+      item?.moneda === "Dolares"
+        ? Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) *
+            3.7 ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) * 3.7 ||
+          0
+        : Number(item?.precioUnitario) *
+            Number(item?.cantidad) *
+            Number(1 + item?.igv / 100) ||
+          Number(item?.precioUnitario) * Number(item?.cantidad) ||
+          0;
+
+    if (item.facturaPagada === "Si") {
+      return acc + monto;
+    } else {
+      return acc;
+    }
+  }, 0);
+
+  const FacturasPendientes: any =
+    cantidadFacturasEmitidas - cantidadFacturasPagadas;
 
   return (
     <ScrollView
@@ -198,10 +260,10 @@ export default function Operaciones(props: any) {
       )}{" "}
       <Text> </Text>
       <Text> </Text>
-      <Reporte setAsset={setAsset} />
+      <Reporte setAsset={setAsset} setCantidadAsset={setCantidadAsset} />
       <Text> </Text>
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-        Ingreso Total, Incluye IGV: = S/.{" "}
+        Ingreso Total Operativo, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
       </Text>{" "}
       <Text> </Text>
@@ -209,23 +271,42 @@ export default function Operaciones(props: any) {
         <>
           {" "}
           <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-            Camiones en actividad = 4
+            Camiones en actividad = {cantidadViajando}
           </Text>{" "}
           <Text> </Text>
           <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-            Camiones Parados = 1
+            Camiones Parados = {cantidadAsset - cantidadViajando}
           </Text>{" "}
           <Text> </Text>
-          <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+          {/* <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
             Camiones en Mantenimiento = 1
-          </Text>{" "}
-          <Text> </Text>
-          <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-            Cantidad de Vueltas= 10
-          </Text>{" "}
-          <Text> </Text>
+          </Text>{" "} */}
+          {/* <Text> </Text> */}
         </>
       )}
+      <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+        Cantidad de Vueltas= {cantidadVueltas}
+      </Text>{" "}
+      <Text> </Text>
+      <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+        Monto Facturas Emitidas, Incluye IGV = S/.{" "}
+        {new Intl.NumberFormat("en-US").format(
+          cantidadFacturasEmitidas.toFixed(2)
+        )}
+      </Text>{" "}
+      <Text> </Text>
+      <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+        Monto Facturas Pagadas, Incluye IGV = S/.{" "}
+        {new Intl.NumberFormat("en-US").format(
+          cantidadFacturasPagadas.toFixed(2)
+        )}
+      </Text>{" "}
+      <Text> </Text>
+      <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+        Monto Facturas Pendientes, Incluye IGV = S/.{" "}
+        {new Intl.NumberFormat("en-US").format(FacturasPendientes.toFixed(2))}
+      </Text>{" "}
+      <Text> </Text>
       <ScrollView
         horizontal={true}
         contentContainerStyle={{
@@ -325,16 +406,10 @@ export default function Operaciones(props: any) {
               Number(file?.cambioRefrigeranteProx ?? Infinity),
               Number(file?.cambioFiltrosProx ?? Infinity),
             ].filter((item) => item > 0);
-            console.log("proxManttoPreventivo", proxManttoPreventivo);
 
             const proxKilometrajeMantto =
               proxManttoPreventivo.length > 0 &&
               Math.min(...proxManttoPreventivo);
-            console.log("proxKilometrajeMantto", proxKilometrajeMantto);
-            console.log(
-              "NUMBER",
-              Number(proxKilometrajeMantto) - Number(file?.kilometraje)
-            );
 
             return (
               <DataTable.Row key={index}>

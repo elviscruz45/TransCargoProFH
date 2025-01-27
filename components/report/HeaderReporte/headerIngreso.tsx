@@ -1,5 +1,5 @@
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { styles } from "./headerAssets.styles";
 import { Image as ImageExpo } from "expo-image";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import type { RootState } from "@/app/store";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 
-export function Reporte({ setAsset }: any) {
+export function Reporte({ setAsset, setCantidadAsset }: any) {
   const [selected, setSelected] = useState("");
   const globalAssetList: any = useSelector(
     (state: RootState) => state.home.assetList
@@ -17,6 +17,10 @@ export function Reporte({ setAsset }: any) {
     (item: any) =>
       item.reporte === "Visible" && item.tipoActivo === "Equipo / Activo"
   );
+
+  useEffect(() => {
+    setCantidadAsset(globalFilteredAssetList.length);
+  }, [globalFilteredAssetList]);
 
   const ShortTextComponent = (item: any) => {
     const longText = item;
