@@ -81,7 +81,7 @@ export default function CameraScreen() {
           style={styles.camera}
           type={type}
           ref={cameraRef}
-          autoFocus={true}
+          autofocus={true}
         >
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
