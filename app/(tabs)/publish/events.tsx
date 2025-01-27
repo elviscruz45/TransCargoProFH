@@ -212,7 +212,6 @@ export default function events(props: any) {
 
         newData.pdfPrincipal = imageUrlPDF || "";
         newData.pdfFile = "";
-        console.log("111111");
 
         //manage the file 2
         let imageUrlPDF2;
@@ -239,7 +238,6 @@ export default function events(props: any) {
 
         newData.fotoPrincipal = imageUrl;
         newData.photoAssetURL = asset?.photoServiceURL;
-        console.log("2222");
 
         //Nombre
         newData.nombreAsset = asset?.nombre;
@@ -395,8 +393,6 @@ export default function events(props: any) {
     );
   }
 
-  console.log("sfasd");
-
   return (
     <KeyboardAwareScrollView
       style={
@@ -519,7 +515,8 @@ export default function events(props: any) {
               label="Cliente RUC de la carga"
               // keyboardType="numeric"
               onChangeText={(text) => {
-                formik.setFieldValue("clienteRUC", text);
+                const numericText = text.replace(/[^0-9.]/g, "");
+                formik.setFieldValue("clienteRUC", numericText);
               }}
             />
             <Input
@@ -703,6 +700,36 @@ export default function events(props: any) {
                 <Text
                   style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}
                 >
+                  Fecha de emision de la factura
+                </Text>
+                <Text> </Text>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  onChange={(event: any) => {
+                    const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                    const [year, month, day] = selectedDateString.split("-");
+                    const selectedDate = new Date(
+                      Number(year),
+                      Number(month) - 1,
+                      Number(day)
+                    ); // month is 0-indexed in JavaScript Date
+                    formik.setFieldValue("fechaEmisionFactura", selectedDate);
+                  }}
+                />
+                <Text> </Text>
+                <Text> </Text>
+              </View>
+            )}
+
+            {Platform.OS === "web" && (
+              <View style={{ marginHorizontal: 10 }}>
+                <Text> </Text>
+
+                <Text
+                  style={{ fontSize: 18, fontWeight: "bold", color: "gray" }}
+                >
                   Fecha de pago de la factura
                 </Text>
                 <Text> </Text>
@@ -725,6 +752,16 @@ export default function events(props: any) {
                 <Text> </Text>
               </View>
             )}
+            <Input
+              value={formik.values.cantidadVueltasEquivalente.toString()}
+              label="Cantidad de vuelta equivalente "
+              keyboardType="numeric"
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9.]/g, "");
+
+                formik.setFieldValue("cantidadVueltasEquivalente", numericText);
+              }}
+            />
           </>
         )}
 
@@ -789,7 +826,15 @@ export default function events(props: any) {
                 formik.setFieldValue("clienteNombre", text);
               }}
             />
-
+            <Input
+              value={formik.values.clienteRUC}
+              label="RUC del proveedor"
+              // keyboardType="numeric"
+              onChangeText={(text) => {
+                const numericText = text.replace(/[^0-9.]/g, "");
+                formik.setFieldValue("clienteRUC", numericText);
+              }}
+            />
             {/* <Input
               label=" Combustible (Galones.)"
               value={formik.values.combustible.toString()}

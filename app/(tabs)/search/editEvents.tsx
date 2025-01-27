@@ -298,6 +298,10 @@ export default function editEvents(props: any) {
         if (newData.LavadoyEngrase) {
           updateData.LavadoyEngrase = newData.LavadoyEngrase;
         }
+        if (newData.cantidadVueltasEquivalente) {
+          updateData.cantidadVueltasEquivalente =
+            newData.cantidadVueltasEquivalente;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
@@ -538,7 +542,8 @@ export default function editEvents(props: any) {
                   label="Cliente RUC de la carga"
                   // keyboardType="numeric"
                   onChangeText={(text) => {
-                    formik.setFieldValue("clienteRUC", text);
+                    const numericText = text.replace(/[^0-9.]/g, "");
+                    formik.setFieldValue("clienteRUC", numericText);
                   }}
                 />
                 <Input
@@ -765,6 +770,19 @@ export default function editEvents(props: any) {
                     formik.setFieldValue("pagoConductor", numericText);
                   }}
                 />
+                <Input
+                  value={formik.values.cantidadVueltasEquivalente.toString()}
+                  label="Cantidad de vuelta equivalente "
+                  keyboardType="numeric"
+                  onChangeText={(text) => {
+                    const numericText = text.replace(/[^0-9.]/g, "");
+
+                    formik.setFieldValue(
+                      "cantidadVueltasEquivalente",
+                      numericText
+                    );
+                  }}
+                />
               </>
             )}
             {tipoEvento === "2. Egreso" && (
@@ -844,6 +862,15 @@ export default function editEvents(props: any) {
                   // keyboardType="numeric"
                   onChangeText={(text) => {
                     formik.setFieldValue("clienteNombre", text);
+                  }}
+                />
+                <Input
+                  value={formik.values.clienteRUC}
+                  label="RUC de Proveedor"
+                  // keyboardType="numeric"
+                  onChangeText={(text) => {
+                    const numericText = text.replace(/[^0-9.]/g, "");
+                    formik.setFieldValue("clienteRUC", numericText);
                   }}
                 />
 

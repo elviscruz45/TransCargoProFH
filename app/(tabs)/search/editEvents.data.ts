@@ -66,6 +66,9 @@ export function initialValues() {
     //
     fechadeEmisionFactura: "",
     LavadoyEngrase: "",
+    //
+    fechaEmisionFactura: null,
+    cantidadVueltasEquivalente: 0,
   };
 }
 export function validationSchema() {

@@ -163,7 +163,10 @@ export default function Operaciones(props: any) {
     return acc + monto;
   }, 0);
   return (
-    <>
+    <ScrollView
+      style={{ backgroundColor: "white" }}
+      showsVerticalScrollIndicator={true}
+    >
       <Text style={styles.reporteTitulo}>Control Egresos</Text>
       <Text> </Text>
       {Platform.OS === "web" && (
@@ -186,207 +189,198 @@ export default function Operaciones(props: any) {
         style={{ backgroundColor: "white" }} // Add backgroundColor here
         showsVerticalScrollIndicator={false}
       >
-        <ScrollView
-          style={{ backgroundColor: "white" }}
-          showsVerticalScrollIndicator={true}
-        >
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Fecha</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Fecha Contable</Text>
-              </DataTable.Title>
-              {/* <DataTable.Title style={styles.titulo2}>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Fecha</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Fecha Contable</Text>
+            </DataTable.Title>
+            {/* <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Unidad</Text>
         </DataTable.Title> */}
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Descripcion</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Tipo Gasto</Text>
-              </DataTable.Title>
-              {/* <DataTable.Title style={styles.titulo2}>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Descripcion</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Tipo Gasto</Text>
+            </DataTable.Title>
+            {/* <DataTable.Title style={styles.titulo2}>
           <Text style={styles.titulo2}>Kilometraje</Text>
         </DataTable.Title> */}
 
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Proveedor</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Cantidad</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>PU</Text>
-              </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Proveedor</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Cantidad</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>PU</Text>
+            </DataTable.Title>
 
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Monto Total</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Comp Tipo</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Numero Doc</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Acciones</Text>
-              </DataTable.Title>
-            </DataTable.Header>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Monto Total</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Comp Tipo</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Numero Doc</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Acciones</Text>
+            </DataTable.Title>
+          </DataTable.Header>
 
-            {post?.map((file: any, index: any) => {
-              const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-              const fileDate = new Date(
-                file?.fechaVencimiento?.seconds * 1000 +
-                  file?.fechaVencimiento?.nanoseconds / 1000000
-              );
+          {post?.map((file: any, index: any) => {
+            const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+            const fileDate = new Date(
+              file?.fechaVencimiento?.seconds * 1000 +
+                file?.fechaVencimiento?.nanoseconds / 1000000
+            );
 
-              const currentDate = new Date();
-              const timeDifference = fileDate.getTime() - currentDate.getTime();
-              const isExpiring = timeDifference <= FiveDaysInMillis;
-              console.log("index", file.autor);
+            const currentDate = new Date();
+            const timeDifference = fileDate.getTime() - currentDate.getTime();
+            const isExpiring = timeDifference <= FiveDaysInMillis;
+            console.log("index", file.autor);
 
-              const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+            const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
-              return (
-                <DataTable.Row key={index}>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {formatDate(file?.createdAt)}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    {formatDate(file?.fechaContable)}
-                  </DataTable.Cell>
-                  {/* <DataTable.Cell style={styles.shortColumn2}>
+            return (
+              <DataTable.Row key={index}>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {formatDate(file?.createdAt)}
+                  </Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  {formatDate(file?.fechaContable)}
+                </DataTable.Cell>
+                {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
                 </DataTable.Cell> */}
 
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.descripcionGasto}
-                    </Text>
-                  </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {file?.descripcionGasto}
+                  </Text>
+                </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}> {file?.tipoGasto}</Text>
-                  </DataTable.Cell>
-                  {/* <DataTable.Cell style={styles.shortColumn2}>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}> {file?.tipoGasto}</Text>
+                </DataTable.Cell>
+                {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.kilometraje}</Text>
                 </DataTable.Cell> */}
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.clienteNombre}
-                    </Text>
-                  </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
+                </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.cantidad} {file?.unidadMedida}
-                    </Text>
-                  </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {file?.cantidad} {file?.unidadMedida}
+                  </Text>
+                </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.moneda === "Dolares"
-                        ? "$ "
-                        : file?.moneda === "Euros"
-                        ? "EUR "
-                        : "S/. "}
-                      {new Intl.NumberFormat("en-US").format(
-                        Number((Number(file?.precioUnitario) || 0).toFixed(2))
-                      )}{" "}
-                    </Text>
-                  </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {file?.moneda === "Dolares"
+                      ? "$ "
+                      : file?.moneda === "Euros"
+                      ? "EUR "
+                      : "S/. "}
+                    {new Intl.NumberFormat("en-US").format(
+                      Number((Number(file?.precioUnitario) || 0).toFixed(2))
+                    )}{" "}
+                  </Text>
+                </DataTable.Cell>
 
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.moneda === "Dolares"
-                        ? " $ "
-                        : file?.moneda === "Euros"
-                        ? " EUR "
-                        : " S/."}{" "}
-                      {new Intl.NumberFormat("en-US").format(
-                        Number(file?.costo) + Number(file?.igv) ||
-                          Number(file?.costo) ||
-                          0
-                      )}{" "}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.tipoComprobante}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {file?.numeroFactura}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <TouchableOpacity onPress={() => goToEditDocs(file)}>
-                      <ImageExpo
-                        source={require("../../../assets/reportes/views.png")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    </TouchableOpacity>
-                    <Text>{"  .  "} </Text>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {file?.moneda === "Dolares"
+                      ? " $ "
+                      : file?.moneda === "Euros"
+                      ? " EUR "
+                      : " S/."}{" "}
+                    {new Intl.NumberFormat("en-US").format(
+                      Number(file?.costo) + Number(file?.igv) ||
+                        Number(file?.costo) ||
+                        0
+                    )}{" "}
+                  </Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {file?.tipoComprobante}
+                  </Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.numeroFactura}</Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <TouchableOpacity onPress={() => goToEditDocs(file)}>
+                    <ImageExpo
+                      source={require("../../../assets/reportes/views.png")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  </TouchableOpacity>
+                  <Text>{"  .  "} </Text>
 
-                    {file?.moneda ? (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/green.svg")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    ) : (
-                      <ImageExpo
-                        source={require("../../../assets/pictures/trafficlight-red.webp")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    )}
-                  </DataTable.Cell>
-                </DataTable.Row>
-              );
-            })}
-          </DataTable>
+                  {file?.moneda ? (
+                    <ImageExpo
+                      source={require("../../../assets/reportes/green.svg")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  ) : (
+                    <ImageExpo
+                      source={require("../../../assets/pictures/trafficlight-red.webp")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  )}
+                </DataTable.Cell>
+              </DataTable.Row>
+            );
+          })}
+        </DataTable>
+        <Text> </Text>
+        <Text> </Text>
+        <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+          Egreso Total S/.{" "}
+          {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
+        </Text>{" "}
+        <TouchableOpacity
+          onPress={() => getExcelReportData("Control de Egresos", post)}
+        >
           <Text> </Text>
-          <Text> </Text>
-          <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-            Egreso Total S/.{" "}
-            {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
-          </Text>{" "}
-          <TouchableOpacity
-            onPress={() => getExcelReportData("Control de Egresos", post)}
-          >
-            <Text> </Text>
 
-            <ImageExpo
-              source={require("../../../assets/pictures/excel2.png")}
-              style={styles.excel}
-            />
-            <Text> </Text>
-          </TouchableOpacity>
+          <ImageExpo
+            source={require("../../../assets/pictures/excel2.png")}
+            style={styles.excel}
+          />
           <Text> </Text>
-          <Text
-            style={{
-              marginLeft: 15,
-              fontWeight: "black",
-              fontSize: 10,
-            }}
-          >
-            Tasa de Cambio 3.7 soles = 1 dolar
-          </Text>
-          <Text> </Text>
-          <Text> </Text>
-        </ScrollView>
+        </TouchableOpacity>
+        <Text> </Text>
+        <Text
+          style={{
+            marginLeft: 15,
+            fontWeight: "black",
+            fontSize: 10,
+          }}
+        >
+          Tasa de Cambio 3.7 soles = 1 dolar
+        </Text>
+        <Text> </Text>
+        <Text> </Text>
       </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
-    </>
+    </ScrollView>
   );
   //}
 }

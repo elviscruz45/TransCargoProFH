@@ -170,7 +170,11 @@ export default function Documents(props: any) {
   };
 
   return (
-    <>
+    <ScrollView
+      style={{ backgroundColor: "white" }}
+      showsVerticalScrollIndicator={true}
+    >
+      {" "}
       <Text style={styles.reporteTitulo}>Control Documentario</Text>
       <Text> </Text>
       <SearchBar
@@ -194,7 +198,6 @@ export default function Documents(props: any) {
           />
         </View>
       )}
-
       <Text> </Text>
       <ScrollView
         horizontal={true}
@@ -206,94 +209,88 @@ export default function Documents(props: any) {
         }} // Add backgroundColor here
         showsVerticalScrollIndicator={Platform.OS === "web" ? true : false}
       >
-        <ScrollView
-          style={{ backgroundColor: "white" }}
-          showsVerticalScrollIndicator={true}
-        >
-          <DataTable style={{ width: "100%" }}>
-            <DataTable.Header>
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Nombre / Area</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo2}>
-                <Text style={styles.titulo2}>Archivo</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Fecha</Text>
-              </DataTable.Title>
-              <DataTable.Title style={styles.titulo3}>
-                <Text style={styles.titulo3}>Acciones</Text>
-              </DataTable.Title>
-            </DataTable.Header>
+        <DataTable style={{ width: "100%" }}>
+          <DataTable.Header>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Nombre / Area</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Archivo</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Fecha</Text>
+            </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Acciones</Text>
+            </DataTable.Title>
+          </DataTable.Header>
 
-            {searchResults?.map((file: any, index: any) => {
-              const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-              const fileDate = new Date(
-                file.fechaVencimiento.seconds * 1000 +
-                  file.fechaVencimiento.nanoseconds / 1000000
-              );
+          {searchResults?.map((file: any, index: any) => {
+            const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
+            const fileDate = new Date(
+              file.fechaVencimiento.seconds * 1000 +
+                file.fechaVencimiento.nanoseconds / 1000000
+            );
 
-              const currentDate = new Date();
-              const timeDifference = fileDate.getTime() - currentDate.getTime();
-              const isExpiring = timeDifference <= FiveDaysInMillis;
-              console.log("index", file.autor);
+            const currentDate = new Date();
+            const timeDifference = fileDate.getTime() - currentDate.getTime();
+            const isExpiring = timeDifference <= FiveDaysInMillis;
+            console.log("index", file.autor);
 
-              const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
+            const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
-              return (
-                <DataTable.Row key={index}>
-                  <DataTable.Cell style={styles.column1}>
-                    <Text style={styles.column1}>
-                      {file?.placa ||
-                        file?.nombre ||
-                        file?.email ||
-                        file?.pdfFileURL}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.column2}>
-                    <Text style={styles.column2}>{file?.tipoFile}</Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <Text style={styles.shortColumn2}>
-                      {formatDate(file?.fechaVencimiento)}
-                    </Text>
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.shortColumn2}>
-                    <TouchableOpacity onPress={() => goToEditDocs(file)}>
-                      <ImageExpo
-                        source={require("../../../assets/pictures/editIcon2.png")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    </TouchableOpacity>
-                    <Text>{"  .  "} </Text>
-                    {isExpiring ? (
-                      <ImageExpo
-                        source={require("../../../assets/pictures/trafficlight-red.webp")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    ) : (
-                      <ImageExpo
-                        source={require("../../../assets/reportes/green.svg")}
-                        style={[styles.roundImage10, { alignSelf: "center" }]}
-                        cachePolicy={"memory-disk"}
-                      />
-                    )}
-                  </DataTable.Cell>
-                </DataTable.Row>
-              );
-            })}
-          </DataTable>
-        </ScrollView>
+            return (
+              <DataTable.Row key={index}>
+                <DataTable.Cell style={styles.column1}>
+                  <Text style={styles.column1}>
+                    {file?.placa ||
+                      file?.nombre ||
+                      file?.email ||
+                      file?.pdfFileURL}
+                  </Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.column2}>
+                  <Text style={styles.column2}>{file?.tipoFile}</Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {formatDate(file?.fechaVencimiento)}
+                  </Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <TouchableOpacity onPress={() => goToEditDocs(file)}>
+                    <ImageExpo
+                      source={require("../../../assets/pictures/editIcon2.png")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  </TouchableOpacity>
+                  <Text>{"  .  "} </Text>
+                  {isExpiring ? (
+                    <ImageExpo
+                      source={require("../../../assets/pictures/trafficlight-red.webp")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  ) : (
+                    <ImageExpo
+                      source={require("../../../assets/reportes/green.svg")}
+                      style={[styles.roundImage10, { alignSelf: "center" }]}
+                      cachePolicy={"memory-disk"}
+                    />
+                  )}
+                </DataTable.Cell>
+              </DataTable.Row>
+            );
+          })}
+        </DataTable>
       </ScrollView>
       <Text></Text>
       <Text></Text>
-
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
-    </>
+    </ScrollView>
   );
   //}
 }

@@ -70,6 +70,9 @@ export function initialValues() {
     cambioHidrolinaProx: "",
     cambioRefrigeranteProx: "",
     cambioFiltrosProx: "",
+    //
+    fechaEmisionFactura: null,
+    cantidadVueltasEquivalente: 0,
   };
 }
 export function validationSchema() {
