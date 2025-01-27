@@ -335,9 +335,9 @@ export default function Operaciones(props: any) {
               <Text style={styles.titulo2}>Cliente</Text>
             </DataTable.Title>
 
-            {/* <DataTable.Title style={styles.titulo2}>
-          <Text style={styles.titulo2}>Carga</Text>
-        </DataTable.Title> */}
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Carga</Text>
+            </DataTable.Title>
             <DataTable.Title style={styles.titulo2}>
               <Text style={styles.titulo2}>Guia Transp</Text>
             </DataTable.Title>
@@ -447,10 +447,10 @@ export default function Operaciones(props: any) {
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
                 </DataTable.Cell>
-                {/* 
+
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.tipoCarga}</Text>
-                </DataTable.Cell> */}
+                </DataTable.Cell>
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
                     {file?.guiTransportista}
