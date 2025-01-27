@@ -303,7 +303,7 @@ export default function Operaciones(props: any) {
       </Text>{" "}
       <Text> </Text>
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-        Monto Facturas Pendientes, Incluye IGV = S/.{" "}
+        Pendiente de Pago, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(FacturasPendientes.toFixed(2))}
       </Text>{" "}
       <Text> </Text>
