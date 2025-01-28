@@ -213,6 +213,9 @@ export default function Operaciones(props: any) {
             <DataTable.Title style={styles.titulo2}>
               <Text style={styles.titulo2}>Proveedor</Text>
             </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>RUC</Text>
+            </DataTable.Title>
             <DataTable.Title style={styles.titulo3}>
               <Text style={styles.titulo3}>Cantidad</Text>
             </DataTable.Title>
@@ -276,6 +279,9 @@ export default function Operaciones(props: any) {
                 </DataTable.Cell> */}
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.clienteNombre}</Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.clienteRUC}</Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
@@ -347,36 +353,36 @@ export default function Operaciones(props: any) {
             );
           })}
         </DataTable>
-        <Text> </Text>
-        <Text> </Text>
-        <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
-          Egreso Total S/.{" "}
-          {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
-        </Text>{" "}
-        <TouchableOpacity
-          onPress={() => getExcelReportData("Control de Egresos", post)}
-        >
-          <Text> </Text>
-
-          <ImageExpo
-            source={require("../../../assets/pictures/excel2.png")}
-            style={styles.excel}
-          />
-          <Text> </Text>
-        </TouchableOpacity>
-        <Text> </Text>
-        <Text
-          style={{
-            marginLeft: 15,
-            fontWeight: "black",
-            fontSize: 10,
-          }}
-        >
-          Tasa de Cambio 3.7 soles = 1 dolar
-        </Text>
-        <Text> </Text>
-        <Text> </Text>
       </ScrollView>
+      <Text> </Text>
+      <Text> </Text>
+      <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
+        Egreso Total S/.{" "}
+        {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
+      </Text>{" "}
+      <TouchableOpacity
+        onPress={() => getExcelReportData("Control de Egresos", post)}
+      >
+        <Text> </Text>
+
+        <ImageExpo
+          source={require("../../../assets/pictures/excel2.png")}
+          style={styles.excel}
+        />
+        <Text> </Text>
+      </TouchableOpacity>
+      <Text> </Text>
+      <Text
+        style={{
+          marginLeft: 15,
+          fontWeight: "black",
+          fontSize: 10,
+        }}
+      >
+        Tasa de Cambio 3.7 soles = 1 dolar
+      </Text>
+      <Text> </Text>
+      <Text> </Text>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
