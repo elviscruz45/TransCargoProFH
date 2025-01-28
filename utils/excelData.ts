@@ -92,6 +92,7 @@ export const getExcelReportData = async (
     const table = {
       Fecha_Creacion: formatDate(data?.createdAt?.seconds * 1000),
       Fecha_Operativa: formatDateContable(data?.fechaContable) || "", // Fecha para contabilidad
+      Vuelta_Eq: data?.cantidadVueltasEquivalente || "", // Eq. round
       NombreAsset: data?.nombreAsset || "Unknown asset", // Asset name
       Placa: data?.placa || "", // License plate number
       Carroceria: data?.carroceria || "", // Bodywork
