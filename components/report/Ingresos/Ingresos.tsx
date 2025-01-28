@@ -370,6 +370,9 @@ export default function Operaciones(props: any) {
             <DataTable.Title style={styles.titulo2}>
               <Text style={styles.titulo2}>Fecha Emision Factura</Text>
             </DataTable.Title>
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Fecha Pago Factura</Text>
+            </DataTable.Title>
             <DataTable.Title style={styles.titulo3}>
               <Text style={styles.titulo3}>Conductor</Text>
             </DataTable.Title>
@@ -544,7 +547,11 @@ export default function Operaciones(props: any) {
                     {formatDate(file?.fechadeEmisionFactura)}
                   </Text>
                 </DataTable.Cell>
-
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>
+                    {formatDate(file?.fechadePago)}
+                  </Text>
+                </DataTable.Cell>
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
                     {file?.nombreConductor?.split(".")[0]}
