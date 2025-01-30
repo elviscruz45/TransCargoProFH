@@ -200,6 +200,9 @@ export default function Mantenimiento(props: any) {
             <DataTable.Title style={styles.titulo3}>
               <Text style={styles.titulo3}>Repuesto</Text>
             </DataTable.Title>
+            <DataTable.Title style={styles.titulo3}>
+              <Text style={styles.titulo3}>Factura</Text>
+            </DataTable.Title>
 
             <DataTable.Title style={styles.titulo3}>
               <Text style={styles.titulo3}>Acciones</Text>
@@ -251,6 +254,9 @@ export default function Mantenimiento(props: any) {
 
                 <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.repuesto}</Text>
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  <Text style={styles.shortColumn2}>{file?.numeroFactura}</Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>
