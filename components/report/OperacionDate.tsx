@@ -41,8 +41,8 @@ export default function OperacionDate(props: any) {
 
     if (dateStart > dateEnd) {
       alert("La fecha de inicio no puede ser mayor a la fecha de fin");
-    } else if (daysDifference >= 30) {
-      alert("La diferencia entre las fechas no debe ser mayor a 30 días");
+    } else if (daysDifference >= 32) {
+      alert("La diferencia entre las fechas no debe ser mayor a 31 días");
     } else if (new Date(startDate) > new Date()) {
       alert("La fecha de inicio no puede ser mayor a la fecha de hoy");
     } else {

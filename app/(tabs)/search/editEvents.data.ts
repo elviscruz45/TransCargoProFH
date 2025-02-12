@@ -68,6 +68,8 @@ export function initialValues() {
     LavadoyEngrase: "",
     //
     cantidadVueltasEquivalente: 0,
+    //
+    fechaTramiteContabilidad: "",
   };
 }
 export function validationSchema() {

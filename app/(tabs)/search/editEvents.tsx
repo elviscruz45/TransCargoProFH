@@ -302,6 +302,10 @@ export default function editEvents(props: any) {
           updateData.cantidadVueltasEquivalente =
             newData.cantidadVueltasEquivalente;
         }
+        if (newData.fechaTramiteContabilidad) {
+          updateData.fechaTramiteContabilidad =
+            newData.fechaTramiteContabilidad;
+        }
 
         await updateDoc(RefFirebaseLasEventPostd, updateData);
 
@@ -798,7 +802,7 @@ export default function editEvents(props: any) {
                         color: "gray",
                       }}
                     >
-                      Fecha Contable
+                      Fecha de Factura Emitida
                     </Text>
                     <Text> </Text>
                     <input
@@ -821,7 +825,43 @@ export default function editEvents(props: any) {
                     <Text> </Text>
                   </View>
                 )}
+                {Platform.OS === "web" && (
+                  <View style={{ marginHorizontal: 10 }}>
+                    <Text> </Text>
 
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: "bold",
+                        color: "gray",
+                      }}
+                    >
+                      Fecha de Contabilizacion de la factura
+                    </Text>
+                    <Text> </Text>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      onChange={(event: any) => {
+                        const selectedDateString = event.target.value; // "YYYY-MM-DD" string
+                        const [year, month, day] =
+                          selectedDateString.split("-");
+                        const selectedDate = new Date(
+                          Number(year),
+                          Number(month) - 1,
+                          Number(day)
+                        ); // month is 0-indexed in JavaScript Date
+                        formik.setFieldValue(
+                          "fechaTramiteContabilidad",
+                          selectedDate
+                        );
+                      }}
+                    />
+                    <Text> </Text>
+                    <Text> </Text>
+                  </View>
+                )}
                 <Input
                   value={formik.values.kilometraje}
                   label="Kilometraje (Km)"

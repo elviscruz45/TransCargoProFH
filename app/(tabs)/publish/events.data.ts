@@ -73,6 +73,8 @@ export function initialValues() {
     //
     fechadeEmisionFactura: null,
     cantidadVueltasEquivalente: 0,
+    //
+    fechaTramiteContabilidad: null,
   };
 }
 export function validationSchema() {
