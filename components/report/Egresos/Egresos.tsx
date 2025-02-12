@@ -106,7 +106,7 @@ export default function Operaciones(props: any) {
           where("emailCompany", "==", emailCompany),
           where("idFirebaseAsset", "==", asset),
           where("tipoEvento", "==", "2. Egreso"),
-          limit(50)
+          limit(1000)
         );
         console.log("2222222", asset);
 
