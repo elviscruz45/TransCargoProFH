@@ -164,6 +164,7 @@ export const getExcelReportData = async (
         formatDateContable(data?.fechadeEmisionFactura) || "", // Fecha para contabilidad
       Fecha_Contable_Emision_Gasto:
         formatDateContable(data?.fechaTramiteContabilidad) || "",
+      Descripcion_del_Gasto: data.descripcionGasto || "", // Handling empty comments
     };
     post_array.push(table);
   });
