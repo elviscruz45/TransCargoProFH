@@ -160,8 +160,8 @@ export const getExcelReportData = async (
       Nombre_Perfil: data?.nombrePerfil || "", // Nombre del perfil del usuario
       // Ultimo_Evento: data?.LastEventPosted || "",
       //Fechas
-      // Fecha_EmisionFactura:
-      //   formatDateContable(data?.fechadeEmisionFactura) || "", // Fecha para contabilidad
+      Fecha_EmisionFactura_del_Ingreso:
+        formatDateContable(data?.fechadeEmisionFactura) || "", // Fecha para contabilidad
       Fecha_Contable_Emision_Gasto:
         formatDateContable(data?.fechaTramiteContabilidad) || "",
     };
