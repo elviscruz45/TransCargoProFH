@@ -933,7 +933,7 @@ export default function events(props: any) {
                 formik.setFieldValue("precioUnitario", numericText);
               }}
             />
-            <Input
+            {/* <Input
               value={formik.values.moneda.toString()}
               label="Moneda"
               // placeholder="Visibilidad del evento"
@@ -945,7 +945,7 @@ export default function events(props: any) {
                 name: "clipboard-list-outline",
                 onPress: () => selectComponent("moneda"),
               }}
-            />
+            /> */}
 
             <Input
               value={formik.values.tipoComprobante.toString()}
