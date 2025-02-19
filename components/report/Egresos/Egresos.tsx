@@ -191,8 +191,11 @@ export default function Operaciones(props: any) {
       >
         <DataTable>
           <DataTable.Header>
-            <DataTable.Title style={styles.titulo2}>
+            {/* <DataTable.Title style={styles.titulo2}>
               <Text style={styles.titulo2}>Fecha</Text>
+            </DataTable.Title> */}
+            <DataTable.Title style={styles.titulo2}>
+              <Text style={styles.titulo2}>Fecha Factura</Text>
             </DataTable.Title>
             <DataTable.Title style={styles.titulo2}>
               <Text style={styles.titulo2}>Fecha Contable</Text>
@@ -253,13 +256,16 @@ export default function Operaciones(props: any) {
 
             return (
               <DataTable.Row key={index}>
-                <DataTable.Cell style={styles.shortColumn2}>
+                {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>
                     {formatDate(file?.createdAt)}
                   </Text>
-                </DataTable.Cell>
+                </DataTable.Cell> */}
                 <DataTable.Cell style={styles.shortColumn2}>
                   {formatDate(file?.fechaContable)}
+                </DataTable.Cell>
+                <DataTable.Cell style={styles.shortColumn2}>
+                  {formatDate(file?.fechaTramiteContabilidad)}
                 </DataTable.Cell>
                 {/* <DataTable.Cell style={styles.shortColumn2}>
                   <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
