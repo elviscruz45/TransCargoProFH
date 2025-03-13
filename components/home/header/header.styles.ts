@@ -14,8 +14,12 @@ export const styles = StyleSheet.create({
     // flex: 1,
     // alignItems: "center",
     // marginHorizontal: 20,
+    // borderColor: "#ddd",
+    // borderWidth: 10,
     justifyContent: "center",
     backgroundColor: "white",
+    // borderRadius: 10,
+
     // alignSelf: "center",
   },
   title: {

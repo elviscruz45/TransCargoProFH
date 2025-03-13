@@ -19,7 +19,6 @@ import { formatDate } from "../../../utils/formats";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useNavigation, useLocalSearchParams } from "expo-router";
-import { db } from "../../../utils/firebase";
 import {
   doc,
   updateDoc,
@@ -30,6 +29,8 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { SearchBar, Icon } from "@rneui/themed";
+import { supabase } from "@/supabase/client";
+
 interface ItemType {
   tipoFile: string;
   pdfFileURLFirebase: string;
@@ -49,14 +50,14 @@ export default function FileScreen() {
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
   const currentAsset: any = assetList.find((asset: any) => asset.id === item);
+  console.log("item-FILES", currentAsset);
+
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
 
   const files = currentAsset?.files;
-
-
 
   const uploadFile = useCallback(async (uri: any) => {
     try {
@@ -116,19 +117,21 @@ export default function FileScreen() {
         "Estas Seguro que deseas cambiar de Imagen?"
       );
       if (confirmed) {
-        const Ref = doc(db, "Asset", item);
-        const docSnapshot = await getDoc(Ref);
-        const docList = docSnapshot?.data()?.files;
-
-        const filteredList = docList.filter(
-          (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
-        );
-
-        const updatedData = {
-          files: filteredList,
-        };
-
-        await updateDoc(Ref, updatedData);
+        // let { data: assets, error } = await supabase
+        //     .from("assets")
+        //     .select("*")
+        //     .like("emailCompany", emailCompany);
+        //   console.log("assets=1", assets);
+        // const Ref = doc(db, "Asset", item);
+        // const docSnapshot = await getDoc(Ref);
+        // const docList = docSnapshot?.data()?.files;
+        // const filteredList = docList.filter(
+        //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+        // );
+        // const updatedData = {
+        //   files: filteredList,
+        // };
+        // await updateDoc(Ref, updatedData);
       }
     } else {
       Alert.alert(
@@ -142,19 +145,19 @@ export default function FileScreen() {
           {
             text: "Aceptar",
             onPress: async () => {
-              const Ref = doc(db, "Asset", item);
-              const docSnapshot = await getDoc(Ref);
-              const docList = docSnapshot?.data()?.files;
+              // const Ref = doc(db, "Asset", item);
+              // const docSnapshot = await getDoc(Ref);
+              // const docList = docSnapshot?.data()?.files;
 
-              const filteredList = docList.filter(
-                (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
-              );
+              // const filteredList = docList.filter(
+              //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+              // );
 
-              const updatedData = {
-                files: filteredList,
-              };
+              // const updatedData = {
+              //   files: filteredList,
+              // };
 
-              await updateDoc(Ref, updatedData);
+              // await updateDoc(Ref, updatedData);
               Toast.show({
                 type: "success",
                 position: "bottom",
@@ -174,34 +177,29 @@ export default function FileScreen() {
         "Estas Seguro que deseas cambiar la notificacion en tus reportes?"
       );
       if (confirmed) {
-        const Ref = doc(db, "Asset", item);
-        const docSnapshot = await getDoc(Ref);
-        const docList = docSnapshot?.data()?.files;
-
-        // const filteredList = docList.filter(
-        //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+        // const Ref = doc(db, "Asset", item);
+        // const docSnapshot = await getDoc(Ref);
+        // const docList = docSnapshot?.data()?.files;
+        // // const filteredList = docList.filter(
+        // //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+        // // );
+        // const findIndex = docList.findIndex(
+        //   (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
         // );
-
-        const findIndex = docList.findIndex(
-          (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
-        );
-
-        // const updatedData = {
-        //   files: filteredList,
-        // };
-        if (findIndex !== -1) {
-          // const updatedData = {
-          //   files: arrayRemove(docList[findIndex]),
-          // };
-          //add another property to the object called deactivated
-          docList[findIndex].deactivated = !docList[findIndex].deactivated;
-
-          const updatedData = {
-            files: docList,
-          };
-          await updateDoc(Ref, updatedData);
-        }
-
+        // // const updatedData = {
+        // //   files: filteredList,
+        // // };
+        // if (findIndex !== -1) {
+        //   // const updatedData = {
+        //   //   files: arrayRemove(docList[findIndex]),
+        //   // };
+        //   //add another property to the object called deactivated
+        //   docList[findIndex].deactivated = !docList[findIndex].deactivated;
+        //   const updatedData = {
+        //     files: docList,
+        //   };
+        //   await updateDoc(Ref, updatedData);
+        // }
         // await updateDoc(Ref, updatedData);
       }
     }

@@ -27,9 +27,6 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const selectAsset = (item: any) => {
     //create a to go to the screen called item
-    console.log("itemHOME", item);
-
-    console.log("itemHOME", item.id);
     router.push({
       pathname: "/search/item",
       params: { item: item.idFirebaseAsset },
@@ -43,104 +40,99 @@ export default function HomeScreen() {
   };
   return (
     <>
-      <View style={styles.container}>
-        {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
+      {Platform.OS === "web" && <View style={{ marginTop: 0 }}></View>}
+      <Header />
+      {/* <Text style={{ borderColor: "#ddd" }}> </Text>
+      <Text> </Text> */}
+      <FlatList
+        data={eventList}
+        scrollEnabled={true}
+        // ListHeaderComponent={<Header />}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
+        // contentContainerStyle={styles.gridContainer}
+        // style={styles.gridContainer}
+        renderItem={({ item }) => {
+          const arrayLlanta =
+            item?.llanta?.filter((item: any) => item.selected) || [];
+          return (
+            <View
+              style={
+                Platform.OS === "web"
+                  ? styles.gridItem
+                  : {
+                      // margin: 2,
+                      borderBottomWidth: 1,
+                      borderBottomColor: "",
+                      paddingVertical: 10,
 
-        <FlatList
-          data={eventList}
-          scrollEnabled={true}
-          ListHeaderComponent={<Header />}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={Platform.OS === "web" ? true : false}
-          style={{ backgroundColor: "white" }}
-          renderItem={({ item }) => {
-            const arrayLlanta =
-              item?.llanta?.filter((item: any) => item.selected) || [];
-
-            return (
-              <View
-                style={{
-                  // margin: 2,
-                  borderBottomWidth: 1,
-                  borderBottomColor: "",
-                  paddingVertical: 10,
-
-                  // alignItems: "center",
-                  // alignSelf: "center",
-                }}
-              >
-                <View style={[styles.row, styles.center]}>
-                  <Text> </Text>
-                  <Text> </Text>
-                  <Text> </Text>
-                  <View style={[styles.row, styles.center]}>
-                    <TouchableOpacity
-                      style={[styles.row, styles.center]}
-                      onPress={() => selectAsset(item)}
-                    >
-                      <ImageExpo
-                        source={
-                          item.photoAssetURL
-                            ? { uri: item.photoAssetURL }
-                            : require("../../../assets/assetpics/truckIcon.png")
-                        }
-                        style={styles.roundImage}
-                        cachePolicy={"memory-disk"}
-                      />
-                      <View>
-                        {item.placa ? (
-                          <Text style={styles.NombreServicio}>
-                            {"Placa: "}
-                            {item.placa}
-                          </Text>
-                        ) : item.nombre ? (
-                          <Text
-                            style={[
-                              styles.NombreServicio,
-                              { alignSelf: "center" },
-                            ]}
-                          >
-                            {item.nombre}
-                          </Text>
-                        ) : (
-                          <Text
-                            style={[
-                              styles.NombreServicio,
-                              { alignSelf: "center" },
-                            ]}
-                          >
-                            {item.nombreAsset}
-                          </Text>
-                        )}
-                      </View>
-                    </TouchableOpacity>
-
-                    <ImageExpo
-                      source={
-                        item.photoProfileURL
-                          ? { uri: item.photoProfileURL }
-                          : require("../../../assets/assetpics/userIcon.png")
-                      }
-                      style={styles.roundImage}
-                      cachePolicy={"memory-disk"}
-                    />
-                    <Text style={styles.NombrePerfilCorto}>
-                      {item.nombrePerfil}
-                    </Text>
-                  </View>
-                </View>
+                      // alignItems: "center",
+                      // alignSelf: "center",
+                    }
+              }
+            >
+              <Text> </Text>
+              <View style={[styles.row1]}>
                 <Text> </Text>
-                <View style={[styles.row, styles.center]}>
-                  <Text
-                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
-                  >
-                    {"Tipo de Información:"}
-                  </Text>
-                  <Text style={{ marginLeft: 5, color: "" }}>
-                    {item.tipoEvento}
-                  </Text>
-                </View>
-                {/* <View style={[styles.row, styles.center]}>
+                <Text> </Text>
+                <Text> </Text>
+                <TouchableOpacity
+                  style={[styles.row, styles.center]}
+                  onPress={() => selectAsset(item)}
+                >
+                  <ImageExpo
+                    source={
+                      item.photoAssetURL
+                        ? { uri: item.photoAssetURL }
+                        : require("../../../assets/assetpics/truckIcon.png")
+                    }
+                    style={styles.roundImage}
+                    cachePolicy={"memory-disk"}
+                  />
+                  <View>
+                    {item.placa ? (
+                      <Text style={styles.NombreServicio}>
+                        {"Placa: "}
+                        {item.placa}
+                      </Text>
+                    ) : item.nombre ? (
+                      <Text
+                        style={[styles.NombreServicio, { alignSelf: "center" }]}
+                      >
+                        {item.nombre}
+                      </Text>
+                    ) : (
+                      <Text
+                        style={[styles.NombreServicio, { alignSelf: "center" }]}
+                      >
+                        {item.nombreAsset}
+                      </Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+
+                <ImageExpo
+                  source={
+                    item.photoProfileURL
+                      ? { uri: item.photoProfileURL }
+                      : require("../../../assets/assetpics/userIcon.png")
+                  }
+                  style={styles.roundImage}
+                  cachePolicy={"memory-disk"}
+                />
+                <Text style={styles.NombrePerfilCorto}>
+                  {item.nombrePerfil}
+                </Text>
+              </View>
+              <View style={[styles.row, styles.center]}>
+                <Text style={{ marginLeft: 15, color: "", fontWeight: "bold" }}>
+                  {"Tipo de Información:"}
+                </Text>
+                <Text style={{ marginLeft: 5, color: "" }}>
+                  {item.tipoEvento}
+                </Text>
+              </View>
+              {/* <View style={[styles.row, styles.center]}>
                   <Text
                     style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
                   >
@@ -150,63 +142,58 @@ export default function HomeScreen() {
                     {item.emailCompany}
                   </Text>
                 </View> */}
-                <View style={[styles.row, styles.center]}>
-                  <Text
-                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
-                  >
-                    {"Usuario:"}
-                  </Text>
-                  <Text style={{ marginLeft: 5, color: "" }}>
-                    {item.emailPerfil}
-                  </Text>
-                </View>
-                <View style={[styles.row, styles.center]}>
-                  <Text
-                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
-                  >
-                    {"Fecha:"}
-                  </Text>
-                  <Text style={{ marginLeft: 1, color: "" }}>
-                    {item.fechaPostFormato}
-                  </Text>
-                </View>
-
-                <Text> </Text>
-                <View style={styles.equipments}>
-                  <TouchableOpacity
-                  // onPress={() => commentPost(item)}
-                  >
-                    <ImageExpo
-                      source={
-                        item?.fotoPrincipal
-                          ? { uri: item?.fotoPrincipal }
-                          : require("../../../assets/assetpics/fhlogoiconver3.png")
-                      }
-                      style={styles.postPhoto}
-                      cachePolicy={"memory-disk"}
-                    />
-                  </TouchableOpacity>
-                  <Text>{"     "} </Text>
-
-                  <View>
-                    <Text style={styles.textAreaTitle}>{item.tipoEvento}</Text>
-                    <Text> </Text>
-                    <Text style={styles.textAreaComment} selectable={true}>
-                      {item.comentarios}{" "}
-                      {arrayLlanta?.length > 0 &&
-                        arrayLlanta?.map((item: any, index: any) => (
-                          <Text key={index}>Llanta N: {item.value}, </Text>
-                        ))}
-                    </Text>
-                  </View>
-                </View>
-                <Text> </Text>
-                <Text> </Text>
+              <View style={[styles.row, styles.center]}>
+                <Text style={{ marginLeft: 15, color: "", fontWeight: "bold" }}>
+                  {"Usuario:"}
+                </Text>
+                <Text style={{ marginLeft: 5, color: "" }}>
+                  {item.emailPerfil}
+                </Text>
               </View>
-            );
-          }}
-        />
-      </View>
+              <View style={[styles.row, styles.center]}>
+                <Text style={{ marginLeft: 15, color: "", fontWeight: "bold" }}>
+                  {"Fecha:"}
+                </Text>
+                <Text style={{ marginLeft: 1, color: "" }}>
+                  {item.fechaPostFormato}
+                </Text>
+              </View>
+              <Text> </Text>
+              <Text> </Text>
+              <View style={styles.equipments}>
+                <TouchableOpacity
+                // onPress={() => commentPost(item)}
+                >
+                  <ImageExpo
+                    source={
+                      item?.fotoPrincipal
+                        ? { uri: item?.fotoPrincipal }
+                        : require("../../../assets/assetpics/fhlogoiconver3.png")
+                    }
+                    style={styles.postPhoto}
+                    cachePolicy={"memory-disk"}
+                  />
+                </TouchableOpacity>
+                <Text>{"     "} </Text>
+
+                <View>
+                  <Text style={styles.textAreaTitle}>{item.tipoEvento}</Text>
+                  <Text> </Text>
+                  <Text style={styles.textAreaComment} selectable={true}>
+                    {item.comentarios}{" "}
+                    {arrayLlanta?.length > 0 &&
+                      arrayLlanta?.map((item: any, index: any) => (
+                        <Text key={index}>Llanta N: {item.value}, </Text>
+                      ))}
+                  </Text>
+                </View>
+              </View>
+              <Text> </Text>
+              <Text> </Text>
+            </View>
+          );
+        }}
+      />
     </>
   );
 }

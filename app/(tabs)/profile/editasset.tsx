@@ -12,7 +12,6 @@ import { useRouter } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./editasset.data";
-import { db } from "../../../utils/firebase";
 import {
   addDoc,
   collection,
@@ -60,7 +59,7 @@ export default function EditAsset(props: any) {
         const newData = formValue;
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        const RefFirebaseLasEventPostd = doc(db, "Asset", item);
+        // const RefFirebaseLasEventPostd = doc(db, "Asset", item);
 
         const updateData: any = {};
 
@@ -260,7 +259,7 @@ export default function EditAsset(props: any) {
           updateData.userAssigned = newData.userAssigned;
         }
 
-        await updateDoc(RefFirebaseLasEventPostd, updateData);
+        // await updateDoc(RefFirebaseLasEventPostd, updateData);
 
         // this hedlps to go to the begining of the process
 

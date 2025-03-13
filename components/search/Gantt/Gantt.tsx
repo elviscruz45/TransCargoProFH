@@ -49,7 +49,7 @@ export const GanttHistorial = (props: any) => {
   const comentPost = (item: any) => {
     router.push({
       pathname: "/(tabs)/search/comment",
-      params: { item: item.idEventFirebase },
+      params: { item: item.id },
     });
   };
 
@@ -103,7 +103,11 @@ export const GanttHistorial = (props: any) => {
 
                 <View style={styles.row}>
                   <ImageExpo
-                    source={{ uri: item.fotoPrincipal }}
+                    source={
+                      item?.fotoPrincipal
+                        ? { uri: item.fotoPrincipal }
+                        : require("../../../assets/assetpics/fhlogoiconver3.png")
+                    }
                     cachePolicy={"memory-disk"}
                     style={{
                       width: 50,

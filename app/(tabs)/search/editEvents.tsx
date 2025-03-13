@@ -23,7 +23,6 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../../../utils/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import type { CurrentAsset } from "../../../types/publish";
@@ -130,7 +129,6 @@ export default function editEvents(props: any) {
     }
   }, [tires]);
 
-
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
@@ -141,7 +139,7 @@ export default function editEvents(props: any) {
 
         const newData = formValue;
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        const RefFirebaseLasEventPostd = doc(db, "Events", idEventFirebase);
+        // const RefFirebaseLasEventPostd = doc(db, "Events", idEventFirebase);
         const updateData: any = {};
         if (newData?.tipoEvento) {
           updateData.tipoEvento = newData.tipoEvento;
@@ -305,7 +303,7 @@ export default function editEvents(props: any) {
             newData.fechaTramiteContabilidad;
         }
 
-        await updateDoc(RefFirebaseLasEventPostd, updateData);
+        // await updateDoc(RefFirebaseLasEventPostd, updateData);
 
         router.push({
           pathname: "/search",

@@ -226,7 +226,7 @@ export default function Publish() {
           backgroundColor: "white",
           justifyContent: "space-between",
 
-          // paddingHorizontal: 150,
+          paddingHorizontal: 20,
         }}
       >
         <TouchableOpacity

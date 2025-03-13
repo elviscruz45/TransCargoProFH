@@ -8,7 +8,6 @@ import { ChangeDisplayFileTipo } from "../../../components/search/ChangeFIleTipo
 // import { connect } from "react-redux";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./addFiles.data";
-import { db } from "../../../utils/firebase";
 import { v4 as uuidv4 } from "uuid";
 import {
   getStorage,
@@ -37,14 +36,14 @@ export default function AddDocs() {
   const [tipoFile, setTipoFile] = useState("");
   //global state management for the user_uid
   const { item }: any = useLocalSearchParams();
+
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
-  const currentAsset: any = assetList.find(
-    (asset: any) => asset.idFirebaseAsset === item
-  );
+
+  const currentAsset: any = assetList.find((asset: any) => asset.id === item);
 
   const currentUserNameDoc = currentAsset?.nombre;
   const currentAssetId = currentAsset?.id;
@@ -96,16 +95,6 @@ export default function AddDocs() {
         newData.nombre = currentUserNameDoc;
         newData.idAssetFirebase = currentAssetId;
 
-        //manage the file updated to ask for aprovals
-        let imageUrlPDF: any;
-        let snapshotPDF;
-
-        // if (pdfFileURL) {
-        //   snapshotPDF = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
-
-        //   const imagePathPDF = snapshotPDF?.metadata.fullPath;
-        //   imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
-        // }
         const file = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
         let publicUrl = "";
         if (file) {
@@ -117,18 +106,15 @@ export default function AddDocs() {
             .from("assets_documents")
             .upload(fileName, blob, {
               cacheControl: "3600",
-              upsert: false,
+              upsert: true,
             });
 
           if (error) throw error;
-
 
           // Get Public URL
           publicUrl = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
-
-         
 
           Alert.alert("Success", "File uploaded successfully!");
         } else {
@@ -137,31 +123,8 @@ export default function AddDocs() {
 
         newData.pdfFileURLFirebase = publicUrl;
 
-        //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        // const RefFirebaseLasEventPostd = doc(db, "Asset", item);
+        console.log("pulbicURL", publicUrl);
 
-        // const updatedData = {
-        //   files: arrayUnion(newData),
-        // };
-
-        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
-
-        //----------SUPABASE ADD DATABASE-------------
-        // const updatedData = {
-        //   files: arrayUnion(newData),
-        // };
-
-        // const { data, error } = await supabase
-        //   .from("assets")
-        //   .update({ other_column: "otherValue" })
-        //   .eq("some_column", "someValue")
-        //   .select();
-
-        // if (error) {
-        //   console.error("Error inserting data:", error);
-        // } else {
-        // }
-    
         //----------SUPABASE-------------
         const { data: currentData, error: fetchError } = await supabase
           .from("assets")
@@ -169,6 +132,7 @@ export default function AddDocs() {
           .eq("id", currentAssetId)
           .single();
 
+        console.log("currentData----222", currentData);
 
         if (fetchError) {
           console.error("Error fetching current data:", fetchError);

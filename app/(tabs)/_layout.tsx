@@ -15,21 +15,7 @@ import { TabBarIcon } from "@/components/navigation/TabBarIcon";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import type { RootState } from "../store";
-import {
-  addDoc,
-  collection,
-  query,
-  doc,
-  updateDoc,
-  where,
-  orderBy,
-  getDocs,
-  getDoc,
-  onSnapshot,
-  arrayUnion,
-  arrayRemove,
-  limit,
-} from "firebase/firestore";
+
 import {
   signIn,
   update_photoURL,
@@ -43,14 +29,8 @@ import {
   updatecompanyRUC,
   updateEmailCompany,
 } from "@/slices/auth";
-import { db } from "../../utils/firebase";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  setAssetList,
-  setEventList,
-  setAssetList_idFirebaseAsset,
-} from "../../slices/home";
-import { Image as ImageExpo } from "expo-image";
+import { setAssetList, setEventList } from "../../slices/home";
 import { updateEmployees } from "../../slices/profile";
 import { supabase } from "@/supabase/client";
 
@@ -116,11 +96,6 @@ export default function TabLayout() {
 
   // Equipos
   useEffect(() => {
-    let unsubscribe: any;
-    let lista: any = [];
-    let lista_idFirebaseAsset: any = [];
-    console.log("Equipos");
-
     if (
       user_email &&
       emailCompany &&

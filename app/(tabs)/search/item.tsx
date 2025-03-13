@@ -2,13 +2,6 @@ import { StyleSheet, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { db } from "../../../utils/firebase";
 import { Text, View, ScrollView, Image, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image as ImageExpo } from "expo-image";
@@ -21,16 +14,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { DateScreen } from "../../../components/search/DateScreen/DateScreen";
 import { GanttHistorial } from "../../../components/search/Gantt/Gantt";
-import {
-  collection,
-  query,
-  where,
-  orderBy,
-  getDocs,
-  doc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
+
 import { AvatarImg } from "./AvatarImg";
 import { supabase } from "@/supabase/client";
 
@@ -55,7 +39,6 @@ export default function Item() {
   //global state management for the user_uid
   const { item }: any = useLocalSearchParams();
 
-
   //Data about the company belong this event
   function capitalizeFirstLetter(str: string = "") {
     return str?.charAt(0).toUpperCase() + str?.slice(1);
@@ -68,7 +51,6 @@ export default function Item() {
   const [currentAsset]: any = assetList.filter(
     (asset: any) => asset.id === item
   );
-
 
   // const dispatch = useDispatch();
   // const currentDate = new Date();
@@ -97,6 +79,7 @@ export default function Item() {
   };
   //Using navigation.navigate I send it to another screen (post)
   const goToDocs = () => {
+    console.log("itemgoToDocs", item);
     router.push({
       pathname: "/search/files",
       params: { item: item },
@@ -172,7 +155,6 @@ export default function Item() {
       fetchData();
     }
   }, [startDate, endDate, item]);
-
 
   return (
     <ScrollView

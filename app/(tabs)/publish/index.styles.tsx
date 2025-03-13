@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     // bottom: 10,
     // right: 10,
     // marginHorizontal: 100,
-    paddingHorizontal: 60,
+    // paddingHorizontal: 60,
     borderRadius: 40,
   },
   roundImageUpload: {
@@ -68,7 +68,7 @@ export const styles = StyleSheet.create({
     // position: "absolute",
     // bottom: 150,
     // right: 10,
-    paddingHorizontal: 60,
+    // paddingHorizontal: 60,
   },
   roundImage: {
     width: 70,

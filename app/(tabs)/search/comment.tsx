@@ -14,7 +14,6 @@ import { Feather } from "@expo/vector-icons";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
 import { styles } from "./comment.styles";
-import { db } from "../../../utils/firebase";
 import { Image as ImageExpo } from "expo-image";
 import { Item } from "../../../utils/comment";
 // import { db } from "../../../utils";
@@ -45,6 +44,8 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { useRouter } from "expo-router";
 import { Platform } from "react-native";
+import { supabase } from "@/supabase/client";
+
 interface CommentProps {
   data: any[]; // Define the type of data appropriately
 }
@@ -70,7 +71,7 @@ interface Post {
 }
 
 export default function Comment() {
-  const [postsComments, setPostsComments] = useState([]);
+  const [postsComments, setPostsComments] = useState<any>();
   const [comment, setComment] = useState("");
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
@@ -88,23 +89,14 @@ export default function Comment() {
     let q;
 
     async function fetchData() {
-      q = query(collection(db, "Events"), where("idEventFirebase", "==", item));
-
-      try {
-        const querySnapshot = await getDocs(q);
-        const lista: any = [];
-        querySnapshot.forEach((doc) => {
-          lista.push(doc.data());
-
-          // lista.push(doc.data());
-        });
-        const [post_unique] = lista;
-        setPost(post_unique);
-
-        // setPost(lista.slice(0, 100));
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
+      console.log("itemComment--", item);
+      let { data: users, error } = await supabase
+        .from("events")
+        .select("*")
+        // Filters
+        .eq("id", item);
+      console.log("users===2=1", users);
+      setPost(users!![0]);
     }
 
     fetchData();
@@ -119,7 +111,8 @@ export default function Comment() {
       if (confirmed) {
         //delete the doc from events collections
         router.back();
-        await deleteDoc(doc(db, "Events", idDoc));
+        // await deleteDoc(doc(db, "Events", idDoc));
+        const { error } = await supabase.from("events").delete().eq("id", item);
       }
     } else {
       Alert.alert(
@@ -135,8 +128,12 @@ export default function Comment() {
             onPress: async () => {
               //delete the doc from events collections
               router.back();
-              await deleteDoc(doc(db, "Events", idDoc));
+              // await deleteDoc(doc(db, "Events", idDoc));
 
+              const { error } = await supabase
+                .from("events")
+                .delete()
+                .eq("id", item);
               Toast.show({
                 type: "success",
                 position: "bottom",

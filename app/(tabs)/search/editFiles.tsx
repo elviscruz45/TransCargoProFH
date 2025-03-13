@@ -6,7 +6,6 @@ import * as DocumentPicker from "expo-document-picker";
 import { Modal } from "../../../components/shared/Modal";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./editFiles.data";
-import { db } from "../../../utils/firebase";
 import {
   getStorage,
   ref,
@@ -95,11 +94,11 @@ export default function EditDocs() {
           console.log("Object with age 28 not found in the list.");
         }
 
-        const RefFirebaseLasEventPostd = doc(db, "Asset", uidDoc);
-        const updatedData = {
-          files: newFileListToUpdate,
-        };
-        await updateDoc(RefFirebaseLasEventPostd, updatedData);
+        // const RefFirebaseLasEventPostd = doc(db, "Asset", uidDoc);
+        // const updatedData = {
+        //   files: newFileListToUpdate,
+        // };
+        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
         router.push({
           pathname: "/search",
         });
