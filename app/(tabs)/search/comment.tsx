@@ -151,7 +151,6 @@ export default function Comment() {
   };
   const arrayLlanta = post?.llanta.filter((item: any) => item.selected);
   const llantaTipo = post?.llanta[post?.llanta?.length - 1]?.tipo;
-  console.log("llantaTipo111111111111", llantaTipo);
   //this function goes to homeTab=>commentScreen
   const editEvent = (item: any) => {
     router.push({

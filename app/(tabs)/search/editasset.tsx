@@ -268,7 +268,7 @@ export default function EditAsset(props: any) {
           source={
             currentAsset.photoServiceURL
               ? { uri: currentAsset.photoServiceURL }
-              : require("../../../assets/assetpics/carIcon.jpg")
+              : require("../../../assets/assetpics/truckIcon.png")
           }
           style={[styles.roundImage, { alignSelf: "center" }]}
           cachePolicy={"memory-disk"}

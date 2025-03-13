@@ -12,7 +12,7 @@ export function initialValues() {
     costoTotalRepuesto: "",
     repuesto: "",
     costoMantenimiento: "",
-    costo: 0,
+    costo: "",
     userType: "",
     photoAssetURL: "",
     placa: "",
@@ -22,7 +22,7 @@ export function initialValues() {
     guiaRemitente: "",
     guiTransportista: "",
     carroceria: "",
-    cantidad: 0,
+    cantidad: "",
     unidadMedida: "",
     tipoCarga: "",
     descripcionGasto: "",
@@ -32,7 +32,6 @@ export function initialValues() {
     clienteNombre: "",
     tipoComprobante: "",
     nombreConductor: "",
-
     moneda: "",
     //Datos Adicionales para Firebase
     fechaPostFormato: "",
@@ -49,7 +48,7 @@ export function initialValues() {
     idFirebaseAsset: "",
     idEventFirebase: "",
     tipoMantto: "",
-    precioUnitario: 0,
+    precioUnitario: "",
     facturaPagada: "No",
     fechadePago: new Date(),
     fechaContable: new Date(),
@@ -61,7 +60,7 @@ export function initialValues() {
     FilenameTitle2: "",
     pdfPrincipal2: "",
     //
-    igv: 0,
+    igv: "",
     //kilometraje
     kilometrajeMantto: "",
     cambioAceiteProx: "",
@@ -72,7 +71,7 @@ export function initialValues() {
     cambioFiltrosProx: "",
     //
     fechadeEmisionFactura: null,
-    cantidadVueltasEquivalente: 0,
+    cantidadVueltasEquivalente: "",
     //
     fechaTramiteContabilidad: null,
   };

@@ -60,7 +60,6 @@ export const MultiSelectExample = (props: any) => {
   }, []);
 
   function saveProperty(itemValue: any) {
-    console.log("itemValue", itemValue);
     setAssets(itemValue);
   }
 

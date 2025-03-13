@@ -14,6 +14,7 @@ import { signOut as CloseApp } from "../../../slices/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useRouter } from "expo-router";
 import { Image as ImageExpo } from "expo-image";
+import { supabase } from "@/supabase/client";
 
 export default function Profile(props: any) {
   const router = useRouter();
@@ -36,8 +37,10 @@ export default function Profile(props: any) {
   const dispatch = useDispatch();
 
   const logout = async () => {
-    const auth = getAuth();
-    await signOut(auth);
+    // const auth = getAuth();
+    // await signOut(auth);
+
+    let { error } = await supabase.auth.signOut();
     // props.update_firebaseUserUid("");
     dispatch(CloseApp());
     router.replace({

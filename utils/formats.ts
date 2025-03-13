@@ -25,7 +25,7 @@ export const formattedNumber = (item: number) => {
 
 export const formatDate = (item: any) => {
   if (!item) return;
-  const date = new Date(item.seconds * 1000);
+  const date = new Date(item);
 
   const monthNames = [
     "ene.",

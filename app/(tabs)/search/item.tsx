@@ -32,9 +32,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { AvatarImg } from "./AvatarImg";
+import { supabase } from "@/supabase/client";
 
 export default function Item() {
-  const [post, setPost] = useState(null);
+  const [post, setPost] = useState<any>(null);
   const [serviceInfo, setServiceInfo] = useState();
   //global state management for the user_uid
   const globalAssetList: any = useSelector(
@@ -54,6 +55,7 @@ export default function Item() {
   //global state management for the user_uid
   const { item }: any = useLocalSearchParams();
 
+
   //Data about the company belong this event
   function capitalizeFirstLetter(str: string = "") {
     return str?.charAt(0).toUpperCase() + str?.slice(1);
@@ -62,14 +64,15 @@ export default function Item() {
   const router = useRouter();
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
+
   const [currentAsset]: any = assetList.filter(
-    (asset: any) => asset.idFirebaseAsset === item
+    (asset: any) => asset.id === item
   );
+
 
   // const dispatch = useDispatch();
   // const currentDate = new Date();
   // const currentTimestamp = currentDate.getTime();
-  // console.log("currentTimestamp", currentTimestamp);
 
   // Get the current date
   const currentDate = new Date();
@@ -116,45 +119,50 @@ export default function Item() {
   };
 
   useEffect(() => {
-    let q;
+    // let q;
     if (startDate && endDate) {
       async function fetchData() {
-        q = query(
-          collection(db, "Events"),
-          orderBy("fechaContable", "desc"),
-          where("fechaContable", ">=", startDate),
-          where("fechaContable", "<=", endDate),
-          where("emailCompany", "==", emailCompany),
-          where("tipoEvento", "!=", "2. Egreso"),
-          where("idFirebaseAsset", "==", item)
-        );
+        // q = query(
+        //   collection(db, "Events"),
+        //   orderBy("fechaContable", "desc"),
+        //   where("fechaContable", ">=", startDate),
+        //   where("fechaContable", "<=", endDate),
+        //   where("emailCompany", "==", emailCompany),
+        //   where("tipoEvento", "!=", "2. Egreso"),
+        //   where("idFirebaseAsset", "==", item)
+        // );
 
         try {
-          const querySnapshot = await getDocs(q);
-          const lista: any = [];
-          querySnapshot.forEach((doc) => {
-            const dataschema = {
-              ...doc.data(),
-              createdAt: doc.data().createdAt,
-              fechaPostFormato: doc.data().fechaPostFormato,
-              emailPerfil: doc.data().emailPerfil,
-              time: "01 Ene",
-              title: doc.data().tipoEvento,
-              description: doc.data().comentarios,
-              lineColor: "skyblue",
-              icon: require("../../../assets/pictures/empresa.png"),
-              imageUrl: doc.data().fotoUsuarioPerfil,
-              idDocAITFirestoreDB: item,
-              idEventFirebase: doc.data().idEventFirebase,
-            };
+          let { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .like("emailCompany", emailCompany!!);
+          // .contains("nombreAsset", assetAsignedList);
+          // .like("emailCompany", emailCompany);
+          setPost(events!!);
 
-            lista.push(dataschema);
-
-            // lista.push(doc.data());
-          });
-          // console.log("lista+para esquema", lista);
-          setPost(lista);
-
+          // dispatch(setEventList(events!!));
+          // const querySnapshot = await getDocs(q);
+          // const lista: any = [];
+          // querySnapshot.forEach((doc) => {
+          //   const dataschema = {
+          //     ...doc.data(),
+          //     createdAt: doc.data().createdAt,
+          //     fechaPostFormato: doc.data().fechaPostFormato,
+          //     emailPerfil: doc.data().emailPerfil,
+          //     time: "01 Ene",
+          //     title: doc.data().tipoEvento,
+          //     description: doc.data().comentarios,
+          //     lineColor: "skyblue",
+          //     icon: require("../../../assets/pictures/empresa.png"),
+          //     imageUrl: doc.data().fotoUsuarioPerfil,
+          //     idDocAITFirestoreDB: item,
+          //     idEventFirebase: doc.data().idEventFirebase,
+          //   };
+          //   lista.push(dataschema);
+          //   // lista.push(doc.data());
+          // });
+          // setPost(lista);
           // setPost(lista.slice(0, 100));
         } catch (error) {
           console.error("Error fetching data: ", error);
@@ -164,6 +172,7 @@ export default function Item() {
       fetchData();
     }
   }, [startDate, endDate, item]);
+
 
   return (
     <ScrollView
@@ -194,7 +203,7 @@ export default function Item() {
                 )}{" "}
                 {"Km"}
               </Text>
-              <Text>---------------------</Text>
+              {/* <Text>---------------------</Text> */}
               <Text style={styles.info}>
                 {"Cambio Aceite Motor Prox: "}
                 {new Intl.NumberFormat("en-US").format(
@@ -208,21 +217,21 @@ export default function Item() {
                   Number(currentAsset?.cambioAceiteCajaProx)
                 )}
                 {" Km"}
-              </Text>{" "}
+              </Text>
               <Text style={styles.info}>
                 {"Cambio Aceite Diferencial Prox: "}
                 {new Intl.NumberFormat("en-US").format(
                   Number(currentAsset?.cambioAceiteDifProx)
                 )}
                 {" Km"}
-              </Text>{" "}
+              </Text>
               <Text style={styles.info}>
                 {"Cambio Aceite Freno Prox: "}
                 {new Intl.NumberFormat("en-US").format(
                   Number(currentAsset?.cambioHidrolinaProx)
                 )}
                 {" Km"}
-              </Text>{" "}
+              </Text>
               <Text style={styles.info}>
                 {"Cambio Refrigerante Prox: "}
                 {new Intl.NumberFormat("en-US").format(
@@ -237,12 +246,13 @@ export default function Item() {
                 )}
                 {" Km"}
               </Text>
-              <Text>---------------------</Text>
+              <Text> </Text>
+              {/* <Text>---------------------</Text> */}
               {/* <Text style={[styles.info, { color: "blue" }]}>
                 {"Gasto Combustible:"} {currentAsset?.gastoCombustible} {"Gls"}
               </Text>
               <Text style={styles.info}>
-                {"Rendimiento Combustible:"}{" "}
+                {"Rendimiento Combustible:"}
                 {currentAsset?.redimientoCombustible}
                 {"Gls/Km"}
               </Text>

@@ -44,7 +44,6 @@ import {
   updateEmailCompany,
 } from "@/slices/auth";
 import { db } from "../../utils/firebase";
-import { getAuth } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setAssetList,
@@ -53,12 +52,11 @@ import {
 } from "../../slices/home";
 import { Image as ImageExpo } from "expo-image";
 import { updateEmployees } from "../../slices/profile";
+import { supabase } from "@/supabase/client";
 
 export default function TabLayout() {
-  console.log("repeticiones");
   const router = useRouter();
 
-  const user = getAuth().currentUser;
   //global state management for the user_uid
   const dispatch = useDispatch();
   const session = useSelector((state: RootState) => state.userId.session);
@@ -72,54 +70,49 @@ export default function TabLayout() {
   const companyName = useSelector(
     (state: RootState) => state.userId.companyName
   );
+  const displayName = useSelector(
+    (state: RootState) => state.userId.displayName
+  );
+
+  const sessionId = useSelector((state: RootState) => state.userId.session);
+  const email = useSelector((state: RootState) => state.userId.email);
 
   // Mis datos personales
   useEffect(() => {
-    console.log("user", user);
-    if (user) {
-      dispatch(update_photoURL(user?.photoURL ?? ""));
-      dispatch(updateDisplayName(user?.displayName ?? ""));
-      dispatch(updateEmail(user?.email ?? ""));
-      dispatch(signIn(user?.uid ?? ""));
-    }
-  }, [user]);
-
-  useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
-        if (session) {
-          const docRef = doc(db, "users", session);
-          const docSnap = await getDoc(docRef);
-          console.log("docSnap", docSnap.data());
+        let { data: users, error } = await supabase
+          .from("users")
+          .select("*")
+          // Filters
+          .eq("uid", session);
+        dispatch(updateDisplayName(users!![0].display_nameform ?? ""));
+        dispatch(updateCargo(users!![0].cargo ?? ""));
+        dispatch(updateUserType(users!![0].userType ?? ""));
+        dispatch(updateDescripcion(users!![0].descripcion ?? ""));
+        dispatch(
+          updateAssetAssigned(
+            users!![0].asset_assigned?.length > 0
+              ? users!![0].asset_assigned
+              : ["anything"]
+          )
+        );
 
-          if (docSnap.exists()) {
-            dispatch(updateCargo(docSnap.data().cargo ?? ""));
-            // dispatch(updatecompanyName(docSnap.data().companyName ?? ""));
-            dispatch(updateUserType(docSnap.data().userType ?? ""));
-            dispatch(updateDescripcion(docSnap.data().descripcion ?? ""));
-            dispatch(
-              updateAssetAssigned(
-                docSnap?.data()?.assetAssigned?.length > 0
-                  ? docSnap.data().assetAssigned
-                  : ["anything"]
-              )
-            );
-            // dispatch(updatecompanyRUC(docSnap.data().companyRUC ?? ""));
-            dispatch(
-              updateEmailCompany(docSnap.data().emailCompany ?? emailCompany)
-            );
-          } else {
-            console.log("No such document!");
-          }
-        } else {
-          console.log("Session is undefined or null!");
-        }
+        //
+        if (error) throw error;
+        // setUsers(users);
       } catch (error) {
-        console.error("Error fetching document:", error);
+        // setError(error);
+        console.log("error", error);
       }
-    }
+    };
+
     fetchData();
-  }, [session]);
+
+    // dispatch(updateDisplayName(displayName ?? ""));
+    // dispatch(updateEmail(email ?? ""));
+    // dispatch(signIn(sessionId ?? ""));
+  }, []);
 
   // Equipos
   useEffect(() => {
@@ -134,43 +127,25 @@ export default function TabLayout() {
       assetAsignedList &&
       assetAsignedList?.length > 0
     ) {
-      function fetchData() {
-        let queryRef;
-
+      const fetchData = async () => {
         if (emailCompany === user_email) {
-          queryRef = query(
-            collection(db, "Asset"),
-            where("emailCompany", "==", emailCompany)
-          );
+          let { data: assets, error } = await supabase
+            .from("assets")
+            .select("*")
+            .like("emailCompany", emailCompany);
+          console.log("assets=1", assets);
+          dispatch(setAssetList(assets!!));
         } else {
-          queryRef = query(
-            collection(db, "Asset"),
-            where("nombre", "in", assetAsignedList),
-            where("emailCompany", "==", emailCompany)
-          );
-        }
-
-        unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
-          lista = [];
-          lista_idFirebaseAsset = [];
-          ItemFirebase.forEach((doc) => {
-            lista.push(doc.data());
-            lista_idFirebaseAsset.push(doc.data().idFirebaseAsset);
-          });
-          //order the list by date
-          lista.sort((a: any, b: any) => {
-            return b.LastEventPosted - a.LastEventPosted;
-          });
-          console.log("lista", lista);
-          dispatch(setAssetList(lista));
-        });
-      }
-      fetchData();
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
+          let { data: assets, error } = await supabase
+            .from("assets")
+            .select("*")
+            .like("emailCompany", emailCompany)
+            .contains("nombre", assetAsignedList);
+          console.log("assets=2", assets);
+          dispatch(setAssetList(assets!!));
         }
       };
+      fetchData();
     }
   }, [user_email, assetAsignedList, emailCompany]);
 
@@ -178,79 +153,38 @@ export default function TabLayout() {
   useEffect(() => {
     console.log("traer todoos los usuarios de la empresa");
     if (emailCompany && user_email && user_email === emailCompany) {
-      let unsubscribe: any;
-      let lista: any = [];
-
       async function fetchData() {
-        let queryRef;
-        queryRef = query(
-          collection(db, "users"),
-          where("emailCompany", "==", emailCompany)
-        );
-        unsubscribe = onSnapshot(queryRef, (ItemFirebase) => {
-          lista = [];
-          ItemFirebase.forEach((doc) => {
-            lista.push(doc.data());
-          });
-          dispatch(updateEmployees(lista));
-        });
+        let { data: users, error } = await supabase.from("users").select("*");
+        console.log("users=1111", users);
+        dispatch(updateEmployees(users));
       }
 
       fetchData();
-
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
     }
   }, [emailCompany, user_email]);
 
   // Events
   useEffect(() => {
-    // console.log(assetAsignedList);
-    let unsubscribe: any;
-    let lista: any = [];
     if (user_email && assetAsignedList && assetAsignedList?.length > 0) {
       async function fetchData() {
-        let queryRef;
-
         if (emailCompany === user_email) {
-          queryRef = query(
-            collection(db, "Events"),
-            limit(15),
-            where("emailCompany", "==", emailCompany),
-            orderBy("createdAt", "desc")
-          );
+          let { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .like("emailCompany", emailCompany!!);
+          dispatch(setEventList(events!!));
         } else {
-          queryRef = query(
-            collection(db, "Events"),
-            limit(10),
-            where("emailCompany", "==", emailCompany),
-            where("nombreAsset", "in", assetAsignedList),
-            orderBy("createdAt", "desc")
-          );
+          let { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .like("emailCompany", emailCompany!!)
+            .contains("nombreAsset", assetAsignedList);
+          // .like("emailCompany", emailCompany);
+          dispatch(setEventList(events!!));
         }
-        unsubscribe = onSnapshot(queryRef, async (ItemFirebase) => {
-          lista = [];
-          ItemFirebase.forEach((doc) => {
-            lista.push(doc.data());
-          });
-          // order the list by date
-          lista.sort((a: any, b: any) => {
-            return b.createdAt - a.createdAt;
-          });
-          dispatch(setEventList(lista));
-        });
       }
 
       fetchData();
-
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
     }
   }, [user_email, assetAsignedList]);
 

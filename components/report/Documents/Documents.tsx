@@ -59,6 +59,7 @@ export default function Documents(props: any) {
   const employeesList = useSelector(
     (state: RootState) => state.profile.employees
   );
+
   const employeeFileList = employeesList
     ?.map((item: any) => item.files)
     .flat()
@@ -81,14 +82,12 @@ export default function Documents(props: any) {
   const currentDate = new Date();
 
   const ChartTotal = ChartTotalnoDate?.filter((file: any) => {
-    const fileDate = new Date(
-      file.fechaVencimiento.seconds * 1000 +
-        file.fechaVencimiento.nanoseconds / 1000000
-    );
+    const fileDate = new Date(file.fechaVencimiento);
     const timeDifference = fileDate.getTime() - currentDate.getTime();
 
     return timeDifference <= diasPendientesInMiliseconds;
   });
+
 
   //-------------------------------------------------------------------------------------
 
@@ -142,15 +141,12 @@ export default function Documents(props: any) {
   const router = useRouter();
 
   const goToEditDocs = (item: any) => {
-    console.log("item", item?.idAssetFirebase, item.idFirebase, item.autor);
-
     if (
       item?.idAssetFirebase ||
       item?.pdfFileURL?.includes(".") ||
       item?.nombre?.includes(".") ||
       item.autor
     ) {
-      console.log("entrad");
       router.push({
         pathname:
           item?.pdfFileURL?.includes(".") || item?.nombre?.includes(".")
@@ -164,7 +160,6 @@ export default function Documents(props: any) {
         },
       });
     } else {
-      console.log("holaaaa");
       return;
     }
   };
@@ -174,7 +169,6 @@ export default function Documents(props: any) {
       style={{ backgroundColor: "white" }}
       showsVerticalScrollIndicator={true}
     >
-      {" "}
       <Text style={styles.reporteTitulo}>Control Documentario</Text>
       <Text> </Text>
       <SearchBar
@@ -227,15 +221,12 @@ export default function Documents(props: any) {
 
           {searchResults?.map((file: any, index: any) => {
             const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file.fechaVencimiento.seconds * 1000 +
-                file.fechaVencimiento.nanoseconds / 1000000
-            );
+            const fileDate = new Date(file.fechaVencimiento);
 
             const currentDate = new Date();
+
             const timeDifference = fileDate.getTime() - currentDate.getTime();
             const isExpiring = timeDifference <= FiveDaysInMillis;
-            console.log("index", file.autor);
 
             const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
@@ -296,12 +287,12 @@ export default function Documents(props: any) {
 }
 
 const formatDate = (dateInput: any) => {
-  const { seconds, nanoseconds } = dateInput || {
-    seconds: 0,
-    nanoseconds: 0,
-  };
-  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
-  const date = new Date(milliseconds);
+  // const { seconds, nanoseconds } = dateInput || {
+  //   seconds: 0,
+  //   nanoseconds: 0,
+  // };
+  // const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(dateInput);
   const monthNames = [
     "ene.",
     "feb.",

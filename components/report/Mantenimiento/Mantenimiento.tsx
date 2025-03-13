@@ -30,12 +30,11 @@ import { Image as ImageExpo } from "expo-image";
 import { useRouter } from "expo-router";
 import OperacionDate from "../OperacionDate";
 import { Reporte } from "../HeaderReporte/headerMantto";
+import { supabase } from "@/supabase/client";
 
 export default function Mantenimiento(props: any) {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState<any>([]);
   const [asset, setAsset] = useState("");
-  console.log("post", post);
-  console.log("assetmm", asset);
 
   //  searching
   const [searchResults, setSearchResults] = useState<any>([]);
@@ -96,39 +95,59 @@ export default function Mantenimiento(props: any) {
   useEffect(() => {
     let q;
     if (startDate && endDate) {
+      // async function fetchData() {
+      //   q = query(
+      //     collection(db, "Events"),
+      //     orderBy("fechaContable", "desc"),
+      //     where("fechaContable", ">=", startDate),
+      //     where("fechaContable", "<=", endDate),
+      //     where("emailCompany", "==", emailCompany),
+      //     where("idFirebaseAsset", "==", asset),
+      //     where("tipoEvento", "==", "3. Mantenimiento"),
+      //     limit(50)
+      //   );
+
+      //   try {
+      //     const querySnapshot = await getDocs(q);
+      //     const lista: any = [];
+
+      //     querySnapshot.forEach((doc) => {
+      //       const dataschema = {
+      //         ...doc.data(),
+      //       };
+
+      //       lista.push(dataschema);
+      //     });
+      //     setPost(lista);
+      //   } catch (error) {
+      //     console.error("Error fetching data: ", error);
+      //   }
+      // }
       async function fetchData() {
-        console.log("11111111");
-        q = query(
-          collection(db, "Events"),
-          orderBy("fechaContable", "desc"),
-          where("fechaContable", ">=", startDate),
-          where("fechaContable", "<=", endDate),
-          where("emailCompany", "==", emailCompany),
-          where("idFirebaseAsset", "==", asset),
-          where("tipoEvento", "==", "3. Mantenimiento"),
-          limit(50)
-        );
-        console.log("2222222", asset);
-
-        try {
-          const querySnapshot = await getDocs(q);
-          const lista: any = [];
-          console.log("33333333");
-
-          querySnapshot.forEach((doc) => {
-            const dataschema = {
-              ...doc.data(),
-            };
-            console.log("4444444");
-
-            lista.push(dataschema);
-          });
-          setPost(lista);
-        } catch (error) {
-          console.error("Error fetching data: ", error);
+        let events;
+        if (emailCompany === user_email) {
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!);
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
+        } else {
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!)
+          // .contains(
+          //   "nombreAsset",
+          //   globalFilteredAssetList.map((item: any) => item.nombreAsset)
+          // );
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
         }
+        setPost(events);
       }
-
       fetchData();
     }
   }, [startDate, endDate, asset]);
@@ -168,7 +187,7 @@ export default function Mantenimiento(props: any) {
         >
           <OperacionDate filterButton={filter} quitFilterButton={quitfilter} />
         </View>
-      )}{" "}
+      )}
       <Text> </Text>
       <Text> </Text>
       <Reporte setAsset={setAsset} />
@@ -211,15 +230,11 @@ export default function Mantenimiento(props: any) {
 
           {post?.map((file: any, index: any) => {
             const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file?.fechaVencimiento?.seconds * 1000 +
-                file?.fechaVencimiento?.nanoseconds / 1000000
-            );
+            const fileDate = new Date(file?.fechaVencimiento);
 
             const currentDate = new Date();
             const timeDifference = fileDate.getTime() - currentDate.getTime();
             const isExpiring = timeDifference <= FiveDaysInMillis;
-            console.log("index", file.autor);
 
             const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
@@ -306,7 +321,7 @@ export default function Mantenimiento(props: any) {
         </TouchableOpacity>
         <Text> </Text>
         <Text> </Text>
-      </ScrollView>{" "}
+      </ScrollView>
       <Modal show={showModal} close={onCloseOpenModal}>
         {renderComponent}
       </Modal>
@@ -316,12 +331,12 @@ export default function Mantenimiento(props: any) {
 }
 
 const formatDate = (dateInput: any) => {
-  const { seconds, nanoseconds } = dateInput || {
-    seconds: 0,
-    nanoseconds: 0,
-  };
-  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
-  const date = new Date(milliseconds);
+  // const { seconds, nanoseconds } = dateInput || {
+  //   seconds: 0,
+  //   nanoseconds: 0,
+  // };
+  // const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(dateInput);
   const monthNames = [
     "ene.",
     "feb.",

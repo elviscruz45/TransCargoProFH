@@ -45,6 +45,7 @@ import * as DocumentPicker from "expo-document-picker";
 //   image?: string;
 //   // add other properties as needed
 // }
+import { pickAsset } from "../../../slices/publish";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { dateFormat, useUserData, uploadImage, uploadPdf } from "./event.cal";
 import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedida/Selection";
@@ -54,6 +55,7 @@ import { ChangePagado } from "@/components/publish/forms/ChangePagado/Selection"
 import { ChangeIgv } from "@/components/publish/forms/ChangeIgv/Selection";
 import { ChangeComprobante } from "@/components/publish/forms/ChangeTipoComprobante/Selection";
 import { ChangeConductor } from "@/components/publish/forms/ChangeConductor/Selection";
+import { supabase } from "@/supabase/client";
 
 export default function events(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -88,6 +90,7 @@ export default function events(props: any) {
   );
   const photoUri =
     useSelector((state: RootState) => state.publish.cameraUri) ?? "";
+
   const asset: any =
     useSelector((state: RootState) => state.publish.asset) ?? "";
   const user_email = useSelector((state: RootState) => state.userId.email);
@@ -169,8 +172,6 @@ export default function events(props: any) {
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log(1);
-
       try {
         const newData = formValue;
         //Data about date time format
@@ -199,44 +200,114 @@ export default function events(props: any) {
 
         //manage the file 1
         let imageUrlPDF;
+        let publicUrl1 = "";
+
         if (newData.pdfFile) {
-          const snapshotPDF = await uploadPdf(
+          const file = await uploadPdf(
             newData.pdfFile,
             newData.FilenameTitle,
             newData.fechaPostFormato,
             newData.emailCompany
           );
-          const imagePathPDF = snapshotPDF?.metadata.fullPath ?? "";
-          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+          const { blob, fileName } = file!!;
+          // Use blob and fileName here
+       
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (error) throw error;
+
+          // Get Public URL
+          publicUrl1 = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
+
+
+          // Alert.alert("Success", "File uploaded successfully!");
+          // const imagePathPDF = snapshotPDF?.metadata.fullPath ?? "";
+          // imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
         }
 
-        newData.pdfPrincipal = imageUrlPDF || "";
+        newData.pdfPrincipal = publicUrl1 || "";
         newData.pdfFile = "";
 
         //manage the file 2
         let imageUrlPDF2;
+        let publicUrl2 = "";
+
         if (newData.pdfFile2) {
-          const snapshotPDF2 = await uploadPdf(
+          const file = await uploadPdf(
             newData.pdfFile2,
             newData.FilenameTitle2,
             newData.fechaPostFormato,
             newData.emailCompany
           );
-          const imagePathPDF2 = snapshotPDF2?.metadata.fullPath ?? "";
-          imageUrlPDF2 = await getDownloadURL(ref(getStorage(), imagePathPDF2));
+          const { blob, fileName } = file!!;
+          // Use blob and fileName here
+   
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: true,
+            });
+    
+
+          if (error) throw error;
+
+          // Get Public URL
+          publicUrl2 = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
+
+          // const imagePathPDF2 = snapshotPDF2?.metadata.fullPath ?? "";
+          // imageUrlPDF2 = await getDownloadURL(ref(getStorage(), imagePathPDF2));
         }
 
-        newData.pdfPrincipal2 = imageUrlPDF2 || "";
+        newData.pdfPrincipal2 = publicUrl2 || "";
         newData.pdfFile2 = "";
 
+        //------------------------------------------------------------------------------
+
         // upload the photo or an pickimage to firebase Storage
-        const snapshot = await uploadImage(photoUri, newData.emailCompany);
+        let publicUrlImage = "";
+        if (photoUri) {
+          const snapshot = await uploadImage(photoUri, newData.emailCompany);
+          const { blob, fileName } = snapshot;
+          // Use blob and fileName here
+          console.log("Blob:", blob);
+          console.log("FileName:", fileName);
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: true,
+            });
+          if (error) throw error;
+          console.log("DataURLL:", data);
+          // Get Public URL
+          publicUrlImage = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
 
-        const imagePath = snapshot.metadata.fullPath;
+          console.log("Public URL:", publicUrlImage);
 
-        const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
+          // Alert.alert("Success", "File uploaded successfully!");
+        }
 
-        newData.fotoPrincipal = imageUrl;
+        // const imagePath = snapshot.metadata.fullPath;
+
+        // const imageUrl = await getDownloadURL(ref(getStorage(), imagePath));
+
+        newData.fotoPrincipal = publicUrlImage;
+        //-------------------------------------------------------------------------------------
         newData.photoAssetURL = asset?.photoServiceURL;
 
         //Nombre
@@ -262,29 +333,41 @@ export default function events(props: any) {
         newData.emailPerfil = email || "Anonimo";
         newData.llanta = tires || [];
         newData.nombrePerfil = displayName || "Anonimo";
-        newData.idFirebaseAsset = currentAsset?.idFirebaseAsset;
+        newData.idFirebaseAsset = currentAsset?.id;
         newData.placa = currentAsset?.placa;
-        console.log("33333");
 
         //Data about the company belong this event
         const regex = /@(.+?)\./i;
         newData.companyName = companyName || "Anonimo";
-        //Uploading data to Firebase and adding the ID firestore
-        const docRef = doc(collection(db, "Events"));
-        newData.idEventFirebase = docRef.id;
-        console.log("444");
 
-        await setDoc(docRef, newData);
-        console.log("555");
+        // //Uploading data to Firebase and adding the ID firestore
+        // const docRef = doc(collection(db, "Events"));
+        // newData.idEventFirebase = docRef.id;
+        // await setDoc(docRef, newData);
 
-        router.push({
-          pathname: "/publish",
-          // params: { item: item },
-        });
-        router.push({
-          pathname: "/home",
-          // params: { item: item },
-        });
+        //----------SUPABASE-------------
+        const { data, error } = await supabase
+          .from("events")
+          .insert([newData])
+          .select();
+
+        if (error) {
+          console.error("Error inserting data:", error);
+        } else {
+          console.log("Insert successful:", data);
+        }
+        console.log("compoletado...", data);
+
+        //----------SUPABASE---------------
+
+        // router.push({
+        //   pathname: "/publish",
+        //   // params: { item: item },
+        // });
+        // router.push({
+        //   pathname: "/home",
+        //   // params: { item: item },
+        // });
 
         Toast.show({
           type: "success",
@@ -292,7 +375,6 @@ export default function events(props: any) {
           text1: "Se ha subido correctamente",
         });
       } catch (error) {
-        console.log("Error al tratar de subir estos datos", error);
         Toast.show({
           type: "error",
           position: "bottom",
@@ -422,9 +504,9 @@ export default function events(props: any) {
       <View style={styles.equipments}>
         <ImageExpo
           source={
-            currentAsset
+            currentAsset.photoServiceURL
               ? { uri: currentAsset.photoServiceURL }
-              : require("../../../assets/assetpics/carIcon.jpg")
+              : require("../../../assets/assetpics/truckIcon.png")
           }
           style={styles.roundImage}
           cachePolicy={"memory-disk"}
@@ -438,7 +520,7 @@ export default function events(props: any) {
           source={
             photoUri
               ? { uri: photoUri }
-              : require("../../../assets/assetpics/carIcon.jpg")
+              : require("../../../assets/assetpics/fhlogoiconver3.png")
           }
           style={styles.postPhoto}
         />

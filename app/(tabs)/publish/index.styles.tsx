@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
   roundImageUpload: {
     width: 50,
     height: 50,
-    borderRadius: 45, // half of width and height
+    // borderRadius: 45, // half of width and height
   },
   btnContainer3: {
     // position: "absolute",

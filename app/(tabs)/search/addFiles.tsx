@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Alert } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./addFiles.styles";
 import { Input, Button } from "@rneui/themed";
@@ -26,6 +26,7 @@ import { useLocalSearchParams } from "expo-router";
 import { ChangeDate } from "../../../components/publish/forms/ChangeDates/ChangeDate";
 import { formatdate, CurrentFormatDate } from "../../../utils/formats";
 import { SelectDocument } from "../../../components/search/TipoFile/Tipo";
+import { supabase } from "@/supabase/client";
 
 export default function AddDocs() {
   const [pickedDocument, setPickedDocument] = useState(null);
@@ -46,7 +47,7 @@ export default function AddDocs() {
   );
 
   const currentUserNameDoc = currentAsset?.nombre;
-  const currentAssetIdFirebase = currentAsset?.idFirebaseAsset;
+  const currentAssetId = currentAsset?.id;
 
   const tipoActivoCurrent = currentAsset?.tipoActivo;
   const files = currentAsset?.files;
@@ -93,28 +94,100 @@ export default function AddDocs() {
         newData.fechaPostFormato = CurrentFormatDate();
         newData.autor = email;
         newData.nombre = currentUserNameDoc;
-        newData.idAssetFirebase = currentAssetIdFirebase;
+        newData.idAssetFirebase = currentAssetId;
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
         let snapshotPDF;
-        if (pdfFileURL) {
-          snapshotPDF = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
 
-          const imagePathPDF = snapshotPDF?.metadata.fullPath;
-          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+        // if (pdfFileURL) {
+        //   snapshotPDF = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
+
+        //   const imagePathPDF = snapshotPDF?.metadata.fullPath;
+        //   imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+        // }
+        const file = await uploadPdf(pdfFileURL, newData.fechaPostFormato);
+        let publicUrl = "";
+        if (file) {
+          const { blob, fileName } = file;
+          // Use blob and fileName here
+
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: false,
+            });
+
+          if (error) throw error;
+
+
+          // Get Public URL
+          publicUrl = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
+
+         
+
+          Alert.alert("Success", "File uploaded successfully!");
+        } else {
+          console.error("Failed to upload PDF");
         }
 
-        newData.pdfFileURLFirebase = imageUrlPDF;
+        newData.pdfFileURLFirebase = publicUrl;
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        const RefFirebaseLasEventPostd = doc(db, "Asset", item);
+        // const RefFirebaseLasEventPostd = doc(db, "Asset", item);
 
-        const updatedData = {
-          files: arrayUnion(newData),
-        };
+        // const updatedData = {
+        //   files: arrayUnion(newData),
+        // };
 
-        await updateDoc(RefFirebaseLasEventPostd, updatedData);
+        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
+
+        //----------SUPABASE ADD DATABASE-------------
+        // const updatedData = {
+        //   files: arrayUnion(newData),
+        // };
+
+        // const { data, error } = await supabase
+        //   .from("assets")
+        //   .update({ other_column: "otherValue" })
+        //   .eq("some_column", "someValue")
+        //   .select();
+
+        // if (error) {
+        //   console.error("Error inserting data:", error);
+        // } else {
+        // }
+    
+        //----------SUPABASE-------------
+        const { data: currentData, error: fetchError } = await supabase
+          .from("assets")
+          .select("files")
+          .eq("id", currentAssetId)
+          .single();
+
+
+        if (fetchError) {
+          console.error("Error fetching current data:", fetchError);
+          throw fetchError;
+        }
+
+        const updatedFiles = [...(currentData?.files || []), newData];
+
+        const { data: files, error: errorFiles } = await supabase
+          .from("assets")
+          .update({ files: updatedFiles })
+          .eq("id", currentAssetId)
+          .select();
+
+        if (errorFiles) {
+          console.error("Error updating data:", errorFiles);
+        } else {
+          console.log("Update successful:", files);
+        }
 
         router.back();
         Toast.show({
@@ -139,10 +212,8 @@ export default function AddDocs() {
       const response = await fetch(uri);
 
       const blob = await response.blob();
-      // const blob = new Blob(response);
-
+      const fileName = `${emailCompany}/pdfPost/assets/${shortNameFileUpdated}-${formattedDate}`;
       const fileSize = blob.size;
-
       if (fileSize > 50 * 1024 * 1024) {
         Toast.show({
           type: "error",
@@ -151,14 +222,7 @@ export default function AddDocs() {
         });
         throw new Error("El archivo excede los 50 MB");
       }
-
-      const storage = getStorage();
-
-      const storageRef = ref(
-        storage,
-        `${emailCompany}/pdfPost/${shortNameFileUpdated}-${formattedDate}`
-      );
-      return await uploadBytesResumable(storageRef, blob);
+      return { blob, fileName };
     } catch (error) {
       Toast.show({
         type: "error",

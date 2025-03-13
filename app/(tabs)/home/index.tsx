@@ -27,10 +27,19 @@ export default function HomeScreen() {
   const dispatch = useDispatch();
   const selectAsset = (item: any) => {
     //create a to go to the screen called item
+    console.log("itemHOME", item);
+
+    console.log("itemHOME", item.id);
     router.push({
       pathname: "/search/item",
       params: { item: item.idFirebaseAsset },
     });
+    // setInterval(() => {
+    //   router.push({
+    //     pathname: "/search/item",
+    //     params: { item: item.id },
+    //   });
+    // }, 500);
   };
   return (
     <>
@@ -70,7 +79,11 @@ export default function HomeScreen() {
                       onPress={() => selectAsset(item)}
                     >
                       <ImageExpo
-                        source={{ uri: item.photoAssetURL }}
+                        source={
+                          item.photoAssetURL
+                            ? { uri: item.photoAssetURL }
+                            : require("../../../assets/assetpics/truckIcon.png")
+                        }
                         style={styles.roundImage}
                         cachePolicy={"memory-disk"}
                       />
@@ -103,7 +116,11 @@ export default function HomeScreen() {
                     </TouchableOpacity>
 
                     <ImageExpo
-                      source={{ uri: item.photoProfileURL }}
+                      source={
+                        item.photoProfileURL
+                          ? { uri: item.photoProfileURL }
+                          : require("../../../assets/assetpics/userIcon.png")
+                      }
                       style={styles.roundImage}
                       cachePolicy={"memory-disk"}
                     />
@@ -113,30 +130,58 @@ export default function HomeScreen() {
                   </View>
                 </View>
                 <Text> </Text>
-
                 <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 15, color: "" }}>
-                    {"Tipo:  "}
+                  <Text
+                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
+                  >
+                    {"Tipo de Información:"}
+                  </Text>
+                  <Text style={{ marginLeft: 5, color: "" }}>
                     {item.tipoEvento}
                   </Text>
                 </View>
-                <View style={[styles.row, styles.center]}>
-                  <Text style={{ marginLeft: 15, color: "" }}>
-                    {"Empresa:  "}
+                {/* <View style={[styles.row, styles.center]}>
+                  <Text
+                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
+                  >
+                    {"Empresa:"}
+                  </Text>
+                  <Text style={{ marginLeft: 5, color: "" }}>
                     {item.emailCompany}
                   </Text>
+                </View> */}
+                <View style={[styles.row, styles.center]}>
+                  <Text
+                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
+                  >
+                    {"Usuario:"}
+                  </Text>
+                  <Text style={{ marginLeft: 5, color: "" }}>
+                    {item.emailPerfil}
+                  </Text>
                 </View>
-                <Text style={{ marginLeft: 15, color: "" }}>
-                  {"Fecha:  "}
-                  {item.fechaPostFormato}
-                </Text>
+                <View style={[styles.row, styles.center]}>
+                  <Text
+                    style={{ marginLeft: 15, color: "", fontWeight: "bold" }}
+                  >
+                    {"Fecha:"}
+                  </Text>
+                  <Text style={{ marginLeft: 1, color: "" }}>
+                    {item.fechaPostFormato}
+                  </Text>
+                </View>
+
                 <Text> </Text>
                 <View style={styles.equipments}>
                   <TouchableOpacity
                   // onPress={() => commentPost(item)}
                   >
                     <ImageExpo
-                      source={{ uri: item.fotoPrincipal }}
+                      source={
+                        item?.fotoPrincipal
+                          ? { uri: item?.fotoPrincipal }
+                          : require("../../../assets/assetpics/fhlogoiconver3.png")
+                      }
                       style={styles.postPhoto}
                       cachePolicy={"memory-disk"}
                     />

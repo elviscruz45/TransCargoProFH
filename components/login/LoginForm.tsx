@@ -26,6 +26,7 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { signIn, updateEmailCompany, updateEmail } from "../../slices/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { supabase } from "@/supabase/client";
 
 export function LoginForm(props: any) {
   const [showPassword, setShowPassword] = useState(false);
@@ -34,8 +35,9 @@ export function LoginForm(props: any) {
   const router = useRouter();
   // const [user_uid, setUser_uid] = useState("");
 
+
   //global statemanagment
-  const num = useSelector((state: RootState) => state.counter.value);
+  // const num = useSelector((state: RootState) => state.counter.value);
 
   const dispatch = useDispatch();
 
@@ -64,21 +66,34 @@ export function LoginForm(props: any) {
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
-      console.log("formValue1234567", formValue);
       try {
-        const auth = getAuth();
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          formValue.email,
-          formValue.password
-        );
-        const user_uid = userCredential.user.uid;
-        const docRef = doc(db, "users", user_uid);
-        const docSnap = await getDoc(docRef);
-        console.log("user_uid", user_uid);
-        console.log("formValue.password", formValue.password);
+        // const auth = getAuth();
+        // const userCredential = await signInWithEmailAndPassword(
+        //   auth,
+        //   formValue.email,
+        //   formValue.password
+        // );
 
-        dispatch(signIn(user_uid));
+        //supabase
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: formValue.email,
+          password: formValue.password,
+        });
+
+        const user_id = data?.user?.id;
+        // const docRef = doc(db, "users", user_uid);
+        // const docSnap = await getDoc(docRef);
+  
+
+        //---supabase user data--------
+
+        let { data: users, error: erroUser } = await supabase
+          .from("users")
+          .select("uid")
+          .eq("uid", user_id);
+        //------------------------------
+
+        dispatch(signIn(user_id!!));
         dispatch(updateEmailCompany(formValue.emailCompany));
         dispatch(updateEmail(formValue.email));
 
@@ -96,9 +111,8 @@ export function LoginForm(props: any) {
           JSON.stringify(formValue.emailCompany)
         );
 
-        if (docSnap.exists()) {
+        if (!erroUser && users?.length!! > 0) {
           router.push("/(tabs)/home");
-
           Toast.show({
             type: "success",
             position: "top",
@@ -115,7 +129,6 @@ export function LoginForm(props: any) {
           router.push("/(tabs)/profile");
         }
       } catch (error) {
-        console.log("error", error);
         Toast.show({
           type: "error",
           // position: "top",

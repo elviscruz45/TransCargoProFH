@@ -168,8 +168,7 @@ export const getExcelReportData = async (
     };
     post_array.push(table);
   });
-  console.log("XLSX", XLSX);
-  console.log("post_array", post_array);
+ 
 
   const worksheet = XLSX.utils.json_to_sheet(post_array);
   const workbook = XLSX.utils.book_new();

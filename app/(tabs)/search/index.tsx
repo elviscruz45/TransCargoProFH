@@ -26,7 +26,7 @@ export default function SearchAsset() {
   const selectAsset = (item: any) => {
     router.push({
       pathname: "/search/item",
-      params: { item: item.idFirebaseAsset },
+      params: { item: item.id },
     });
   };
 
@@ -41,6 +41,7 @@ export default function SearchAsset() {
       setSearchResults(result.slice(0, 50));
     }
   }, [searchText, globalAssetList]);
+
 
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -69,7 +70,7 @@ export default function SearchAsset() {
                     source={
                       item?.photoServiceURL
                         ? { uri: item?.photoServiceURL }
-                        : require("../../../assets/assetpics/carIcon.jpg")
+                        : require("../../../assets/assetpics/truckIcon.png")
                     }
                     style={styles.image}
                     cachePolicy={"memory-disk"}
@@ -97,7 +98,7 @@ export default function SearchAsset() {
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item: any) => item.idFirebaseAsset}
+        keyExtractor={(item: any) => item.id}
       />
     </View>
   );

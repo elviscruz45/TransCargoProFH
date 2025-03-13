@@ -58,7 +58,6 @@ export default function editEvents(props: any) {
     placa,
     tipoEvento,
   }: any = useLocalSearchParams();
-  console.log("tipoEvento", tipoEvento);
   //----------------------------------------------------------------------------------
   const [showModal, setShowModal] = useState(false);
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
@@ -131,7 +130,6 @@ export default function editEvents(props: any) {
     }
   }, [tires]);
 
-  // console.log("formik.values", formik.values.llanta);
 
   const formik = useFormik({
     initialValues: initialValues(),

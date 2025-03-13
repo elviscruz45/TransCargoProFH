@@ -14,6 +14,23 @@ import { useNavigation } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import type { RootState } from "@/app/store";
 import { useSelector, useDispatch } from "react-redux";
+function getAbbreviatedMonthName(monthNumber: number) {
+  const months = [
+    "Ene",
+    "Feb",
+    "Mar",
+    "Abr",
+    "May",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Oct",
+    "Nov",
+    "Dic",
+  ];
+  return months[monthNumber];
+}
 
 export const GanttHistorial = (props: any) => {
   // const { datas, comentPost } = props;
@@ -43,26 +60,8 @@ export const GanttHistorial = (props: any) => {
       data={datas}
       renderItem={({ item, index }) => {
         const timestampData = item?.fechaContable;
-        const timestampInMilliseconds =
-          timestampData?.seconds * 1000 + timestampData?.nanoseconds / 1000000;
-        const date = new Date(timestampInMilliseconds); // Function to get the abbreviated month name
-        function getAbbreviatedMonthName(monthNumber: number) {
-          const months = [
-            "Ene",
-            "Feb",
-            "Mar",
-            "Abr",
-            "May",
-            "Jun",
-            "Jul",
-            "Ago",
-            "Set",
-            "Oct",
-            "Nov",
-            "Dic",
-          ];
-          return months[monthNumber];
-        }
+        const date = new Date(timestampData);
+
         // Create the formatted string "dd MMM" (e.g., "28 Ago")
         const day = date.getDate();
         const month = getAbbreviatedMonthName(date.getMonth());
@@ -100,7 +99,7 @@ export const GanttHistorial = (props: any) => {
             </View>
             <View style={styles.details}>
               <TouchableOpacity onPress={() => comentPost(item)}>
-                <Text style={styles.titledetails}>{item.title}</Text>
+                <Text style={styles.titledetails}>{item.tipoEvento}</Text>
 
                 <View style={styles.row}>
                   <ImageExpo
@@ -113,12 +112,12 @@ export const GanttHistorial = (props: any) => {
                       marginLeft: 5,
                     }}
                   />
-                  <Text style={styles.textdetail}>{item.description}</Text>
+                  <Text style={styles.textdetail}>{item.comentarios}</Text>
                 </View>
-                <Text></Text>
+                <Text> </Text>
                 {/* <View style={styles.rowavanceNombre}>
                   <Text style={styles.avanceNombre}> Etapa: </Text>
-
+/
                   <Text style={styles.detail}> {item.tipoEvento}</Text>
                 </View> */}
                 <View style={styles.rowavanceNombre}>
@@ -130,11 +129,16 @@ export const GanttHistorial = (props: any) => {
                   <Text style={styles.avanceNombre}> Autor: </Text>
                   <Text style={styles.detail}> {item.emailPerfil}</Text>
                 </View>
+                {/* <View style={styles.rowavanceNombre}>
+                  {item?.pdfFile && (
+                    <Icon type="material-community" name="paperclip" />
+                  )}
+                </View>
                 {item?.pdfFile && (
                   <View style={styles.rowavanceNombre}>
                     <Icon type="material-community" name="paperclip" />
                   </View>
-                )}
+                )} */}
               </TouchableOpacity>
             </View>
           </View>

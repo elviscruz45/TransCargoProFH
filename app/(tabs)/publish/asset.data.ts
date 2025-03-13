@@ -7,7 +7,6 @@ export function initialValues() {
     reporte: "",
     //informacion personal
     dni: "",
-
     //informacion activo
     placa: "",
     fechaFabricacion: "",

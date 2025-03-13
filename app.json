@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "TransCargoPro2",
-    "slug": "TransCargoPro2",
+    "name": "TransCargoProFH",
+    "slug": "TransCargoProFH",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

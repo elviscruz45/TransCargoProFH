@@ -161,7 +161,6 @@ export default function AssetAssigned() {
   return (
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
-        {/* {console.log("SearchItem")} */}
         <FlatList
           data={searchResults}
           ListHeaderComponent={
@@ -188,7 +187,7 @@ export default function AssetAssigned() {
                 <View
                   style={[styles.equipments, { alignSelf: "center", flex: 2 }]}
                 >
-                  <TouchableOpacity onPress={() => MoreDetail(item.uid)}>
+                  <TouchableOpacity onPress={() => MoreDetail(item.id)}>
                     <ImageExpo
                       source={
                         item?.photoURL

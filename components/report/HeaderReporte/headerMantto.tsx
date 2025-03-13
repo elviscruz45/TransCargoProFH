@@ -14,8 +14,6 @@ export function Reporte({ setAsset }: any) {
     (state: RootState) => state.home.assetList
   );
 
-  console.log("globalAssetList", globalAssetList);
-
   const globalFilteredAssetList = globalAssetList?.filter(
     (item: any) => item.tipoActivo === "Equipo / Activo"
   );
@@ -41,8 +39,8 @@ export function Reporte({ setAsset }: any) {
           return (
             <TouchableOpacity
               onPress={() => {
-                setAsset(item?.idFirebaseAsset);
-                setSelected(item?.idFirebaseAsset);
+                setAsset(item?.id);
+                setSelected(item?.id);
               }}
               style={{ backgroundColor: "white" }} // Add backgroundColor here
             >
@@ -58,7 +56,7 @@ export function Reporte({ setAsset }: any) {
                   source={
                     item?.photoServiceURL
                       ? { uri: item?.photoServiceURL }
-                      : require("../../../assets/assetpics/carIcon.jpg")
+                      : require("../../../assets/assetpics/truckIcon.png")
                   }
                   style={{
                     alignSelf: "center",
@@ -66,18 +64,16 @@ export function Reporte({ setAsset }: any) {
                     width: 80,
                     height: 80,
                     borderRadius: 80,
-                    borderWidth: selected === item?.idFirebaseAsset ? 3 : 0,
-                    borderColor:
-                      selected === item?.idFirebaseAsset ? "blue" : "",
+                    borderWidth: selected === item?.id ? 3 : 0,
+                    borderColor: selected === item?.id ? "blue" : "",
                   }}
                 />
                 {item.placa ? (
                   <Text
                     style={{
                       alignSelf: "center",
-                      color: selected === item?.idFirebaseAsset ? "blue" : "",
-                      fontWeight:
-                        selected === item?.idFirebaseAsset ? "bold" : "400",
+                      color: selected === item?.id ? "blue" : "",
+                      fontWeight: selected === item?.id ? "bold" : "400",
                     }}
                   >
                     {ShortTextComponent(item.placa)}
@@ -86,9 +82,8 @@ export function Reporte({ setAsset }: any) {
                   <Text
                     style={{
                       alignSelf: "center",
-                      color: selected === item?.idFirebaseAsset ? "blue" : "",
-                      fontWeight:
-                        selected === item?.idFirebaseAsset ? "bold" : "400",
+                      color: selected === item?.id ? "blue" : "",
+                      fontWeight: selected === item?.id ? "bold" : "400",
                     }}
                   >
                     {ShortTextComponent(item.nombre ?? item.NombreArea)}

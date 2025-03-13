@@ -74,13 +74,17 @@ export default function MoreDetail() {
 
       {true ? (
         <ImageExpo
-          source={{ uri: currentEmployee.photoURL }}
+          source={
+            currentEmployee?.photoURL
+              ? { uri: currentEmployee.photoURL }
+              : require("../../../assets/assetpics/userIcon.png")
+          }
           style={styles.roundImage}
           cachePolicy={"memory-disk"}
         />
       ) : (
         <ImageExpo
-          source={require("../../../assets/assetpics/carIcon.jpg")}
+          source={require("../../../assets/assetpics/userIcon.png")}
           style={styles.roundImage}
           cachePolicy={"memory-disk"}
         />
@@ -88,9 +92,9 @@ export default function MoreDetail() {
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
       <Text></Text>
-      <Text style={styles.name}>{currentEmployee.displayNameform}</Text>
+      <Text style={styles.name}>{currentEmployee?.displayNameform}</Text>
       {currentEmployee?.email && (
-        <Text style={styles.name}>{currentEmployee.email}</Text>
+        <Text style={styles.name}>{currentEmployee?.email}</Text>
       )}
       <Text></Text>
       <Text></Text>
@@ -119,7 +123,7 @@ export default function MoreDetail() {
       <Text></Text>
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 
-      <Text style={styles.name}>Informacion Basica</Text>
+      <Text style={styles.name}>Informacion Basicas</Text>
       <Text></Text>
       {Platform.OS === "web" && <View style={{ marginTop: 20 }}></View>}
 

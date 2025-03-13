@@ -15,6 +15,9 @@ export const styles = StyleSheet.create({
   avatar: {
     marginRight: 20,
     borderWidth: 0.5,
+    borderRadius: 35,
+    height: 70,
+    width: 70,
   },
   displayName: {
     fontWeight: "bold",

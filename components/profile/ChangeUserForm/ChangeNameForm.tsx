@@ -25,7 +25,9 @@ import {
   updateUserType,
   updateAssetAssigned,
   updatecompanyRUC,
+  updateEmailCompany,
 } from "../../../slices/auth";
+import { supabase } from "@/supabase/client";
 
 export function NameForm(props: any) {
   const { onClose } = props;
@@ -34,44 +36,74 @@ export function NameForm(props: any) {
   const companyName = useSelector(
     (state: RootState) => state.userId.companyName
   );
+  const sessionId = useSelector((state: RootState) => state.userId.session);
+  console.log("sessionId", sessionId);
+  const photoURL = useSelector((state: RootState) => state.userId.photoURL);
+
+  const email = useSelector((state: RootState) => state.userId.email);
+  const userType = useSelector((state: RootState) => state.userId.userType);
+  const assetAssigned = useSelector(
+    (state: RootState) => state.userId.assetAssigned
+  );
+  const emailCompany = useSelector(
+    (state: RootState) => state.userId.emailCompany
+  );
+
+  // const currentLoginUser = useSelector(
+  //   (state: RootState) => state.userId.companyName
+  // );
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValue) => {
       const newData = formValue;
-      // console.log("newData", newData);
       try {
         //Update of Authentication Firebase
-        const currentLoginUser = getAuth().currentUser;
-        // console.log("currentLoginUser", currentLoginUser?.email);
+        // const currentLoginUser = getAuth().currentUser;
 
-        if (currentLoginUser) {
-          await updateProfile(currentLoginUser, {
-            displayName: newData.displayNameform,
-          });
-        }
 
-        //checking up if there are data in users
-        const docReference = doc(db, "users", currentLoginUser?.uid ?? "");
-        const docSnap = await getDoc(docReference);
+        // if (currentLoginUser) {
+        //   await updateProfile(currentLoginUser, {
+        //     displayName: newData.displayNameform,
+        //   });
+        // }
 
-        if (docSnap?.exists()) {
+        // //checking up if there are data in users
+        // const docReference = doc(db, "users", currentLoginUser?.uid ?? "");
+        // const docSnap = await getDoc(docReference);
+
+        //---supabase user data--------
+
+        let { data: users, error: errorUser } = await supabase
+          .from("users")
+          .select("uid")
+          .eq("uid", sessionId);
+        //------------------------------
+
+        if (!errorUser && users?.length!! > 0) {
           const updateDataUser = {
-            displayNameform: newData.displayNameform,
-            cargo: newData.cargo,
-            descripcion: newData.descripcion,
-            // photoURL: currentLoginUser?.photoURL ?? "",
+            display_nameform: newData.displayNameform,
+            email_company: newData.emailCompany,
           };
 
-          await updateDoc(docReference, updateDataUser);
+          // await updateDoc(docReference, updateDataUser);
+          //
+
+          const { data, error } = await supabase
+            .from("users")
+            .update(updateDataUser)
+            .eq("uid", sessionId)
+            .select();
+          //
 
           // props.update_firebaseProfile(newData);
           // props.update_firebaseUserName(newData.displayNameform);
           dispatch(updateDisplayName(newData.displayNameform));
-          dispatch(updateCargo(newData.cargo));
-          dispatch(updateDescripcion(newData.descripcion));
-          dispatch(updatecompanyRUC(newData.companyRUC));
+          // dispatch(updateCargo(newData.cargo));
+          // dispatch(updateDescripcion(newData.descripcion));
+          // dispatch(updatecompanyRUC(newData.companyRUC));
+          dispatch(updateEmailCompany(newData.emailCompany));
 
           // dispatch(update_photoURL(newData.photoURL));
 
@@ -81,28 +113,58 @@ export function NameForm(props: any) {
             text1: "Datos actualizados",
           });
         } else {
+          console.log("errorUser - no encuentro nad aqui");
           //sign up the users in Firestore Database
-          newData.photoURL = currentLoginUser?.photoURL ?? "";
-          newData.email = currentLoginUser?.email ?? "";
-          newData.companyName = companyName ?? "";
-          newData.userType = userTypeList[4].value;
-          newData.uid = currentLoginUser?.uid ?? "";
-          newData.assetAssigned = [];
+          // newData.photoURL = photoURL ?? "";
+          newData.email = email ?? "";
+          // newData.companyName = companyName ?? "";
+          // newData.userType = userType ?? "";
+          newData.uid = sessionId ?? "";
+          // newData.assetAssigned = [];
+
+          const createUser = {
+            email_company: newData.emailCompany,
+            email: newData.email,
+            uid: sessionId,
+            display_nameform: newData.displayNameform,
+          };
+          // console.log("createUserCASICASI", createUser);
 
           ///setting data to firebase
-          const docRef = doc(collection(db, "users"), newData.uid);
-          await setDoc(docRef, newData);
+          // const docRef = doc(collection(db, "users"), newData.uid);
+          // await setDoc(docRef, newData);
+
+          const { data, error } = await supabase
+            .from("users")
+            .insert([
+              createUser,
+              // {
+              //   email_company: "comestas@gmali.coddm",
+              //   uid: "7ee486-47f2-4acc-b870-f98f56593d9c",
+              //   display_nameform: "Elvergalarga",
+              //   email: "hol",
+              //   // display_nameform: "sdfdsf",
+              // },
+            ])
+            .select();
+
+          if (error) {
+            console.error("Error inserting data:", error);
+          } else {
+            console.log("Insert successful:", data);
+          }
+   
 
           //updating the global state
-          dispatch(update_photoURL(newData.photoURL));
-          dispatch(updateEmail(newData.email));
-          dispatch(updateCargo(newData.cargo));
-          dispatch(updatecompanyName(newData.companyName));
-          dispatch(updateDescripcion(newData.descripcion));
-          dispatch(updateDisplayName(newData.displayNameform));
-          dispatch(updateUserType(newData.userType));
-          dispatch(updateAssetAssigned(newData.assetAssigned));
-          dispatch(updatecompanyRUC(newData.companyRUC));
+          // dispatch(update_photoURL(newData.photoURL));
+          // dispatch(updateEmail(newData.email));
+          // dispatch(updateCargo(newData.cargo));
+          // dispatch(updatecompanyName(newData.companyName));
+          // dispatch(updateEmail(newData.emailCompany));
+          // dispatch(updateDisplayName(newData.displayNameform));
+          // dispatch(updateUserType(newData.userType));
+          // dispatch(updateAssetAssigned(newData.assetAssigned));
+          // dispatch(updatecompanyRUC(newData.companyRUC));
 
           // props.update_firebaseProfile(newData);
           // props.update_firebaseUserName(newData.displayNameform);
@@ -151,7 +213,7 @@ export function NameForm(props: any) {
           color: "#c2c2c2",
         }}
         onChangeText={(text) => formik.setFieldValue("emailCompany", text)}
-        errorMessage={formik.errors.cargo}
+        errorMessage={formik.errors.emailCompany}
         autoCapitalize="none"
       />
       {/*   <Input

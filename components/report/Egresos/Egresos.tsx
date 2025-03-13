@@ -30,12 +30,11 @@ import { Image as ImageExpo } from "expo-image";
 import { useRouter } from "expo-router";
 import OperacionDate from "../OperacionDate";
 import { Reporte } from "../HeaderReporte/headerEgreso";
+import { supabase } from "@/supabase/client";
 
 export default function Operaciones(props: any) {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState<any>([]);
   const [asset, setAsset] = useState("");
-  console.log("post", post);
-  console.log("assetmm", asset);
 
   //  searching
   const [searchResults, setSearchResults] = useState<any>([]);
@@ -96,39 +95,59 @@ export default function Operaciones(props: any) {
   useEffect(() => {
     let q;
     if (startDate && endDate) {
+      // async function fetchData() {
+      //   q = query(
+      //     collection(db, "Events"),
+      //     orderBy("fechaContable", "desc"),
+      //     where("fechaContable", ">=", startDate),
+      //     where("fechaContable", "<=", endDate),
+      //     where("emailCompany", "==", emailCompany),
+      //     where("idFirebaseAsset", "==", asset),
+      //     where("tipoEvento", "==", "2. Egreso"),
+      //     limit(1000)
+      //   );
+
+      //   try {
+      //     const querySnapshot = await getDocs(q);
+      //     const lista: any = [];
+
+      //     querySnapshot.forEach((doc) => {
+      //       const dataschema = {
+      //         ...doc.data(),
+      //       };
+
+      //       lista.push(dataschema);
+      //     });
+      //     setPost(lista);
+      //   } catch (error) {
+      //     console.error("Error fetching data: ", error);
+      //   }
+      // }
       async function fetchData() {
-        console.log("11111111");
-        q = query(
-          collection(db, "Events"),
-          orderBy("fechaContable", "desc"),
-          where("fechaContable", ">=", startDate),
-          where("fechaContable", "<=", endDate),
-          where("emailCompany", "==", emailCompany),
-          where("idFirebaseAsset", "==", asset),
-          where("tipoEvento", "==", "2. Egreso"),
-          limit(1000)
-        );
-        console.log("2222222", asset);
-
-        try {
-          const querySnapshot = await getDocs(q);
-          const lista: any = [];
-          console.log("33333333");
-
-          querySnapshot.forEach((doc) => {
-            const dataschema = {
-              ...doc.data(),
-            };
-            console.log("4444444");
-
-            lista.push(dataschema);
-          });
-          setPost(lista);
-        } catch (error) {
-          console.error("Error fetching data: ", error);
+        let events;
+        if (emailCompany === user_email) {
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!);
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
+        } else {
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!)
+          // .contains(
+          //   "nombreAsset",
+          //   globalFilteredAssetList.map((item: any) => item.nombreAsset)
+          // );
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
         }
+        setPost(events);
       }
-
       fetchData();
     }
   }, [startDate, endDate, asset]);
@@ -139,7 +158,6 @@ export default function Operaciones(props: any) {
   const router = useRouter();
 
   const goToEditDocs = (item: any) => {
-    console.log("como estas que tal te va");
     if (item?.idEventFirebase) {
       router.push({
         pathname: "/(tabs)/search/comment",
@@ -152,7 +170,6 @@ export default function Operaciones(props: any) {
     }
   };
   const montoTotal = post.reduce((acc: any, item: any) => {
-    console.log("item", item.moneda);
     const monto =
       item?.moneda === "Dolares"
         ? Number(item?.costo) + Number(item?.igv) * 3.7 ||
@@ -179,7 +196,7 @@ export default function Operaciones(props: any) {
         >
           <OperacionDate filterButton={filter} quitFilterButton={quitfilter} />
         </View>
-      )}{" "}
+      )}
       <Text> </Text>
       <Text> </Text>
       <Reporte setAsset={setAsset} />
@@ -242,15 +259,11 @@ export default function Operaciones(props: any) {
 
           {post?.map((file: any, index: any) => {
             const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file?.fechaVencimiento?.seconds * 1000 +
-                file?.fechaVencimiento?.nanoseconds / 1000000
-            );
+            const fileDate = new Date(file?.fechaVencimiento);
 
             const currentDate = new Date();
             const timeDifference = fileDate.getTime() - currentDate.getTime();
             const isExpiring = timeDifference <= FiveDaysInMillis;
-            console.log("index", file.autor);
 
             const idFirebaseAsset = file?.idAssetFirebase || file?.autor;
 
@@ -365,7 +378,7 @@ export default function Operaciones(props: any) {
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Egreso Total S/.{" "}
         {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
-      </Text>{" "}
+      </Text>
       <TouchableOpacity
         onPress={() => getExcelReportData("Control de Egresos", post)}
       >
@@ -398,12 +411,12 @@ export default function Operaciones(props: any) {
 }
 
 const formatDate = (dateInput: any) => {
-  const { seconds, nanoseconds } = dateInput || {
-    seconds: 0,
-    nanoseconds: 0,
-  };
-  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
-  const date = new Date(milliseconds);
+  // const { seconds, nanoseconds } = dateInput || {
+  //   seconds: 0,
+  //   nanoseconds: 0,
+  // };
+  // const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(dateInput);
   const monthNames = [
     "ene.",
     "feb.",

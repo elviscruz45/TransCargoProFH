@@ -30,9 +30,13 @@ export function Header() {
   const selectAsset = async (item: any) => {
     //create a to go to the screen called item
 
+    // router.push({
+    //   pathname: "/search",
+    //   params: { item: item.id },
+    // });
     router.push({
       pathname: "/search/item",
-      params: { item: item.idFirebaseAsset },
+      params: { item: item.id },
     });
 
     // navigation.navigate(screen.search.tab, {
@@ -65,7 +69,7 @@ export function Header() {
                   source={
                     item?.photoServiceURL
                       ? { uri: item?.photoServiceURL }
-                      : require("../../../assets/assetpics/carIcon.jpg")
+                      : require("../../../assets/assetpics/truckIcon.png")
                   }
                   style={{
                     alignSelf: "center",

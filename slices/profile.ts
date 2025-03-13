@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface ProfileState {
-  value: number;
+  value: any;
   employees: any;
 }
 
@@ -28,7 +28,7 @@ export const profileSlice = createSlice({
     incrementByAmount: (state, action: PayloadAction<number>) => {
       state.value += action.payload;
     },
-    updateEmployees: (state, action: PayloadAction<number>) => {
+    updateEmployees: (state, action: PayloadAction<any>) => {
       state.employees = action.payload;
     },
   },

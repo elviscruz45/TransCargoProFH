@@ -159,8 +159,10 @@ export const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    // alignItems: "center",
-    marginLeft: windowWidth / 2 - 50,
+    alignItems: "center",
+    alignSelf: "center",
+    // marginLeft: windowWidth / 2 - 50,
+    // justifyContent: "space-between",
   },
 
   editIcon: {
@@ -238,7 +240,7 @@ export const styles = StyleSheet.create({
     // right: 10,
     // paddingHorizontal: 90,
     // marginLeft: windowWidth / 2,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
   roundImageUpload: {
     width: 50,

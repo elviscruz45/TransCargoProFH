@@ -20,6 +20,7 @@ import { SearchBar } from "react-native-elements"; // or wherever your SearchBar
 export default function Publish() {
   const router = useRouter();
   const [asset, setAsset] = useState<any>(null);
+  console.log("asset-11", asset);
   const [searchText, setSearchText] = useState<any>("");
   const [searchResults, setSearchResults] = useState([]);
   //global state management for the user_uid
@@ -154,6 +155,27 @@ export default function Publish() {
     }
   };
 
+  const saveData = async (item: any) => {
+    if (!asset) {
+      Toast.show({
+        type: "error",
+        text1: "Escoge un servicio para continuar",
+        visibilityTime: 2000,
+        autoHide: true,
+        topOffset: 30,
+        bottomOffset: 40,
+      });
+      return;
+    }
+    dispatch(takePhoto(""));
+
+    router.push({
+      pathname: "/publish/events",
+      // params: { item: item },
+    });
+    setAsset(null);
+  };
+
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <SearchBar
@@ -181,14 +203,16 @@ export default function Publish() {
         source={
           asset?.photoServiceURL
             ? { uri: asset?.photoServiceURL }
-            : require("../../../assets/assetpics/carIcon.jpg")
+            : require("../../../assets/assetpics/truckIcon.png")
         }
         style={styles.roundImage}
         cachePolicy={"memory-disk"}
       />
 
       {asset ? (
-        <Text style={styles.name}>{asset.placa}</Text>
+        <Text style={styles.name}>
+          {asset?.placa ? asset?.placa : asset?.nombre}
+        </Text>
       ) : (
         <Text style={styles.name}>"Escoger Activo"</Text>
       )}
@@ -205,6 +229,15 @@ export default function Publish() {
           // paddingHorizontal: 150,
         }}
       >
+        <TouchableOpacity
+          style={styles.btnContainer2}
+          onPress={() => saveData(asset)}
+        >
+          <ImageExpo
+            source={require("../../../assets/assetpics/saveIcon.png")}
+            style={styles.roundImageUpload}
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.btnContainer2}
           onPress={() => pickImage(asset)}
@@ -251,7 +284,7 @@ export default function Publish() {
                   source={
                     item?.photoServiceURL
                       ? { uri: item?.photoServiceURL }
-                      : require("../../../assets/assetpics/carIcon.jpg")
+                      : require("../../../assets/assetpics/truckIcon.png")
                   }
                   style={styles.image}
                   cachePolicy={"memory-disk"}
@@ -284,7 +317,7 @@ export default function Publish() {
             </TouchableOpacity>
           );
         }}
-        keyExtractor={(item: any) => item.idFirebaseAsset}
+        keyExtractor={(item: any) => item.id}
       />
     </View>
   );

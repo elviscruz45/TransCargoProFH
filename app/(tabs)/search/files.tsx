@@ -48,15 +48,15 @@ export default function FileScreen() {
   const router = useRouter();
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
-  const currentAsset: any = assetList.find(
-    (asset: any) => asset.idFirebaseAsset === item
-  );
+  const currentAsset: any = assetList.find((asset: any) => asset.id === item);
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
 
   const files = currentAsset?.files;
+
+
 
   const uploadFile = useCallback(async (uri: any) => {
     try {

@@ -30,9 +30,10 @@ import { Image as ImageExpo } from "expo-image";
 import { useRouter } from "expo-router";
 import OperacionDate from "../OperacionDate";
 import { Reporte } from "../HeaderReporte/headerIngreso";
+import { supabase } from "@/supabase/client";
 
 export default function Operaciones(props: any) {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState<any>([]);
   const [asset, setAsset] = useState("");
 
   //  searching
@@ -95,50 +96,86 @@ export default function Operaciones(props: any) {
   useEffect(() => {
     let q;
     if (startDate && endDate) {
+      // async function fetchData() {
+      //   if (asset === "") {
+      //     q = query(
+      //       collection(db, "Events"),
+      //       orderBy("fechaContable", "desc"),
+      //       where("fechaContable", ">=", startDate),
+      //       where("fechaContable", "<=", endDate),
+      //       where("emailCompany", "==", emailCompany),
+      //       where("tipoEvento", "==", "1. Inicio Viaje"),
+      //       limit(1000)
+      //     );
+      //   } else {
+      //     q = query(
+      //       collection(db, "Events"),
+      //       orderBy("fechaContable", "desc"),
+      //       where("fechaContable", ">=", startDate),
+      //       where("fechaContable", "<=", endDate),
+      //       where("emailCompany", "==", emailCompany),
+      //       where("idFirebaseAsset", "==", asset),
+      //       where("tipoEvento", "==", "1. Inicio Viaje"),
+      //       limit(50)
+      //     );
+      //   }
+
+      //   try {
+      //     const querySnapshot = await getDocs(q);
+      //     const lista: any = [];
+
+      //     querySnapshot.forEach((doc) => {
+      //       const dataschema = {
+      //         ...doc.data(),
+      //       };
+
+      //       lista.push(dataschema);
+      //     });
+      //     setPost(lista);
+      //   } catch (error) {
+      //     console.error("Error fetching data: ", error);
+      //   }
+      // }
+
+      // fetchData();
       async function fetchData() {
-        if (asset === "") {
-          q = query(
-            collection(db, "Events"),
-            orderBy("fechaContable", "desc"),
-            where("fechaContable", ">=", startDate),
-            where("fechaContable", "<=", endDate),
-            where("emailCompany", "==", emailCompany),
-            where("tipoEvento", "==", "1. Inicio Viaje"),
-            limit(1000)
-          );
+        let events;
+        if (emailCompany === user_email) {
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!);
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
         } else {
-          q = query(
-            collection(db, "Events"),
-            orderBy("fechaContable", "desc"),
-            where("fechaContable", ">=", startDate),
-            where("fechaContable", "<=", endDate),
-            where("emailCompany", "==", emailCompany),
-            where("idFirebaseAsset", "==", asset),
-            where("tipoEvento", "==", "1. Inicio Viaje"),
-            limit(50)
-          );
+          const { data, error } = await supabase.from("events").select("*");
+          // .like("emailCompany", emailCompany!!)
+          // .contains(
+          //   "nombreAsset",
+          //   globalFilteredAssetList.map((item: any) => item.nombreAsset)
+          // );
+          if (error) {
+            console.error("Error fetching data: ", error);
+            return;
+          }
+          events = data;
         }
-
-        try {
-          const querySnapshot = await getDocs(q);
-          const lista: any = [];
-
-          querySnapshot.forEach((doc) => {
-            const dataschema = {
-              ...doc.data(),
-            };
-
-            lista.push(dataschema);
-          });
-          setPost(lista);
-        } catch (error) {
-          console.error("Error fetching data: ", error);
-        }
+        setPost(events);
       }
 
       fetchData();
     }
-  }, [startDate, endDate, asset]);
+  }, [
+    startDate,
+    endDate,
+    asset,
+    emailCompany,
+    user_email,
+    globalFilteredAssetList,
+  ]);
+
+  // }, [startDate, endDate, asset]);
 
   //-----------------------------------------------------------------------------------
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
@@ -203,11 +240,6 @@ export default function Operaciones(props: any) {
           Number(item?.precioUnitario) * Number(item?.cantidad) ||
           0;
 
-    // console.log(
-    //   " item.fechadeEmisionFactura",
-    //   item.fechadeEmisionFactura && monto
-    // );
-
     if (item.fechadeEmisionFactura) {
       return acc + monto;
     } else {
@@ -257,7 +289,7 @@ export default function Operaciones(props: any) {
         >
           <OperacionDate filterButton={filter} quitFilterButton={quitfilter} />
         </View>
-      )}{" "}
+      )}
       <Text> </Text>
       <Text> </Text>
       <Reporte setAsset={setAsset} setCantidadAsset={setCantidadAsset} />
@@ -265,18 +297,17 @@ export default function Operaciones(props: any) {
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Ingreso Total Operativo, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(montoTotal.toFixed(2))}
-      </Text>{" "}
+      </Text>
       <Text> </Text>
       {!asset && (
         <>
-          {" "}
           <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
             Camiones en actividad = {cantidadViajando}
-          </Text>{" "}
+          </Text>
           <Text> </Text>
           <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
             Camiones Parados = {cantidadAsset - cantidadViajando}
-          </Text>{" "}
+          </Text>
           <Text> </Text>
           {/* <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
             Camiones en Mantenimiento = 1
@@ -286,26 +317,26 @@ export default function Operaciones(props: any) {
       )}
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Cantidad de Vueltas= {cantidadVueltas}
-      </Text>{" "}
+      </Text>
       <Text> </Text>
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Monto Facturas Emitidas, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(
           cantidadFacturasEmitidas.toFixed(2)
         )}
-      </Text>{" "}
+      </Text>
       <Text> </Text>
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Monto Facturas Pagadas, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(
           cantidadFacturasPagadas.toFixed(2)
         )}
-      </Text>{" "}
+      </Text>
       <Text> </Text>
       <Text style={{ marginLeft: 15, fontWeight: "black", color: "blue" }}>
         Pendiente de Pago, Incluye IGV = S/.{" "}
         {new Intl.NumberFormat("en-US").format(FacturasPendientes.toFixed(2))}
-      </Text>{" "}
+      </Text>
       <Text> </Text>
       <ScrollView
         horizontal={true}
@@ -390,10 +421,7 @@ export default function Operaciones(props: any) {
 
           {post?.map((file: any, index: any) => {
             const FiveDaysInMillis = 5 * 24 * 60 * 60 * 1000;
-            const fileDate = new Date(
-              file?.fechaVencimiento?.seconds * 1000 +
-                file?.fechaVencimiento?.nanoseconds / 1000000
-            );
+            const fileDate = new Date(file?.fechaVencimiento);
 
             const currentDate = new Date();
             const timeDifference = fileDate.getTime() - currentDate.getTime();
@@ -638,12 +666,12 @@ const formatDate = (dateInput: any) => {
     return "";
   }
 
-  const { seconds, nanoseconds } = dateInput || {
-    seconds: 0,
-    nanoseconds: 0,
-  };
-  const milliseconds = seconds * 1000 + nanoseconds / 1000000;
-  const date = new Date(milliseconds);
+  // const { seconds, nanoseconds } = dateInput || {
+  //   seconds: 0,
+  //   nanoseconds: 0,
+  // };
+  // const milliseconds = seconds * 1000 + nanoseconds / 1000000;
+  const date = new Date(dateInput);
   const monthNames = [
     "ene.",
     "feb.",

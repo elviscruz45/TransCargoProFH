@@ -105,7 +105,7 @@ export const AvatarImg = ({ currentAsset, idAsset }: any) => {
         source={
           currentAsset?.photoServiceURL
             ? { uri: currentAsset.photoServiceURL }
-            : require("../../../assets/assetpics/carIcon.jpg")
+            : require("../../../assets/assetpics/truckIcon.png")
         }
         style={{
           // alignContent: "center",

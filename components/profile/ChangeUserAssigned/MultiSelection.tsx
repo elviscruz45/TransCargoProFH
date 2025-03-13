@@ -32,7 +32,7 @@ export const MultiSelectExample = (props: any) => {
     (state: RootState) => state.userId.emailCompany
   );
 
-  // console.log("setUid", setUid);
+
 
   //getting from firebae users table that comes from the same company
   useEffect(() => {

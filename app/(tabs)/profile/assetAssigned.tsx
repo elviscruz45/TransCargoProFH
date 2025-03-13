@@ -111,7 +111,7 @@ export default function AssetAssigned() {
                       source={
                         item?.photoServiceURL
                           ? { uri: item?.photoServiceURL }
-                          : require("../../../assets/assetpics/carIcon.jpg")
+                          : require("../../../assets/assetpics/truckIcon.png")
                       }
                       style={styles.image}
                       cachePolicy={"memory-disk"}
@@ -169,7 +169,7 @@ export default function AssetAssigned() {
               </View>
             );
           }}
-          keyExtractor={(item: any) => item.idFirebaseAsset}
+          keyExtractor={(item: any) => item.id}
         />
       </View>
       <Modal show={showModal} close={onCloseOpenModal}>

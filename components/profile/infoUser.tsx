@@ -28,6 +28,7 @@ import type { RootState } from "@/app/store";
 import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useRouter } from "expo-router";
+import { Image as ImageExpo } from "expo-image";
 
 export function InfoUser(props: any) {
   const router = useRouter();
@@ -40,8 +41,6 @@ export function InfoUser(props: any) {
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
-
-  console.log("emailCompany", emailCompany);
 
   const displayName = useSelector(
     (state: RootState) => state.userId.displayName
@@ -59,7 +58,6 @@ export function InfoUser(props: any) {
   //global state management
   const num = useSelector((state: RootState) => state.counter.value);
   // const navigation = useNavigation();
-  // // console.log(props.profile?.userType);
   const changeAvatar = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -135,18 +133,20 @@ export function InfoUser(props: any) {
   return (
     <>
       <View style={styles.content}>
-        <Avatar
-          size="large"
-          rounded
-          containerStyle={styles.avatar}
-          source={
-            photoUrl
-              ? { uri: photoUrl }
-              : require("../../assets/pictures/docsIcon.png")
-          }
+        <ImageExpo
+          // size="large"
+          // rounded
+          // containerStyle={styles.avatar}
+          style={styles.avatar}
+          // source={
+          //   photoUrl
+          //     ? { uri: photoUrl }
+          //     : require("../../assets/images/userIcon.jpeg")
+          // }
+          source={require("../../assets/images/userIcon.jpeg")}
         >
-          <Avatar.Accessory size={24} onPress={changeAvatar} />
-        </Avatar>
+          {/* <Avatar.Accessory size={24} onPress={changeAvatar} /> */}
+        </ImageExpo>
         <View>
           <Text></Text>
           <Text style={styles.displayName}>{displayName}</Text>
@@ -158,9 +158,7 @@ export function InfoUser(props: any) {
             Correo del Grupo:
           </Text>
 
-          {emailCompany && (
-            <Text style={{ color: "" }}>{emailCompany}</Text>
-          )}
+          {emailCompany && <Text style={{ color: "" }}>{emailCompany}</Text>}
         </View>
         <Text> </Text>
         <Text> </Text>

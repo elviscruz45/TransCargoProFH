@@ -27,9 +27,7 @@ export default function MoreDetail() {
   const userType = useSelector((state: RootState) => state.userId.userType);
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
-  const currentAsset: any = assetList.find(
-    (asset: any) => asset.idFirebaseAsset === item
-  );
+  const currentAsset: any = assetList.find((asset: any) => asset.id === item);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
@@ -60,7 +58,7 @@ export default function MoreDetail() {
         source={
           currentAsset?.photoServiceURL
             ? { uri: currentAsset.photoServiceURL }
-            : require("../../../assets/assetpics/carIcon.jpg")
+            : require("../../../assets/assetpics/truckIcon.png")
         }
         style={styles.roundImage}
         cachePolicy={"memory-disk"}

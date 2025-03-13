@@ -28,11 +28,11 @@ export default function _layout() {
   // const colorScheme = useColorScheme();
   // const handleVisibleModalFalse = () => {
   //   dispatch(setToFalse());
-  //   console.log(false);
+
   // };
   // const handleVisibleModalTrue = () => {
   //   dispatch(setToTrue());
-  //   console.log(true);
+
   // };
   return (
     <Stack>

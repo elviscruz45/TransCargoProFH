@@ -70,7 +70,6 @@ export default function CameraScreen() {
   function toggleCameraType() {
     setType((current) => {
       const newType = current === "back" ? "front" : "back";
-      console.log("current", current);
       return newType;
     });
   }

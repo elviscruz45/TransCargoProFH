@@ -32,6 +32,7 @@ import Toast from "react-native-toast-message";
 import { Image as ImageExpo } from "expo-image";
 import { AssetForm } from "../../../components/publish/forms/AssetForm/Asset";
 import { useRouter, Redirect } from "expo-router";
+import { supabase } from "@/supabase/client";
 
 export default function Asset(props: any) {
   const emptyimage = require("../../../assets/assetpics/freight02.jpeg");
@@ -90,10 +91,30 @@ export default function Asset(props: any) {
         newData.nombrePerfil = displayName || "Anonimo";
         newData.emailCompany = emailCompany || "Anonimo";
         newData.companyName = companyName || "Anonimo";
-        //Uploading data to Firebase and adding the ID firestore
-        const docRef = doc(collection(db, "Asset"));
-        newData.idFirebaseAsset = docRef.id;
-        await setDoc(docRef, newData);
+
+        // //Uploading data to Firebase and adding the ID firestore
+        // const docRef = doc(collection(db, "Asset"));
+        // newData.idFirebaseAsset = docRef.id;
+        // await setDoc(docRef, newData);
+
+
+        // const otherData = {
+        //   tipoActivo: "hola",
+        //   nombre: "df",
+        //   // reporte: "sss",
+        // };
+        //----------SUPABASE-------------
+        const { data, error } = await supabase
+          .from("assets")
+          .insert([newData])
+          .select();
+
+        if (error) {
+          console.error("Error inserting data:", error);
+        } else {
+          console.log("Insert successful:", data);
+        }
+        //----------SUPABASE-------------
 
         Toast.show({
           type: "success",
@@ -118,7 +139,7 @@ export default function Asset(props: any) {
     >
       <View style={{ alignSelf: "center" }}>
         <ImageExpo
-          source={require("../../../assets/assetpics/freight02.jpeg")}
+          source={require("../../../assets/assetpics/truckIcon.png")}
           style={styles.roundImage}
           cachePolicy={"memory-disk"}
         />

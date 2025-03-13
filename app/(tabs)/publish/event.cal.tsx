@@ -111,11 +111,13 @@ export const uploadImage = async (uri: any, emailCompany: any) => {
   const response = await fetch(uri);
 
   const blob = await response.blob();
+  const fileName = `${emailCompany}/pdfPost/events/${uuid}`;
 
   const storage = getStorage();
 
-  const storageRef = ref(storage, `${emailCompany}/mainImageEvents/${uuid}`);
-  return uploadBytesResumable(storageRef, blob);
+  // const storageRef = ref(storage, `${emailCompany}/mainImageEvents/${uuid}`);
+  // return uploadBytesResumable(storageRef, blob);
+  return { blob, fileName };
 };
 
 export const uploadPdf = async (
@@ -125,9 +127,14 @@ export const uploadPdf = async (
   emailCompany: string
 ) => {
   try {
+    const uuid = uuidv4();
+
     const response = await fetch(uri);
 
     const blob = await response.blob();
+    console.log("fileName", emailCompany, FilenameTitle, uuid);
+    const fileName = `${emailCompany}/pdfPost/events/${FilenameTitle}-${uuid}`;
+
     // const blob = new Blob(response);
 
     const fileSize = blob.size;
@@ -141,14 +148,15 @@ export const uploadPdf = async (
       throw new Error("El archivo excede los 50 MB");
     }
 
-    const storage = getStorage();
+    //const storage = getStorage();
 
-    const storageRef = ref(
-      storage,
-      `${emailCompany}/pdfPostEvent/${FilenameTitle}-${formattedDate}`
-    );
+    // const storageRef = ref(
+    //   storage,
+    //   `${emailCompany}/pdfPostEvent/${FilenameTitle}-${formattedDate}`
+    // );
 
-    return uploadBytesResumable(storageRef, blob);
+    // return uploadBytesResumable(storageRef, blob);
+    return { blob, fileName };
   } catch (error) {
     Toast.show({
       type: "error",
