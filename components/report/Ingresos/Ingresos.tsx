@@ -11,20 +11,10 @@ import { connect } from "react-redux";
 import { styles } from "./Ingresos.styles";
 import { DateScreen } from "../DateScreen/DateScreen";
 import { Modal } from "../../shared/Modal";
-import { ChangeDisplayCompany } from "../ChangeCompany/ChangeCompany";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { DataTable } from "react-native-paper";
-import { SearchBar, Icon } from "@rneui/themed";
 import { getExcelReportData } from "../../../utils/excelData";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  orderBy,
-  limit,
-} from "firebase/firestore";
 import { Image as ImageExpo } from "expo-image";
 import { useRouter } from "expo-router";
 import OperacionDate from "../OperacionDate";
@@ -34,7 +24,7 @@ import { supabase } from "@/supabase/client";
 export default function Operaciones(props: any) {
   const [post, setPost] = useState<any>([]);
   const [asset, setAsset] = useState("");
-
+  console.log("post-increible", post);
   //  searching
   const [searchResults, setSearchResults] = useState<any>([]);
   const [searchText, setSearchText] = useState("");
@@ -93,17 +83,20 @@ export default function Operaciones(props: any) {
 
   // trayendo data
   useEffect(() => {
+    console.log("post-increibleUSEEFFECT", post);
+
     let q;
     if (startDate && endDate) {
       async function fetchData() {
         if (asset === "") {
+          console.log("post-increibleUSEEFFECT-activando", post);
+
           const { data: events, error } = await supabase
             .from("events")
             .select("*")
             .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
             .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
             .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
-            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
             .eq("tipoEvento", "1. Inicio Viaje") // where "tipoEvento" == "1. Inicio Viaje"
             .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
             .limit(50); // limit 50
@@ -131,9 +124,9 @@ export default function Operaciones(props: any) {
     startDate,
     endDate,
     asset,
-    emailCompany,
-    user_email,
-    globalFilteredAssetList,
+    // emailCompany,
+    // user_email,
+    // globalFilteredAssetList,
   ]);
 
   // }, [startDate, endDate, asset]);
@@ -406,7 +399,9 @@ export default function Operaciones(props: any) {
             return (
               <DataTable.Row key={index}>
                 <DataTable.Cell style={styles.shortColumn2}>
-                  <Text style={styles.shortColumn2}>{file?.nombreAsset}</Text>
+                  <Text style={styles.shortColumn2}>
+                    {file?.placa || file?.nombreAsset}
+                  </Text>
                 </DataTable.Cell>
 
                 <DataTable.Cell style={styles.shortColumn2}>

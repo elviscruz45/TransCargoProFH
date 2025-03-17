@@ -17,7 +17,6 @@ import type { RootState } from "../../store";
 import { DataTable } from "react-native-paper";
 import { SearchBar, Icon } from "@rneui/themed";
 import { getExcelReportData } from "../../../utils/excelData";
-import { db } from "@/utils/firebase";
 import {
   collection,
   query,

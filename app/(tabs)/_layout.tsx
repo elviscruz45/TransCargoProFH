@@ -284,19 +284,6 @@ export default function TabLayout() {
       }
       fetchData();
 
-      // // Set up real-time listener for new updates in the "events" table
-      // const channel = supabase
-      //   .channel("events_changes")
-      //   .on(
-      //     "postgres_changes",
-      //     { event: "*", schema: "public", table: "events" }, // Listen to all changes
-      //     (payload) => {
-      //       console.log("Realtime event received:", payload);
-      //       fetchData(); // Re-fetch data on change
-      //     }
-      //   )
-      //   .subscribe();
-      // Set up real-time listener for new updates in the "events" table
       const channel = supabase
         .channel("events_changes")
         .on(

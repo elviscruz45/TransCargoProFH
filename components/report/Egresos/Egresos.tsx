@@ -102,7 +102,6 @@ export default function Operaciones(props: any) {
             .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
             .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
             .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
-            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
             .eq("tipoEvento", "2. Egreso") // where "tipoEvento" == "1. Inicio Viaje"
             .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
             .limit(50); // limit 50
