@@ -38,13 +38,12 @@ export default function EditDocs() {
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
-  const currentAsset: any = assetList.find(
-    (asset: any) => asset.idFirebaseAsset === uidDoc
-  );
+  const currentAsset: any = assetList.find((asset: any) => asset.id === uidDoc);
   const currentUserNameDoc = currentAsset?.nombre;
   const currentAssetIdFirebase = currentAsset?.idFirebaseAsset;
 
   const files = currentAsset?.files;
+  console.log("filesEditaset1", assetList);
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
@@ -123,7 +122,7 @@ export default function EditDocs() {
           .update({ files: newFileListToUpdate })
           .eq("id", uidDoc)
           .select();
-        // router.back();
+        router.back();
 
         Toast.show({
           type: "success",

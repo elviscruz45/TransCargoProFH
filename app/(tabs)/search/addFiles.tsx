@@ -52,6 +52,7 @@ export default function AddDocs() {
   const files = currentAsset?.files;
 
   const tipoFileList = files?.map((item: any) => item.tipoFile);
+  console.log("tipoFileList", tipoFileList);
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
@@ -123,16 +124,12 @@ export default function AddDocs() {
 
         newData.pdfFileURLFirebase = publicUrl;
 
-       
-
         //----------SUPABASE-------------
         const { data: currentData, error: fetchError } = await supabase
           .from("assets")
           .select("files")
           .eq("id", currentAssetId)
           .single();
-
-
 
         if (fetchError) {
           console.error("Error fetching current data:", fetchError);

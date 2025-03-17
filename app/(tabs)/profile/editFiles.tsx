@@ -40,7 +40,6 @@ export default function EditDocs() {
 
   const files = currentEmployee?.files;
 
-
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
   const router = useRouter();
@@ -54,20 +53,15 @@ export default function EditDocs() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
-     
-
         const newFileListToUpdate = [...files];
-      
 
         const newData = formValue;
-      
 
         newData.fechaPostFormato = CurrentFormatDate(); //ok
         newData.autor = email; //ok
         newData.tipoFile = tipoFile; //ok
         newData.nombre = currentUserNameDoc;
         newData.idFirebase = uidDoc;
-    
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
@@ -88,14 +82,10 @@ export default function EditDocs() {
 
           if (error) console.error("Error uploading PDF:", error);
 
-      
-
           // Get Public URL
           publicUrl = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
-
-       
 
           Alert.alert("Success", "File uploaded successfully!");
         } else {
@@ -115,10 +105,8 @@ export default function EditDocs() {
           // Replace the object at the found index with the new object
           newFileListToUpdate[indexToUpdate] = newData;
         } else {
-          console.warn("Object  not found in the list.")
-
+          console.warn("Object  not found in the list.");
         }
-
 
         const { data, error: errorData } = await supabase
           .from("users")
@@ -126,7 +114,7 @@ export default function EditDocs() {
           .eq("id", uidDoc)
           .select();
 
-        // router.back();
+        router.back();
         Toast.show({
           type: "success",
           position: "bottom",

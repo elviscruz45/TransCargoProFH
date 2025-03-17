@@ -37,18 +37,15 @@ export default function FileScreen() {
     (state: RootState) => state.profile.employees
   );
 
-
   const currentEmployee: any = employeesList.find(
     (user: any) => user.id === item
   );
-
 
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
   const files = currentEmployee?.files;
-
 
   const uploadFile = useCallback(async (uri: any) => {
     try {
@@ -103,7 +100,6 @@ export default function FileScreen() {
 
   // go to delete screen
   const goToDeleteDocs = async (pdfFileURLFirebase: any) => {
-
     if (Platform.OS === "web") {
       const confirmed = window.confirm(
         "Estas Seguro que desear Eliminar el evento?"
@@ -114,7 +110,10 @@ export default function FileScreen() {
           .select("*")
           .eq("id", item)
           .single();
-
+        if (error) {
+          console.error("Error fetching asset files:", error);
+          return;
+        }
         const [filteredListtoDelete] = user?.files?.filter(
           (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
         );
@@ -123,15 +122,11 @@ export default function FileScreen() {
           (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
         );
 
-      
-
         const { data, error: errorData } = await supabase
           .from("users")
           .update({ files: filteredList })
           .eq("id", item)
           .select();
-
-  
 
         if (errorData) {
           console.warn("errorData", errorData);
@@ -139,16 +134,14 @@ export default function FileScreen() {
           return;
         }
 
-
         const { data: datastorage, error: errorStorage } =
           await supabase.storage
             .from("assets_documents")
             .remove([
               `noe_huachaca@fhingenieros.com.pe/pdfPost/profile/${filteredListtoDelete?.FilenameTitle}`,
             ]);
-       
+
         if (errorStorage) {
-       
           console.warn("errorData", errorStorage);
 
           return;
@@ -180,21 +173,16 @@ export default function FileScreen() {
                 (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
               );
 
-             
               const { data, error: errorData } = await supabase
                 .from("users")
                 .update({ files: filteredList })
                 .eq("id", item)
                 .select();
 
-           
               if (errorData) {
                 console.log("errorData", errorData);
                 return;
               }
-
-
-      
 
               const { data: datastorage, error: errorStorage } =
                 await supabase.storage
@@ -202,7 +190,7 @@ export default function FileScreen() {
                   .remove([
                     `noe_huachaca@fhingenieros.com.pe/pdfPost/profile/${filteredListtoDelete?.FilenameTitle}`,
                   ]);
-        
+
               if (errorStorage) {
                 console.log("errorStorage", errorStorage);
                 return;

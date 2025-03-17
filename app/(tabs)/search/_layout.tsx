@@ -18,9 +18,10 @@ export default function _layout() {
     return (
       <TouchableOpacity
         onPress={() =>
-          router.push({
-            pathname: "/search",
-          })
+          // router.push({
+          //   pathname: "/search",
+          // })
+          router.back()
         }
         style={{
           flexDirection: "row",

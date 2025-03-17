@@ -119,6 +119,33 @@ export default function FileScreen() {
         "Estas Seguro que deseas cambiar de Imagen?"
       );
       if (confirmed) {
+        const { data, error } = await supabase
+          .from("assets")
+          .select("*")
+          .eq("id", item)
+          .single();
+
+        if (error) {
+          console.error("Error fetching asset files:", error);
+          return;
+        }
+
+        const docList = data?.files || [];
+        const filteredList = docList.filter(
+          (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
+        );
+        const updatedData = {
+          files: filteredList,
+        };
+
+        const { error: updateError } = await supabase
+          .from("assets")
+          .update(updatedData)
+          .eq("id", item);
+
+        if (updateError) {
+          console.error("Error updating asset files:", updateError);
+        }
       }
     } else {
       Alert.alert(
@@ -151,6 +178,37 @@ export default function FileScreen() {
         "Estas Seguro que deseas cambiar la notificacion en tus reportes?"
       );
       if (confirmed) {
+        const { data, error } = await supabase
+          .from("assets")
+          .select("files")
+          .eq("id", item)
+          .single();
+
+        if (error) {
+          console.error("Error fetching asset files:", error);
+          return;
+        }
+
+        const docList = data?.files || [];
+        const findIndex = docList.findIndex(
+          (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
+        );
+
+        if (findIndex !== -1) {
+          docList[findIndex].deactivated = !docList[findIndex].deactivated;
+          const updatedData = {
+            files: docList,
+          };
+
+          const { error: updateError } = await supabase
+            .from("assets")
+            .update(updatedData)
+            .eq("id", item);
+
+          if (updateError) {
+            console.error("Error updating asset files:", updateError);
+          }
+        }
         // const Ref = doc(db, "Asset", item);
         // const docSnapshot = await getDoc(Ref);
         // const docList = docSnapshot?.data()?.files;
