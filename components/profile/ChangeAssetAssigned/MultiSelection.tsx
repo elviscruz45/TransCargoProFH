@@ -19,9 +19,9 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { connect } from "react-redux";
-import { db } from "../../../utils/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
+import { supabase } from "@/supabase/client";
 
 export const MultiSelectExample = (props: any) => {
   const { setAssets } = props;
@@ -31,33 +31,31 @@ export const MultiSelectExample = (props: any) => {
     (state: RootState) => state.userId.emailCompany
   );
 
-  //getting from firebae users table that comes from the same company
   useEffect(() => {
     async function fetchData() {
-      const queryRef1 = query(
-        collection(db, "Asset"),
-        where("emailCompany", "==", emailCompany),
-        orderBy("nombre", "desc")
-      );
-      const getDocs1 = await getDocs(queryRef1);
-      const lista: any = [];
+      const { data: assets, error } = await supabase
+        .from("assets")
+        .select("*")
+        .eq("emailCompany", emailCompany)
+        .order("nombre", { ascending: false });
 
-      // Process results from the first query
-      if (getDocs1) {
-        getDocs1.forEach((doc) => {
-          const object = doc.data();
-          const objectver2 = {
-            ...object,
-            value: `${object?.nombre || object?.placa}`,
-          };
-          lista.push(objectver2.value);
-        });
+      console.log("assets", assets);
+
+      if (error) {
+        console.error("Error fetching assets:", error);
+        return;
       }
+
+      const lista: any = assets.map((asset: any) => ({
+        ...asset,
+        value: `${asset?.placa || asset?.nombre}`,
+      }));
+
       setList(lista);
     }
 
     fetchData();
-  }, []);
+  }, [emailCompany]);
 
   function saveProperty(itemValue: any) {
     setAssets(itemValue);

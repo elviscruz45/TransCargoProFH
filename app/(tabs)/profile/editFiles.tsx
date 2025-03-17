@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Alert } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./editFiles.styles";
 import { Input, Button } from "@rneui/themed";
@@ -6,14 +6,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { Modal } from "../../../components/shared/Modal";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./editFiles.data";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,6 +14,7 @@ import type { RootState } from "../../store";
 import { useLocalSearchParams } from "expo-router";
 import { ChangeDate } from "../../../components/publish/forms/ChangeDates/ChangeDate";
 import { formatdate, CurrentFormatDate } from "../../../utils/formats";
+import { supabase } from "@/supabase/client";
 
 export default function EditDocs() {
   const emailCompany = useSelector(
@@ -38,14 +32,14 @@ export default function EditDocs() {
     (state: RootState) => state.profile.employees
   );
   const currentEmployee: any = employeesList.find(
-    (user: any) => user.uid === uidDoc
+    (user: any) => user.id === uidDoc
   );
 
   const currentUserNameDoc = currentEmployee?.email.split("@")[0];
   const usuarioIDCurrent = currentEmployee?.uid;
-  console.log("usuarioIDCurrentEDITT", uidDoc);
 
   const files = currentEmployee?.files;
+
 
   const email = useSelector((state: RootState) => state.userId.email) ?? "";
   // const navigation = useNavigation();
@@ -60,24 +54,55 @@ export default function EditDocs() {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
+     
+
         const newFileListToUpdate = [...files];
+      
+
         const newData = formValue;
+      
+
         newData.fechaPostFormato = CurrentFormatDate(); //ok
         newData.autor = email; //ok
         newData.tipoFile = tipoFile; //ok
         newData.nombre = currentUserNameDoc;
         newData.idFirebase = uidDoc;
+    
 
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
         let snapshotPDF;
+        const file = await uploadPdf(pdfFileURL);
+        let publicUrl = "";
+        if (file) {
+          const { blob, fileName } = file;
+          // Use blob and fileName here
 
-        if (pdfFileURL) {
-          snapshotPDF = await uploadPdf(pdfFileURL);
-          const imagePathPDF = snapshotPDF?.metadata.fullPath;
-          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: true,
+            });
+
+          if (error) console.error("Error uploading PDF:", error);
+
+      
+
+          // Get Public URL
+          publicUrl = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
+
+       
+
+          Alert.alert("Success", "File uploaded successfully!");
+        } else {
+          console.error("Failed to upload PDF");
         }
-        newData.pdfFileURLFirebase = imageUrlPDF;
+
+        newData.pdfFileURLFirebase = publicUrl;
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
 
@@ -90,15 +115,18 @@ export default function EditDocs() {
           // Replace the object at the found index with the new object
           newFileListToUpdate[indexToUpdate] = newData;
         } else {
-          console.log("Object with age 28 not found in the list.");
+          console.warn("Object  not found in the list.")
+
         }
 
-        // const RefFirebaseLasEventPostd = doc(db, "users", uidDoc);
-        // const updatedData = {
-        //   files: newFileListToUpdate,
-        // };
-        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
-        router.back();
+
+        const { data, error: errorData } = await supabase
+          .from("users")
+          .update({ files: newFileListToUpdate })
+          .eq("id", uidDoc)
+          .select();
+
+        // router.back();
         Toast.show({
           type: "success",
           position: "bottom",
@@ -118,6 +146,7 @@ export default function EditDocs() {
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
+      const fileName = `${emailCompany}/pdfPost/profile/${shortNameFileUpdated}-${fechaPostFormato}`;
 
       const fileSize = blob.size;
 
@@ -129,14 +158,15 @@ export default function EditDocs() {
         });
         throw new Error("El archivo excede los 50 MB");
       }
+      return { blob, fileName };
 
-      const storage = getStorage();
+      // const storage = getStorage()
 
-      const storageRef = ref(
-        storage,
-        `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
-      );
-      return await uploadBytesResumable(storageRef, blob);
+      // const storageRef = ref(
+      //   storage,
+      //   `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
+      // );
+      // return await uploadBytesResumable(storageRef, blob);
     } catch (error) {
       Toast.show({
         type: "error",

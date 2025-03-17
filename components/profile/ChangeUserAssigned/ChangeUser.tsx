@@ -13,7 +13,7 @@ import {
   getDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { db } from "../../../utils/firebase";
+import { supabase } from "@/supabase/client";
 
 export function ChangeUserAssign(props: any) {
   const { onClose, idFirebaseAsset } = props;
@@ -30,10 +30,20 @@ export function ChangeUserAssign(props: any) {
           buttonStyle={styles.btn}
           onPress={async () => {
             setLoading(true);
- 
-            const Ref = doc(db, "Asset", idFirebaseAsset);
-            await updateDoc(Ref, { userAssigned: users });
 
+            // const Ref = doc(db, "Asset", idFirebaseAsset);
+            // await updateDoc(Ref, { userAssigned: users });
+            // Update the userAssigned field in the Asset table using Supabase
+            const { data, error } = await supabase
+              .from("assets")
+              .update({ userAssigned: users })
+              .eq("id", idFirebaseAsset);
+
+            if (error) {
+              console.error("Error updating userAssigned:", error);
+            } else {
+              console.log("userAssigned updated successfully:", data);
+            }
             //update the
             // Loop through the uid list and update each document
             // uid.forEach(async (item, index) => {

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import { Button } from "@rneui/themed";
 
-import { getAuth, signOut } from "firebase/auth";
 import { InfoUser } from "../../../components/profile/infoUser";
 import { styles } from "./index.styles";
 import { DateScreen } from "../../../components/profile/DateScreen/DateScreen";
@@ -41,12 +40,10 @@ export default function Profile(props: any) {
     // await signOut(auth);
 
     let { error } = await supabase.auth.signOut();
-    // props.update_firebaseUserUid("");
     dispatch(CloseApp());
     router.replace({
       pathname: "/",
     });
-    // props.update_firebaseProfile("");
   };
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 

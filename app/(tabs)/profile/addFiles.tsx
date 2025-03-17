@@ -8,16 +8,8 @@ import { ChangeDisplayFileTipo } from "../../../components/search/ChangeFIleTipo
 // import { connect } from "react-redux";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./addFiles.data";
-import { db } from "../../../utils/firebase";
 import { v4 as uuidv4 } from "uuid";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,14 +35,11 @@ export default function AddDocs() {
   const employeesList = useSelector(
     (state: RootState) => state.profile.employees
   );
-  console.log("employeesList123123123123", employeesList);
   const currentEmployee: any = employeesList.find(
     (user: any) => user.id === item
   );
   const currentUserNameDoc = currentEmployee?.email.split("@")[0];
   const usuarioIDCurrent = currentEmployee?.id;
-  console.log("currentEmployee11223344", currentEmployee);
-  console.log("currentEmployee11223344-usuarioIDCurrent", usuarioIDCurrent);
 
   const files = currentEmployee?.files;
 
@@ -100,8 +89,7 @@ export default function AddDocs() {
         if (file) {
           const { blob, fileName } = file;
           // Use blob and fileName here
-          console.log("Blob:", blob);
-          console.log("FileName:", fileName);
+
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from("assets_documents")
@@ -110,15 +98,13 @@ export default function AddDocs() {
               upsert: false,
             });
 
-          if (error) throw error;
+          if (error) console.error("Error uploading PDF:", error);
 
-          console.log("DataURLL:", data);
           // Get Public URL
           publicUrl = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
 
-          console.log("Public URL:", publicUrl);
 
           Alert.alert("Success", "File uploaded successfully!");
         } else {
@@ -126,24 +112,13 @@ export default function AddDocs() {
         }
 
         newData.pdfFileURLFirebase = publicUrl;
-        // newData.pdfFileURLFirebase = imageUrlPDF;
 
-        // //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        // const RefFirebaseLasEventPostd = doc(db, "users", item);
-        // const updatedData = {
-        //   files: arrayUnion(newData),
-        // };
-
-        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
         //----------SUPABASE-------------
         const { data: currentData, error: fetchError } = await supabase
           .from("users")
           .select("files")
           .eq("id", usuarioIDCurrent)
           .single();
-
-        console.log("currentData---1", currentData);
-        console.log("currentData---11", usuarioIDCurrent);
 
         if (fetchError) {
           console.error("Error fetching current data:", fetchError);
@@ -162,9 +137,10 @@ export default function AddDocs() {
           console.error("Error updating data:", errorFiles);
         } else {
           console.log("Update successful:", files);
+          
         }
 
-        // router.back();
+        router.back();
         Toast.show({
           type: "success",
           position: "bottom",

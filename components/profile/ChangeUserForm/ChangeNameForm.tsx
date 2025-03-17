@@ -7,7 +7,6 @@ import Toast from "react-native-toast-message";
 import { initialValues, validationSchema } from "./ChangeNameForm.data";
 import { styles } from "./ChangeNameForm.styles";
 import { connect } from "react-redux";
-import { db } from "../../../utils/firebase";
 // import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { collection, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 // import { update_firebaseProfile } from "../../../actions/profile";
@@ -37,7 +36,6 @@ export function NameForm(props: any) {
     (state: RootState) => state.userId.companyName
   );
   const sessionId = useSelector((state: RootState) => state.userId.session);
-  console.log("sessionId", sessionId);
   const photoURL = useSelector((state: RootState) => state.userId.photoURL);
 
   const email = useSelector((state: RootState) => state.userId.email);
@@ -61,7 +59,6 @@ export function NameForm(props: any) {
       try {
         //Update of Authentication Firebase
         // const currentLoginUser = getAuth().currentUser;
-
 
         // if (currentLoginUser) {
         //   await updateProfile(currentLoginUser, {
@@ -113,7 +110,6 @@ export function NameForm(props: any) {
             text1: "Datos actualizados",
           });
         } else {
-          console.log("errorUser - no encuentro nad aqui");
           //sign up the users in Firestore Database
           // newData.photoURL = photoURL ?? "";
           newData.email = email ?? "";
@@ -128,7 +124,6 @@ export function NameForm(props: any) {
             uid: sessionId,
             display_nameform: newData.displayNameform,
           };
-          // console.log("createUserCASICASI", createUser);
 
           ///setting data to firebase
           // const docRef = doc(collection(db, "users"), newData.uid);
@@ -153,7 +148,6 @@ export function NameForm(props: any) {
           } else {
             console.log("Insert successful:", data);
           }
-   
 
           //updating the global state
           // dispatch(update_photoURL(newData.photoURL));

@@ -26,32 +26,16 @@ import type { RootState } from "../../store";
 import { SearchBar, Icon } from "@rneui/themed";
 import { Modal } from "../../../components/shared/Modal";
 import { ChangeUserAssign } from "../../../components/profile/ChangeUserAssigned/ChangeUser";
-import { updateEmployees } from "../../../slices/profile";
-import {
-  addDoc,
-  collection,
-  query,
-  doc,
-  updateDoc,
-  where,
-  orderBy,
-  getDocs,
-  getDoc,
-  onSnapshot,
-  arrayUnion,
-  arrayRemove,
-  limit,
-} from "firebase/firestore";
+
 import { ChangeResponsability } from "@/components/profile/ChangeResponsabilityForm/Selection";
 import { ChangeAssets } from "@/components/profile/ChangeAssetAssigned/ChangeAssets";
 
-import { db } from "../../../utils/firebase";
 const windowWidth = Dimensions.get("window").width;
 export default function AssetAssigned() {
   const router = useRouter();
   const [data, setData] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<any>([]);
   const [showModal, setShowModal] = useState(false);
   const [responsability, setResponsability] = useState("");
 
@@ -68,6 +52,7 @@ export default function AssetAssigned() {
   const dispatch = useDispatch();
   const onCloseOpenModal = () => setShowModal((prevState) => !prevState);
 
+  console.log("employeesPROFILEEE", employees);
   //modal management
   const [renderComponent, setRenderComponent] =
     useState<React.ReactElement | null>(null);
@@ -158,6 +143,8 @@ export default function AssetAssigned() {
     setShowModal(true);
   };
 
+  console.log(searchResults);
+
   return (
     <>
       <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -200,9 +187,9 @@ export default function AssetAssigned() {
                   </TouchableOpacity>
 
                   <View>
-                    {item.displayNameform && (
+                    {item.display_nameform && (
                       <Text style={[styles.info, { alignSelf: "center" }]}>
-                        {item.displayNameform}
+                        {item.display_nameform}
                       </Text>
                     )}
                     {item.email && (
@@ -216,12 +203,12 @@ export default function AssetAssigned() {
                 >
                   <Button
                     title={
-                      item?.assetAssigned?.length > 0
-                        ? item?.assetAssigned.join(", ")
+                      item?.asset_assigned?.length > 0
+                        ? item?.asset_assigned.join(", ")
                         : "No tiene responsabilidades"
                     }
                     titleStyle={styles.btnTextStyle}
-                    onPress={() => SelectAssets(item.uid)}
+                    onPress={() => SelectAssets(item.id)}
                   />
                   <Text> </Text>
                   <Button

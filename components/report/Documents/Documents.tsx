@@ -18,7 +18,6 @@ import type { RootState } from "@/app/store";
 import { DataTable } from "react-native-paper";
 import { SearchBar, Icon } from "@rneui/themed";
 import { getExcelReportData } from "../../../utils/excelData";
-import { db } from "@/utils/firebase";
 import {
   collection,
   query,
@@ -87,7 +86,6 @@ export default function Documents(props: any) {
 
     return timeDifference <= diasPendientesInMiliseconds;
   });
-
 
   //-------------------------------------------------------------------------------------
 

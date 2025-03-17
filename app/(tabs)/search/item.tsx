@@ -1,7 +1,6 @@
 import { StyleSheet, Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
-
 import { Text, View, ScrollView, Image, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Image as ImageExpo } from "expo-image";
@@ -19,6 +18,8 @@ import { AvatarImg } from "./AvatarImg";
 import { supabase } from "@/supabase/client";
 
 export default function Item() {
+  console.log("item-hola");
+
   const [post, setPost] = useState<any>(null);
   const [serviceInfo, setServiceInfo] = useState();
   //global state management for the user_uid
@@ -67,6 +68,8 @@ export default function Item() {
   const [endDate, setEndDate] = useState(currentDate);
   const [removeFilter, setRemoveFilter] = useState(true);
 
+  console.log("timeITEMM", startDate, "...", startDate);
+
   const handleResetAction = () => {
     // navigation.goBack();
   };
@@ -103,50 +106,24 @@ export default function Item() {
 
   useEffect(() => {
     // let q;
+    console.log("USEFFECTitem", item);
     if (startDate && endDate) {
       async function fetchData() {
-        // q = query(
-        //   collection(db, "Events"),
-        //   orderBy("fechaContable", "desc"),
-        //   where("fechaContable", ">=", startDate),
-        //   where("fechaContable", "<=", endDate),
-        //   where("emailCompany", "==", emailCompany),
-        //   where("tipoEvento", "!=", "2. Egreso"),
-        //   where("idFirebaseAsset", "==", item)
-        // );
-
         try {
           let { data: events, error } = await supabase
             .from("events")
             .select("*")
-            .like("emailCompany", emailCompany!!);
-          // .contains("nombreAsset", assetAsignedList);
-          // .like("emailCompany", emailCompany);
-          setPost(events!!);
+            .gte("fechaContable", startDate.toISOString()) // Greater than or equal to startDate
+            .lte("fechaContable", endDate.toISOString()) // Less than or equal to endDate
+            .eq("emailCompany", emailCompany) // Equal to emailCompany
+            .neq("tipoEvento", "2. Egreso") // Not equal to "2. Egreso"
+            .eq("idFirebaseAsset", item) // Equal to idFirebaseAsset
+            .order("fechaContable", { ascending: false });
 
-          // dispatch(setEventList(events!!));
-          // const querySnapshot = await getDocs(q);
-          // const lista: any = [];
-          // querySnapshot.forEach((doc) => {
-          //   const dataschema = {
-          //     ...doc.data(),
-          //     createdAt: doc.data().createdAt,
-          //     fechaPostFormato: doc.data().fechaPostFormato,
-          //     emailPerfil: doc.data().emailPerfil,
-          //     time: "01 Ene",
-          //     title: doc.data().tipoEvento,
-          //     description: doc.data().comentarios,
-          //     lineColor: "skyblue",
-          //     icon: require("../../../assets/pictures/empresa.png"),
-          //     imageUrl: doc.data().fotoUsuarioPerfil,
-          //     idDocAITFirestoreDB: item,
-          //     idEventFirebase: doc.data().idEventFirebase,
-          //   };
-          //   lista.push(dataschema);
-          //   // lista.push(doc.data());
-          // });
-          // setPost(lista);
-          // setPost(lista.slice(0, 100));
+          if (error) {
+            console.error("Error fetching data: ", error);
+          }
+          setPost(events!!);
         } catch (error) {
           console.error("Error fetching data: ", error);
         }
@@ -155,6 +132,8 @@ export default function Item() {
       fetchData();
     }
   }, [startDate, endDate, item]);
+
+  console.log("currentAsset", currentAsset);
 
   return (
     <ScrollView
@@ -170,7 +149,9 @@ export default function Item() {
         <Text> </Text>
 
         <View style={{ ...(Platform.OS === "web" && { marginLeft: 20 }) }}>
-          <Text style={styles.name}>{currentAsset?.nombre}</Text>
+          <Text style={styles.name}>
+            {currentAsset?.placa || currentAsset?.nombre}
+          </Text>
 
           {currentAsset?.tipoActivo === "Equipo / Activo" && (
             <>
@@ -298,6 +279,7 @@ export default function Item() {
       <Text></Text>
 
       <DateScreen filterButton={filter} quitFilterButton={quitfilter} />
+      <Text> </Text>
 
       <Text></Text>
       <GanttHistorial datas={post} />

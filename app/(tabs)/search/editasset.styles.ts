@@ -87,13 +87,13 @@ export const styles = StyleSheet.create({
   name: {
     fontWeight: "bold",
     textAlign: "center",
-    marginRight: 100,
+    // marginRight: 100,
 
-    marginLeft: 10,
+    // marginLeft: 10,
   },
   info: {
     color: "#828282",
-    paddingRight: 100,
+    // paddingRight: 100,
     marginTop: 3,
   },
   content: {

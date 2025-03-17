@@ -50,7 +50,6 @@ export default function FileScreen() {
   const assetList =
     useSelector((state: RootState) => state.home.assetList) ?? [];
   const currentAsset: any = assetList.find((asset: any) => asset.id === item);
-  console.log("item-FILES", currentAsset);
 
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
@@ -58,6 +57,9 @@ export default function FileScreen() {
   );
 
   const files = currentAsset?.files;
+  console.log("currentAsset", currentAsset);
+
+  console.log("files", files);
 
   const uploadFile = useCallback(async (uri: any) => {
     try {
@@ -117,21 +119,6 @@ export default function FileScreen() {
         "Estas Seguro que deseas cambiar de Imagen?"
       );
       if (confirmed) {
-        // let { data: assets, error } = await supabase
-        //     .from("assets")
-        //     .select("*")
-        //     .like("emailCompany", emailCompany);
-        //   console.log("assets=1", assets);
-        // const Ref = doc(db, "Asset", item);
-        // const docSnapshot = await getDoc(Ref);
-        // const docList = docSnapshot?.data()?.files;
-        // const filteredList = docList.filter(
-        //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
-        // );
-        // const updatedData = {
-        //   files: filteredList,
-        // };
-        // await updateDoc(Ref, updatedData);
       }
     } else {
       Alert.alert(
@@ -145,19 +132,6 @@ export default function FileScreen() {
           {
             text: "Aceptar",
             onPress: async () => {
-              // const Ref = doc(db, "Asset", item);
-              // const docSnapshot = await getDoc(Ref);
-              // const docList = docSnapshot?.data()?.files;
-
-              // const filteredList = docList.filter(
-              //   (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
-              // );
-
-              // const updatedData = {
-              //   files: filteredList,
-              // };
-
-              // await updateDoc(Ref, updatedData);
               Toast.show({
                 type: "success",
                 position: "bottom",

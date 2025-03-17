@@ -17,7 +17,6 @@ import { styles } from "./LoginForm.styles";
 // import { update_firebaseUserUid } from "../../../actions/auth";
 // import { update_firebaseProfile } from "../../../actions/profile";
 // import { db } from "../../../utils";
-import { db, app } from "../../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import { getApps, getApp } from "firebase/app";
@@ -34,7 +33,6 @@ export function LoginForm(props: any) {
   const onShowHidePassword = () => setShowPassword((prevState) => !prevState);
   const router = useRouter();
   // const [user_uid, setUser_uid] = useState("");
-
 
   //global statemanagment
   // const num = useSelector((state: RootState) => state.counter.value);
@@ -83,7 +81,6 @@ export function LoginForm(props: any) {
         const user_id = data?.user?.id;
         // const docRef = doc(db, "users", user_uid);
         // const docSnap = await getDoc(docRef);
-  
 
         //---supabase user data--------
 

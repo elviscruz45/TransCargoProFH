@@ -27,7 +27,6 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../../../utils/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import type { CurrentAsset } from "../../../types/publish";
@@ -47,7 +46,7 @@ import * as DocumentPicker from "expo-document-picker";
 // }
 import { pickAsset } from "../../../slices/publish";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { dateFormat, useUserData, uploadImage, uploadPdf } from "./event.cal";
+import { dateFormat, uploadImage, uploadPdf } from "./event.cal";
 import { ChangeUnidadMedida } from "@/components/publish/forms/ChangeUnidadMedida/Selection";
 import { ChangeMoneda } from "@/components/publish/forms/ChangeMoneda/Selection";
 import { ChangeMantto } from "@/components/publish/forms/ChangeTipoMantto/Selection";
@@ -97,6 +96,8 @@ export default function events(props: any) {
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
+
+  // console.log("currentAsset-increible", currentAsset);
 
   const [shortNameFileUpdated, setShortNameFileUpdated] = useState("");
   const [shortNameFileUpdated2, setShortNameFileUpdated2] = useState("");
@@ -173,6 +174,8 @@ export default function events(props: any) {
     validateOnChange: false,
     onSubmit: async (formValue) => {
       try {
+        console.log("currentAsset-increible000", currentAsset);
+
         const newData = formValue;
         //Data about date time format
         const date = new Date();
@@ -209,9 +212,10 @@ export default function events(props: any) {
             newData.fechaPostFormato,
             newData.emailCompany
           );
+
           const { blob, fileName } = file!!;
           // Use blob and fileName here
-       
+
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from("assets_documents")
@@ -226,11 +230,6 @@ export default function events(props: any) {
           publicUrl1 = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
-
-
-          // Alert.alert("Success", "File uploaded successfully!");
-          // const imagePathPDF = snapshotPDF?.metadata.fullPath ?? "";
-          // imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
         }
 
         newData.pdfPrincipal = publicUrl1 || "";
@@ -249,7 +248,7 @@ export default function events(props: any) {
           );
           const { blob, fileName } = file!!;
           // Use blob and fileName here
-   
+
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from("assets_documents")
@@ -257,7 +256,6 @@ export default function events(props: any) {
               cacheControl: "3600",
               upsert: true,
             });
-    
 
           if (error) throw error;
 
@@ -274,15 +272,17 @@ export default function events(props: any) {
         newData.pdfFile2 = "";
 
         //------------------------------------------------------------------------------
+      
 
         // upload the photo or an pickimage to firebase Storage
         let publicUrlImage = "";
         if (photoUri) {
+   
+
           const snapshot = await uploadImage(photoUri, newData.emailCompany);
           const { blob, fileName } = snapshot;
           // Use blob and fileName here
-          console.log("Blob:", blob);
-          console.log("FileName:", fileName);
+  
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from("assets_documents")
@@ -291,13 +291,13 @@ export default function events(props: any) {
               upsert: true,
             });
           if (error) throw error;
-          console.log("DataURLL:", data);
+   
           // Get Public URL
           publicUrlImage = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
 
-          console.log("Public URL:", publicUrlImage);
+       
 
           // Alert.alert("Success", "File uploaded successfully!");
         }
@@ -360,14 +360,28 @@ export default function events(props: any) {
 
         //----------SUPABASE---------------
 
-        // router.push({
-        //   pathname: "/publish",
-        //   // params: { item: item },
-        // });
-        // router.push({
-        //   pathname: "/home",
-        //   // params: { item: item },
-        // });
+        //Modifying the Service State ServiciosAIT considering the LasEventPost events
+
+        const updateDataLasEventPost = {
+          LastEventPosted: newData.createdAt,
+        };
+
+        console.log("updateDataLasEventPost", updateDataLasEventPost);
+
+        const { data: dataAsset, error: dataError } = await supabase
+          .from("assets")
+          .update({ LastEventPosted: newData.LastEventPosted })
+          .eq("id", currentAsset?.id)
+          .select();
+
+        router.push({
+          pathname: "/publish",
+          // params: { item: item },
+        });
+        router.push({
+          pathname: "/home",
+          // params: { item: item },
+        });
 
         Toast.show({
           type: "success",

@@ -1,4 +1,4 @@
-import { View, Text, Platform } from "react-native";
+import { View, Text, Platform, Alert } from "react-native";
 import React, { useState } from "react";
 import { styles } from "./editFiles.styles";
 import { Input, Button } from "@rneui/themed";
@@ -21,6 +21,7 @@ import type { RootState } from "../../store";
 import { useLocalSearchParams } from "expo-router";
 import { ChangeDate } from "../../../components/publish/forms/ChangeDates/ChangeDate";
 import { formatdate, CurrentFormatDate } from "../../../utils/formats";
+import { supabase } from "@/supabase/client";
 
 export default function EditDocs() {
   const [renderComponent, setRenderComponent] =
@@ -71,16 +72,37 @@ export default function EditDocs() {
         //manage the file updated to ask for aprovals
         let imageUrlPDF: any;
         let snapshotPDF;
+        const file = await uploadPdf(pdfFileURL);
+        let publicUrl = "";
+        if (file) {
+          const { blob, fileName } = file;
+          // Use blob and fileName here
+          console.log("Blob:", blob);
+          console.log("FileName:", fileName);
+          // Upload to Supabase Storage
+          const { data, error } = await supabase.storage
+            .from("assets_documents")
+            .upload(fileName, blob, {
+              cacheControl: "3600",
+              upsert: true,
+            });
 
-        if (pdfFileURL) {
-          snapshotPDF = await uploadPdf(pdfFileURL);
-          const imagePathPDF = snapshotPDF?.metadata.fullPath;
-          imageUrlPDF = await getDownloadURL(ref(getStorage(), imagePathPDF));
+          if (error) console.error("Error uploading PDF:", error);
+
+          console.log("DataURLL:", data);
+
+          // Get Public URL
+          publicUrl = supabase.storage
+            .from("assets_documents")
+            .getPublicUrl(fileName).data.publicUrl;
+
+          console.log("Public URL:", publicUrl);
+
+          Alert.alert("Success", "File uploaded successfully!");
+        } else {
+          console.error("Failed to upload PDF");
         }
-
-        newData.pdfFileURLFirebase = imageUrlPDF;
-
-        //Modifying the Service State ServiciosAIT considering the LasEventPost events
+        newData.pdfFileURLFirebase = publicUrl;
 
         //managing the file
         const indexToUpdate = newFileListToUpdate.findIndex(
@@ -93,15 +115,15 @@ export default function EditDocs() {
         } else {
           console.log("Object with age 28 not found in the list.");
         }
+        console.log("newData", newData);
 
-        // const RefFirebaseLasEventPostd = doc(db, "Asset", uidDoc);
-        // const updatedData = {
-        //   files: newFileListToUpdate,
-        // };
-        // await updateDoc(RefFirebaseLasEventPostd, updatedData);
-        router.push({
-          pathname: "/search",
-        });
+        console.log("newFileListToUpdate", newData);
+        const { data, error: errorData } = await supabase
+          .from("assets")
+          .update({ files: newFileListToUpdate })
+          .eq("id", uidDoc)
+          .select();
+        // router.back();
 
         Toast.show({
           type: "success",
@@ -122,6 +144,7 @@ export default function EditDocs() {
     try {
       const response = await fetch(uri);
       const blob = await response.blob();
+      const fileName = `${emailCompany}/pdfPost/asset/${FilenameTitle}-${fechaPostFormato}`;
 
       const fileSize = blob.size;
 
@@ -133,14 +156,15 @@ export default function EditDocs() {
         });
         throw new Error("El archivo excede los 50 MB");
       }
+      return { blob, fileName };
 
-      const storage = getStorage();
+      // const storage = getStorage();
 
-      const storageRef = ref(
-        storage,
-        `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
-      );
-      return await uploadBytesResumable(storageRef, blob);
+      // const storageRef = ref(
+      //   storage,
+      //   `${emailCompany}/pdfPost/${FilenameTitle}-${fechaPostFormato}`
+      // );
+      // return await uploadBytesResumable(storageRef, blob);
     } catch (error) {
       Toast.show({
         type: "error",

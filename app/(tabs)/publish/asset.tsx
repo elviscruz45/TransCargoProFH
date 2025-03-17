@@ -13,7 +13,6 @@ import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 // import { saveActualPostFirebase } from "../../../actions/post";
 // import { db } from "../../../utils";
-import { db } from "../../../utils/firebase";
 import {
   addDoc,
   collection,
@@ -96,7 +95,6 @@ export default function Asset(props: any) {
         // const docRef = doc(collection(db, "Asset"));
         // newData.idFirebaseAsset = docRef.id;
         // await setDoc(docRef, newData);
-
 
         // const otherData = {
         //   tipoActivo: "hola",

@@ -259,7 +259,6 @@ export default function EditAsset(props: any) {
           updateData.userAssigned = newData.userAssigned;
         }
 
-        // await updateDoc(RefFirebaseLasEventPostd, updateData);
 
         // this hedlps to go to the begining of the process
 

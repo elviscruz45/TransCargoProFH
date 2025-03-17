@@ -17,29 +17,13 @@ import { styles } from "./comment.styles";
 import { Image as ImageExpo } from "expo-image";
 import { Item } from "../../../utils/comment";
 // import { db } from "../../../utils";
-// import { saveActualPostFirebase } from "../../../actions/post";
 import { LoadingSpinner } from "../../../components/shared/LoadingSpinner/LoadingSpinner";
 // import { useNavigation } from "@react-navigation/native";
 // import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 // import { screen } from "../../../utils";
 import Toast from "react-native-toast-message";
 import { useLocalSearchParams } from "expo-router";
-import {
-  collection,
-  query,
-  where,
-  orderBy,
-  getDocs,
-  doc,
-  setDoc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  onSnapshot,
-  getDoc,
-  deleteDoc,
-  persistentLocalCache,
-} from "firebase/firestore";
+
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 import { useRouter } from "expo-router";
@@ -90,13 +74,13 @@ export default function Comment() {
 
     async function fetchData() {
       console.log("itemComment--", item);
-      let { data: users, error } = await supabase
+      let { data: events, error } = await supabase
         .from("events")
         .select("*")
         // Filters
         .eq("id", item);
-      console.log("users===2=1", users);
-      setPost(users!![0]);
+      console.log("users===2=1", events);
+      setPost(events!![0]);
     }
 
     fetchData();

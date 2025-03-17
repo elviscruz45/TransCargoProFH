@@ -3,26 +3,12 @@ import { Avatar, Icon } from "@rneui/themed";
 import { Image as ImageExpo } from "expo-image";
 import { Platform } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
-import {
-  collection,
-  doc,
-  addDoc,
-  updateDoc,
-  arrayUnion,
-} from "firebase/firestore";
-import { db } from "../../../utils/firebase";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Text, View, ScrollView, Image, Alert } from "react-native";
 import Toast from "react-native-toast-message";
 import type { RootState } from "@/app/store";
 import { useSelector, useDispatch } from "react-redux";
+import { supabase } from "@/supabase/client";
 
 export const AvatarImg = ({ currentAsset, idAsset }: any) => {
   const changeAvatar = async () => {
@@ -41,23 +27,28 @@ export const AvatarImg = ({ currentAsset, idAsset }: any) => {
   const uploadImage = async (uri: string) => {
     const response = await fetch(uri);
     const blob = await response.blob();
-    const storage = getStorage();
-    const storageRef = ref(storage, `${emailCompany}/avatarAsset/${idAsset}`);
-    uploadBytesResumable(storageRef, blob).then((snapshot) => {
-      updatePhotoUrl(snapshot.metadata.fullPath);
-    });
-  };
-  const updatePhotoUrl = async (imagePath: any) => {
-    const storage = getStorage();
-    const imageRef = ref(storage, imagePath);
-    const imageUrl = await getDownloadURL(imageRef);
-    ///setting data to firebase
-    const docRef = doc(collection(db, "Asset"), idAsset ?? "");
-    // Update a property of the document
-    await updateDoc(docRef, {
-      photoServiceURL: imageUrl,
-    });
-    // dispatch(update_photoURL(imageUrl));
+    const fileName = `${emailCompany}/pdfPost/assets/${idAsset}`;
+    // Upload to Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("assets_documents")
+      .upload(fileName, blob, {
+        cacheControl: "3600",
+        upsert: true,
+      });
+    if (error) throw error;
+
+    // Get Public URL
+    const publicUrlImage = supabase.storage
+      .from("assets_documents")
+      .getPublicUrl(fileName).data.publicUrl;
+
+    console.log("Public URL:", publicUrlImage);
+    const { data: dataAsset, error: dataError } = await supabase
+      .from("assets")
+      .update({ photoServiceURL: publicUrlImage })
+      .eq("id", idAsset)
+      .select();
+
     Toast.show({
       type: "success",
       text1: "Imagen Actualizada",

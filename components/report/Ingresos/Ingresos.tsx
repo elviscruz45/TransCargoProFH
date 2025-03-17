@@ -17,7 +17,6 @@ import type { RootState } from "@/app/store";
 import { DataTable } from "react-native-paper";
 import { SearchBar, Icon } from "@rneui/themed";
 import { getExcelReportData } from "../../../utils/excelData";
-import { db } from "@/utils/firebase";
 import {
   collection,
   query,
@@ -96,72 +95,34 @@ export default function Operaciones(props: any) {
   useEffect(() => {
     let q;
     if (startDate && endDate) {
-      // async function fetchData() {
-      //   if (asset === "") {
-      //     q = query(
-      //       collection(db, "Events"),
-      //       orderBy("fechaContable", "desc"),
-      //       where("fechaContable", ">=", startDate),
-      //       where("fechaContable", "<=", endDate),
-      //       where("emailCompany", "==", emailCompany),
-      //       where("tipoEvento", "==", "1. Inicio Viaje"),
-      //       limit(1000)
-      //     );
-      //   } else {
-      //     q = query(
-      //       collection(db, "Events"),
-      //       orderBy("fechaContable", "desc"),
-      //       where("fechaContable", ">=", startDate),
-      //       where("fechaContable", "<=", endDate),
-      //       where("emailCompany", "==", emailCompany),
-      //       where("idFirebaseAsset", "==", asset),
-      //       where("tipoEvento", "==", "1. Inicio Viaje"),
-      //       limit(50)
-      //     );
-      //   }
-
-      //   try {
-      //     const querySnapshot = await getDocs(q);
-      //     const lista: any = [];
-
-      //     querySnapshot.forEach((doc) => {
-      //       const dataschema = {
-      //         ...doc.data(),
-      //       };
-
-      //       lista.push(dataschema);
-      //     });
-      //     setPost(lista);
-      //   } catch (error) {
-      //     console.error("Error fetching data: ", error);
-      //   }
-      // }
-
-      // fetchData();
       async function fetchData() {
-        let events;
-        if (emailCompany === user_email) {
-          const { data, error } = await supabase.from("events").select("*");
-          // .like("emailCompany", emailCompany!!);
-          if (error) {
-            console.error("Error fetching data: ", error);
-            return;
-          }
-          events = data;
+        if (asset === "") {
+          const { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
+            .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
+            .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
+            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
+            .eq("tipoEvento", "1. Inicio Viaje") // where "tipoEvento" == "1. Inicio Viaje"
+            .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
+            .limit(50); // limit 50
+
+          setPost(events);
         } else {
-          const { data, error } = await supabase.from("events").select("*");
-          // .like("emailCompany", emailCompany!!)
-          // .contains(
-          //   "nombreAsset",
-          //   globalFilteredAssetList.map((item: any) => item.nombreAsset)
-          // );
-          if (error) {
-            console.error("Error fetching data: ", error);
-            return;
-          }
-          events = data;
+          const { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
+            .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
+            .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
+            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
+            .eq("tipoEvento", "1. Inicio Viaje") // where "tipoEvento" == "1. Inicio Viaje"
+            .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
+            .limit(50); // limit 50
+
+          setPost(events);
         }
-        setPost(events);
       }
 
       fetchData();
@@ -195,7 +156,7 @@ export default function Operaciones(props: any) {
     }
   };
 
-  const montoTotal = post.reduce((acc: any, item: any) => {
+  const montoTotal = post?.reduce((acc: any, item: any) => {
     const monto =
       item?.moneda === "Dolares"
         ? Number(item?.precioUnitario) *

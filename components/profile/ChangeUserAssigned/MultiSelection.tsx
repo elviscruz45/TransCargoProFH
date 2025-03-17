@@ -19,9 +19,9 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { connect } from "react-redux";
-import { db } from "../../../utils/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
+import { supabase } from "@/supabase/client";
 
 export const MultiSelectExample = (props: any) => {
   const { setUsers, setUid } = props;
@@ -32,34 +32,52 @@ export const MultiSelectExample = (props: any) => {
     (state: RootState) => state.userId.emailCompany
   );
 
-
-
   //getting from firebae users table that comes from the same company
   useEffect(() => {
-    async function fetchData() {
-      const queryRef1 = query(
-        collection(db, "users"),
-        where("emailCompany", "==", emailCompany),
-        orderBy("email", "desc")
-      );
-      const getDocs1 = await getDocs(queryRef1);
-      const lista: any = [];
+    // async function fetchData() {
+    //   const queryRef1 = query(
+    //     collection(db, "users"),
+    //     where("emailCompany", "==", emailCompany),
+    //     orderBy("email", "desc")
+    //   );
+    //   const getDocs1 = await getDocs(queryRef1);
+    //   const lista: any = [];
 
-      // Process results from the first query
-      if (getDocs1) {
-        getDocs1.forEach((doc) => {
-          const object = doc.data();
-          const objectver2 = {
-            ...object,
-            value: `${object.displayNameform}\n(${object.email})`,
-            email: object.email,
-          };
-          lista.push(objectver2.email);
-        });
+    //   // Process results from the first query
+    //   if (getDocs1) {
+    //     getDocs1.forEach((doc) => {
+    //       const object = doc.data();
+    //       const objectver2 = {
+    //         ...object,
+    //         value: `${object.displayNameform}\n(${object.email})`,
+    //         email: object.email,
+    //       };
+    //       lista.push(objectver2.email);
+    //     });
+    //   }
+    //   setList(lista);
+    // }
+    async function fetchData() {
+      const { data: users, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("email_company", emailCompany);
+      // .order("email", { ascending: false });
+      console.log("users1111-solo", emailCompany);
+
+      if (error) {
+        console.error("Error fetching users:", error);
+        return;
       }
+
+      const lista: any = users.map((user: any) => ({
+        ...user,
+        value: `${user.display_nameform}\n(${user.email})`,
+        email: user.email,
+      }));
+
       setList(lista);
     }
-
     fetchData();
   }, []);
 

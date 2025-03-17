@@ -24,6 +24,7 @@ export default function SearchAsset() {
     (state: RootState) => state.home.assetList
   );
   const selectAsset = (item: any) => {
+    
     router.push({
       pathname: "/search/item",
       params: { item: item.id },
@@ -41,7 +42,6 @@ export default function SearchAsset() {
       setSearchResults(result.slice(0, 50));
     }
   }, [searchText, globalAssetList]);
-
 
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
@@ -86,10 +86,12 @@ export default function SearchAsset() {
                     </Text>
                   ) : item.nombre ? (
                     <Text style={[styles.info, { alignSelf: "center" }]}>
+                      {"Nombre: "}
                       {item.nombre}
                     </Text>
                   ) : (
                     <Text style={[styles.info, { alignSelf: "center" }]}>
+                      {"Nombre de Area: "}
                       {item.NombreArea}
                     </Text>
                   )}

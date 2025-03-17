@@ -17,7 +17,6 @@ import type { RootState } from "@/app/store";
 import { DataTable } from "react-native-paper";
 import { SearchBar, Icon } from "@rneui/themed";
 import { getExcelReportData } from "../../../utils/excelData";
-import { db } from "@/utils/firebase";
 import {
   collection,
   query,
@@ -95,59 +94,36 @@ export default function Operaciones(props: any) {
   useEffect(() => {
     let q;
     if (startDate && endDate) {
-      // async function fetchData() {
-      //   q = query(
-      //     collection(db, "Events"),
-      //     orderBy("fechaContable", "desc"),
-      //     where("fechaContable", ">=", startDate),
-      //     where("fechaContable", "<=", endDate),
-      //     where("emailCompany", "==", emailCompany),
-      //     where("idFirebaseAsset", "==", asset),
-      //     where("tipoEvento", "==", "2. Egreso"),
-      //     limit(1000)
-      //   );
-
-      //   try {
-      //     const querySnapshot = await getDocs(q);
-      //     const lista: any = [];
-
-      //     querySnapshot.forEach((doc) => {
-      //       const dataschema = {
-      //         ...doc.data(),
-      //       };
-
-      //       lista.push(dataschema);
-      //     });
-      //     setPost(lista);
-      //   } catch (error) {
-      //     console.error("Error fetching data: ", error);
-      //   }
-      // }
       async function fetchData() {
-        let events;
-        if (emailCompany === user_email) {
-          const { data, error } = await supabase.from("events").select("*");
-          // .like("emailCompany", emailCompany!!);
-          if (error) {
-            console.error("Error fetching data: ", error);
-            return;
-          }
-          events = data;
+        if (asset === "") {
+          const { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
+            .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
+            .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
+            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
+            .eq("tipoEvento", "2. Egreso") // where "tipoEvento" == "1. Inicio Viaje"
+            .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
+            .limit(50); // limit 50
+
+          setPost(events);
         } else {
-          const { data, error } = await supabase.from("events").select("*");
-          // .like("emailCompany", emailCompany!!)
-          // .contains(
-          //   "nombreAsset",
-          //   globalFilteredAssetList.map((item: any) => item.nombreAsset)
-          // );
-          if (error) {
-            console.error("Error fetching data: ", error);
-            return;
-          }
-          events = data;
+          const { data: events, error } = await supabase
+            .from("events")
+            .select("*")
+            .gte("fechaContable", startDate.toISOString()) // where "fechaContable" >= startDate
+            .lte("fechaContable", endDate.toISOString()) // where "fechaContable" <= endDate
+            .eq("emailCompany", emailCompany) // where "emailCompany" == emailCompany
+            .eq("idFirebaseAsset", asset) // where "idFirebaseAsset" == asset
+            .eq("tipoEvento", "2. Egreso") // where "tipoEvento" == "1. Inicio Viaje"
+            .order("fechaContable", { ascending: false }) // orderBy "fechaContable" desc
+            .limit(50); // limit 50
+
+          setPost(events);
         }
-        setPost(events);
       }
+
       fetchData();
     }
   }, [startDate, endDate, asset]);

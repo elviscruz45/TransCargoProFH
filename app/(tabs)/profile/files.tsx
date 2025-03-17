@@ -12,15 +12,7 @@ import { Image as ImageExpo } from "expo-image";
 import { styles } from "./files.styles";
 import { documents } from "../../../utils/files";
 import { Item } from "../../../utils/files";
-import {
-  doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  onSnapshot,
-  getDoc,
-  deleteDoc,
-} from "firebase/firestore";
+
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../../store";
 // import { screen } from "../../../utils";
@@ -29,9 +21,9 @@ import { formatDate } from "../../../utils/formats";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { useNavigation, useLocalSearchParams } from "expo-router";
-import { db } from "../../../utils/firebase";
 import { Platform } from "react-native";
 import { SearchBar, Icon } from "@rneui/themed";
+import { supabase } from "@/supabase/client";
 
 export default function FileScreen() {
   //  searching
@@ -44,14 +36,19 @@ export default function FileScreen() {
   const employeesList = useSelector(
     (state: RootState) => state.profile.employees
   );
+
+
   const currentEmployee: any = employeesList.find(
-    (user: any) => user.uid === item
+    (user: any) => user.id === item
   );
+
+
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
     (state: RootState) => state.userId.emailCompany
   );
   const files = currentEmployee?.files;
+
 
   const uploadFile = useCallback(async (uri: any) => {
     try {
@@ -106,23 +103,56 @@ export default function FileScreen() {
 
   // go to delete screen
   const goToDeleteDocs = async (pdfFileURLFirebase: any) => {
+
     if (Platform.OS === "web") {
       const confirmed = window.confirm(
         "Estas Seguro que desear Eliminar el evento?"
       );
       if (confirmed) {
-        const Ref = doc(db, "users", item);
-        const docSnapshot = await getDoc(Ref);
-        const docList = docSnapshot?.data()?.files;
+        let { data: user, error } = await supabase
+          .from("users")
+          .select("*")
+          .eq("id", item)
+          .single();
 
-        const filteredList = docList.filter(
+        const [filteredListtoDelete] = user?.files?.filter(
+          (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
+        );
+
+        const filteredList = user?.files?.filter(
           (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
         );
 
-        const updatedData = {
-          files: filteredList,
-        };
-        await updateDoc(Ref, updatedData);
+      
+
+        const { data, error: errorData } = await supabase
+          .from("users")
+          .update({ files: filteredList })
+          .eq("id", item)
+          .select();
+
+  
+
+        if (errorData) {
+          console.warn("errorData", errorData);
+
+          return;
+        }
+
+
+        const { data: datastorage, error: errorStorage } =
+          await supabase.storage
+            .from("assets_documents")
+            .remove([
+              `noe_huachaca@fhingenieros.com.pe/pdfPost/profile/${filteredListtoDelete?.FilenameTitle}`,
+            ]);
+       
+        if (errorStorage) {
+       
+          console.warn("errorData", errorStorage);
+
+          return;
+        }
       }
     } else {
       Alert.alert(
@@ -136,19 +166,48 @@ export default function FileScreen() {
           {
             text: "Aceptar",
             onPress: async () => {
-              const Ref = doc(db, "users", item);
-              const docSnapshot = await getDoc(Ref);
-              const docList = docSnapshot?.data()?.files;
+              let { data: user, error } = await supabase
+                .from("users")
+                .select("*")
+                .eq("id", item)
+                .single();
 
-              const filteredList = docList.filter(
+              const [filteredListtoDelete] = user?.files?.filter(
+                (obj: any) => obj.pdfFileURLFirebase === pdfFileURLFirebase
+              );
+
+              const filteredList = user?.files?.filter(
                 (obj: any) => obj.pdfFileURLFirebase !== pdfFileURLFirebase
               );
 
-              const updatedData = {
-                files: filteredList,
-              };
+             
+              const { data, error: errorData } = await supabase
+                .from("users")
+                .update({ files: filteredList })
+                .eq("id", item)
+                .select();
 
-              await updateDoc(Ref, updatedData);
+           
+              if (errorData) {
+                console.log("errorData", errorData);
+                return;
+              }
+
+
+      
+
+              const { data: datastorage, error: errorStorage } =
+                await supabase.storage
+                  .from("assets_documents")
+                  .remove([
+                    `noe_huachaca@fhingenieros.com.pe/pdfPost/profile/${filteredListtoDelete?.FilenameTitle}`,
+                  ]);
+        
+              if (errorStorage) {
+                console.log("errorStorage", errorStorage);
+                return;
+              }
+
               Toast.show({
                 type: "success",
                 position: "bottom",

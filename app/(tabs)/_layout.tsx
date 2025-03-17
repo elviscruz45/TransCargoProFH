@@ -30,8 +30,23 @@ import {
   updateEmailCompany,
 } from "@/slices/auth";
 import { useSelector, useDispatch } from "react-redux";
-import { setAssetList, setEventList } from "../../slices/home";
-import { updateEmployees } from "../../slices/profile";
+import {
+  setAssetList,
+  setEventList,
+  setAssetList_idFirebaseAsset,
+  addAsset,
+  updateAsset,
+  removeAsset,
+  addEvent,
+  updateEvent,
+  removeEvent,
+} from "../../slices/home";
+import {
+  setEmployees,
+  addEmployee,
+  updateEmployee,
+  removeEmployee,
+} from "../../slices/profile";
 import { supabase } from "@/supabase/client";
 
 export default function TabLayout() {
@@ -83,7 +98,7 @@ export default function TabLayout() {
         // setUsers(users);
       } catch (error) {
         // setError(error);
-        console.log("error", error);
+        console.warn("error", error);
       }
     };
 
@@ -102,39 +117,144 @@ export default function TabLayout() {
       assetAsignedList &&
       assetAsignedList?.length > 0
     ) {
+      // const fetchData = async () => {
+      //   if (emailCompany === user_email) {
+      //     let { data: assets, error } = await supabase
+      //       .from("assets")
+      //       .select("*")
+      //       .like("emailCompany", emailCompany)
+      //       .order("LastEventPosted", { ascending: false });
+
+      //     dispatch(setAssetList(assets!!));
+      //   } else {
+      //     let { data: assets, error } = await supabase
+      //       .from("assets")
+      //       .select("*")
+      //       .like("emailCompany", emailCompany)
+      //       .contains("nombre", assetAsignedList)
+      //       .order("created_at", { ascending: false });
+
+      //     dispatch(setAssetList(assets!!));
+      //   }
+      // };
+      // const fetchData = async () => {
+      //   let query = supabase
+      //     .from("assets")
+      //     .select("*")
+      //     .order("created_at", { ascending: false });
+
+      //   if (emailCompany === user_email) {
+      //     query = query.like("emailCompany", emailCompany);
+      //   } else {
+      //     query = query
+      //       .like("emailCompany", emailCompany)
+      //       .contains("nombre", assetAsignedList);
+      //   }
+
+      //   const { data: assets, error } = await query;
+      //   if (error) {
+      //     console.error("Error fetching assets:", error);
+      //     return;
+      //   }
+
+      //   dispatch(setAssetList(assets || []));
+      // };
+
       const fetchData = async () => {
+        let query = supabase.from("assets").select("*");
+
         if (emailCompany === user_email) {
-          let { data: assets, error } = await supabase
-            .from("assets")
-            .select("*")
-            .like("emailCompany", emailCompany);
-          console.log("assets=1", assets);
-          dispatch(setAssetList(assets!!));
-        } else {
-          let { data: assets, error } = await supabase
-            .from("assets")
-            .select("*")
+          query = query
             .like("emailCompany", emailCompany)
-            .contains("nombre", assetAsignedList);
-          console.log("assets=2", assets);
-          dispatch(setAssetList(assets!!));
+            .order("LastEventPosted", { ascending: false });
+        } else {
+          query = query
+            .like("emailCompany", emailCompany)
+            .contains("nombre", assetAsignedList)
+            .order("created_at", { ascending: false });
         }
+
+        const { data: assets, error } = await query;
+        if (error) {
+          console.error("Error fetching assets:", error);
+          return;
+        }
+
+        dispatch(setAssetList(assets || []));
       };
       fetchData();
+      // Set up real-time listener for changes in the "assets" table
+      // const channel = supabase
+      //   .channel("assets_changes")
+      //   .on(
+      //     "postgres_changes",
+      //     { event: "*", schema: "public", table: "assets" }, // Listen to all changes
+      //     (payload) => {
+      //       console.log("Realtime asset event received:", payload);
+      //       fetchData(); // Re-fetch data on change
+      //     }
+      //   )
+      //   .subscribe();
+      const channel = supabase
+        .channel("assets_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "assets" }, // Listen to all changes
+          (payload) => {
+            console.log("Realtime asset event received:", payload);
+            // Handle different event types with more granular updates
+            if (payload.eventType === "INSERT") {
+              dispatch(addAsset(payload.new as any));
+            } else if (payload.eventType === "UPDATE") {
+              dispatch(updateAsset(payload.new as any));
+            } else if (payload.eventType === "DELETE") {
+              dispatch(removeAsset(payload.old.id));
+            }
+          }
+        )
+        .subscribe();
+      // Cleanup function to unsubscribe when the component unmounts
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [user_email, assetAsignedList, emailCompany]);
 
   //traer todoos los usuarios de la empresa
   useEffect(() => {
-    console.log("traer todoos los usuarios de la empresa");
     if (emailCompany && user_email && user_email === emailCompany) {
-      async function fetchData() {
+      async function fetchInitialData() {
         let { data: users, error } = await supabase.from("users").select("*");
-        console.log("users=1111", users);
-        dispatch(updateEmployees(users));
+        if (error) {
+          console.error("Error fetching users:", error);
+          return;
+        }
+        dispatch(setEmployees(users || []));
       }
-
-      fetchData();
+      fetchInitialData();
+      // Set up real-time listener that updates only what changed
+      const channel = supabase
+        .channel("users_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "users" },
+          (payload) => {
+            console.log("Realtime user event received:", payload);
+            // Handle different event types with more granular updates
+            if (payload.eventType === "INSERT") {
+              dispatch(addEmployee(payload.new as any));
+            } else if (payload.eventType === "UPDATE") {
+              dispatch(updateEmployee(payload.new as any));
+            } else if (payload.eventType === "DELETE") {
+              dispatch(removeEmployee(payload.old.id));
+            }
+          }
+        )
+        .subscribe();
+      // Cleanup
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [emailCompany, user_email]);
 
@@ -142,24 +262,63 @@ export default function TabLayout() {
   useEffect(() => {
     if (user_email && assetAsignedList && assetAsignedList?.length > 0) {
       async function fetchData() {
-        if (emailCompany === user_email) {
-          let { data: events, error } = await supabase
-            .from("events")
-            .select("*")
-            .like("emailCompany", emailCompany!!);
-          dispatch(setEventList(events!!));
-        } else {
-          let { data: events, error } = await supabase
-            .from("events")
-            .select("*")
-            .like("emailCompany", emailCompany!!)
-            .contains("nombreAsset", assetAsignedList);
-          // .like("emailCompany", emailCompany);
-          dispatch(setEventList(events!!));
-        }
-      }
+        let query = supabase
+          .from("events")
+          .select("*")
+          .order("LastEventPosted", { ascending: false });
 
+        if (emailCompany === user_email) {
+          query = query.like("emailCompany", emailCompany ?? "");
+        } else {
+          query = query
+            .like("emailCompany", emailCompany ?? "")
+            .contains("nombreAsset", assetAsignedList);
+        }
+
+        const { data: events, error } = await query;
+        if (error) {
+          console.error("Error fetching events:", error);
+          return;
+        }
+        dispatch(setEventList(events || []));
+      }
       fetchData();
+
+      // // Set up real-time listener for new updates in the "events" table
+      // const channel = supabase
+      //   .channel("events_changes")
+      //   .on(
+      //     "postgres_changes",
+      //     { event: "*", schema: "public", table: "events" }, // Listen to all changes
+      //     (payload) => {
+      //       console.log("Realtime event received:", payload);
+      //       fetchData(); // Re-fetch data on change
+      //     }
+      //   )
+      //   .subscribe();
+      // Set up real-time listener for new updates in the "events" table
+      const channel = supabase
+        .channel("events_changes")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "events" }, // Listen to all changes
+          (payload) => {
+            console.log("Realtime event received:", payload);
+            // Handle different event types with more granular updates
+            if (payload.eventType === "INSERT") {
+              dispatch(addEvent(payload.new as any));
+            } else if (payload.eventType === "UPDATE") {
+              dispatch(updateEvent(payload.new as any));
+            } else if (payload.eventType === "DELETE") {
+              dispatch(removeEvent(payload.old.id));
+            }
+          }
+        )
+        .subscribe();
+      // Cleanup function to unsubscribe when the component unmounts
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [user_email, assetAsignedList]);
 

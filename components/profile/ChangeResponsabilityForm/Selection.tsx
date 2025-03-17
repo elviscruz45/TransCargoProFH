@@ -2,22 +2,8 @@ import { SelectList } from "react-native-dropdown-select-list";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { responsabilidad } from "../../../utils/reponsabilityList";
-import {
-  addDoc,
-  collection,
-  query,
-  doc,
-  updateDoc,
-  where,
-  orderBy,
-  getDocs,
-  getDoc,
-  onSnapshot,
-  arrayUnion,
-  arrayRemove,
-  limit,
-} from "firebase/firestore";
-import { db } from "../../../utils/firebase";
+
+import { supabase } from "@/supabase/client";
 
 interface Event {
   onClose: () => void;
@@ -42,13 +28,24 @@ export const ChangeResponsability: React.FC<Event> = ({ onClose, uid }) => {
   //     serviceType = [];
   //   }
 
+  console.log("uid", uid);
+
   async function saveProperty(itemValue: any) {
     // setText(itemValue);
 
-    const Ref = doc(db, "users", uid);
-    await updateDoc(Ref, { userType: itemValue });
-    // setResponsability(itemValue);
+    // const Ref = doc(db, "users", uid);
+    // await updateDoc(Ref, { userType: itemValue });
+    // Update the userType field in the users table using Supabase
+    const { data, error } = await supabase
+      .from("users")
+      .update({ userType: itemValue })
+      .eq("id", uid);
 
+    if (error) {
+      console.error("Error updating userType:", error);
+    } else {
+      console.log("userType updated successfully:", data);
+    }
     onClose();
   }
 

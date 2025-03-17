@@ -72,7 +72,15 @@ export const GanttHistorial = (props: any) => {
         const matches = item?.emailPerfil?.match(regex);
 
         return (
-          <View style={{ marginLeft: 15 }}>
+          <View
+            style={{
+              marginLeft: 15,
+              // borderWidth: 5,
+              // borderColor: "gray",
+              // borderRadius: 5,
+              // marginBottom: 1,
+            }}
+          >
             <View style={[styles.rowContainer]}>
               <View style={styles.timeWrapper}>
                 <View style={[styles.timeContainer, styles.timeContainerStyle]}>
@@ -80,7 +88,7 @@ export const GanttHistorial = (props: any) => {
                     style={[
                       styles.time,
                       styles.timeStyle,
-                      { textAlign: "center", marginTop: 15, marginLeft: -5 },
+                      { textAlign: "center", marginTop: 15, marginLeft: 1 },
                     ]}
                     allowFontScaling={true}
                   >

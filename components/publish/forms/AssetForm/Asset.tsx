@@ -136,6 +136,11 @@ export function AssetForm({ formik, setNombre, action, tipoActivoEdit }: any) {
                 formik.setFieldValue("kilometraje", numericText);
               }}
             />
+            <Text> </Text>
+
+            <Text style={styles.subtitleForm}>Cambio próximos</Text>
+            <Text> </Text>
+
             <Input
               label="Cambio de Aceite Motor Proximo"
               value={formik.values?.cambioAceiteProx?.toString() ?? ""}
@@ -190,6 +195,8 @@ export function AssetForm({ formik, setNombre, action, tipoActivoEdit }: any) {
               }}
             />
 
+            <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
+            <Text> </Text>
             <Input
               label="Numero Serie Chasis"
               value={formik.values?.numeroChasis?.toString() ?? ""}
@@ -197,8 +204,6 @@ export function AssetForm({ formik, setNombre, action, tipoActivoEdit }: any) {
                 formik.setFieldValue("numeroChasis", text);
               }}
             />
-            <Text style={styles.subtitleForm}>Datos Tecnicos</Text>
-            <Text> </Text>
             <Input
               label="Clase De Vehiculo"
               value={formik.values?.claseVehiculo?.toString() ?? ""}

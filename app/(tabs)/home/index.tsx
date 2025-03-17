@@ -19,6 +19,8 @@ export default function HomeScreen() {
   const eventList: any = useSelector(
     (state: RootState) => state.home.eventList
   );
+
+  console.log("eventListNUEVO", eventList);
   const router = useRouter();
   const user_email = useSelector((state: RootState) => state.userId.email);
   const emailCompany = useSelector(
@@ -28,15 +30,15 @@ export default function HomeScreen() {
   const selectAsset = (item: any) => {
     //create a to go to the screen called item
     router.push({
-      pathname: "/search/item",
+      pathname: "/search",
       params: { item: item.idFirebaseAsset },
     });
-    // setInterval(() => {
-    //   router.push({
-    //     pathname: "/search/item",
-    //     params: { item: item.id },
-    //   });
-    // }, 500);
+    setTimeout(() => {
+      router.push({
+        pathname: "/search/item",
+        params: { item: item.idFirebaseAsset },
+      });
+    }, 500);
   };
   return (
     <>
@@ -62,9 +64,10 @@ export default function HomeScreen() {
                   ? styles.gridItem
                   : {
                       // margin: 2,
-                      borderBottomWidth: 1,
+                      borderWidth: 10,
                       borderBottomColor: "",
                       paddingVertical: 10,
+                      borderRadius: 10,
 
                       // alignItems: "center",
                       // alignSelf: "center",

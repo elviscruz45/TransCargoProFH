@@ -12,7 +12,7 @@ import { useRouter } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./editasset.data";
-import { doc, updateDoc } from "firebase/firestore";
+import { supabase } from "@/supabase/client";
 
 export default function EditAsset(props: any) {
   const { item, action, tipoActivoEdit }: any = useLocalSearchParams();
@@ -37,7 +37,6 @@ export default function EditAsset(props: any) {
         const newData = formValue;
 
         //Modifying the Service State ServiciosAIT considering the LasEventPost events
-        // const RefFirebaseLasEventPostd = doc(db, "Asset", item);
 
         const updateData: any = {};
 
@@ -240,7 +239,21 @@ export default function EditAsset(props: any) {
 
         // this hedlps to go to the begining of the process
 
-        router.back();
+        console.log("newData-editassetsssss", item, newData);
+
+        const { data: files, error: errorFiles } = await supabase
+          .from("assets")
+          .update(updateData)
+          .eq("id", item)
+          .select();
+
+        if (errorFiles) {
+          console.error("Error updating data:", errorFiles);
+        } else {
+          console.log("Update successful:", files);
+        }
+
+        // router.back();
 
         Toast.show({
           type: "success",
@@ -265,15 +278,15 @@ export default function EditAsset(props: any) {
       <View style={{ alignSelf: "center" }}>
         <ImageExpo
           source={
-            currentAsset.photoServiceURL
-              ? { uri: currentAsset.photoServiceURL }
+            currentAsset?.photoServiceURL
+              ? { uri: currentAsset?.photoServiceURL }
               : require("../../../assets/assetpics/truckIcon.png")
           }
           style={[styles.roundImage, { alignSelf: "center" }]}
           cachePolicy={"memory-disk"}
         />
         <Text style={styles.name}>
-          {nombre || activo || "Nombre del activo"}
+          {nombre || formik.values?.placa || "Nombre del activo"}
         </Text>
       </View>
 

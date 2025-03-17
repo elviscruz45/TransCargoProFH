@@ -11,7 +11,6 @@ const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
 
 const getGridItemWidth = () => {
-  console.log("windowWidth", windowWidth);
   if (windowWidth >= 1200) {
     return windowWidth / 3 - 20; // 4 columns
   } else if (windowWidth >= 800) {
@@ -165,6 +164,9 @@ export const styles = StyleSheet.create({
   gridContainer: {
     // width: getGridItemWidth(),
     flex: 1,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    borderWidth: 10,
 
     // flexDirection: "row",
     // flexWrap: "wrap",

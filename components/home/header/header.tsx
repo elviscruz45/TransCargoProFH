@@ -35,14 +35,15 @@ export function Header() {
     //   params: { item: item.id },
     // });
     router.push({
-      pathname: "/search/item",
+      pathname: "/search",
       params: { item: item.id },
     });
-
-    // navigation.navigate(screen.search.tab, {
-    //   screen: screen.search.item,
-    //   params: { Item: idServiciosAIT },
-    // });
+    setTimeout(() => {
+      router.push({
+        pathname: "/search/item",
+        params: { item: item.id },
+      });
+    }, 500);
   };
   return (
     <View style={styles.container}>

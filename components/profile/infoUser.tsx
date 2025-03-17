@@ -26,7 +26,6 @@ import { update_photoURL } from "../../slices/auth";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "@/app/store";
 import { collection, doc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../utils/firebase";
 import { useRouter } from "expo-router";
 import { Image as ImageExpo } from "expo-image";
 
@@ -58,49 +57,49 @@ export function InfoUser(props: any) {
   //global state management
   const num = useSelector((state: RootState) => state.counter.value);
   // const navigation = useNavigation();
-  const changeAvatar = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 4],
-    });
+  // const changeAvatar = async () => {
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+  //     allowsEditing: true,
+  //     aspect: [4, 4],
+  //   });
 
-    if (!result.canceled) uploadImage(result.assets[0].uri);
-  };
+  //   if (!result.canceled) uploadImage(result.assets[0].uri);
+  // };
 
-  const uploadImage = async (uri: string) => {
-    const response = await fetch(uri);
-    const blob = await response.blob();
+  // const uploadImage = async (uri: string) => {
+  //   const response = await fetch(uri);
+  //   const blob = await response.blob();
 
-    const storage = getStorage();
-    const storageRef = ref(storage, `${emailCompany}/avatar/${session}`);
-    uploadBytesResumable(storageRef, blob).then((snapshot) => {
-      updatePhotoUrl(snapshot.metadata.fullPath);
-    });
-  };
+  //   const storage = getStorage();
+  //   const storageRef = ref(storage, `${emailCompany}/avatar/${session}`);
+  //   uploadBytesResumable(storageRef, blob).then((snapshot) => {
+  //     updatePhotoUrl(snapshot.metadata.fullPath);
+  //   });
+  // };
 
-  const updatePhotoUrl = async (imagePath: any) => {
-    const storage = getStorage();
-    const imageRef = ref(storage, imagePath);
+  // const updatePhotoUrl = async (imagePath: any) => {
+  //   const storage = getStorage();
+  //   const imageRef = ref(storage, imagePath);
 
-    const imageUrl = await getDownloadURL(imageRef);
+  //   const imageUrl = await getDownloadURL(imageRef);
 
-    const auth = getAuth();
-    if (auth.currentUser) {
-      updateProfile(auth.currentUser, { photoURL: imageUrl });
-    } else {
-      console.log("no hay usuario");
-    }
-    ///setting data to firebase
-    const docRef = doc(collection(db, "users"), session ?? "");
-    // Update a property of the document
+  //   const auth = getAuth();
+  //   if (auth.currentUser) {
+  //     updateProfile(auth.currentUser, { photoURL: imageUrl });
+  //   } else {
+  //     console.log("no hay usuario");
+  //   }
+  //   ///setting data to firebase
+  //   const docRef = doc(collection(db, "users"), session ?? "");
+  //   // Update a property of the document
 
-    await updateDoc(docRef, {
-      photoURL: imageUrl,
-    });
+  //   await updateDoc(docRef, {
+  //     photoURL: imageUrl,
+  //   });
 
-    dispatch(update_photoURL(imageUrl));
-  };
+  //   dispatch(update_photoURL(imageUrl));
+  // };
 
   // const goToApprovalScreen = () => {
   //   navigation.navigate(screen.profile.tab, {
@@ -143,7 +142,7 @@ export function InfoUser(props: any) {
           //     ? { uri: photoUrl }
           //     : require("../../assets/images/userIcon.jpeg")
           // }
-          source={require("../../assets/images/userIcon.jpeg")}
+          source={require("../../assets/assetpics/userIcon.png")}
         >
           {/* <Avatar.Accessory size={24} onPress={changeAvatar} /> */}
         </ImageExpo>

@@ -123,7 +123,7 @@ export default function AddDocs() {
 
         newData.pdfFileURLFirebase = publicUrl;
 
-        console.log("pulbicURL", publicUrl);
+       
 
         //----------SUPABASE-------------
         const { data: currentData, error: fetchError } = await supabase
@@ -132,7 +132,7 @@ export default function AddDocs() {
           .eq("id", currentAssetId)
           .single();
 
-        console.log("currentData----222", currentData);
+
 
         if (fetchError) {
           console.error("Error fetching current data:", fetchError);

@@ -70,6 +70,7 @@ export default function AssetAssigned() {
   });
 
   const selectComponent = (idFirebaseAsset: string) => {
+    console.log("idFirebaseAsset=profile", idFirebaseAsset, "dfsd");
     setRenderComponent(
       <ChangeUserAssign
         onClose={onCloseOpenModal}
@@ -102,7 +103,7 @@ export default function AssetAssigned() {
                 <Text> </Text>
                 <Text> </Text>
                 <TouchableOpacity
-                  onPress={() => selectComponent(item.idFirebaseAsset)}
+                  onPress={() => selectComponent(item?.id)}
                   // onPress={() => selectAsset(item)}
                   style={{ flex: 1 }} // Add backgroundColor here
                 >
@@ -135,7 +136,6 @@ export default function AssetAssigned() {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  // onLongPress={() => editAssetAssigned(item.idFirebaseAsset)}
                   style={{
                     // backgroundColor: "green",
                     flex: 1,
