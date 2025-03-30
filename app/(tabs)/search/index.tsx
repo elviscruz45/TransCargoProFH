@@ -24,7 +24,6 @@ export default function SearchAsset() {
     (state: RootState) => state.home.assetList
   );
   const selectAsset = (item: any) => {
-    
     router.push({
       pathname: "/search/item",
       params: { item: item.id },

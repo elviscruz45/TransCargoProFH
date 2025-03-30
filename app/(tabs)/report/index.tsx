@@ -86,7 +86,7 @@ export default function Report(props: any) {
                 style={styles.roundImageUpload}
               />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               // style={styles.btnContainer4}
               onPress={() => {
                 setDocumentos(false);
@@ -99,7 +99,7 @@ export default function Report(props: any) {
                 source={require("../../../assets/reportes/egresos.png")}
                 style={styles.roundImageUpload}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               // style={styles.btnContainer4}
               onPress={() => {
@@ -121,7 +121,7 @@ export default function Report(props: any) {
 
       {documentos ? <Documents /> : null}
       {operaciones ? <Operaciones /> : null}
-      {egresos ? <Egresos /> : null}
+      {/* {egresos ? <Egresos /> : null} */}
       {mantenimiento ? <Mantenimiento /> : null}
     </>
   );
