@@ -23,7 +23,6 @@
     },
 
     "web": {
-      "favicon": "./assets/images/lavado.png",
       "bundler": "metro",
       "shortName": "TransProFH",
       "manifestPath": "manifest.json",
