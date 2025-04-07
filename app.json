@@ -25,7 +25,6 @@
     "web": {
       "bundler": "metro",
       "shortName": "TransProFH",
-      "manifestPath": "manifest.json",
       "icons": [
         {
           "src": "./assets/images/logo192.png",
