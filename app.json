@@ -23,18 +23,18 @@
     },
 
     "web": {
-      "favicon": "./assets/images/icon.png",
+      "favicon": "./assets/images/lavado.png",
       "bundler": "metro",
       "shortName": "TransProFH",
       "manifestPath": "manifest.json",
       "icons": [
         {
-          "src": "/logo219.png",
+          "src": "./assets/images/logo192.png",
           "sizes": "192x192",
           "type": "image/png"
         },
         {
-          "src": "./logo512.png",
+          "src": "./assets/images/logo512.png",
           "sizes": "512x512",
           "type": "image/png"
         }
