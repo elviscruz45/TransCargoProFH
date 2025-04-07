@@ -272,17 +272,14 @@ export default function events(props: any) {
         newData.pdfFile2 = "";
 
         //------------------------------------------------------------------------------
-      
 
         // upload the photo or an pickimage to firebase Storage
         let publicUrlImage = "";
         if (photoUri) {
-   
-
           const snapshot = await uploadImage(photoUri, newData.emailCompany);
           const { blob, fileName } = snapshot;
           // Use blob and fileName here
-  
+
           // Upload to Supabase Storage
           const { data, error } = await supabase.storage
             .from("assets_documents")
@@ -291,13 +288,11 @@ export default function events(props: any) {
               upsert: true,
             });
           if (error) throw error;
-   
+
           // Get Public URL
           publicUrlImage = supabase.storage
             .from("assets_documents")
             .getPublicUrl(fileName).data.publicUrl;
-
-       
 
           // Alert.alert("Success", "File uploaded successfully!");
         }
@@ -345,7 +340,7 @@ export default function events(props: any) {
         // newData.idEventFirebase = docRef.id;
         // await setDoc(docRef, newData);
 
-        //----------SUPABASE-------------
+        //----------SUPABASE REGISTER NEW DATA-------------
         const { data, error } = await supabase
           .from("events")
           .insert([newData])

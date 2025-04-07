@@ -1,7 +1,6 @@
 export const tipoEventoAdmin = [
   { area: "Administracion", value: "Administrador", disabled: true },
   { area: "Conductor", value: "1. Inicio Viaje" },
-  // { area: "Conductor", value: "2. Egreso" },
   { area: "Conductor", value: "3. Mantenimiento" },
   { area: "Operaciones", value: "Operaciones", disabled: true },
   { area: "Conductor", value: "Gastos de Viaje - Liquidacion" },
