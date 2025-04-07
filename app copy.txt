@@ -4,7 +4,7 @@
     "slug": "TransCargoProFH",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/notification.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -23,17 +23,17 @@
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/react-logo.png",
+      "favicon": "./assets/images/icon.png",
       "shortName": "TransProFH",
       "manifestPath": "./public/manifest.json",
       "icons": [
         {
-          "src": "./assets/images/userIcon.jpeg",
+          "src": "./public/logo219.png",
           "sizes": "192x192",
           "type": "image/png"
         },
         {
-          "src": "./assets/images/lavado.png",
+          "src": "./public/logo512.png",
           "sizes": "512x512",
           "type": "image/png"
         }
