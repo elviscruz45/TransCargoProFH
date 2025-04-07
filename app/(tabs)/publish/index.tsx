@@ -175,7 +175,7 @@ export default function Publish() {
     });
     setAsset(null);
   };
-  //hola
+  //holas
   return (
     <View style={{ backgroundColor: "white", flex: 1 }}>
       <SearchBar
