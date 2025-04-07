@@ -24,7 +24,7 @@
 
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/icon3.png",
+      "favicon": "./assets/images/fhicon2.png",
       "shortName": "TransProFH",
       "manifestPath": "./public/manifest.json",
       "icons": [
