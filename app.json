@@ -26,6 +26,12 @@
       "favicon": "./assets/images/icon.png",
       "shortName": "TransProFH",
       "manifestPath": "manifest.json",
+      "themeColor": "#ffffff",
+      "backgroundColor": "#ffffff",
+      "display": "standalone",
+      "startUrl": "/",
+      "lang": "en",
+      "orientation": "portrait",
       "icons": [
         {
           "src": "./assets/images/icon.png",
