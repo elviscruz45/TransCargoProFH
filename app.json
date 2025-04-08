@@ -25,8 +25,8 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/icon.png",
-      "name": "Transcargo",
-      "shortName": "Transcargo",
+      "name": "TranscargoFH",
+      "shortName": "TranscargoFH",
       "manifestPath": "./public/manifest.json",
       "icons": [
         {
