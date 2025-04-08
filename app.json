@@ -2,6 +2,7 @@
   "expo": {
     "name": "TransCargoProFH",
     "slug": "TransCargoProFH",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -24,26 +25,14 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/images/icon.png",
-      "shortName": "TransProFH",
-      "manifestPath": "manifest.json",
+      "name": "Transcargo",
+      "shortName": "Transcargo",
+      "startUrl": "/",
+      "display": "standalone",
       "themeColor": "#ffffff",
       "backgroundColor": "#ffffff",
-      "display": "standalone",
-      "startUrl": "/",
       "lang": "en",
-      "orientation": "portrait",
-      "icons": [
-        {
-          "src": "./assets/images/icon.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        },
-        {
-          "src": "./assets/images/icon.png",
-          "sizes": "512x512",
-          "type": "image/png"
-        }
-      ]
+      "orientation": "portrait"
     },
     "plugins": ["expo-router"],
     "experiments": {
