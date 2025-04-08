@@ -1,9 +1,9 @@
 {
-  "short_name": "Transcargo",
+  "short_name": "Transcargo1",
   "name": "Transcargo Web App",
   "icons": [
     {
-      "src": "/assets/icon.png",
+      "src": "../assets/images/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
